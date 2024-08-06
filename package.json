@@ -1,0 +1,33 @@
+{
+  "name": "boxy-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "tsx watch src/server.ts",
+    "prestart": "pnpm run build",
+    "start": "node build/server.cjs",
+    "build": "tsup src --out-dir build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:unit": "vitest run -c vitest.unit.config.ts",
+    "test:unit:watch": "vitest -c vitest.unit.config.ts",
+    "test:e2e": "vitest run -c vitest.e2e.config.ts",
+    "test:e2e:watch": "vitest -c vitest.e2e.config.ts",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@tsconfig/node20": "^20.1.4",
+    "tsup": "^8.2.4",
+    "tsx": "^4.16.5",
+    "typescript": "^5.5.4",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^2.0.5"
+  }
+}

@@ -1,0 +1,87 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"defaultBranch": "main",
+		"useIgnoreFile": true
+	},
+	"formatter": {
+		"enabled": true,
+		"formatWithErrors": false,
+		"indentStyle": "space",
+		"indentWidth": 2,
+		"lineEnding": "lf",
+		"lineWidth": 80,
+		"attributePosition": "auto"
+	},
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"complexity": {
+				"noExcessiveCognitiveComplexity": "error",
+				"noExcessiveNestedTestSuites": "error",
+				"noUselessTernary": "error",
+				"noVoid": "error",
+				"useSimplifiedLogicExpression": "error"
+			},
+			"correctness": {
+				"noNewSymbol": "error",
+				"noUndeclaredVariables": "error",
+				"noUnusedImports": "warn",
+				"noUnusedVariables": "warn"
+			},
+			"style": {
+				"noDefaultExport": "off",
+				"noImplicitBoolean": "error",
+				"noNamespace": "error",
+				"noNamespaceImport": "error",
+				"noNegationElse": "warn",
+				"noShoutyConstants": "error",
+				"useBlockStatements": "error",
+				"useCollapsedElseIf": "error",
+				"useShorthandArrayType": "error",
+				"useFragmentSyntax": "error",
+				"useNamingConvention": "error",
+				"useSingleCaseStatement": "error"
+			},
+			"suspicious": {
+				"noEmptyBlockStatements": "error",
+				"noExportsInTest": "error",
+				"noFocusedTests": "error",
+				"noSkippedTests": "error",
+				"useAwait": "error"
+			},
+			"nursery": {
+				"noDuplicateJsonKeys": "error",
+				"noUndeclaredDependencies": "error",
+				"useImportRestrictions": "error",
+				"useSortedClasses": "error"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"jsxQuoteStyle": "double",
+			"quoteProperties": "asNeeded",
+			"trailingCommas": "all",
+			"semicolons": "asNeeded",
+			"arrowParentheses": "asNeeded",
+			"bracketSpacing": true,
+			"bracketSameLine": false,
+			"quoteStyle": "single",
+			"attributePosition": "auto"
+		}
+	},
+	"json": {
+		"formatter": {
+			"trailingCommas": "none",
+			"indentWidth": 4,
+			"indentStyle": "tab"
+		}
+	}
+}
