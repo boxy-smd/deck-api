@@ -7,15 +7,7 @@ Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá 
 ### Usuário
 
 - [ ] Deve ser possível se cadastrar;
-- [ ] Deve ser possível enviar um email de confirmação ao usuário cadastrado;
 - [ ] Deve ser possível se autenticar.
-
-### Perfil
-
-- [ ] Deve ser possível visualizar o seu perfil;
-- [ ] Deve ser possível editar o seu perfil;
-- [ ] Deve ser possível visualizar o perfil de outro usuário;
-- [ ] Deve ser possível denunciar o perfil de outro usuário.
 
 ### Projeto
 
@@ -26,8 +18,15 @@ Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá 
 - [ ] Deve ser possível visualizar os projetos que você publicou;
 - [ ] Deve ser possível visualizar os projetos de um usuário específico;
 - [ ] Deve ser possível visualizar os projetos em um feed;
-- [ ] Deve ser possível pesquisar por projetos;
-- [ ] Deve ser possível filtrar projetos por tags.
+- [ ] Deve ser possível pesquisar por projetos por título;
+- [ ] Deve ser possível filtrar projetos por tags e ano.
+
+### Perfil
+
+- [ ] Deve ser possível visualizar o seu perfil;
+- [ ] Deve ser possível editar o seu perfil;
+- [ ] Deve ser possível visualizar o perfil de outro usuário;
+- [ ] Deve ser possível denunciar o perfil de outro usuário.
 
 ### Comentários
 
@@ -41,7 +40,7 @@ Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá 
 
 - [ ] Deve ser possível exportar um portfólio em PDF com os seus projetos e perfil.
 
-### Moderação
+<!-- ### Moderação
 
 - [ ] Deve ser possível um moderador visualizar todas as denúncias;
 - [ ] Deve ser possível um moderador excluir um projeto denunciado;
@@ -49,7 +48,7 @@ Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá 
 - [ ] Deve ser possível um moderador banir um usuário denunciado;
 - [ ] Deve ser possível um moderador desbanir um usuário banido;
 - [ ] Deve ser possível um moderador desativar um projeto denunciado;
-- [ ] Deve ser possível um moderador desativar um comentário denunciado.
+- [ ] Deve ser possível um moderador desativar um comentário denunciado. -->
 
 ## Regras de Negócio (RN's)
 
@@ -65,7 +64,7 @@ Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá 
 - [ ] O projeto deve conter um título com no máximo 100 caracteres;
 - [ ] O projeto deve conter uma descrição com no máximo 500 caracteres;
 - [ ] O projeto deve conter uma tag de trilha e uma tag de semestre;
-- [ ] O feed deve ser ordenado com projetos alinhados com o semestre do usuário (se o usuário estiver no 4º semestre, os projetos do 4º semestre devem aparecer primeiro, depois os do 3º e 5º, e assim por diante).
+- [ ] O feed deve ser ordenado com projetos alinhados com o semestre do usuário (se o usuário estiver no 4º semestre, os projetos do 4º semestre devem aparecer primeiro, depois os do 5º, 6º, e assim por diante, até o 1º semestre);
 
 ### Comentários
 
@@ -81,13 +80,13 @@ Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá 
 - [ ] A denúncia não pode ser feita em um projeto, comentário ou usuário já denunciado;
 - [ ] A denúncia deve ser analisada por um moderador.
 
-### Moderação
+<!-- ### Moderação
 
 - [ ] O moderador deve ser um usuário autenticado;
 - [ ] O moderador deve ser um usuário com a role de moderador;
 - [ ] O moderador deve excluir o projeto, comentário ou banir o usuário denunciado se a denúncia for procedente;
 - [ ] O moderador deve notificar o usuário denunciado sobre a denúncia e a ação tomada;
-- [ ] O moderador deve notificar o usuário denunciante sobre a ação tomada.
+- [ ] O moderador deve notificar o usuário denunciante sobre a ação tomada. -->
 
 ## Requisitos Não Funcionais (RNF's)
 
