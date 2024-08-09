@@ -40,16 +40,6 @@ Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá 
 
 - [ ] Deve ser possível exportar um portfólio em PDF com os seus projetos e perfil.
 
-<!-- ### Moderação
-
-- [ ] Deve ser possível um moderador visualizar todas as denúncias;
-- [ ] Deve ser possível um moderador excluir um projeto denunciado;
-- [ ] Deve ser possível um moderador excluir um comentário denunciado;
-- [ ] Deve ser possível um moderador banir um usuário denunciado;
-- [ ] Deve ser possível um moderador desbanir um usuário banido;
-- [ ] Deve ser possível um moderador desativar um projeto denunciado;
-- [ ] Deve ser possível um moderador desativar um comentário denunciado. -->
-
 ## Regras de Negócio (RN's)
 
 ### Usuário
@@ -63,30 +53,19 @@ Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá 
 
 - [ ] O projeto deve conter um título com no máximo 100 caracteres;
 - [ ] O projeto deve conter uma descrição com no máximo 500 caracteres;
-- [ ] O projeto deve conter uma tag de trilha e uma tag de semestre;
-- [ ] O feed deve ser ordenado com projetos alinhados com o semestre do usuário (se o usuário estiver no 4º semestre, os projetos do 4º semestre devem aparecer primeiro, depois os do 5º, 6º, e assim por diante, até o 1º semestre);
+- [ ] O projeto deve conter obrigatoriamente uma trilha, um semestre e o ano de publicação;
+- [ ] O feed deve ser ordenado com projetos alinhados com o semestre do usuário (se o usuário estiver no 4º semestre, os projetos do 4º semestre devem aparecer primeiro, depois os do 5º, 6º, e assim por diante, até o 1º semestre).
 
 ### Comentários
 
 - [ ] O comentário deve ser feito por um usuário autenticado;
-- [ ] O comentário deve conter no máximo 500 caracteres;
 - [ ] O comentário não pode conter palavras ofensivas;
 - [ ] O comentário não pode ser feito em um projeto com os comentários desativados.
 
 ### Denúncia
 
 - [ ] A denúncia deve ser feita por um usuário autenticado;
-- [ ] A denúncia deve conter um motivo;
-- [ ] A denúncia não pode ser feita em um projeto, comentário ou usuário já denunciado;
-- [ ] A denúncia deve ser analisada por um moderador.
-
-<!-- ### Moderação
-
-- [ ] O moderador deve ser um usuário autenticado;
-- [ ] O moderador deve ser um usuário com a role de moderador;
-- [ ] O moderador deve excluir o projeto, comentário ou banir o usuário denunciado se a denúncia for procedente;
-- [ ] O moderador deve notificar o usuário denunciado sobre a denúncia e a ação tomada;
-- [ ] O moderador deve notificar o usuário denunciante sobre a ação tomada. -->
+- [ ] A denúncia deve conter uma descrição do motivo da denúncia.
 
 ## Requisitos Não Funcionais (RNF's)
 
