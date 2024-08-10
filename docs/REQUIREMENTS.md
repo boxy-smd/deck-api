@@ -6,8 +6,8 @@ Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá 
 
 ### Usuário
 
-- [ ] Deve ser possível se cadastrar;
-- [ ] Deve ser possível se autenticar.
+- [x] Deve ser possível se cadastrar;
+- [x] Deve ser possível se autenticar.
 
 ### Projeto
 
@@ -44,10 +44,10 @@ Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá 
 
 ### Usuário
 
-- [ ] O usuário deve conter um email institucional da UFC (@alu.ufc.br);
-- [ ] O usuário não pode se cadastrar com um email já cadastrado;
-- [ ] O usuário deve conter um nome de usuário único;
-- [ ] O usuário deve conter uma senha com no mínimo 6 caracteres.
+- [x] O usuário deve conter um email institucional da UFC (@alu.ufc.br);
+- [x] O usuário não pode se cadastrar com um email já cadastrado;
+- [x] O usuário deve conter um nome de usuário único;
+- [x] O usuário deve conter uma senha com no mínimo 6 caracteres.
 
 ### Projeto
 
@@ -69,9 +69,9 @@ Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá 
 
 ## Requisitos Não Funcionais (RNF's)
 
-- [ ] A senha do usuário deve ser criptografada;
+- [x] A senha do usuário deve ser criptografada;
 - [ ] Todas as listas precisam estar paginadas com 20 items por página;
-- [ ] O usuário deve ser identificado por um token JWT;
+- [x] O usuário deve ser identificado por um token JWT;
 - [ ] O backend deve ser hospedado no [Render](https://render.com/);
 - [ ] O banco de dados deve ser hospedado no [Railway](https://railway.app/);
 - [ ] As imagens dos projetos devem ser armazenadas no [Cloudfare R2](https://www.cloudflare.com/pt-br/developer-platform/r2/).
