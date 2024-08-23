@@ -8,16 +8,68 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
+  id           String    @id @default(uuid())
   name         String
-  username     String   @unique
-  email        String   @unique
-  passwordHash String   @map("password_hash")
+  username     String    @unique
+  email        String    @unique
+  passwordHash String    @map("password_hash")
   about        String?
-  profileUrl   String?  @map("profile_url")
+  profileUrl   String?   @map("profile_url")
   semester     Int
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  Project      Project[]
+  Banner       Banner[]
 
   @@map("users")
+}
+
+model Project {
+  id            String   @id @default(uuid())
+  title         String
+  description   String
+  content       String
+  semester      Int
+  relatedLinks  String[] @map("related_links")
+  allowComments Boolean  @map("allow_comments")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  authorId String @map("author_id")
+  author   User   @relation(fields: [authorId], references: [id])
+
+  subjectId String  @map("subject_id")
+  subject   Subject @relation(fields: [subjectId], references: [id])
+
+  bannerUrl String @map("banner_url")
+  banner    Banner @relation(fields: [bannerUrl], references: [id])
+
+  @@map("projects")
+}
+
+model Subject {
+  id        String   @id @default(uuid())
+  name      String
+  code      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  Project Project[]
+
+  @@map("subjects")
+}
+
+model Banner {
+  id        String   @id @default(uuid())
+  name      String
+  url       String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id])
+
+  Project Project[]
+
+  @@map("banners")
 }
