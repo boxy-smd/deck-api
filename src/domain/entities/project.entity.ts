@@ -1,20 +1,21 @@
 import { Entity } from '../core/interfaces/entity.ts'
 
+type ProjectStatusEnum = 'draft' | 'published'
+
 interface ProjectProps {
   title: string
   description: string
-  content: string
+  bannerUrl: string
+  content?: string
   publishedYear: number
-  status: string
+  status: ProjectStatusEnum
   semester: number
-  relatedLinks: string[]
   allowComments: boolean
   createdAt: Date
   updatedAt: Date
   authorId: string
   subjectId: string
-  bannerUrl: string
-  professorsIds: string[]
+  professorIds: string[]
 }
 
 export class Project extends Entity<ProjectProps> {
@@ -26,20 +27,44 @@ export class Project extends Entity<ProjectProps> {
     return this.props.description
   }
 
-  get content(): string {
+  get bannerUrl(): string {
+    return this.props.bannerUrl
+  }
+
+  get content(): string | undefined {
     return this.props.content
+  }
+
+  set content(content: string) {
+    this.props.content = content
+  }
+
+  get publishedYear(): number {
+    return this.props.publishedYear
+  }
+
+  get status(): ProjectStatusEnum {
+    return this.props.status
+  }
+
+  set status(status: ProjectStatusEnum) {
+    this.props.status = status
   }
 
   get semester(): number {
     return this.props.semester
   }
 
-  get relatedLinks(): string[] {
-    return this.props.relatedLinks
+  set semester(semester: number) {
+    this.props.semester = semester
   }
 
   get allowComments(): boolean {
     return this.props.allowComments
+  }
+
+  set allowComments(allowComments: boolean) {
+    this.props.allowComments = allowComments
   }
 
   get createdAt(): Date {
@@ -58,8 +83,8 @@ export class Project extends Entity<ProjectProps> {
     return this.props.subjectId
   }
 
-  get bannerUrl(): string {
-    return this.props.bannerUrl
+  get professorIds(): string[] {
+    return this.props.professorIds
   }
 
   static create(props: ProjectProps, id?: string): Project {

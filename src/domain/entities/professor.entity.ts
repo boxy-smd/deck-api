@@ -4,6 +4,7 @@ interface ProfessorProps {
   name: string
   createdAt: Date
   updatedAt: Date
+  projectIds: string[]
 }
 
 export class Professor extends Entity<ProfessorProps> {

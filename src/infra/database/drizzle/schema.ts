@@ -1,15 +1,21 @@
-import { sql } from 'drizzle-orm'
+import { relations, sql } from 'drizzle-orm'
 import {
   boolean,
   integer,
+  pgEnum,
   pgTable,
+  primaryKey,
   text,
   timestamp,
   uuid,
 } from 'drizzle-orm/pg-core'
 
+import { randomUUID } from 'node:crypto'
+
 export const users = pgTable('users', {
-  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
   name: text('name').notNull(),
   username: text('username').notNull().unique(),
   email: text('email').notNull().unique(),
@@ -17,27 +23,32 @@ export const users = pgTable('users', {
   about: text('about'),
   profileUrl: text('profile_url'),
   semester: integer('semester').notNull(),
-  createdAt: timestamp('created_at').notNull().default(sql`now()`),
+  createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at')
-    .notNull()
-    .default(sql`now()`)
+    .defaultNow()
     .$onUpdate(() => sql`now()`),
 })
 
+export const projectStatusEnum = pgEnum('project_status', [
+  'draft',
+  'published',
+])
+
 export const projects = pgTable('projects', {
-  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
   title: text('title').notNull(),
   description: text('description').notNull(),
   bannerUrl: text('banner_url').notNull(),
   content: text('content'),
   publishedYear: integer('published_year').notNull(),
-  status: text('status').notNull().default('draft'),
+  status: projectStatusEnum('status').default('draft').notNull(),
   semester: integer('semester').notNull(),
   allowComments: boolean('allow_comments').notNull(),
-  createdAt: timestamp('created_at').notNull().default(sql`now()`),
+  createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at')
-    .notNull()
-    .default(sql`now()`)
+    .defaultNow()
     .$onUpdate(() => sql`now()`),
   authorId: uuid('author_id')
     .references(() => users.id)
@@ -48,32 +59,60 @@ export const projects = pgTable('projects', {
 })
 
 export const subjects = pgTable('subjects', {
-  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
   name: text('name').notNull(),
   code: text('code').notNull().unique(),
-  createdAt: timestamp('created_at').notNull().default(sql`now()`),
+  createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at')
-    .notNull()
-    .default(sql`now()`)
+    .defaultNow()
     .$onUpdate(() => sql`now()`),
 })
 
 export const professors = pgTable('professors', {
-  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
   name: text('name').notNull(),
-  createdAt: timestamp('created_at').notNull().default(sql`now()`),
+  createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at')
-    .notNull()
-    .default(sql`now()`)
+    .defaultNow()
     .$onUpdate(() => sql`now()`),
 })
 
-export const projectProfessors = pgTable('project_professors', {
-  projectId: uuid('project_id')
-    .references(() => projects.id)
-    .notNull(),
-  professorId: uuid('professor_id').references(() => professors.id),
-})
+export const projectProfessors = pgTable(
+  'project_professors',
+  {
+    projectId: uuid('project_id')
+      .references(() => projects.id)
+      .notNull(),
+    professorId: uuid('professor_id')
+      .references(() => professors.id)
+      .notNull(),
+  },
+  ({ professorId, projectId }) => ({
+    fk: primaryKey({ columns: [projectId, professorId] }),
+  }),
+)
+
+export const usersRelations = relations(users, ({ many }) => ({
+  projects: many(projects),
+}))
+
+export const projectRelations = relations(projects, ({ one, many }) => ({
+  author: one(users),
+  subject: one(subjects),
+  professors: many(projectProfessors),
+}))
+
+export const subjectRelations = relations(subjects, ({ many }) => ({
+  projects: many(projects),
+}))
+
+export const professorRelations = relations(professors, ({ many }) => ({
+  projects: many(projectProfessors),
+}))
 
 export const schema = {
   users,
@@ -81,6 +120,10 @@ export const schema = {
   subjects,
   professors,
   projectProfessors,
+  usersRelations,
+  projectRelations,
+  subjectRelations,
+  professorRelations,
 }
 
 export type NewUser = typeof users.$inferInsert

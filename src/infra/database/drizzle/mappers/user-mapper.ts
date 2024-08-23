@@ -13,8 +13,8 @@ export class UserMapper {
         about: raw.about || undefined,
         profileUrl: raw.profileUrl || undefined,
         semester: raw.semester,
-        createdAt: raw.createdAt,
-        updatedAt: raw.updatedAt,
+        createdAt: raw.createdAt || undefined,
+        updatedAt: raw.updatedAt || undefined,
       },
       raw.id,
     )
