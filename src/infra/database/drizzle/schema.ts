@@ -30,6 +30,8 @@ export const projects = pgTable('projects', {
   description: text('description').notNull(),
   bannerUrl: text('banner_url').notNull(),
   content: text('content'),
+  publishedYear: integer('published_year').notNull(),
+  status: text('status').notNull().default('draft'),
   semester: integer('semester').notNull(),
   allowComments: boolean('allow_comments').notNull(),
   createdAt: timestamp('created_at').notNull().default(sql`now()`),
@@ -40,10 +42,9 @@ export const projects = pgTable('projects', {
   authorId: uuid('author_id')
     .references(() => users.id)
     .notNull(),
-  subjectId: uuid('subject_id').references(() => subjects.id),
-  professors: uuid('professors')
-    .references(() => professors.id)
-    .array(),
+  subjectId: uuid('subject_id')
+    .references(() => subjects.id)
+    .notNull(),
 })
 
 export const subjects = pgTable('subjects', {
@@ -67,11 +68,19 @@ export const professors = pgTable('professors', {
     .$onUpdate(() => sql`now()`),
 })
 
+export const projectProfessors = pgTable('project_professors', {
+  projectId: uuid('project_id')
+    .references(() => projects.id)
+    .notNull(),
+  professorId: uuid('professor_id').references(() => professors.id),
+})
+
 export const schema = {
   users,
   projects,
   subjects,
   professors,
+  projectProfessors,
 }
 
 export type NewUser = typeof users.$inferInsert

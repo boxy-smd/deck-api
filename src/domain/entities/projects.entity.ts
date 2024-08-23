@@ -4,6 +4,8 @@ interface ProjectProps {
   title: string
   description: string
   content: string
+  publishedYear: number
+  status: string
   semester: number
   relatedLinks: string[]
   allowComments: boolean

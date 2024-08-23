@@ -1,5 +1,5 @@
 {
-  "id": "73078db9-96dd-462e-aa03-3074f1d4d18f",
+  "id": "d981277d-9d62-41a7-b352-34af1b083179",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -41,6 +41,55 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
+    "public.project_professors": {
+      "name": "project_professors",
+      "schema": "",
+      "columns": {
+        "project_id": {
+          "name": "project_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "professor_id": {
+          "name": "professor_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "project_professors_project_id_projects_id_fk": {
+          "name": "project_professors_project_id_projects_id_fk",
+          "tableFrom": "project_professors",
+          "tableTo": "projects",
+          "columnsFrom": [
+            "project_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "project_professors_professor_id_professors_id_fk": {
+          "name": "project_professors_professor_id_professors_id_fk",
+          "tableFrom": "project_professors",
+          "tableTo": "professors",
+          "columnsFrom": [
+            "professor_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.projects": {
       "name": "projects",
       "schema": "",
@@ -75,6 +124,19 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "published_year": {
+          "name": "published_year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
         },
         "semester": {
           "name": "semester",
@@ -112,13 +174,7 @@
           "name": "subject_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
-        },
-        "professors": {
-          "name": "professors",
-          "type": "uuid[]",
-          "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
