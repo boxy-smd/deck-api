@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm'
+import { and, eq, ilike } from 'drizzle-orm'
 
 import type {
   UpdateUserRequest,
@@ -22,7 +22,10 @@ export class DrizzleUsersRepository implements UsersRepository {
   }
 
   async findById(id: string): Promise<User | null> {
-    const [user] = await db.select().from(users).where(sql`${users.id} = ${id}`)
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(and(eq(users.id, id)))
 
     if (!user) return null
 
@@ -33,7 +36,7 @@ export class DrizzleUsersRepository implements UsersRepository {
     const [user] = await db
       .select()
       .from(users)
-      .where(sql`${users.email} = ${email}`)
+      .where(and(eq(users.email, email)))
 
     if (!user) return null
 
@@ -44,7 +47,7 @@ export class DrizzleUsersRepository implements UsersRepository {
     const [user] = await db
       .select()
       .from(users)
-      .where(sql`${users.username} = ${username}`)
+      .where(and(eq(users.username, username)))
 
     if (!user) return null
 
@@ -55,7 +58,7 @@ export class DrizzleUsersRepository implements UsersRepository {
     const queriedUsers = await db
       .select()
       .from(users)
-      .where(sql`${users.name} ILIKE ${`%${name}%`}`)
+      .where(and(ilike(users.name, `%${name}%`)))
 
     return queriedUsers.map(UserMapper.toDomain)
   }
@@ -65,11 +68,12 @@ export class DrizzleUsersRepository implements UsersRepository {
       .update(users)
       .set({
         ...request,
+        updatedAt: new Date(),
       })
-      .where(sql`${users.id} = ${id}`)
+      .where(and(eq(users.id, id)))
   }
 
   async delete(id: string): Promise<void> {
-    await db.delete(users).where(sql`${users.id} = ${id}`)
+    await db.delete(users).where(and(eq(users.id, id)))
   }
 }

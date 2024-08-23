@@ -40,9 +40,17 @@ export class InMemoryUsersRepository implements UsersRepository {
 
     if (!user) return Promise.resolve()
 
-    if (about) user.about = about
-    if (semester) user.semester = semester
-    if (profileUrl) user.profileUrl = profileUrl
+    if (about) {
+      user.about = about
+    }
+
+    if (semester) {
+      user.semester = semester
+    }
+
+    if (profileUrl) {
+      user.profileUrl = profileUrl
+    }
 
     user.updatedAt = new Date()
 

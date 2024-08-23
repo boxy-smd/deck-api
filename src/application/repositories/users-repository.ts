@@ -1,10 +1,8 @@
-import type { User } from '@/domain/entities/user.entity.ts'
+import type { User, UserProps } from '@/domain/entities/user.entity.ts'
 
-export interface UpdateUserRequest {
-  about?: string
-  profileUrl?: string
-  semester: number
-}
+export type UpdateUserRequest = Partial<
+  Omit<UserProps, 'createdAt' | 'updatedAt'>
+>
 
 export interface UsersRepository {
   create(user: User): Promise<User>

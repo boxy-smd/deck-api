@@ -1,8 +1,8 @@
 import { Entity } from '../core/interfaces/entity.ts'
 
-type ProjectStatusEnum = 'draft' | 'published'
+export type ProjectStatusEnum = 'draft' | 'published'
 
-interface ProjectProps {
+export interface ProjectProps {
   title: string
   description: string
   bannerUrl: string

@@ -1,6 +1,6 @@
 import { Entity } from '../core/interfaces/entity.ts'
 
-interface SubjectProps {
+export interface SubjectProps {
   name: string
   code: string
   createdAt: Date

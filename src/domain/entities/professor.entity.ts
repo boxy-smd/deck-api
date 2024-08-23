@@ -1,6 +1,6 @@
 import { Entity } from '../core/interfaces/entity.ts'
 
-interface ProfessorProps {
+export interface ProfessorProps {
   name: string
   createdAt: Date
   updatedAt: Date

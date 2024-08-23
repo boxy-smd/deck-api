@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import { relations, sql } from 'drizzle-orm'
 import {
   boolean,
@@ -9,8 +10,6 @@ import {
   timestamp,
   uuid,
 } from 'drizzle-orm/pg-core'
-
-import { randomUUID } from 'node:crypto'
 
 export const users = pgTable('users', {
   id: uuid('id')

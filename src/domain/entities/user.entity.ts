@@ -4,7 +4,7 @@ import type { Replace } from '../core/logic/replace.ts'
 import { Email } from '../value-objects/email.ts'
 import { EmailBadFormattedError } from '../value-objects/errors/email-bad-formatted.error.ts'
 
-interface UserProps {
+export interface UserProps {
   name: string
   username: string
   email: string
