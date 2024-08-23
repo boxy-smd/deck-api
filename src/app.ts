@@ -9,12 +9,16 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
-import { env } from './infra/config/env.ts'
-import { errorHandler } from './interface/error-handler.ts'
-import { usersRoutes } from './interface/http/routes/users.routes.ts'
 
-function buildServer() {
+import { env } from '@/infra/config/env.ts'
+import { errorHandler } from '@/interface/error-handler.ts'
+import { usersRoutes } from '@/interface/http/routes/users.routes.ts'
+import { initDatabase } from './infra/database/drizzle/client.ts'
+
+async function buildServer() {
   const app = fastify()
+
+  await initDatabase()
 
   app.register(fastifyCors, {
     origin: '*',
@@ -83,4 +87,4 @@ function buildServer() {
   return app
 }
 
-export const app = buildServer()
+export const app = await buildServer()

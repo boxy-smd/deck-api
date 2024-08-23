@@ -19,7 +19,6 @@ model User {
   createdAt    DateTime  @default(now()) @map("created_at")
   updatedAt    DateTime  @updatedAt @map("updated_at")
   Project      Project[]
-  Banner       Banner[]
 
   @@map("users")
 }
@@ -28,9 +27,9 @@ model Project {
   id            String   @id @default(uuid())
   title         String
   description   String
+  bannerUrl     String   @map("banner_url")
   content       String
   semester      Int
-  relatedLinks  String[] @map("related_links")
   allowComments Boolean  @map("allow_comments")
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
@@ -41,8 +40,9 @@ model Project {
   subjectId String  @map("subject_id")
   subject   Subject @relation(fields: [subjectId], references: [id])
 
-  bannerUrl String @map("banner_url")
-  banner    Banner @relation(fields: [bannerUrl], references: [id])
+  professorsIds String[]   @map("professors_ids")
+  professorId   String?
+  professor     Professor? @relation(fields: [professorId], references: [id])
 
   @@map("projects")
 }
@@ -59,17 +59,13 @@ model Subject {
   @@map("subjects")
 }
 
-model Banner {
+model Professor {
   id        String   @id @default(uuid())
   name      String
-  url       String   @unique
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  userId String @map("user_id")
-  user   User   @relation(fields: [userId], references: [id])
-
   Project Project[]
 
-  @@map("banners")
+  @@map("professors")
 }

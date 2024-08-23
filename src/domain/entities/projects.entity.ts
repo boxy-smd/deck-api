@@ -12,6 +12,7 @@ interface ProjectProps {
   authorId: string
   subjectId: string
   bannerUrl: string
+  professorsIds: string[]
 }
 
 export class Project extends Entity<ProjectProps> {
