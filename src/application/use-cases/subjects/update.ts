@@ -15,7 +15,7 @@ export class UpdateSubjectUseCase {
     name,
     code,
   }: UpdateSubjectUseCaseRequest): Promise<UpdateSubjectUseCaseResponse> {
-    const areRequiredFieldsMissing = !(name && code)
+    const areRequiredFieldsMissing = !(name || code)
 
     if (areRequiredFieldsMissing) {
       return left(new InvalidCredentialsError())

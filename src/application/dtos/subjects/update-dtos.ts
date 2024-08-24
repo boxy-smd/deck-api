@@ -9,7 +9,4 @@ export interface UpdateSubjectUseCaseRequest {
   code?: string
 }
 
-export type UpdateSubjectUseCaseResponse = Either<
-  InvalidCredentialsError | SubjectNotFoundError,
-  Subject
->
+export type UpdateSubjectUseCaseResponse = Either<InvalidCredentialsError | SubjectNotFoundError, Subject>

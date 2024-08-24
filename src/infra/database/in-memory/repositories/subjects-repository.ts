@@ -22,16 +22,16 @@ export class InMemorySubjectsRepository implements SubjectsRepository {
     return Promise.resolve(subject ?? null)
   }
 
-  fetchByName(name: string): Promise<Subject[]> {
+  fetchByCode(code: string): Promise<Subject[]> {
     const subjects = this.subjects.filter(subject =>
-      subject.name.includes(name),
+      subject.code.toLowerCase().includes(code.toLowerCase()),
     )
     return Promise.resolve(subjects)
   }
 
-  findByName(name: string): Promise<Subject[]> {
+  fetchByName(name: string): Promise<Subject[]> {
     const subjects = this.subjects.filter(subject =>
-      subject.name.includes(name),
+      subject.name.toLowerCase().includes(name.toLowerCase()),
     )
     return Promise.resolve(subjects)
   }
