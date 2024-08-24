@@ -1,4 +1,5 @@
 import { Entity } from '../core/interfaces/entity.ts'
+import type { Replace } from '../core/logic/replace.ts'
 
 export type ProjectStatusEnum = 'draft' | 'published'
 
@@ -87,7 +88,23 @@ export class Project extends Entity<ProjectProps> {
     return this.props.professorIds
   }
 
-  static create(props: ProjectProps, id?: string): Project {
-    return new Project(props, id)
+  static create(
+    props: Replace<
+      ProjectProps,
+      {
+        createdAt?: Date
+        updatedAt?: Date
+      }
+    >,
+    id?: string,
+  ): Project {
+    return new Project(
+      {
+        ...props,
+        createdAt: props.createdAt || new Date(),
+        updatedAt: props.updatedAt || new Date(),
+      },
+      id,
+    )
   }
 }

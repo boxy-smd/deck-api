@@ -2,11 +2,10 @@ import type {
   LoginUseCaseRequest,
   LoginUseCaseResponse,
 } from '@/application/dtos/users/login-dtos.ts'
-import type {} from '@/application/dtos/users/register-dtos.ts'
 import type { UsersRepository } from '@/application/repositories/users-repository.ts'
 import { left, right } from '@/domain/core/logic/either.ts'
+import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 import type { Encrypter } from './cryptography/encrypter.ts'
-import { InvalidCredentialsError } from './errors/invalid-credentials.error.ts'
 
 export class LoginUseCase {
   constructor(
@@ -18,21 +17,22 @@ export class LoginUseCase {
     email,
     password,
   }: LoginUseCaseRequest): Promise<LoginUseCaseResponse> {
-    const hasEmptyFields = !(email && password)
+    const isEmptyCredentials = !(email && password)
 
-    if (hasEmptyFields) return left(new InvalidCredentialsError())
+    if (isEmptyCredentials) return left(new InvalidCredentialsError())
 
     const user = await this.usersRepository.findByEmail(email)
+    const isUserNotFound = !user
 
-    if (!user) return left(new InvalidCredentialsError())
+    if (isUserNotFound) return left(new InvalidCredentialsError())
 
-    const isPasswordCorrect = await this.encrypter.compare(
+    const isPasswordValid = await this.encrypter.compare(
       password,
       user.passwordHash,
     )
 
-    if (!isPasswordCorrect) return left(new InvalidCredentialsError())
+    if (isPasswordValid) return right(user)
 
-    return right(user)
+    return left(new InvalidCredentialsError())
   }
 }

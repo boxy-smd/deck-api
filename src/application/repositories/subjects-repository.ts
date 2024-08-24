@@ -7,8 +7,8 @@ export type UpdateSubjectRequest = Partial<
 export interface SubjectsRepository {
   create(subject: Subject): Promise<Subject>
   findById(id: string): Promise<Subject | null>
-  findByName(name: string): Promise<Subject[]>
+  fetchByName(name: string): Promise<Subject[]>
   findByCode(code: string): Promise<Subject | null>
-  update(id: string, request: UpdateSubjectRequest): Promise<void>
+  update(id: string, request: UpdateSubjectRequest): Promise<Subject>
   delete(id: string): Promise<void>
 }

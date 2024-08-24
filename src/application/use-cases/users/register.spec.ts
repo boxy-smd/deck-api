@@ -3,7 +3,7 @@ import { EmailBadFormattedError } from '@/domain/value-objects/errors/email-bad-
 import { Base64Encrypter } from '@/infra/cryptography/base64-encrypter.ts'
 import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/users-repository.ts'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { InvalidCredentialsError } from './errors/invalid-credentials.error.ts'
+import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 import { UserAlreadyExistsError } from './errors/user-already-exists.error.ts'
 import { RegisterUseCase } from './register.ts'
 
@@ -138,7 +138,7 @@ describe('register use case', () => {
   })
 
   it('should be not able to register a user with an existing email', async () => {
-    const user = User.create({
+    const userOrError = User.create({
       name: 'John Doe',
       email: 'johndoe@alu.ufc.br',
       passwordHash: passwordHash,
@@ -146,7 +146,11 @@ describe('register use case', () => {
       username: 'johndoe',
     })
 
-    await usersRepository.create(user)
+    if (userOrError.isLeft()) {
+      throw userOrError.value
+    }
+
+    await usersRepository.create(userOrError.value)
 
     const result = await sut.execute({
       name: 'John Doe',
@@ -163,7 +167,7 @@ describe('register use case', () => {
   })
 
   it('should be not able to register a user with an existing username', async () => {
-    const user = User.create({
+    const userOrError = User.create({
       name: 'John Doe',
       email: 'johndoe@alu.ufc.br',
       passwordHash: passwordHash,
@@ -171,7 +175,11 @@ describe('register use case', () => {
       username: 'johndoe',
     })
 
-    await usersRepository.create(user)
+    if (userOrError.isLeft()) {
+      throw userOrError.value
+    }
+
+    await usersRepository.create(userOrError.value)
 
     const result = await sut.execute({
       name: 'John Doe',

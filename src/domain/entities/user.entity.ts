@@ -1,5 +1,6 @@
 import type { Encrypter } from '@/application/use-cases/users/cryptography/encrypter.ts'
 import { Entity } from '../core/interfaces/entity.ts'
+import { type Either, left, right } from '../core/logic/either.ts'
 import type { Replace } from '../core/logic/replace.ts'
 import { Email } from '../value-objects/email.ts'
 import { EmailBadFormattedError } from '../value-objects/errors/email-bad-formatted.error.ts'
@@ -78,14 +79,14 @@ export class User extends Entity<UserProps> {
       }
     >,
     id?: string,
-  ): User {
-    const email = Email.create(props.email)
+  ): Either<EmailBadFormattedError, User> {
+    const emailOrError = Email.create(props.email)
 
-    if (email.isLeft()) {
-      throw new EmailBadFormattedError(email.value.message)
+    if (emailOrError.isLeft()) {
+      return left(new EmailBadFormattedError(emailOrError.value.message))
     }
 
-    return new User(
+    const user = new User(
       {
         ...props,
         createdAt: props.createdAt || new Date(),
@@ -93,6 +94,8 @@ export class User extends Entity<UserProps> {
       },
       id,
     )
+
+    return right(user)
   }
 
   static hashPassword(password: string, encrypter: Encrypter): Promise<string> {

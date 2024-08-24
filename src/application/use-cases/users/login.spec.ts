@@ -2,7 +2,7 @@ import { User } from '@/domain/entities/user.entity.ts'
 import { Base64Encrypter } from '@/infra/cryptography/base64-encrypter.ts'
 import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/users-repository.ts'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { InvalidCredentialsError } from './errors/invalid-credentials.error.ts'
+import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 import { LoginUseCase } from './login.ts'
 
 let usersRepository: InMemoryUsersRepository
@@ -17,13 +17,19 @@ describe('login use case', () => {
     passwordHash = await User.hashPassword('123456', bcryptEncrypter)
     sut = new LoginUseCase(usersRepository, bcryptEncrypter)
 
-    user = User.create({
+    const userOrError = User.create({
       name: 'John Doe',
       email: 'johndoe@alu.ufc.br',
       passwordHash,
       semester: 3,
       username: 'johndoe',
     })
+
+    if (userOrError.isLeft()) {
+      throw userOrError.value
+    }
+
+    user = userOrError.value
   })
 
   it('should be able to login a user', async () => {

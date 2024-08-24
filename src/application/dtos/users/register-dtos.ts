@@ -1,4 +1,4 @@
-import type { InvalidCredentialsError } from '@/application/use-cases/users/errors/invalid-credentials.error.ts'
+import type { InvalidCredentialsError } from '@/application/use-cases/errors/invalid-credentials.error.ts'
 import type { UserAlreadyExistsError } from '@/application/use-cases/users/errors/user-already-exists.error.ts'
 import type { Either } from '@/domain/core/logic/either.ts'
 import type { User } from '@/domain/entities/user.entity.ts'

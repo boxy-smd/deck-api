@@ -35,10 +35,10 @@ export class InMemoryUsersRepository implements UsersRepository {
   update(
     id: string,
     { about, semester, profileUrl }: UpdateUserRequest,
-  ): Promise<void> {
+  ): Promise<User | null> {
     const user = this.users.find(user => user.id === id)
 
-    if (!user) return Promise.resolve()
+    if (!user) return Promise.resolve(null)
 
     if (about) {
       user.about = about
@@ -54,7 +54,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
     user.updatedAt = new Date()
 
-    return Promise.resolve()
+    return Promise.resolve(user)
   }
 
   delete(id: string): Promise<void> {
