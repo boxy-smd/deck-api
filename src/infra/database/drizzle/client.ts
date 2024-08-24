@@ -7,7 +7,7 @@ import { schema } from './schema.ts'
 
 export let db: ReturnType<typeof drizzle<typeof schema>>
 
-export const initDatabase = async () => {
+export async function initDatabase() {
   const pool = await new pg.Pool({
     connectionString: env.DATABASE_URL,
   })

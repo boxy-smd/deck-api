@@ -10,15 +10,18 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 
+import { envToLogger } from '@/infra/config/entToLogger.ts'
 import { env } from '@/infra/config/env.ts'
+import { initDatabase } from '@/infra/database/drizzle/client.ts'
 import { errorHandler } from '@/interface/error-handler.ts'
 import { usersRoutes } from '@/interface/http/routes/users.routes.ts'
-import { initDatabase } from './infra/database/drizzle/client.ts'
 
 async function buildServer() {
-  const app = fastify()
-
   await initDatabase()
+
+  const app = fastify({
+    logger: envToLogger[env.NODE_ENV],
+  })
 
   app.register(fastifyCors, {
     origin: '*',
