@@ -12,6 +12,6 @@ export interface ProjectsRepository {
   findBySubjectId(subjectId: string): Promise<Project[]>
   findByProfessorId(professorId: string): Promise<Project[]>
   findByPublishedYear(publishedYear: number): Promise<Project[]>
-  update(id: string, request: UpdateProjectRequest): Promise<Project>
+  update(id: string, request: UpdateProjectRequest): Promise<Project | null>
   delete(id: string): Promise<void>
 }

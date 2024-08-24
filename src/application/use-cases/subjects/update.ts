@@ -1,6 +1,6 @@
 import type {
-  UpdateSubjectRequest,
-  UpdateSubjectResponse,
+  UpdateSubjectUseCaseRequest,
+  UpdateSubjectUseCaseResponse,
 } from '@/application/dtos/subjects/update-dtos.ts'
 import type { SubjectsRepository } from '@/application/repositories/subjects-repository.ts'
 import { left, right } from '@/domain/core/logic/either.ts'
@@ -14,7 +14,7 @@ export class UpdateSubjectUseCase {
     id,
     name,
     code,
-  }: UpdateSubjectRequest): Promise<UpdateSubjectResponse> {
+  }: UpdateSubjectUseCaseRequest): Promise<UpdateSubjectUseCaseResponse> {
     const areRequiredFieldsMissing = !(name && code)
 
     if (areRequiredFieldsMissing) {
@@ -31,6 +31,11 @@ export class UpdateSubjectUseCase {
       name,
       code,
     })
+    const isSubjectNotFound = !subject
+
+    if (isSubjectNotFound) {
+      return left(new SubjectNotFoundError())
+    }
 
     return right(subject)
   }

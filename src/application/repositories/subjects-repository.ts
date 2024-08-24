@@ -9,6 +9,6 @@ export interface SubjectsRepository {
   findById(id: string): Promise<Subject | null>
   fetchByName(name: string): Promise<Subject[]>
   findByCode(code: string): Promise<Subject | null>
-  update(id: string, request: UpdateSubjectRequest): Promise<Subject>
+  update(id: string, request: UpdateSubjectRequest): Promise<Subject | null>
   delete(id: string): Promise<void>
 }

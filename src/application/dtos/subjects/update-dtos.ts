@@ -3,13 +3,13 @@ import type { SubjectNotFoundError } from '@/application/use-cases/subjects/erro
 import type { Either } from '@/domain/core/logic/either.ts'
 import type { Subject } from '@/domain/entities/subject.entity.ts'
 
-export interface UpdateSubjectRequest {
+export interface UpdateSubjectUseCaseRequest {
   id: string
   name?: string
   code?: string
 }
 
-export type UpdateSubjectResponse = Either<
+export type UpdateSubjectUseCaseResponse = Either<
   InvalidCredentialsError | SubjectNotFoundError,
   Subject
 >

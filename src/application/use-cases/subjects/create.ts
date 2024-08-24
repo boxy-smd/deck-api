@@ -1,6 +1,6 @@
 import type {
-  CreateSubjectRequest,
-  CreateSubjectResponse,
+  CreateSubjectUseCaseRequest,
+  CreateSubjectUseCaseResponse,
 } from '@/application/dtos/subjects/create-dtos.ts'
 import type { SubjectsRepository } from '@/application/repositories/subjects-repository.ts'
 import { left, right } from '@/domain/core/logic/either.ts'
@@ -14,7 +14,7 @@ export class CreateSubjectUseCase {
   async execute({
     name,
     code,
-  }: CreateSubjectRequest): Promise<CreateSubjectResponse> {
+  }: CreateSubjectUseCaseRequest): Promise<CreateSubjectUseCaseResponse> {
     const areRequiredFieldsMissing = !(name && code)
 
     if (areRequiredFieldsMissing) {

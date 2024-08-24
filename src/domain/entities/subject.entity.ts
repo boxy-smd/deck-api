@@ -13,8 +13,16 @@ export class Subject extends Entity<SubjectProps> {
     return this.props.name
   }
 
+  set name(value: string) {
+    this.props.name = value
+  }
+
   get code(): string {
     return this.props.code
+  }
+
+  set code(value: string) {
+    this.props.code = value
   }
 
   get createdAt(): Date {
@@ -23,6 +31,10 @@ export class Subject extends Entity<SubjectProps> {
 
   get updatedAt(): Date {
     return this.props.updatedAt
+  }
+
+  set updatedAt(value: Date) {
+    this.props.updatedAt = value
   }
 
   static create(

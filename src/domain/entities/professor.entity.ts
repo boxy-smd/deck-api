@@ -13,12 +13,20 @@ export class Professor extends Entity<ProfessorProps> {
     return this.props.name
   }
 
+  set name(name: string) {
+    this.props.name = name
+  }
+
   get createdAt(): Date {
     return this.props.createdAt
   }
 
   get updatedAt(): Date {
     return this.props.updatedAt
+  }
+
+  set updatedAt(updatedAt: Date) {
+    this.props.updatedAt = updatedAt
   }
 
   static create(

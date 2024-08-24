@@ -11,6 +11,6 @@ export interface ProfessorsRepository {
   create(professor: Professor): Promise<Professor>
   findById(id: string): Promise<Professor | null>
   findByName(name: string): Promise<Professor[]>
-  update(id: string, request: UpdateProfessorRequest): Promise<Professor>
+  update(id: string, request: UpdateProfessorRequest): Promise<Professor | null>
   delete(id: string): Promise<void>
 }

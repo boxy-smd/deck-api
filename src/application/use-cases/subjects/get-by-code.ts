@@ -1,4 +1,4 @@
-import type { GetSubjectByCodeResponse } from '@/application/dtos/subjects/get-by-code-dtos.ts'
+import type { GetSubjectByCodeUseCaseResponse } from '@/application/dtos/subjects/get-by-code-dtos.ts'
 import type { SubjectsRepository } from '@/application/repositories/subjects-repository.ts'
 import { left, right } from '@/domain/core/logic/either.ts'
 import { SubjectNotFoundError } from './errors/subject-not-found.error.ts'
@@ -6,7 +6,7 @@ import { SubjectNotFoundError } from './errors/subject-not-found.error.ts'
 export class GetSubjectByCodeUseCase {
   constructor(private subjectsRepository: SubjectsRepository) {}
 
-  async execute(code: string): Promise<GetSubjectByCodeResponse> {
+  async execute(code: string): Promise<GetSubjectByCodeUseCaseResponse> {
     const subject = await this.subjectsRepository.findByCode(code)
     const isSubjectNotFound = !subject
 

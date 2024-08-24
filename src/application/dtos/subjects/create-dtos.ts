@@ -3,12 +3,12 @@ import type { SubjectAlreadyExistsError } from '@/application/use-cases/subjects
 import type { Either } from '@/domain/core/logic/either.ts'
 import type { Subject } from '@/domain/entities/subject.entity.ts'
 
-export interface CreateSubjectRequest {
+export interface CreateSubjectUseCaseRequest {
   name: string
   code: string
 }
 
-export type CreateSubjectResponse = Either<
+export type CreateSubjectUseCaseResponse = Either<
   InvalidCredentialsError | SubjectAlreadyExistsError,
   Subject
 >

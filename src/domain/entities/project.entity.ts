@@ -24,12 +24,24 @@ export class Project extends Entity<ProjectProps> {
     return this.props.title
   }
 
+  set title(title: string) {
+    this.props.title = title
+  }
+
   get description(): string {
     return this.props.description
   }
 
+  set description(description: string) {
+    this.props.description = description
+  }
+
   get bannerUrl(): string {
     return this.props.bannerUrl
+  }
+
+  set bannerUrl(bannerUrl: string) {
+    this.props.bannerUrl = bannerUrl
   }
 
   get content(): string | undefined {
@@ -42,6 +54,10 @@ export class Project extends Entity<ProjectProps> {
 
   get publishedYear(): number {
     return this.props.publishedYear
+  }
+
+  set publishedYear(publishedYear: number) {
+    this.props.publishedYear = publishedYear
   }
 
   get status(): ProjectStatusEnum {
@@ -84,8 +100,16 @@ export class Project extends Entity<ProjectProps> {
     return this.props.subjectId
   }
 
+  set subjectId(subjectId: string) {
+    this.props.subjectId = subjectId
+  }
+
   get professorIds(): string[] {
     return this.props.professorIds
+  }
+
+  set professorIds(professorIds: string[]) {
+    this.props.professorIds = professorIds
   }
 
   static create(

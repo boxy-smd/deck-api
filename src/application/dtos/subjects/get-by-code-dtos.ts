@@ -2,4 +2,4 @@ import type { SubjectNotFoundError } from '@/application/use-cases/subjects/erro
 import type { Either } from '@/domain/core/logic/either.ts'
 import type { Subject } from '@/domain/entities/subject.entity.ts'
 
-export type GetSubjectByCodeResponse = Either<SubjectNotFoundError, Subject>
+export type GetSubjectByCodeUseCaseResponse = Either<SubjectNotFoundError, Subject>
