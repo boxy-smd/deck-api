@@ -54,7 +54,7 @@ export class DrizzleUsersRepository implements UsersRepository {
     return UserMapper.toDomain(user)
   }
 
-  async findByName(name: string): Promise<User[]> {
+  async fetchByName(name: string): Promise<User[]> {
     const queriedUsers = await db
       .select()
       .from(users)
@@ -63,14 +63,33 @@ export class DrizzleUsersRepository implements UsersRepository {
     return queriedUsers.map(UserMapper.toDomain)
   }
 
-  async update(id: string, request: UpdateUserRequest): Promise<void> {
-    await db
+  async fetchByUsername(username: string): Promise<User[]> {
+    const queriedUsers = await db
+      .select()
+      .from(users)
+      .where(and(ilike(users.username, `%${username}%`)))
+
+    return queriedUsers.map(UserMapper.toDomain)
+  }
+
+  async update(id: string, request: UpdateUserRequest): Promise<User | null> {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(and(eq(users.id, id)))
+
+    if (!user) return null
+
+    const [updatedUser] = await db
       .update(users)
       .set({
         ...request,
         updatedAt: new Date(),
       })
       .where(and(eq(users.id, id)))
+      .returning()
+
+    return UserMapper.toDomain(updatedUser)
   }
 
   async delete(id: string): Promise<void> {

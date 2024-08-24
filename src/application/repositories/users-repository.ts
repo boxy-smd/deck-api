@@ -9,7 +9,8 @@ export interface UsersRepository {
   findById(id: string): Promise<User | null>
   findByEmail(email: string): Promise<User | null>
   findByUsername(username: string): Promise<User | null>
-  findByName(name: string): Promise<User[]>
+  fetchByName(name: string): Promise<User[]>
+  fetchByUsername(username: string): Promise<User[]>
   update(id: string, request: UpdateUserRequest): Promise<User | null>
   delete(id: string): Promise<void>
 }

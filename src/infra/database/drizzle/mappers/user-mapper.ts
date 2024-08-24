@@ -1,10 +1,11 @@
 import { User } from '@/domain/entities/user.entity.ts'
+import { EmailBadFormattedError } from '@/domain/value-objects/errors/email-bad-formatted.error.ts'
 import type { NewUser, User as RawUser } from '../schema.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class UserMapper {
   static toDomain(raw: RawUser): User {
-    const user = User.create(
+    const userOrError = User.create(
       {
         name: raw.name,
         username: raw.username,
@@ -18,6 +19,12 @@ export class UserMapper {
       },
       raw.id,
     )
+
+    if (userOrError.isLeft()) {
+      throw new EmailBadFormattedError(userOrError.value.message)
+    }
+
+    const user = userOrError.value
 
     return user
   }
