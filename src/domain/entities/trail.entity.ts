@@ -1,13 +1,13 @@
 import { Entity } from '../core/interfaces/entity.ts'
 import type { Replace } from '../core/logic/replace.ts'
 
-export interface SubjectProps {
+export interface TrailProps {
   name: string
   createdAt: Date
   updatedAt: Date
 }
 
-export class Subject extends Entity<SubjectProps> {
+export class Trail extends Entity<TrailProps> {
   get name(): string {
     return this.props.name
   }
@@ -30,15 +30,15 @@ export class Subject extends Entity<SubjectProps> {
 
   static create(
     props: Replace<
-      SubjectProps,
+      TrailProps,
       {
         createdAt?: Date
         updatedAt?: Date
       }
     >,
     id?: string,
-  ): Subject {
-    return new Subject(
+  ): Trail {
+    return new Trail(
       {
         ...props,
         createdAt: props.createdAt || new Date(),

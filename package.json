@@ -1,5 +1,5 @@
 {
-  "name": "boxy-backend",
+  "name": "deck-backend",
   "version": "1.0.0",
   "type": "module",
   "description": "",
@@ -16,8 +16,9 @@
     "test:e2e": "vitest run -c vitest.e2e.config.ts",
     "test:e2e:watch": "vitest -c vitest.e2e.config.ts",
     "test:coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui",
-    "db:generate": "pnpm drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx --env-file .env src/infra/database/drizzle/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -30,7 +31,6 @@
     "@types/pg": "^8.11.6",
     "@types/supertest": "^6.0.2",
     "drizzle-kit": "^0.24.1",
-    "prisma": "^5.18.0",
     "tsup": "^8.2.4",
     "tsx": "^4.17.0",
     "typescript": "^5.5.4",
@@ -42,7 +42,6 @@
     "@fastify/cors": "^9.0.1",
     "@fastify/jwt": "^8.0.1",
     "@fastify/swagger": "^8.15.0",
-    "@prisma/client": "5.18.0",
     "@scalar/fastify-api-reference": "^1.25.1",
     "@scalar/themes": "^0.9.25",
     "bcrypt": "^5.1.1",

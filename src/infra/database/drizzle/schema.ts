@@ -62,7 +62,6 @@ export const subjects = pgTable('subjects', {
     .$defaultFn(() => randomUUID())
     .primaryKey(),
   name: text('name').notNull(),
-  code: text('code').notNull().unique(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at')
     .defaultNow()

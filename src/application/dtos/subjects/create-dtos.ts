@@ -5,7 +5,6 @@ import type { Subject } from '@/domain/entities/subject.entity.ts'
 
 export interface CreateSubjectUseCaseRequest {
   name: string
-  code: string
 }
 
 export type CreateSubjectUseCaseResponse = Either<

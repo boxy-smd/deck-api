@@ -31,42 +31,26 @@ export class DrizzleSubjectsRepository implements SubjectsRepository {
     return SubjectMapper.toDomain(subject)
   }
 
-  async findByName(name: string): Promise<Subject[]> {
-    const queriedSubjects = await db
-      .select()
-      .from(subjects)
-      .where(and(ilike(subjects.name, `%${name}%`)))
-
-    return queriedSubjects.map(SubjectMapper.toDomain)
-  }
-
-  async findByCode(code: string): Promise<Subject | null> {
+  async findByName(name: string): Promise<Subject | null> {
     const [subject] = await db
       .select()
       .from(subjects)
-      .where(and(eq(subjects.code, code)))
+      .where(and(ilike(subjects.name, name)))
 
     if (!subject) return null
 
     return SubjectMapper.toDomain(subject)
   }
 
-  async fetchByName(name: string): Promise<Subject[]> {
-    const queriedSubjects = await db
+  async fetchByQuery(query: { name: string }): Promise<Subject[]> {
+    const subjectsList = await db
       .select()
       .from(subjects)
-      .where(and(ilike(subjects.name, `%${name}%`)))
+      .where(
+        and(query.name ? ilike(subjects.name, `%${query.name}%`) : undefined),
+      )
 
-    return queriedSubjects.map(SubjectMapper.toDomain)
-  }
-
-  async fetchByCode(code: string): Promise<Subject[]> {
-    const queriedSubjects = await db
-      .select()
-      .from(subjects)
-      .where(and(eq(subjects.code, code)))
-
-    return queriedSubjects.map(SubjectMapper.toDomain)
+    return subjectsList.map(SubjectMapper.toDomain)
   }
 
   async update(

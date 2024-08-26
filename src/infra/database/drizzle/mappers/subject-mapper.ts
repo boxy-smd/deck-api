@@ -7,7 +7,6 @@ export class SubjectMapper {
     const subject = Subject.create(
       {
         name: raw.name,
-        code: raw.code,
         createdAt: raw.createdAt || undefined,
         updatedAt: raw.updatedAt || undefined,
       },
@@ -21,7 +20,6 @@ export class SubjectMapper {
     const raw: NewSubject = {
       id: subject.id,
       name: subject.name,
-      code: subject.code,
       createdAt: subject.createdAt,
       updatedAt: subject.updatedAt,
     }

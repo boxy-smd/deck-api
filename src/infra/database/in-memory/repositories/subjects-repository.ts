@@ -17,39 +17,25 @@ export class InMemorySubjectsRepository implements SubjectsRepository {
     return Promise.resolve(subject ?? null)
   }
 
-  findByCode(code: string): Promise<Subject | null> {
-    const subject = this.subjects.find(subject => subject.code === code)
+  findByName(name: string): Promise<Subject | null> {
+    const subject = this.subjects.find(subject => subject.name === name)
     return Promise.resolve(subject ?? null)
   }
 
-  fetchByCode(code: string): Promise<Subject[]> {
+  fetchByQuery(query: { name: string }): Promise<Subject[]> {
     const subjects = this.subjects.filter(subject =>
-      subject.code.toLowerCase().includes(code.toLowerCase()),
+      query.name ? subject.name.includes(query.name) : true,
     )
     return Promise.resolve(subjects)
   }
 
-  fetchByName(name: string): Promise<Subject[]> {
-    const subjects = this.subjects.filter(subject =>
-      subject.name.toLowerCase().includes(name.toLowerCase()),
-    )
-    return Promise.resolve(subjects)
-  }
-
-  update(
-    id: string,
-    { name, code }: UpdateSubjectRequest,
-  ): Promise<Subject | null> {
+  update(id: string, { name }: UpdateSubjectRequest): Promise<Subject | null> {
     const subject = this.subjects.find(subject => subject.id === id)
 
     if (!subject) return Promise.resolve(null)
 
     if (name) {
       subject.name = name
-    }
-
-    if (code) {
-      subject.code = code
     }
 
     subject.updatedAt = new Date()

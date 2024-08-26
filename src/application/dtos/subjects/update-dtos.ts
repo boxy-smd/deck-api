@@ -5,8 +5,10 @@ import type { Subject } from '@/domain/entities/subject.entity.ts'
 
 export interface UpdateSubjectUseCaseRequest {
   id: string
-  name?: string
-  code?: string
+  name: string
 }
 
-export type UpdateSubjectUseCaseResponse = Either<InvalidCredentialsError | SubjectNotFoundError, Subject>
+export type UpdateSubjectUseCaseResponse = Either<
+  InvalidCredentialsError | SubjectNotFoundError,
+  Subject
+>

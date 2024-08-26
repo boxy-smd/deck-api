@@ -36,10 +36,8 @@ CREATE TABLE IF NOT EXISTS "projects" (
 CREATE TABLE IF NOT EXISTS "subjects" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
-	"code" text NOT NULL,
 	"created_at" timestamp DEFAULT now(),
-	"updated_at" timestamp DEFAULT now(),
-	CONSTRAINT "subjects_code_unique" UNIQUE("code")
+	"updated_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (

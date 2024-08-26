@@ -16,7 +16,6 @@ describe('get subject by id use case', () => {
   it('should be able to get a subject by id', async () => {
     const subject = Subject.create({
       name: 'Introdução a Sistemas e Mídias Digitais',
-      code: 'ISMD',
     })
 
     const createdSubject = await subjectsRepository.create(subject)

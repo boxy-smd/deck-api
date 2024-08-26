@@ -13,23 +13,21 @@ export class CreateSubjectUseCase {
 
   async execute({
     name,
-    code,
   }: CreateSubjectUseCaseRequest): Promise<CreateSubjectUseCaseResponse> {
-    const areRequiredFieldsMissing = !(name && code)
+    const isNameEmpty = !name
 
-    if (areRequiredFieldsMissing) {
+    if (isNameEmpty) {
       return left(new InvalidCredentialsError())
     }
 
-    const isCodeAlreadyInUse = await this.subjectsRepository.findByCode(code)
+    const subjectAlreadyExists = await this.subjectsRepository.findByName(name)
 
-    if (isCodeAlreadyInUse) {
+    if (subjectAlreadyExists) {
       return left(new SubjectAlreadyExistsError())
     }
 
     const subject = Subject.create({
       name,
-      code,
     })
 
     await this.subjectsRepository.create(subject)

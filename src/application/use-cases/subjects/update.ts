@@ -13,11 +13,10 @@ export class UpdateSubjectUseCase {
   async execute({
     id,
     name,
-    code,
   }: UpdateSubjectUseCaseRequest): Promise<UpdateSubjectUseCaseResponse> {
-    const areRequiredFieldsMissing = !(name || code)
+    const isNameEmpty = !name
 
-    if (areRequiredFieldsMissing) {
+    if (isNameEmpty) {
       return left(new InvalidCredentialsError())
     }
 
@@ -29,7 +28,6 @@ export class UpdateSubjectUseCase {
 
     const subject = await this.subjectsRepository.update(id, {
       name,
-      code,
     })
     const isSubjectNotFound = !subject
 
