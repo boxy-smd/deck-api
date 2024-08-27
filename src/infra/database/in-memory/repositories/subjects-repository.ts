@@ -22,10 +22,11 @@ export class InMemorySubjectsRepository implements SubjectsRepository {
     return Promise.resolve(subject ?? null)
   }
 
-  fetchByQuery(query: { name: string }): Promise<Subject[]> {
-    const subjects = this.subjects.filter(subject =>
-      query.name ? subject.name.includes(query.name) : true,
-    )
+  fetchByName(name: string): Promise<Subject[]> {
+    const subjects = this.subjects.filter(subject => {
+      if (!subject.name.includes(name)) return false
+      return true
+    })
     return Promise.resolve(subjects)
   }
 

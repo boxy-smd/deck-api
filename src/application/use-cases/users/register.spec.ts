@@ -1,8 +1,9 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+
 import { User } from '@/domain/entities/user.entity.ts'
 import { EmailBadFormattedError } from '@/domain/value-objects/errors/email-bad-formatted.error.ts'
 import { Base64Encrypter } from '@/infra/cryptography/base64-encrypter.ts'
 import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/users-repository.ts'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 import { UserAlreadyExistsError } from './errors/user-already-exists.error.ts'
 import { RegisterUseCase } from './register.ts'

@@ -1,6 +1,7 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+
 import { Subject } from '@/domain/entities/subject.entity.ts'
 import { InMemorySubjectsRepository } from '@/infra/database/in-memory/repositories/subjects-repository.ts'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 import { SubjectNotFoundError } from './errors/subject-not-found.error.ts'
 import { UpdateSubjectUseCase } from './update.ts'
@@ -39,7 +40,6 @@ describe('update subject use case', () => {
     })
 
     const createdSubject = await subjectsRepository.create(subject)
-
     const result = await sut.execute({
       id: createdSubject.id,
       name: '',

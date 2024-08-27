@@ -1,7 +1,8 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+
 import { User } from '@/domain/entities/user.entity.ts'
 import { Base64Encrypter } from '@/infra/cryptography/base64-encrypter.ts'
 import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/users-repository.ts'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 import { LoginUseCase } from './login.ts'
 

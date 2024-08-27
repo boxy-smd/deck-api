@@ -27,13 +27,14 @@ export class InMemoryUsersRepository implements UsersRepository {
     return Promise.resolve(user ?? null)
   }
 
-  fetchByName(name: string): Promise<User[]> {
-    const users = this.users.filter(user => user.name.includes(name))
-    return Promise.resolve(users)
-  }
+  fetchByQuery(query: { name?: string; username?: string }): Promise<User[]> {
+    const users = this.users.filter(user => {
+      if (query.name && !user.name.includes(query.name)) return false
+      if (query.username && !user.username.includes(query.username))
+        return false
+      return true
+    })
 
-  fetchByUsername(username: string): Promise<User[]> {
-    const users = this.users.filter(user => user.username.includes(username))
     return Promise.resolve(users)
   }
 

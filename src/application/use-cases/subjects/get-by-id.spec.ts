@@ -1,6 +1,7 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+
 import { Subject } from '@/domain/entities/subject.entity.ts'
 import { InMemorySubjectsRepository } from '@/infra/database/in-memory/repositories/subjects-repository.ts'
-import { beforeEach, describe, expect, it } from 'vitest'
 import { SubjectNotFoundError } from './errors/subject-not-found.error.ts'
 import { GetSubjectByIdUseCase } from './get-by-id.ts'
 

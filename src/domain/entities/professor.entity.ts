@@ -35,6 +35,7 @@ export class Professor extends Entity<ProfessorProps> {
       {
         createdAt?: Date
         updatedAt?: Date
+        projectIds?: string[]
       }
     >,
     id?: string,
@@ -44,6 +45,7 @@ export class Professor extends Entity<ProfessorProps> {
         ...props,
         createdAt: props.createdAt || new Date(),
         updatedAt: props.updatedAt || new Date(),
+        projectIds: props.projectIds || [],
       },
       id,
     )

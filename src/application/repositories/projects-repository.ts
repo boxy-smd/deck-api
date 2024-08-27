@@ -7,11 +7,13 @@ export type UpdateProjectRequest = Partial<
 export interface ProjectsRepository {
   create(project: Project): Promise<Project>
   findById(id: string): Promise<Project | null>
-  findByName(name: string): Promise<Project[]>
-  findByAuthorId(authorId: string): Promise<Project[]>
-  findBySubjectId(subjectId: string): Promise<Project[]>
-  findByProfessorId(professorId: string): Promise<Project[]>
-  findByPublishedYear(publishedYear: number): Promise<Project[]>
+  fetchByQuery(query: {
+    name?: string
+    authorId?: string
+    subjectId?: string
+    professorsIds?: string[]
+    publishedYear?: number
+  }): Promise<Project[]>
   update(id: string, request: UpdateProjectRequest): Promise<Project | null>
   delete(id: string): Promise<void>
 }
