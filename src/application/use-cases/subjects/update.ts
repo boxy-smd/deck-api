@@ -1,11 +1,18 @@
-import type {
-  UpdateSubjectUseCaseRequest,
-  UpdateSubjectUseCaseResponse,
-} from '@/application/dtos/subjects/update-dtos.ts'
 import type { SubjectsRepository } from '@/application/repositories/subjects-repository.ts'
-import { left, right } from '@/domain/core/logic/either.ts'
+import { type Either, left, right } from '@/domain/core/logic/either.ts'
+import type { Subject } from '@/domain/entities/subject.entity.ts'
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 import { SubjectNotFoundError } from './errors/subject-not-found.error.ts'
+
+export interface UpdateSubjectUseCaseRequest {
+  id: string
+  name: string
+}
+
+export type UpdateSubjectUseCaseResponse = Either<
+  InvalidCredentialsError | SubjectNotFoundError,
+  Subject
+>
 
 export class UpdateSubjectUseCase {
   constructor(private subjectsRepository: SubjectsRepository) {}

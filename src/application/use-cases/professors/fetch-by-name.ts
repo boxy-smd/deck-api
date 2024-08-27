@@ -1,8 +1,11 @@
-import type {
-  FetchProfessorsByNameUseCaseRequest,
-  FetchProfessorsByNameUseCaseResponse,
-} from '@/application/dtos/professors/fetch-by-name-dtos.ts'
 import type { ProfessorsRepository } from '@/application/repositories/professors-repository.ts'
+import type { Professor } from '@/domain/entities/professor.entity.ts'
+
+interface FetchProfessorsByNameUseCaseRequest {
+  name: string
+}
+
+type FetchProfessorsByNameUseCaseResponse = Professor[]
 
 export class FetchProfessorsByNameUseCase {
   constructor(private professorsRepository: ProfessorsRepository) {}

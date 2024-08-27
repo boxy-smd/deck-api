@@ -1,13 +1,23 @@
-import type {
-  RegisterUseCaseRequest,
-  RegisterUseCaseResponse,
-} from '@/application/dtos/users/register-dtos.ts'
 import type { UsersRepository } from '@/application/repositories/users-repository.ts'
-import { left, right } from '@/domain/core/logic/either.ts'
+import { type Either, left, right } from '@/domain/core/logic/either.ts'
 import { User } from '@/domain/entities/user.entity.ts'
+import type { EmailBadFormattedError } from '@/domain/value-objects/errors/email-bad-formatted.error.ts'
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 import type { Encrypter } from './cryptography/encrypter.ts'
 import { UserAlreadyExistsError } from './errors/user-already-exists.error.ts'
+
+interface RegisterUseCaseRequest {
+  name: string
+  username: string
+  email: string
+  password: string
+  semester: number
+}
+
+type RegisterUseCaseResponse = Either<
+  InvalidCredentialsError | EmailBadFormattedError | UserAlreadyExistsError,
+  User
+>
 
 export class RegisterUseCase {
   constructor(

@@ -1,11 +1,18 @@
-import type {
-  UpdateTrailUseCaseRequest,
-  UpdateTrailUseCaseResponse,
-} from '@/application/dtos/trails/update-dtos.ts'
 import type { TrailsRepository } from '@/application/repositories/trails-repository.ts'
-import { left, right } from '@/domain/core/logic/either.ts'
+import { type Either, left, right } from '@/domain/core/logic/either.ts'
+import type { Trail } from '@/domain/entities/trail.entity.ts'
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 import { TrailNotFoundError } from './errors/trail-not-found.error.ts'
+
+interface UpdateTrailUseCaseRequest {
+  id: string
+  name: string
+}
+
+type UpdateTrailUseCaseResponse = Either<
+  InvalidCredentialsError | TrailNotFoundError,
+  Trail
+>
 
 export class UpdateTrailUseCase {
   constructor(private trailsRepository: TrailsRepository) {}

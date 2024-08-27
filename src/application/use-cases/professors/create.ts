@@ -1,9 +1,13 @@
-import type { CreateProfessorUseCaseRequest, CreateProfessorUseCaseResponse } from "@/application/dtos/professors/create-dtos.ts"
-import type { ProfessorsRepository } from "@/application/repositories/professors-repository.ts"
-import { left, right } from "@/domain/core/logic/either.ts"
-import { Professor } from "@/domain/entities/professor.entity.ts"
-import { InvalidCredentialsError } from "../errors/invalid-credentials.error.ts"
+import type { ProfessorsRepository } from '@/application/repositories/professors-repository.ts'
+import { type Either, left, right } from '@/domain/core/logic/either.ts'
+import { Professor } from '@/domain/entities/professor.entity.ts'
+import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 
+interface CreateProfessorUseCaseRequest {
+  name: string
+}
+
+type CreateProfessorUseCaseResponse = Either<InvalidCredentialsError, Professor>
 
 export class CreateProfessorUseCase {
   constructor(private professorsRepository: ProfessorsRepository) {}

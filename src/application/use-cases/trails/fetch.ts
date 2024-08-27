@@ -1,5 +1,7 @@
-import type { FetchTrailsUseCaseResponse } from '@/application/dtos/trails/fetch-dtos.ts'
 import type { TrailsRepository } from '@/application/repositories/trails-repository.ts'
+import type { Trail } from '@/domain/entities/trail.entity.ts'
+
+type FetchTrailsUseCaseResponse = Trail[]
 
 export class FetchTrailsUseCase {
   constructor(private readonly trailsRepository: TrailsRepository) {}

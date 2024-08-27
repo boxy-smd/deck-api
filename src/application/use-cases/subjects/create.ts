@@ -1,12 +1,17 @@
-import type {
-  CreateSubjectUseCaseRequest,
-  CreateSubjectUseCaseResponse,
-} from '@/application/dtos/subjects/create-dtos.ts'
 import type { SubjectsRepository } from '@/application/repositories/subjects-repository.ts'
-import { left, right } from '@/domain/core/logic/either.ts'
+import { type Either, left, right } from '@/domain/core/logic/either.ts'
 import { Subject } from '@/domain/entities/subject.entity.ts'
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 import { SubjectAlreadyExistsError } from './errors/subject-already-exists.error.ts'
+
+interface CreateSubjectUseCaseRequest {
+  name: string
+}
+
+type CreateSubjectUseCaseResponse = Either<
+  InvalidCredentialsError | SubjectAlreadyExistsError,
+  Subject
+>
 
 export class CreateSubjectUseCase {
   constructor(private subjectsRepository: SubjectsRepository) {}

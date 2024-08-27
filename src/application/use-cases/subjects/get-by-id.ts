@@ -1,7 +1,9 @@
-import type { GetSubjectByIdUseCaseResponse } from '@/application/dtos/subjects/get-by-id-dtos.ts'
 import type { SubjectsRepository } from '@/application/repositories/subjects-repository.ts'
-import { left, right } from '@/domain/core/logic/either.ts'
+import { type Either, left, right } from '@/domain/core/logic/either.ts'
+import type { Subject } from '@/domain/entities/subject.entity.ts'
 import { SubjectNotFoundError } from './errors/subject-not-found.error.ts'
+
+type GetSubjectByIdUseCaseResponse = Either<SubjectNotFoundError, Subject>
 
 export class GetSubjectByIdUseCase {
   constructor(private subjectsRepository: SubjectsRepository) {}

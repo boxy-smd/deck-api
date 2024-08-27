@@ -1,7 +1,7 @@
 import { Entity } from '../core/interfaces/entity.ts'
 import type { Replace } from '../core/logic/replace.ts'
 
-export type ProjectStatusEnum = 'draft' | 'published'
+export type ProjectStatusEnum = 'DRAFT' | 'PUBLISHED'
 
 export interface ProjectProps {
   title: string
@@ -16,7 +16,7 @@ export interface ProjectProps {
   updatedAt: Date
   authorId: string
   subjectId: string
-  professorIds: string[]
+  trailId: string
 }
 
 export class Project extends Entity<ProjectProps> {
@@ -102,14 +102,6 @@ export class Project extends Entity<ProjectProps> {
 
   set subjectId(subjectId: string) {
     this.props.subjectId = subjectId
-  }
-
-  get professorIds(): string[] {
-    return this.props.professorIds
-  }
-
-  set professorIds(professorIds: string[]) {
-    this.props.professorIds = professorIds
   }
 
   static create(

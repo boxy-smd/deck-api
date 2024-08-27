@@ -1,8 +1,11 @@
-import type {
-  FetchSubjectsByNameUseCaseRequest,
-  FetchSubjectsByNameUseCaseResponse,
-} from '@/application/dtos/subjects/fetch-by-name-dtos.ts'
 import type { SubjectsRepository } from '@/application/repositories/subjects-repository.ts'
+import type { Subject } from '@/domain/entities/subject.entity.ts'
+
+export interface FetchSubjectsByNameUseCaseRequest {
+  name: string
+}
+
+export type FetchSubjectsByNameUseCaseResponse = Subject[]
 
 export class FetchSubjectsByNameUseCase {
   constructor(private subjectsRepository: SubjectsRepository) {}

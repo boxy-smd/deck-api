@@ -1,11 +1,13 @@
-import type {
-  CreateTrailUseCaseRequest,
-  CreateTrailUseCaseResponse,
-} from '@/application/dtos/trails/create-dtos.ts'
 import type { TrailsRepository } from '@/application/repositories/trails-repository.ts'
-import { left, right } from '@/domain/core/logic/either.ts'
+import { type Either, left, right } from '@/domain/core/logic/either.ts'
 import { Trail } from '@/domain/entities/trail.entity.ts'
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
+
+interface CreateTrailUseCaseRequest {
+  name: string
+}
+
+export type CreateTrailUseCaseResponse = Either<InvalidCredentialsError, Trail>
 
 export class CreateTrailUseCase {
   constructor(private trailsRepository: TrailsRepository) {}

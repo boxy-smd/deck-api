@@ -1,11 +1,18 @@
-import type {
-  UpdateProfessorUseCaseRequest,
-  UpdateProfessorUseCaseResponse,
-} from '@/application/dtos/professors/update-dtos.ts'
 import type { ProfessorsRepository } from '@/application/repositories/professors-repository.ts'
-import { left, right } from '@/domain/core/logic/either.ts'
+import { type Either, left, right } from '@/domain/core/logic/either.ts'
+import type { Professor } from '@/domain/entities/professor.entity.ts'
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 import { ProfessorNotFoundError } from './errors/professor-not-found.error.ts'
+
+interface UpdateProfessorUseCaseRequest {
+  id: string
+  name: string
+}
+
+type UpdateProfessorUseCaseResponse = Either<
+  InvalidCredentialsError | ProfessorNotFoundError,
+  Professor
+>
 
 export class UpdateProfessorUseCase {
   constructor(private professorsRepository: ProfessorsRepository) {}
