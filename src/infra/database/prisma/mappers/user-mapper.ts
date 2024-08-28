@@ -1,6 +1,5 @@
 import { User } from '@/domain/entities/user.entity.ts'
-import { EmailBadFormattedError } from '@/domain/value-objects/errors/email-bad-formatted.error.ts'
-import type { NewUser, User as RawUser } from '../schema.ts'
+import type { Prisma, User as RawUser } from '@prisma/client'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class UserMapper {
@@ -14,29 +13,31 @@ export class UserMapper {
         about: raw.about || undefined,
         profileUrl: raw.profileUrl || undefined,
         semester: raw.semester,
-        createdAt: raw.createdAt || undefined,
-        updatedAt: raw.updatedAt || undefined,
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
       },
       raw.id,
     )
 
     if (userOrError.isLeft()) {
-      throw new EmailBadFormattedError(userOrError.value.message)
+      throw new Error(userOrError.value.toString())
     }
 
-    const user = userOrError.value
+    const user: User = userOrError.value
 
     return user
   }
 
-  static toPersistence(user: User): NewUser {
-    const raw: NewUser = {
+  static toPersistence(user: User): Prisma.UserCreateInput {
+    const raw: Prisma.UserCreateInput = {
       id: user.id,
       name: user.name,
       username: user.username,
       email: user.email,
       passwordHash: user.passwordHash,
       semester: user.semester,
+      about: user.about || undefined,
+      profileUrl: user.profileUrl || undefined,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     }

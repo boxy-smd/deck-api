@@ -7,27 +7,29 @@ import type { User } from '@/domain/entities/user.entity.ts'
 export class InMemoryUsersRepository implements UsersRepository {
   private users: User[] = []
 
-  create(user: User): Promise<User> {
+  async create(user: User): Promise<User> {
     this.users.push(user)
-    return Promise.resolve(user)
+    return await Promise.resolve(user)
   }
 
-  findById(id: string): Promise<User | null> {
+  async findById(id: string): Promise<User | null> {
     const user = this.users.find(user => user.id === id)
-    return Promise.resolve(user ?? null)
+    return await Promise.resolve(user ?? null)
   }
 
-  findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<User | null> {
     const user = this.users.find(user => user.email === email)
-    return Promise.resolve(user ?? null)
+    return await Promise.resolve(user ?? null)
   }
 
-  findByUsername(username: string): Promise<User | null> {
+  async findByUsername(username: string): Promise<User | null> {
     const user = this.users.find(user => user.username === username)
-    return Promise.resolve(user ?? null)
+    return await Promise.resolve(user ?? null)
   }
 
-  fetchByQuery(query: { name?: string; username?: string }): Promise<User[]> {
+  async fetchByQuery(query: { name?: string; username?: string }): Promise<
+    User[]
+  > {
     const users = this.users.filter(user => {
       if (query.name && !user.name.includes(query.name)) return false
       if (query.username && !user.username.includes(query.username))
@@ -35,12 +37,12 @@ export class InMemoryUsersRepository implements UsersRepository {
       return true
     })
 
-    return Promise.resolve(users)
+    return await Promise.resolve(users)
   }
 
-  update(
+  async update(
     id: string,
-    { about, semester, profileUrl }: UpdateUserRequest,
+    { about, semester, profileUrl, trails }: UpdateUserRequest,
   ): Promise<User | null> {
     const user = this.users.find(user => user.id === id)
 
@@ -58,13 +60,17 @@ export class InMemoryUsersRepository implements UsersRepository {
       user.profileUrl = profileUrl
     }
 
+    if (trails) {
+      user.trails = trails
+    }
+
     user.updatedAt = new Date()
 
     return Promise.resolve(user)
   }
 
-  delete(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     this.users = this.users.filter(user => user.id !== id)
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 }

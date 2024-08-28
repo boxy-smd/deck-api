@@ -1,5 +1,8 @@
 import { Entity } from '../core/interfaces/entity.ts'
 import type { Replace } from '../core/logic/replace.ts'
+import type { Comment } from './comment.entity.ts'
+import type { Professor } from './professor.entity.ts'
+import type { Trail } from './trail.entity.ts'
 
 export type ProjectStatusEnum = 'DRAFT' | 'PUBLISHED'
 
@@ -15,8 +18,10 @@ export interface ProjectProps {
   createdAt: Date
   updatedAt: Date
   authorId: string
-  subjectId: string
-  trailId: string
+  subjectId?: string
+  trails: Trail[]
+  professors?: Professor[]
+  comments?: Comment[]
 }
 
 export class Project extends Entity<ProjectProps> {
@@ -92,16 +97,48 @@ export class Project extends Entity<ProjectProps> {
     return this.props.updatedAt
   }
 
+  set updatedAt(updatedAt: Date) {
+    this.props.updatedAt = updatedAt
+  }
+
   get authorId(): string {
     return this.props.authorId
   }
 
-  get subjectId(): string {
+  set authorId(authorId: string) {
+    this.props.authorId = authorId
+  }
+
+  get subjectId(): string | undefined {
     return this.props.subjectId
   }
 
   set subjectId(subjectId: string) {
     this.props.subjectId = subjectId
+  }
+
+  get trails(): Trail[] {
+    return this.props.trails
+  }
+
+  set trails(trails: Trail[]) {
+    this.props.trails = trails
+  }
+
+  get professors(): Professor[] | undefined {
+    return this.props.professors
+  }
+
+  set professors(professors: Professor[]) {
+    this.props.professors = professors
+  }
+
+  get comments(): Comment[] | undefined {
+    return this.props.comments
+  }
+
+  set comments(comments: Comment[]) {
+    this.props.comments = comments
   }
 
   static create(
@@ -110,6 +147,9 @@ export class Project extends Entity<ProjectProps> {
       {
         createdAt?: Date
         updatedAt?: Date
+        subjectId?: string
+        professors?: Professor[]
+        comments?: Comment[]
       }
     >,
     id?: string,
@@ -119,6 +159,9 @@ export class Project extends Entity<ProjectProps> {
         ...props,
         createdAt: props.createdAt || new Date(),
         updatedAt: props.updatedAt || new Date(),
+        subjectId: props.subjectId || undefined,
+        professors: props.professors || [],
+        comments: props.comments || [],
       },
       id,
     )

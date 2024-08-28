@@ -1,3 +1,4 @@
+import type { Repository } from '@/domain/core/interfaces/repository.ts'
 import type {
   Professor,
   ProfessorProps,
@@ -7,10 +8,7 @@ export type UpdateProfessorRequest = Partial<
   Omit<ProfessorProps, 'createdAt' | 'updatedAt'>
 >
 
-export interface ProfessorsRepository {
-  create(professor: Professor): Promise<Professor>
-  findById(id: string): Promise<Professor | null>
+export interface ProfessorsRepository
+  extends Repository<Professor, UpdateProfessorRequest> {
   fetchByName(name: string): Promise<Professor[]>
-  update(id: string, request: UpdateProfessorRequest): Promise<Professor | null>
-  delete(id: string): Promise<void>
 }

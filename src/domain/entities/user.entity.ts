@@ -4,6 +4,9 @@ import { type Either, left, right } from '../core/logic/either.ts'
 import type { Replace } from '../core/logic/replace.ts'
 import { Email } from '../value-objects/email.ts'
 import { EmailBadFormattedError } from '../value-objects/errors/email-bad-formatted.error.ts'
+import type { Comment } from './comment.entity.ts'
+import type { Project } from './project.entity.ts'
+import type { Trail } from './trail.entity.ts'
 
 export interface UserProps {
   name: string
@@ -15,6 +18,9 @@ export interface UserProps {
   semester: number
   createdAt: Date
   updatedAt: Date
+  trails?: Trail[]
+  projects?: Project[]
+  comments?: Comment[]
 }
 
 export class User extends Entity<UserProps> {
@@ -70,12 +76,39 @@ export class User extends Entity<UserProps> {
     this.props.updatedAt = date
   }
 
+  get trails(): Trail[] {
+    return this.props.trails || []
+  }
+
+  set trails(trails: Trail[]) {
+    this.props.trails = trails
+  }
+
+  get projects(): Project[] {
+    return this.props.projects || []
+  }
+
+  set projects(projects: Project[]) {
+    this.props.projects = projects
+  }
+
+  get comments(): Comment[] {
+    return this.props.comments || []
+  }
+
+  set comments(comments: Comment[]) {
+    this.props.comments = comments
+  }
+
   static create(
     props: Replace<
       UserProps,
       {
         createdAt?: Date
         updatedAt?: Date
+        trails?: Trail[]
+        projects?: Project[]
+        comments?: Comment[]
       }
     >,
     id?: string,
@@ -91,6 +124,9 @@ export class User extends Entity<UserProps> {
         ...props,
         createdAt: props.createdAt || new Date(),
         updatedAt: props.updatedAt || new Date(),
+        trails: props.trails || [],
+        projects: props.projects || [],
+        comments: props.comments || [],
       },
       id,
     )

@@ -4,37 +4,37 @@ import type { Trail } from '@/domain/entities/trail.entity.ts'
 export class InMemoryTrailsRepository implements TrailsRepository {
   private trails: Trail[] = []
 
-  create(trail: Trail): Promise<Trail> {
+  async create(trail: Trail): Promise<Trail> {
     this.trails.push(trail)
-    return Promise.resolve(trail)
+    return await Promise.resolve(trail)
   }
 
-  findById(id: string): Promise<Trail | null> {
+  async findById(id: string): Promise<Trail | null> {
     const trail = this.trails.find(trail => trail.id === id)
-    return Promise.resolve(trail ?? null)
+    return await Promise.resolve(trail ?? null)
   }
 
-  findByName(name: string): Promise<Trail | null> {
+  async findByName(name: string): Promise<Trail | null> {
     const trail = this.trails.find(trail => trail.name === name)
-    return Promise.resolve(trail ?? null)
+    return await Promise.resolve(trail ?? null)
   }
 
-  fetch(): Promise<Trail[]> {
-    return Promise.resolve(this.trails)
+  async fetch(): Promise<Trail[]> {
+    return await Promise.resolve(this.trails)
   }
 
-  update(id: string, trail: Trail): Promise<Trail | null> {
+  async update(id: string, trail: Trail): Promise<Trail | null> {
     const index = this.trails.findIndex(trail => trail.id === id)
 
-    if (index < 0) return Promise.resolve(null)
+    if (index < 0) return await Promise.resolve(null)
 
     this.trails[index] = trail
 
-    return Promise.resolve(trail)
+    return await Promise.resolve(trail)
   }
 
-  delete(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     this.trails = this.trails.filter(trail => trail.id !== id)
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 }

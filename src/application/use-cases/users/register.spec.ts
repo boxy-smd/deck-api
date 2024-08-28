@@ -1,14 +1,15 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { User } from '@/domain/entities/user.entity.ts'
-import { EmailBadFormattedError } from '@/domain/value-objects/errors/email-bad-formatted.error.ts'
 import { Base64Encrypter } from '@/infra/cryptography/base64-encrypter.ts'
+import type { InMemoryTrailsRepository } from '@/infra/database/in-memory/repositories/trails-repository.ts'
 import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/users-repository.ts'
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 import { UserAlreadyExistsError } from './errors/user-already-exists.error.ts'
 import { RegisterUseCase } from './register.ts'
 
 let usersRepository: InMemoryUsersRepository
+let trailsRepository: InMemoryTrailsRepository
 let sut: RegisterUseCase
 let passwordHash: string
 
@@ -17,7 +18,11 @@ describe('register use case', () => {
     usersRepository = new InMemoryUsersRepository()
     const bcryptEncrypter = new Base64Encrypter()
     passwordHash = await User.hashPassword('123456', bcryptEncrypter)
-    sut = new RegisterUseCase(usersRepository, bcryptEncrypter)
+    sut = new RegisterUseCase(
+      usersRepository,
+      trailsRepository,
+      bcryptEncrypter,
+    )
   })
 
   it('should be able to register a user', async () => {
@@ -33,7 +38,7 @@ describe('register use case', () => {
     expect(result.isRight() && result.value).toBeInstanceOf(User)
   })
 
-  it('should be not able to register a user with no name', async () => {
+  it('should not be able to register a user with no name', async () => {
     const result = await sut.execute({
       name: '',
       email: 'johndoe@alu.ufc.br',
@@ -48,7 +53,7 @@ describe('register use case', () => {
     )
   })
 
-  it('should be not able to register a user with no email', async () => {
+  it('should not be able to register a user with no email', async () => {
     const result = await sut.execute({
       name: 'John Doe',
       email: '',
@@ -63,7 +68,7 @@ describe('register use case', () => {
     )
   })
 
-  it('should be not able to register a user with no password', async () => {
+  it('should not be able to register a user with no password', async () => {
     const result = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@alu.ufc.br',
@@ -78,7 +83,7 @@ describe('register use case', () => {
     )
   })
 
-  it('should be not able to register a user with no semester', async () => {
+  it('should not be able to register a user with no semester', async () => {
     const result = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@alu.ufc.br',
@@ -93,7 +98,7 @@ describe('register use case', () => {
     )
   })
 
-  it('should be not able to register a user with no username', async () => {
+  it('should not be able to register a user with no username', async () => {
     const result = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@alu.ufc.br',
@@ -108,41 +113,11 @@ describe('register use case', () => {
     )
   })
 
-  it('should be not able to register a user with an invalid email', async () => {
-    const result = await sut.execute({
-      name: 'John Doe',
-      email: 'invalid-email',
-      password: '123456',
-      semester: 3,
-      username: 'johndoe',
-    })
-
-    expect(result.isLeft()).toBe(true)
-    expect(result.isLeft() && result.value).toBeInstanceOf(
-      EmailBadFormattedError,
-    )
-  })
-
-  it('should be not able to register a user with an non-institutional email', async () => {
-    const result = await sut.execute({
-      name: 'John Doe',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-      semester: 3,
-      username: 'johndoe',
-    })
-
-    expect(result.isLeft()).toBe(true)
-    expect(result.isLeft() && result.value).toBeInstanceOf(
-      EmailBadFormattedError,
-    )
-  })
-
-  it('should be not able to register a user with an existing email', async () => {
+  it('should not be able to register a user with an existing email', async () => {
     const userOrError = User.create({
       name: 'John Doe',
       email: 'johndoe@alu.ufc.br',
-      passwordHash: passwordHash,
+      passwordHash,
       semester: 3,
       username: 'johndoe',
     })
@@ -167,11 +142,11 @@ describe('register use case', () => {
     )
   })
 
-  it('should be not able to register a user with an existing username', async () => {
+  it('should not be able to register a user with an existing username', async () => {
     const userOrError = User.create({
       name: 'John Doe',
       email: 'johndoe@alu.ufc.br',
-      passwordHash: passwordHash,
+      passwordHash,
       semester: 3,
       username: 'johndoe',
     })

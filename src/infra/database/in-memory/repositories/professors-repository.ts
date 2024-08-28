@@ -7,41 +7,42 @@ import type { Professor } from '@/domain/entities/professor.entity.ts'
 export class InMemoryProfessorsRepository implements ProfessorsRepository {
   private professors: Professor[] = []
 
-  create(professor: Professor): Promise<Professor> {
+  async create(professor: Professor): Promise<Professor> {
     this.professors.push(professor)
-    return Promise.resolve(professor)
+    return await Promise.resolve(professor)
   }
 
-  findById(id: string): Promise<Professor | null> {
+  async findById(id: string): Promise<Professor | null> {
     const professor = this.professors.find(professor => professor.id === id)
-    return Promise.resolve(professor ?? null)
+    return await Promise.resolve(professor ?? null)
   }
 
-  fetchByName(name: string): Promise<Professor[]> {
+  async fetchByName(name: string): Promise<Professor[]> {
     const professors = this.professors.filter(professor => {
       if (!professor.name.includes(name)) return false
       return true
     })
 
-    return Promise.resolve(professors)
+    return await Promise.resolve(professors)
   }
-  update(
+
+  async update(
     id: string,
     request: UpdateProfessorRequest,
   ): Promise<Professor | null> {
     const professor = this.professors.find(professor => professor.id === id)
 
-    if (!professor) return Promise.resolve(null)
+    if (!professor) return await Promise.resolve(null)
 
     if (request.name) {
       professor.name = request.name
     }
 
-    return Promise.resolve(professor)
+    return await Promise.resolve(professor)
   }
 
-  delete(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     this.professors = this.professors.filter(professor => professor.id !== id)
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 }

@@ -1,18 +1,17 @@
+import type { Repository } from '@/domain/core/interfaces/repository.ts'
 import type { User, UserProps } from '@/domain/entities/user.entity.ts'
 
 export type UpdateUserRequest = Partial<
   Omit<UserProps, 'createdAt' | 'updatedAt'>
 >
 
-export interface UsersRepository {
-  create(user: User): Promise<User>
-  findById(id: string): Promise<User | null>
+export type UserQuery = {
+  name?: string
+  username?: string
+}
+
+export interface UsersRepository extends Repository<User, UpdateUserRequest> {
   findByEmail(email: string): Promise<User | null>
   findByUsername(username: string): Promise<User | null>
-  fetchByQuery(query: {
-    name?: string
-    username?: string
-  }): Promise<User[]>
-  update(id: string, request: UpdateUserRequest): Promise<User | null>
-  delete(id: string): Promise<void>
+  fetchByQuery(query: UserQuery): Promise<User[]>
 }

@@ -45,7 +45,7 @@ describe('login use case', () => {
     expect(result.isRight() && result.value).toBeInstanceOf(User)
   })
 
-  it('should be not able to login a user with no email', async () => {
+  it('should not be able to login a user with no email', async () => {
     const result = await sut.execute({
       email: '',
       password: '123456',
@@ -57,7 +57,7 @@ describe('login use case', () => {
     )
   })
 
-  it('should be not able to login a user with no password', async () => {
+  it('should not be able to login a user with no password', async () => {
     const result = await sut.execute({
       email: 'johndoe@alu.ufc.br',
       password: '',
@@ -69,9 +69,7 @@ describe('login use case', () => {
     )
   })
 
-  it('should be not able to login a unregistered user', async () => {
-    await usersRepository.create(user)
-
+  it('should not be able to login an unregistered user', async () => {
     const result = await sut.execute({
       email: 'janedoe@alu.ufc.br',
       password: '123456',
@@ -83,7 +81,7 @@ describe('login use case', () => {
     )
   })
 
-  it('should be not able to login a user with wrong password', async () => {
+  it('should not be able to login a user with wrong password', async () => {
     await usersRepository.create(user)
 
     const result = await sut.execute({

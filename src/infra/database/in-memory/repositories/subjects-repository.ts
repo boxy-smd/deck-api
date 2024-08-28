@@ -7,33 +7,36 @@ import type { Subject } from '@/domain/entities/subject.entity.ts'
 export class InMemorySubjectsRepository implements SubjectsRepository {
   private subjects: Subject[] = []
 
-  create(subject: Subject): Promise<Subject> {
+  async create(subject: Subject): Promise<Subject> {
     this.subjects.push(subject)
-    return Promise.resolve(subject)
+    return await Promise.resolve(subject)
   }
 
-  findById(id: string): Promise<Subject | null> {
+  async findById(id: string): Promise<Subject | null> {
     const subject = this.subjects.find(subject => subject.id === id)
-    return Promise.resolve(subject ?? null)
+    return await Promise.resolve(subject ?? null)
   }
 
-  findByName(name: string): Promise<Subject | null> {
+  async findByName(name: string): Promise<Subject | null> {
     const subject = this.subjects.find(subject => subject.name === name)
-    return Promise.resolve(subject ?? null)
+    return await Promise.resolve(subject ?? null)
   }
 
-  fetchByName(name: string): Promise<Subject[]> {
+  async fetchByName(name: string): Promise<Subject[]> {
     const subjects = this.subjects.filter(subject => {
       if (!subject.name.includes(name)) return false
       return true
     })
-    return Promise.resolve(subjects)
+    return await Promise.resolve(subjects)
   }
 
-  update(id: string, { name }: UpdateSubjectRequest): Promise<Subject | null> {
+  async update(
+    id: string,
+    { name }: UpdateSubjectRequest,
+  ): Promise<Subject | null> {
     const subject = this.subjects.find(subject => subject.id === id)
 
-    if (!subject) return Promise.resolve(null)
+    if (!subject) return await Promise.resolve(null)
 
     if (name) {
       subject.name = name
@@ -41,11 +44,11 @@ export class InMemorySubjectsRepository implements SubjectsRepository {
 
     subject.updatedAt = new Date()
 
-    return Promise.resolve(subject)
+    return await Promise.resolve(subject)
   }
 
-  delete(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     this.subjects = this.subjects.filter(subject => subject.id !== id)
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 }
