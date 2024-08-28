@@ -2,7 +2,20 @@ import type { Repository } from '@/domain/core/interfaces/repository.ts'
 import type { Project, ProjectProps } from '@/domain/entities/project.entity.ts'
 
 export type UpdateProjectRequest = Partial<
-  Omit<ProjectProps, 'createdAt' | 'updatedAt' | 'authorId'>
+  Pick<
+    ProjectProps,
+    | 'title'
+    | 'description'
+    | 'bannerUrl'
+    | 'content'
+    | 'publishedYear'
+    | 'status'
+    | 'semester'
+    | 'allowComments'
+    | 'subjectId'
+    | 'trails'
+    | 'professors'
+  >
 >
 
 export type ProjectQuery = {

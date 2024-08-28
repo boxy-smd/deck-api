@@ -2,7 +2,7 @@ import type { Repository } from '@/domain/core/interfaces/repository.ts'
 import type { User, UserProps } from '@/domain/entities/user.entity.ts'
 
 export type UpdateUserRequest = Partial<
-  Omit<UserProps, 'createdAt' | 'updatedAt'>
+  Pick<UserProps, 'about' | 'semester' | 'profileUrl' | 'trails'>
 >
 
 export type UserQuery = {

@@ -1,9 +1,7 @@
 import type { Repository } from '@/domain/core/interfaces/repository.ts'
 import type { Subject, SubjectProps } from '@/domain/entities/subject.entity.ts'
 
-export type UpdateSubjectRequest = Partial<
-  Omit<SubjectProps, 'createdAt' | 'updatedAt'>
->
+export type UpdateSubjectRequest = Partial<Pick<SubjectProps, 'name'>>
 
 export interface SubjectsRepository
   extends Repository<Subject, UpdateSubjectRequest> {

@@ -4,9 +4,7 @@ import type {
   ProfessorProps,
 } from '@/domain/entities/professor.entity.ts'
 
-export type UpdateProfessorRequest = Partial<
-  Omit<ProfessorProps, 'createdAt' | 'updatedAt'>
->
+export type UpdateProfessorRequest = Partial<Pick<ProfessorProps, 'name'>>
 
 export interface ProfessorsRepository
   extends Repository<Professor, UpdateProfessorRequest> {
