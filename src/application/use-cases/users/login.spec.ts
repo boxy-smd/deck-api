@@ -14,9 +14,9 @@ let user: User
 describe('login use case', () => {
   beforeEach(async () => {
     usersRepository = new InMemoryUsersRepository()
-    const bcryptEncrypter = new Base64Encrypter()
-    passwordHash = await User.hashPassword('123456', bcryptEncrypter)
-    sut = new LoginUseCase(usersRepository, bcryptEncrypter)
+    const encrypter = new Base64Encrypter()
+    passwordHash = await User.hashPassword('123456', encrypter)
+    sut = new LoginUseCase(usersRepository, encrypter)
 
     const userOrError = User.create({
       name: 'John Doe',
@@ -24,6 +24,8 @@ describe('login use case', () => {
       passwordHash,
       semester: 3,
       username: 'johndoe',
+      createdAt: new Date(),
+      updatedAt: new Date(),
     })
 
     if (userOrError.isLeft()) {

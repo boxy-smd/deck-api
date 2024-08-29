@@ -77,6 +77,8 @@ export class RegisterUseCase {
       about,
       profileUrl,
       trails,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     })
 
     if (userOrError.isLeft()) {
