@@ -1,5 +1,4 @@
 import { Entity } from '../core/interfaces/entity.ts'
-import type { Replace } from '../core/logic/replace.ts'
 
 export interface CommentProps {
   content: string
@@ -46,23 +45,7 @@ export class Comment extends Entity<CommentProps> {
     this.props.projectId = value
   }
 
-  static create(
-    props: Replace<
-      CommentProps,
-      {
-        createdAt?: Date
-        updatedAt?: Date
-      }
-    >,
-    id?: string,
-  ): Comment {
-    return new Comment(
-      {
-        ...props,
-        createdAt: props.createdAt || new Date(),
-        updatedAt: props.updatedAt || new Date(),
-      },
-      id,
-    )
+  static create(props: CommentProps, id?: string): Comment {
+    return new Comment(props, id)
   }
 }

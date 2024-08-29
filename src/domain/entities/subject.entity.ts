@@ -1,5 +1,4 @@
 import { Entity } from '../core/interfaces/entity.ts'
-import type { Replace } from '../core/logic/replace.ts'
 import type { Project } from './project.entity.ts'
 
 export interface SubjectProps {
@@ -38,25 +37,7 @@ export class Subject extends Entity<SubjectProps> {
     this.props.projects = value
   }
 
-  static create(
-    props: Replace<
-      SubjectProps,
-      {
-        createdAt?: Date
-        updatedAt?: Date
-        projects?: Project[]
-      }
-    >,
-    id?: string,
-  ): Subject {
-    return new Subject(
-      {
-        ...props,
-        createdAt: props.createdAt || new Date(),
-        updatedAt: props.updatedAt || new Date(),
-        projects: props.projects || [],
-      },
-      id,
-    )
+  static create(props: SubjectProps, id?: string): Subject {
+    return new Subject(props, id)
   }
 }

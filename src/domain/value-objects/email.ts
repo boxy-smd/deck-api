@@ -1,12 +1,19 @@
 import { EmailBadFormattedError } from './errors/email-bad-formatted.error.ts'
 
+import { ValueObject } from '../core/interfaces/value-object.ts'
 import { type Either, left, right } from '../core/logic/either.ts'
 
-export class Email {
-  protected constructor(private readonly email: string) {}
+interface EmailProps {
+  value: string
+}
 
+export class Email extends ValueObject<EmailProps> {
   get value(): string {
-    return this.email
+    return this.props.value
+  }
+
+  protected constructor(props: EmailProps) {
+    super(props)
   }
 
   static validate(email: string): boolean[] {
@@ -26,6 +33,6 @@ export class Email {
     if (isNotInstitutionEmail)
       return left(new EmailBadFormattedError('Email must be from UFC.'))
 
-    return right(new Email(email))
+    return right(new Email({ value: email }))
   }
 }

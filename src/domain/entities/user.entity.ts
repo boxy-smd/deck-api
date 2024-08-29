@@ -11,7 +11,7 @@ import type { Trail } from './trail.entity.ts'
 export interface UserProps {
   name: string
   username: string
-  email: string
+  email: Email
   passwordHash: string
   about?: string
   profileUrl?: string
@@ -32,7 +32,7 @@ export class User extends Entity<UserProps> {
     return this.props.username
   }
 
-  get email(): string {
+  get email(): Email {
     return this.props.email
   }
 
@@ -104,11 +104,7 @@ export class User extends Entity<UserProps> {
     props: Replace<
       UserProps,
       {
-        createdAt?: Date
-        updatedAt?: Date
-        trails?: Trail[]
-        projects?: Project[]
-        comments?: Comment[]
+        email: string
       }
     >,
     id?: string,
@@ -119,14 +115,12 @@ export class User extends Entity<UserProps> {
       return left(new EmailBadFormattedError(emailOrError.value.message))
     }
 
+    const validatedEmail = emailOrError.value
+
     const user = new User(
       {
         ...props,
-        createdAt: props.createdAt || new Date(),
-        updatedAt: props.updatedAt || new Date(),
-        trails: props.trails || [],
-        projects: props.projects || [],
-        comments: props.comments || [],
+        email: validatedEmail,
       },
       id,
     )

@@ -1,5 +1,4 @@
 import { Entity } from '../core/interfaces/entity.ts'
-import type { Replace } from '../core/logic/replace.ts'
 import type { Comment } from './comment.entity.ts'
 import type { Professor } from './professor.entity.ts'
 import type { Trail } from './trail.entity.ts'
@@ -141,29 +140,7 @@ export class Project extends Entity<ProjectProps> {
     this.props.comments = comments
   }
 
-  static create(
-    props: Replace<
-      ProjectProps,
-      {
-        createdAt?: Date
-        updatedAt?: Date
-        subjectId?: string
-        professors?: Professor[]
-        comments?: Comment[]
-      }
-    >,
-    id?: string,
-  ): Project {
-    return new Project(
-      {
-        ...props,
-        createdAt: props.createdAt || new Date(),
-        updatedAt: props.updatedAt || new Date(),
-        subjectId: props.subjectId || undefined,
-        professors: props.professors || [],
-        comments: props.comments || [],
-      },
-      id,
-    )
+  static create(props: ProjectProps, id?: string): Project {
+    return new Project(props, id)
   }
 }
