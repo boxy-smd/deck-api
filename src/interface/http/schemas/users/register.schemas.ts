@@ -54,7 +54,7 @@ const registerResponseSchema = z.object(
 
 export const registerSchemas = {
   summary: 'Register',
-  tags: ['users'],
+  tags: ['Users'],
   body: registerBodySchema,
   response: {
     201: registerResponseSchema,

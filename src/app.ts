@@ -48,16 +48,21 @@ async function buildServer() {
       consumes: ['application/json'],
       produces: ['application/json'],
       info: {
-        title: 'Boxy Backend',
+        title: 'Deck API',
         contact: {
           name: 'Boxy Team',
           email: 'boxy@gmail.com',
         },
         description:
-          'Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá como repositório de trabalhos realizados por alunos do curso de Sistemas e Mídias Digitais da Universidade Federal do Ceará.',
+          'Esse é o backend do projeto **Deck**, um projeto de uma aplicação que servirá como repositório de trabalhos realizados por alunos do curso de Sistemas e Mídias Digitais da Universidade Federal do Ceará.',
         version: '1.0.0',
       },
-      tags: [{ name: 'users', description: 'Operations related to users' }],
+      tags: [
+        { name: 'Users', description: 'Operations related to users' },
+        { name: 'Professors', description: 'Operations related to professors' },
+        { name: 'Subjects', description: 'Operations related to subjects' },
+        { name: 'Trails', description: 'Operations related to trails' },
+      ],
     },
     transform: jsonSchemaTransform,
   })
@@ -65,14 +70,14 @@ async function buildServer() {
   app.register(fastifyScalar, {
     routePrefix: '/docs',
     configuration: {
-      title: 'Boxy Backend',
+      title: 'Deck API',
       spec: {
         content: () => app.swagger(),
       },
       theme: 'purple',
       metaData: {
-        title: 'Boxy API Reference',
-        description: 'API Reference for Boxy Backend',
+        title: 'Deck API Reference',
+        description: 'API Reference for Deck API',
       },
     },
   })

@@ -28,7 +28,7 @@ const loginResponseSchema = z.object(
 
 export const loginSchemas = {
   summary: 'Login',
-  tags: ['users'],
+  tags: ['Users'],
   body: loginBodySchema,
   response: {
     200: loginResponseSchema,

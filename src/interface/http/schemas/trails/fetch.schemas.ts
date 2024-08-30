@@ -20,7 +20,7 @@ const fetchTrailsResponseSchema = z.object(
 
 export const fetchTrailsSchemas = {
   summary: 'Fetch trails',
-  tags: ['trails'],
+  tags: ['Trails'],
   response: {
     200: fetchTrailsResponseSchema,
   },

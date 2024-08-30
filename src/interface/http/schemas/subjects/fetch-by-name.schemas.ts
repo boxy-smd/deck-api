@@ -28,7 +28,7 @@ const fetchSubjectsByNameResponseSchema = z.object(
 
 export const fetchSubjectsByNameSchemas = {
   summary: 'Fetch subjects by name',
-  tags: ['subjects'],
+  tags: ['Subjects'],
   querystring: fetchSubjectsByNameQuerySchema,
   response: {
     200: fetchSubjectsByNameResponseSchema,

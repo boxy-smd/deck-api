@@ -28,7 +28,7 @@ const fetchProfessorsByNameResponseSchema = z.object(
 
 export const fetchProfessorsByNameSchemas = {
   summary: 'Fetch professors by name',
-  tags: ['professors'],
+  tags: ['Professors'],
   querystring: fetchProfessorsByNameQuerySchema,
   response: {
     200: fetchProfessorsByNameResponseSchema,
