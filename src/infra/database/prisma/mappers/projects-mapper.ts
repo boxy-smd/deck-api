@@ -11,8 +11,8 @@ export class ProjectMapper {
   static toDomain(
     raw: RawProject,
     trails: Trail[],
-    comments: Comment[],
-    professors: Professor[],
+    comments?: Comment[],
+    professors?: Professor[],
   ): Project {
     const project = Project.create(
       {

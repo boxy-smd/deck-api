@@ -1,5 +1,6 @@
 import type { Prisma, Comment as RawComment } from '@prisma/client'
 
+import type { UpdateCommentRequest } from '@/application/repositories/comments-repository.ts'
 import { Comment } from '@/domain/entities/comment.entity.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
@@ -32,5 +33,16 @@ export class CommentMapper {
         connect: { id: comment.projectId },
       },
     }
+  }
+
+  static toPersistenceUpdate(
+    comment: UpdateCommentRequest,
+  ): Prisma.CommentUpdateInput {
+    const raw: Prisma.CommentUpdateInput = {
+      content: comment.content,
+      updatedAt: new Date(),
+    }
+
+    return raw
   }
 }

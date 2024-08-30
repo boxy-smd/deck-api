@@ -1,5 +1,6 @@
 import type { Prisma, Trail as RawTrail } from '@prisma/client'
 
+import type { UpdateTrailRequest } from '@/application/repositories/trails-repository.ts'
 import type { Project } from '@/domain/entities/project.entity.ts'
 import { Trail } from '@/domain/entities/trail.entity.ts'
 import type { User } from '@/domain/entities/user.entity.ts'
@@ -36,7 +37,9 @@ export class TrailMapper {
     }
   }
 
-  static toPersistenceUpdate(trail: Trail): Prisma.TrailUpdateInput {
+  static toPersistenceUpdate(
+    trail: UpdateTrailRequest,
+  ): Prisma.TrailUpdateInput {
     const raw: Prisma.TrailUpdateInput = {
       name: trail.name,
       updatedAt: new Date(),

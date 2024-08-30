@@ -37,7 +37,7 @@ export class UserMapper {
       id: user.id,
       name: user.name,
       username: user.username,
-      email: user.email,
+      email: user.email.value,
       passwordHash: user.passwordHash,
       semester: user.semester,
       about: user.about || undefined,
