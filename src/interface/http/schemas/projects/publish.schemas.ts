@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { errorResponseSchema, zodErrorSchema } from '../common.ts'
 
-const publishProjectParamsSchema = z.object({
+const publishProjectBodySchema = z.object({
   title: z
     .string({
       description: 'Project title.',
@@ -74,19 +74,6 @@ const publishProjectParamsSchema = z.object({
     .optional(),
 })
 
-// title: string
-// description: string
-// bannerUrl: string
-// content?: string
-// publishedYear: number
-// status: ProjectStatusEnum
-// semester: number
-// allowComments: boolean
-// authorId: string
-// subjectId: string
-// trailsIds?: string[]
-// professorsIds?: string[]
-
 const publishProjectResponseSchema = z.object(
   {
     message: z.string(),
@@ -97,16 +84,16 @@ const publishProjectResponseSchema = z.object(
 )
 
 export const publishProjectSchemas = {
-  summary: 'Publish a project.',
-  tags: ['Project'],
-  body: publishProjectParamsSchema,
+  summary: 'Publish a project',
+  tags: ['Projects'],
+  body: publishProjectBodySchema,
   response: {
-    200: publishProjectResponseSchema,
+    201: publishProjectResponseSchema,
     400: zodErrorSchema,
     404: errorResponseSchema,
   },
 }
 
-export type PublishProjectParamsSchema = z.infer<
-  typeof publishProjectParamsSchema
+export type PublishProjectBodySchema = z.infer<
+  typeof publishProjectBodySchema
 >

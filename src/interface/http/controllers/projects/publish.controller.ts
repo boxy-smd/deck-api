@@ -1,10 +1,11 @@
-import { makePublishProjectUseCase } from '@/interface/factories/projects/make-publish-project-use-case.ts'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import type { PublishProjectParamsSchema } from '../../schemas/projects/publish.schemas.ts'
+
+import { makePublishProjectUseCase } from '@/interface/factories/projects/make-publish-project-use-case.ts'
+import type { PublishProjectBodySchema } from '../../schemas/projects/publish.schemas.ts'
 
 export async function publishProject(
   request: FastifyRequest<{
-    Params: PublishProjectParamsSchema
+    Body: PublishProjectBodySchema
   }>,
   reply: FastifyReply,
 ) {
@@ -21,7 +22,7 @@ export async function publishProject(
     subjectId,
     trailsIds,
     professorsIds,
-  } = request.params
+  } = request.body
 
   const publishProjectUseCase = makePublishProjectUseCase()
 
@@ -45,5 +46,5 @@ export async function publishProject(
     return reply.status(error.statusCode).send({ message: error.message })
   }
 
-  return reply.status(200).send({ message: 'Project published successfully.' })
+  return reply.status(201).send({ message: 'Project published successfully.' })
 }

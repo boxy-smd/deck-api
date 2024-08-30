@@ -15,6 +15,7 @@ import { env } from '@/infra/config/env.ts'
 import { errorHandler } from '@/interface/error-handler.ts'
 import { usersRoutes } from '@/interface/http/routes/users.routes.ts'
 import { professorsRoutes } from './interface/http/routes/professors.routes.ts'
+import { projectsRoutes } from './interface/http/routes/projects.routes.ts'
 import { subjectsRoutes } from './interface/http/routes/subjects.routes.ts'
 import { trailsRoutes } from './interface/http/routes/trails.routes.ts'
 
@@ -62,6 +63,7 @@ async function buildServer() {
         { name: 'Professors', description: 'Operations related to professors' },
         { name: 'Subjects', description: 'Operations related to subjects' },
         { name: 'Trails', description: 'Operations related to trails' },
+        { name: 'Projects', description: 'Operations related to projects' },
       ],
     },
     transform: jsonSchemaTransform,
@@ -86,6 +88,7 @@ async function buildServer() {
   app.register(subjectsRoutes)
   app.register(professorsRoutes)
   app.register(trailsRoutes)
+  app.register(projectsRoutes)
 
   app.get('/health-check', () => {
     return {
