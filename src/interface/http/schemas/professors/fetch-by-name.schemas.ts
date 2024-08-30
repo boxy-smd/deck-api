@@ -8,18 +8,23 @@ const fetchProfessorsByNameQuerySchema = z.object({
     .min(1, 'Name must have at least 1 character.'),
 })
 
-const fetchProfessorsByNameResponseSchema = z.object({
-  professors: z.array(
-    z.object({
-      id: z.string({
-        description: 'Professor id.',
+const fetchProfessorsByNameResponseSchema = z.object(
+  {
+    professors: z.array(
+      z.object({
+        id: z.string({
+          description: 'Professor id.',
+        }),
+        name: z.string({
+          description: 'Professor name.',
+        }),
       }),
-      name: z.string({
-        description: 'Professor name.',
-      }),
-    }),
-  ),
-})
+    ),
+  },
+  {
+    description: 'Professors fetched by name.',
+  },
+)
 
 export const fetchProfessorsByNameSchemas = {
   summary: 'Fetch professors by name',

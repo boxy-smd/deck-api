@@ -8,18 +8,23 @@ const fetchSubjectsByNameQuerySchema = z.object({
     .min(1, 'Name must have at least 1 character.'),
 })
 
-const fetchSubjectsByNameResponseSchema = z.object({
-  subjects: z.array(
-    z.object({
-      id: z.string({
-        description: 'Subject id.',
+const fetchSubjectsByNameResponseSchema = z.object(
+  {
+    subjects: z.array(
+      z.object({
+        id: z.string({
+          description: 'Subject id.',
+        }),
+        name: z.string({
+          description: 'Subject name.',
+        }),
       }),
-      name: z.string({
-        description: 'Subject name.',
-      }),
-    }),
-  ),
-})
+    ),
+  },
+  {
+    description: 'Subjects fetched by name.',
+  },
+)
 
 export const fetchSubjectsByNameSchemas = {
   summary: 'Fetch subjects by name',
