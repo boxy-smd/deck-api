@@ -19,7 +19,7 @@ export type UpdateProjectRequest = Partial<
 >
 
 export type ProjectQuery = {
-  name?: string
+  title?: string
   authorId?: string
   subjectId?: string
   professorsIds?: string[]
