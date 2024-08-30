@@ -8,7 +8,6 @@ import {
   Project,
   type ProjectStatusEnum,
 } from '@/domain/entities/project.entity.ts'
-import type { Trail } from '@/domain/entities/trail.entity.ts'
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
 import { ProfessorNotFoundError } from '../professors/errors/professor-not-found.error.ts'
 import { SubjectNotFoundError } from '../subjects/errors/subject-not-found.error.ts'
@@ -25,16 +24,16 @@ interface PublishProjectUseCaseRequest {
   semester: number
   allowComments: boolean
   authorId: string
-  subjectId?: string
-  trailsIds: string[]
+  subjectId: string
+  trailsIds?: string[]
   professorsIds?: string[]
 }
 
 type PublishProjectUseCaseResponse = Either<
   | InvalidCredentialsError
   | SubjectNotFoundError
-  | TrailNotFoundError
   | ProfessorNotFoundError
+  | TrailNotFoundError
   | UserNotFoundError,
   Project
 >
@@ -42,9 +41,9 @@ type PublishProjectUseCaseResponse = Either<
 export class PublishProjectUseCase {
   constructor(
     private projectsRepository: ProjectsRepository,
-    private subjectsRepository: SubjectsRepository,
     private trailsRepository: TrailsRepository,
     private professorsRepository: ProfessorsRepository,
+    private subjectsRepository: SubjectsRepository,
     private usersRepository: UsersRepository,
   ) {}
 
@@ -70,52 +69,44 @@ export class PublishProjectUseCase {
         bannerUrl &&
         publishedYear &&
         status &&
-        semester
+        semester &&
+        authorId &&
+        subjectId
       )
     ) {
       return left(new InvalidCredentialsError())
     }
 
-    if (subjectId) {
-      const subjectExists = await this.subjectsRepository.findById(subjectId)
-
-      if (!subjectExists) {
-        return left(new SubjectNotFoundError())
-      }
+    const author = await this.usersRepository.findById(authorId)
+    if (!author) {
+      return left(new UserNotFoundError())
     }
 
-    const trails: Trail[] = []
-
-    if (trailsIds) {
-      for (const trailId of trailsIds) {
-        const trail = await this.trailsRepository.findById(trailId)
-
-        if (!trail) {
-          return left(new TrailNotFoundError())
-        }
-
-        trails.push(trail)
-      }
+    const subject = await this.subjectsRepository.findById(subjectId)
+    if (!subject) {
+      return left(new SubjectNotFoundError())
     }
 
     const professors = []
-
     if (professorsIds) {
       for (const professorId of professorsIds) {
         const professor = await this.professorsRepository.findById(professorId)
-
         if (!professor) {
           return left(new ProfessorNotFoundError())
         }
-
         professors.push(professor)
       }
     }
 
-    const authorExists = await this.usersRepository.findById(authorId)
-
-    if (!authorExists) {
-      return left(new UserNotFoundError())
+    const trails = []
+    if (trailsIds) {
+      for (const trailId of trailsIds) {
+        const trail = await this.trailsRepository.findById(trailId)
+        if (!trail) {
+          return left(new TrailNotFoundError())
+        }
+        trails.push(trail)
+      }
     }
 
     const project = Project.create({

@@ -8,7 +8,8 @@ export async function register(
   }>,
   reply: FastifyReply,
 ) {
-  const { name, username, email, password, semester } = request.body
+  const { name, username, email, password, semester, about, profileUrl } =
+    request.body
 
   const registerUseCase = makeRegisterUseCase()
 
@@ -18,6 +19,8 @@ export async function register(
     email,
     password,
     semester,
+    about,
+    profileUrl,
   })
 
   if (result.isLeft()) {

@@ -28,7 +28,27 @@ const registerBodySchema = z.object({
     .int()
     .min(1, 'Invalid semester.')
     .max(12, 'Invalid semester.'),
+  about: z
+    .string({
+      description: 'User about.',
+    })
+    .optional(),
+  profileUrl: z
+    .string({
+      description: 'User profile url.',
+    })
+    .url()
+    .optional(),
 })
+
+// name: string
+// username: string
+// email: string
+// password: string
+// semester: number
+// trailsIds?: string[]
+// about?: string
+// profileUrl?: string
 
 const registerResponseSchema = z.object(
   {
