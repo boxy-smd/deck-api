@@ -41,15 +41,6 @@ const registerBodySchema = z.object({
     .optional(),
 })
 
-// name: string
-// username: string
-// email: string
-// password: string
-// semester: number
-// trailsIds?: string[]
-// about?: string
-// profileUrl?: string
-
 const registerResponseSchema = z.object(
   {
     user_id: z.string({

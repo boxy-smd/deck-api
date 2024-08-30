@@ -19,7 +19,14 @@ export class PrismaTrailsRepository implements TrailsRepository {
   }
 
   async findByName(name: string): Promise<Trail | null> {
-    const raw = await prisma.trail.findFirst({ where: { name } })
+    const raw = await prisma.trail.findFirst({
+      where: {
+        name: {
+          contains: name,
+          mode: 'insensitive',
+        },
+      },
+    })
     return raw ? TrailMapper.toDomain(raw) : null
   }
 

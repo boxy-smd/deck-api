@@ -19,7 +19,9 @@ export class PrismaProfessorsRepository implements ProfessorsRepository {
   }
 
   async fetchByName(name: string): Promise<Professor[]> {
-    const professors = await prisma.professor.findMany({ where: { name } })
+    const professors = await prisma.professor.findMany({
+      where: { name: { contains: name, mode: 'insensitive' } },
+    })
     return professors.map(professor => ProfessorMapper.toDomain(professor))
   }
 

@@ -32,8 +32,8 @@ export class PrismaUsersRepository implements UsersRepository {
   async fetchByQuery({ name, username }: UserQuery): Promise<User[]> {
     const users = await prisma.user.findMany({
       where: {
-        name: { contains: name },
-        username: { contains: username },
+        name: { contains: name, mode: 'insensitive' },
+        username: { contains: username, mode: 'insensitive' },
       },
     })
 

@@ -5,7 +5,7 @@ import { register } from '../controllers/users/register.controller.ts'
 import { loginSchemas } from '../schemas/users/login.schemas.ts'
 import { registerSchemas } from '../schemas/users/register.schemas.ts'
 
-// biome-ignore lint/suspicious/useAwait: <explanation>
+// biome-ignore lint/suspicious/useAwait: This function is a route handler and should not be awaited
 export async function usersRoutes(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()

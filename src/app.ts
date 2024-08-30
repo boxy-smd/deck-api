@@ -14,6 +14,9 @@ import { envToLogger } from '@/infra/config/entToLogger.ts'
 import { env } from '@/infra/config/env.ts'
 import { errorHandler } from '@/interface/error-handler.ts'
 import { usersRoutes } from '@/interface/http/routes/users.routes.ts'
+import { professorsRoutes } from './interface/http/routes/professors.routes.ts'
+import { subjectsRoutes } from './interface/http/routes/subjects.routes.ts'
+import { trailsRoutes } from './interface/http/routes/trails.routes.ts'
 
 async function buildServer() {
   const app = fastify({
@@ -75,6 +78,9 @@ async function buildServer() {
   })
 
   app.register(usersRoutes)
+  app.register(subjectsRoutes)
+  app.register(professorsRoutes)
+  app.register(trailsRoutes)
 
   app.get('/health-check', () => {
     return {

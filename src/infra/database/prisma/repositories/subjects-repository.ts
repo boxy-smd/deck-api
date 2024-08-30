@@ -24,7 +24,14 @@ export class PrismaSubjectsRepository implements SubjectsRepository {
   }
 
   async fetchByName(name: string): Promise<Subject[]> {
-    const subjects = await prisma.subject.findMany({ where: { name } })
+    const subjects = await prisma.subject.findMany({
+      where: {
+        name: {
+          contains: name,
+          mode: 'insensitive',
+        },
+      },
+    })
     return subjects.map(subject => SubjectMapper.toDomain(subject))
   }
 
