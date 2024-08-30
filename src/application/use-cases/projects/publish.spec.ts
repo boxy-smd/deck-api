@@ -43,9 +43,9 @@ describe('publish project use case', () => {
 
     sut = new PublishProjectUseCase(
       projectsRepository,
-      subjectsRepository,
       trailsRepository,
       professorsRepository,
+      subjectsRepository,
       usersRepository,
     )
 
