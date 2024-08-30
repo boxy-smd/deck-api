@@ -11,7 +11,7 @@ Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá 
 
 ### Projeto
 
-- [ ] Deve ser possível publicar um projeto;
+- [x] Deve ser possível publicar um projeto;
 - [ ] Deve ser possível editar um projeto;
 - [ ] Deve ser possível excluir um projeto;
 - [ ] Deve ser possível denunciar um projeto;
@@ -70,8 +70,4 @@ Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá 
 ## Requisitos Não Funcionais (RNF's)
 
 - [x] A senha do usuário deve ser criptografada;
-- [ ] Todas as listas precisam estar paginadas com 20 items por página;
-- [x] O usuário deve ser identificado por um token JWT;
-- [ ] O backend deve ser hospedado no [Render](https://render.com/);
-- [ ] O banco de dados deve ser hospedado no [Railway](https://railway.app/);
-- [ ] As imagens dos projetos devem ser armazenadas no [Cloudfare R2](https://www.cloudflare.com/pt-br/developer-platform/r2/).
+- [x] O usuário deve ser identificado por um token JWT.
