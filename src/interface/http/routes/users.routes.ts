@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+
 import { login } from '../controllers/users/login.controller.ts'
 import { register } from '../controllers/users/register.controller.ts'
 import { loginSchemas } from '../schemas/users/login.schemas.ts'
