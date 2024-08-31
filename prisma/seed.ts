@@ -198,6 +198,18 @@ async function seed() {
       }),
     ),
   )
+
+  const trails = ['Sistemas', 'Mídias', 'Audiovisual', 'Jogos']
+
+  await Promise.all(
+    trails.map(trail =>
+      prisma.trail.create({
+        data: {
+          name: trail,
+        },
+      }),
+    ),
+  )
 }
 
 seed().then(() => {
