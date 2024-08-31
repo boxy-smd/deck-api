@@ -1,9 +1,5 @@
 @baseUrl = http://localhost:3333
 
 # @name create-subject
-POST {{baseUrl}}/subjects
+GET {{baseUrl}}/subjects?name=Introdução
 Content-Type: application/json
-
-{
-    "name": "Interação Humano-Computador I"
-}
