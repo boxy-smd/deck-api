@@ -18,14 +18,10 @@ describe('fetch subjects by name controller (e2e)', () => {
     const subjectRepository = new PrismaSubjectsRepository()
     const ihc1 = Subject.create({
       name: 'Interação Humano-Computador I',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     const ihc2 = Subject.create({
       name: 'Interação Humano-Computador II',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     await subjectRepository.create(ihc1)

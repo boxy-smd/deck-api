@@ -55,8 +55,6 @@ describe('publish project use case', () => {
       email: 'johndoe@alu.ufc.br',
       passwordHash: 'password-hash',
       semester: 3,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     if (authorOrError.isLeft()) {
@@ -67,32 +65,22 @@ describe('publish project use case', () => {
 
     subject = Subject.create({
       name: 'Subject Name',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     firstTrail = Trail.create({
       name: 'First Trail',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     secondTrail = Trail.create({
       name: 'Second Trail',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     firstProfessor = Professor.create({
       name: 'First Professor',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     secondProfessor = Professor.create({
       name: 'Second Professor',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     subjectsRepository.create(subject)

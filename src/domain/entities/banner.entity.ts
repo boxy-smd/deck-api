@@ -1,4 +1,5 @@
 import { Entity } from '../core/interfaces/entity.ts'
+import type { Replace } from '../core/logic/replace.ts'
 
 export interface BannerProps {
   url: string
@@ -28,7 +29,17 @@ export class Banner extends Entity<BannerProps> {
   }
 
   static create(
-    { createdAt = new Date(), updatedAt = new Date(), ...props }: BannerProps,
+    {
+      createdAt = new Date(),
+      updatedAt = new Date(),
+      ...props
+    }: Replace<
+      BannerProps,
+      {
+        createdAt?: Date
+        updatedAt?: Date
+      }
+    >,
     id?: string,
   ): Banner {
     return new Banner(

@@ -16,19 +16,13 @@ describe('Fetch professors by name use case', () => {
   it('should be able to fetch professors by name', async () => {
     const tici1 = Professor.create({
       name: 'Ticianne Darin',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     const tici2 = Professor.create({
       name: 'Ticiana Linhares',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
     const george = Professor.create({
       name: 'George Allan',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     await professorsRepository.create(tici1)

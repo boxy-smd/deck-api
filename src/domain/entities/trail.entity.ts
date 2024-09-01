@@ -1,4 +1,5 @@
 import { Entity } from '../core/interfaces/entity.ts'
+import type { Replace } from '../core/logic/replace.ts'
 import type { Project } from './project.entity.ts'
 import type { User } from './user.entity.ts'
 
@@ -48,7 +49,17 @@ export class Trail extends Entity<TrailProps> {
   }
 
   static create(
-    { createdAt = new Date(), updatedAt = new Date(), ...props }: TrailProps,
+    {
+      createdAt = new Date(),
+      updatedAt = new Date(),
+      ...props
+    }: Replace<
+      TrailProps,
+      {
+        createdAt?: Date
+        updatedAt?: Date
+      }
+    >,
     id?: string,
   ): Trail {
     return new Trail(

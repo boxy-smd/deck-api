@@ -43,8 +43,6 @@ describe('find project by id use case', () => {
       email: 'johndoe@alu.ufc.br',
       passwordHash: 'password-hash',
       semester: 3,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     if (authorOrError.isLeft()) {
@@ -55,20 +53,14 @@ describe('find project by id use case', () => {
 
     subject = Subject.create({
       name: 'Subject Name',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     trail = Trail.create({
       name: 'Trail',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     professor = Professor.create({
       name: 'Professor',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     subjectsRepository.create(subject)
@@ -90,8 +82,6 @@ describe('find project by id use case', () => {
       bannerUrl: 'http://banner-url.com',
       semester: 3,
       status: 'DRAFT',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     projectsRepository.create(project)

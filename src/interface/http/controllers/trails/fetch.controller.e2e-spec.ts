@@ -18,14 +18,10 @@ describe('fetch trails controller (e2e)', () => {
     const trailRepository = new PrismaTrailsRepository()
     const trail1 = Trail.create({
       name: 'Sistemas',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     const trail2 = Trail.create({
       name: 'Design',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     await trailRepository.create(trail1)

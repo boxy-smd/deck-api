@@ -1,4 +1,5 @@
 import { Entity } from '../core/interfaces/entity.ts'
+import type { Replace } from '../core/logic/replace.ts'
 
 export interface ProfileImageProps {
   url: string
@@ -32,7 +33,13 @@ export class ProfileImage extends Entity<ProfileImageProps> {
       createdAt = new Date(),
       updatedAt = new Date(),
       ...props
-    }: ProfileImageProps,
+    }: Replace<
+      ProfileImageProps,
+      {
+        createdAt?: Date
+        updatedAt?: Date
+      }
+    >,
     id?: string,
   ): ProfileImage {
     return new ProfileImage(

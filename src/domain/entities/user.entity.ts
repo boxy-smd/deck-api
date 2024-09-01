@@ -109,6 +109,8 @@ export class User extends Entity<UserProps> {
       UserProps,
       {
         email: string
+        createdAt?: Date
+        updatedAt?: Date
       }
     >,
     id?: string,

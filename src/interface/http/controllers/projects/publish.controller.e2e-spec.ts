@@ -29,20 +29,14 @@ describe('publish project (e2e)', () => {
 
     const trail = Trail.create({
       name: 'Design',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     const professor = Professor.create({
       name: 'Ticianne de Gois Ribeiro Darin',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     const subject = Subject.create({
       name: 'Interação Humano-Computador I',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     const authorOrError = User.create({
@@ -51,8 +45,6 @@ describe('publish project (e2e)', () => {
       email: 'johndoe@alu.ufc.br',
       passwordHash: await User.hashPassword('123456', new BcryptEncrypter()),
       semester: 3,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     if (authorOrError.isLeft()) {

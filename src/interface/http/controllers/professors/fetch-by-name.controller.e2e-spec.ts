@@ -18,20 +18,14 @@ describe('fetch professors by name controller (e2e)', () => {
     const professorRepository = new PrismaProfessorsRepository()
     const prof1 = Professor.create({
       name: 'Henrique Sergio Lima Pequeno',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     const prof2 = Professor.create({
       name: 'Inga Freire Saboia',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     const prof3 = Professor.create({
       name: 'Henrique Barbosa Silva',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     await professorRepository.create(prof1)

@@ -24,8 +24,6 @@ describe('login use case', () => {
       passwordHash,
       semester: 3,
       username: 'johndoe',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     if (userOrError.isLeft()) {

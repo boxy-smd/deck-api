@@ -1,4 +1,5 @@
 import { Entity } from '../core/interfaces/entity.ts'
+import type { Replace } from '../core/logic/replace.ts'
 import type { Comment } from './comment.entity.ts'
 import type { Professor } from './professor.entity.ts'
 import type { Trail } from './trail.entity.ts'
@@ -141,7 +142,17 @@ export class Project extends Entity<ProjectProps> {
   }
 
   static create(
-    { createdAt = new Date(), updatedAt = new Date(), ...props }: ProjectProps,
+    {
+      createdAt = new Date(),
+      updatedAt = new Date(),
+      ...props
+    }: Replace<
+      ProjectProps,
+      {
+        createdAt?: Date
+        updatedAt?: Date
+      }
+    >,
     id?: string,
   ): Project {
     return new Project(

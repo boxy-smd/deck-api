@@ -122,8 +122,6 @@ export class PublishProjectUseCase {
       subjectId,
       trails,
       professors,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     await this.projectsRepository.create(project)

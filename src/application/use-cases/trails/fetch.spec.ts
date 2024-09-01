@@ -16,8 +16,6 @@ describe('fetch trails use case', () => {
   it('should be able to fetch trails', async () => {
     const trail = Trail.create({
       name: 'Sistemas Multimídia',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     await trailsRepository.create(trail)

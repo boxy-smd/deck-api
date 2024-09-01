@@ -16,18 +16,12 @@ describe('Fetch subjects by name use case', () => {
   it('should be able to fetch subjects by name', async () => {
     const ihc1 = Subject.create({
       name: 'Interação Humano-Computador I',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
     const ihc2 = Subject.create({
       name: 'Interação Humano-Computador II',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
     const cv = Subject.create({
       name: 'Comunicação Visual I',
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     await subjectsRepository.create(ihc1)
