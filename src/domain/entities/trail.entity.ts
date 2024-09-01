@@ -47,7 +47,17 @@ export class Trail extends Entity<TrailProps> {
     this.props.projects = value
   }
 
-  static create(props: TrailProps, id?: string): Trail {
-    return new Trail(props, id)
+  static create(
+    { createdAt = new Date(), updatedAt = new Date(), ...props }: TrailProps,
+    id?: string,
+  ): Trail {
+    return new Trail(
+      {
+        ...props,
+        createdAt,
+        updatedAt,
+      },
+      id,
+    )
   }
 }

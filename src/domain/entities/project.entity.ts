@@ -140,7 +140,17 @@ export class Project extends Entity<ProjectProps> {
     this.props.comments = comments
   }
 
-  static create(props: ProjectProps, id?: string): Project {
-    return new Project(props, id)
+  static create(
+    { createdAt = new Date(), updatedAt = new Date(), ...props }: ProjectProps,
+    id?: string,
+  ): Project {
+    return new Project(
+      {
+        ...props,
+        createdAt,
+        updatedAt,
+      },
+      id,
+    )
   }
 }

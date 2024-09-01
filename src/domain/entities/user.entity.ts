@@ -101,7 +101,11 @@ export class User extends Entity<UserProps> {
   }
 
   static create(
-    props: Replace<
+    {
+      createdAt = new Date(),
+      updatedAt = new Date(),
+      ...props
+    }: Replace<
       UserProps,
       {
         email: string
@@ -121,6 +125,8 @@ export class User extends Entity<UserProps> {
       {
         ...props,
         email: validatedEmail,
+        createdAt,
+        updatedAt,
       },
       id,
     )

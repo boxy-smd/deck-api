@@ -37,7 +37,17 @@ export class Subject extends Entity<SubjectProps> {
     this.props.projects = value
   }
 
-  static create(props: SubjectProps, id?: string): Subject {
-    return new Subject(props, id)
+  static create(
+    { createdAt = new Date(), updatedAt = new Date(), ...props }: SubjectProps,
+    id?: string,
+  ): Subject {
+    return new Subject(
+      {
+        ...props,
+        createdAt,
+        updatedAt,
+      },
+      id,
+    )
   }
 }

@@ -1,20 +1,18 @@
 import { Entity } from '../core/interfaces/entity.ts'
-import type { Project } from './project.entity.ts'
 
-export interface ProfessorProps {
-  name: string
+export interface ProfileImageProps {
+  url: string
   createdAt: Date
   updatedAt: Date
-  projects?: Project[]
 }
 
-export class Professor extends Entity<ProfessorProps> {
-  get name(): string {
-    return this.props.name
+export class ProfileImage extends Entity<ProfileImageProps> {
+  get url(): string {
+    return this.props.url
   }
 
-  set name(name: string) {
-    this.props.name = name
+  set url(url: string) {
+    this.props.url = url
   }
 
   get createdAt(): Date {
@@ -29,23 +27,15 @@ export class Professor extends Entity<ProfessorProps> {
     this.props.updatedAt = updatedAt
   }
 
-  get projects(): Project[] {
-    return this.props.projects || []
-  }
-
-  set projects(projects: Project[]) {
-    this.props.projects = projects
-  }
-
   static create(
     {
       createdAt = new Date(),
       updatedAt = new Date(),
       ...props
-    }: ProfessorProps,
+    }: ProfileImageProps,
     id?: string,
-  ): Professor {
-    return new Professor(
+  ): ProfileImage {
+    return new ProfileImage(
       {
         ...props,
         createdAt,

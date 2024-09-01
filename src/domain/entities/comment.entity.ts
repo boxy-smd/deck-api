@@ -45,7 +45,17 @@ export class Comment extends Entity<CommentProps> {
     this.props.projectId = value
   }
 
-  static create(props: CommentProps, id?: string): Comment {
-    return new Comment(props, id)
+  static create(
+    { createdAt = new Date(), updatedAt = new Date(), ...props }: CommentProps,
+    id?: string,
+  ): Comment {
+    return new Comment(
+      {
+        ...props,
+        createdAt,
+        updatedAt,
+      },
+      id,
+    )
   }
 }
