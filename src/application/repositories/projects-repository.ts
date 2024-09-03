@@ -28,5 +28,7 @@ export type ProjectQuery = {
 
 export interface ProjectsRepository
   extends Repository<Project, UpdateProjectRequest> {
+  fetch(): Promise<Project[]>
+  fetchBySemester(semester: number): Promise<Project[]>
   fetchByQuery(query: ProjectQuery): Promise<Project[]>
 }

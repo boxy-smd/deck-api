@@ -74,7 +74,9 @@ export class PublishProjectUseCase {
         subjectId
       )
     ) {
-      return left(new InvalidCredentialsError())
+      return left(
+        new InvalidCredentialsError("The project's data must be provided."),
+      )
     }
 
     const author = await this.usersRepository.findById(authorId)

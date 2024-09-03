@@ -17,6 +17,10 @@ export class InMemoryProfessorsRepository implements ProfessorsRepository {
     return await Promise.resolve(professor ?? null)
   }
 
+  async fetch(): Promise<Professor[]> {
+    return await Promise.resolve(this.professors)
+  }
+
   async fetchByName(name: string): Promise<Professor[]> {
     const professors = this.professors.filter(professor => {
       if (!professor.name.includes(name)) return false

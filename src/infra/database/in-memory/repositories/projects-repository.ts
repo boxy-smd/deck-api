@@ -59,6 +59,42 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     return await Promise.resolve(project ?? null)
   }
 
+  fetch(): Promise<Project[]> {
+    const orderedProjectsByCreationDate = this.projects.sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+    )
+
+    return Promise.resolve(orderedProjectsByCreationDate)
+  }
+
+  fetchBySemester(semester: number): Promise<Project[]> {
+    const semesters = Array.from({ length: 12 }, (_, i) => (i + 1) % 12)
+    const previousSemesters = semesters.slice(semester - 1)
+    const nextSemesters = semesters.slice(0, semester - 1)
+
+    const orderedSemesters = [...nextSemesters, ...previousSemesters]
+
+    const projects = this.projects.sort((a, b) => {
+      return (
+        orderedSemesters.indexOf(a.semester) -
+        orderedSemesters.indexOf(b.semester)
+      )
+    })
+
+    const previousSemesterProjects = projects.filter(
+      project => project.semester < semester,
+    )
+
+    const nextSemesterProjects = projects.filter(
+      project => project.semester > semester,
+    )
+
+    return Promise.resolve([
+      ...nextSemesterProjects,
+      ...previousSemesterProjects,
+    ])
+  }
+
   async update(
     id: string,
     request: UpdateProjectRequest,

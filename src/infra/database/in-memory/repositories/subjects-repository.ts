@@ -22,6 +22,10 @@ export class InMemorySubjectsRepository implements SubjectsRepository {
     return await Promise.resolve(subject ?? null)
   }
 
+  async fetch(): Promise<Subject[]> {
+    return await Promise.resolve(this.subjects)
+  }
+
   async fetchByName(name: string): Promise<Subject[]> {
     const subjects = this.subjects.filter(subject => {
       if (!subject.name.includes(name)) return false

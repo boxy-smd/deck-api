@@ -5,6 +5,7 @@ import type { Trail } from '@/domain/entities/trail.entity.ts'
 import { User } from '@/domain/entities/user.entity.ts'
 import type { EmailBadFormattedError } from '@/domain/value-objects/errors/email-bad-formatted.error.ts'
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
+import { TrailNotFoundError } from '../trails/errors/trail-not-found.error.ts'
 import type { Encrypter } from './cryptography/encrypter.ts'
 import { UserAlreadyExistsError } from './errors/user-already-exists.error.ts'
 
@@ -20,7 +21,10 @@ interface RegisterUseCaseRequest {
 }
 
 type RegisterUseCaseResponse = Either<
-  InvalidCredentialsError | EmailBadFormattedError | UserAlreadyExistsError,
+  | InvalidCredentialsError
+  | EmailBadFormattedError
+  | UserAlreadyExistsError
+  | TrailNotFoundError,
   User
 >
 
@@ -62,7 +66,7 @@ export class RegisterUseCase {
       for (const trailId of trailsIds) {
         const trail = await this.trailsRepository.findById(trailId)
         if (!trail) {
-          return left(new InvalidCredentialsError())
+          return left(new TrailNotFoundError())
         }
         trails.push(trail)
       }

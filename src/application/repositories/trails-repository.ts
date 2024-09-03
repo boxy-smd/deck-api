@@ -5,6 +5,6 @@ export type UpdateTrailRequest = Partial<Pick<TrailProps, 'name'>>
 
 export interface TrailsRepository
   extends Repository<Trail, UpdateTrailRequest> {
-  findByName(name: string): Promise<Trail | null>
   fetch(): Promise<Trail[]>
+  findByName(name: string): Promise<Trail | null>
 }

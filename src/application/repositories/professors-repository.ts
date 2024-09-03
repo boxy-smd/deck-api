@@ -8,5 +8,6 @@ export type UpdateProfessorRequest = Partial<Pick<ProfessorProps, 'name'>>
 
 export interface ProfessorsRepository
   extends Repository<Professor, UpdateProfessorRequest> {
+  fetch(): Promise<Professor[]>
   fetchByName(name: string): Promise<Professor[]>
 }

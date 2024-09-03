@@ -1,6 +1,7 @@
 import fastifyCookie from '@fastify/cookie'
 import fastifyCors from '@fastify/cors'
 import fastifyJWT from '@fastify/jwt'
+import fastifyMultipart from '@fastify/multipart'
 import fastifySwagger from '@fastify/swagger'
 import fastifyScalar from '@scalar/fastify-api-reference'
 import { fastify } from 'fastify'
@@ -10,7 +11,7 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 
-import { envToLogger } from '@/infra/config/entToLogger.ts'
+import { envToLogger } from '@/infra/config/env-to-logger.ts'
 import { env } from '@/infra/config/env.ts'
 import { errorHandler } from '@/interface/error-handler.ts'
 import { usersRoutes } from '@/interface/http/routes/users.routes.ts'
@@ -40,6 +41,16 @@ async function buildServer() {
   })
 
   app.register(fastifyCookie)
+  app.register(fastifyMultipart, {
+    limits: {
+      fieldNameSize: 100, // 100 bytes
+      fieldSize: 3000000, // 3MB
+      fields: 10,
+      fileSize: 3000000, // 3MB
+      files: 1,
+      headerPairs: 2000, // 2000 bytes
+    },
+  })
 
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)

@@ -22,7 +22,9 @@ export class LoginUseCase {
     password,
   }: LoginUseCaseRequest): Promise<LoginUseCaseResponse> {
     if (!(email && password)) {
-      return left(new InvalidCredentialsError())
+      return left(
+        new InvalidCredentialsError('Email and password must be provided.'),
+      )
     }
 
     const user = await this.usersRepository.findByEmail(email)
