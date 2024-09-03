@@ -1,15 +1,13 @@
-import { beforeEach, describe, expect, it } from 'vitest'
-
 import { Professor } from '@/domain/entities/professor.entity.ts'
 import { Project } from '@/domain/entities/project.entity.ts'
+import { Student } from '@/domain/entities/student.entity.ts'
 import { Subject } from '@/domain/entities/subject.entity.ts'
 import { Trail } from '@/domain/entities/trail.entity.ts'
-import { User } from '@/domain/entities/user.entity.ts'
-import { InMemoryProfessorsRepository } from '@/infra/database/in-memory/repositories/professors-repository.ts'
-import { InMemoryProjectsRepository } from '@/infra/database/in-memory/repositories/projects-repository.ts'
-import { InMemorySubjectsRepository } from '@/infra/database/in-memory/repositories/subjects-repository.ts'
-import { InMemoryTrailsRepository } from '@/infra/database/in-memory/repositories/trails-repository.ts'
-import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/users-repository.ts'
+import { InMemoryProfessorsRepository } from '../../../../test/repositories/professors-repository.ts'
+import { InMemoryProjectsRepository } from '../../../../test/repositories/projects-repository.ts'
+import { InMemoryUsersRepository } from '../../../../test/repositories/students-repository.ts'
+import { InMemorySubjectsRepository } from '../../../../test/repositories/subjects-repository.ts'
+import { InMemoryTrailsRepository } from '../../../../test/repositories/trails-repository.ts'
 import { ProjectNotFoundError } from './errors/project-not-found.ts'
 import { FindProjectByIdUseCase } from './find-by-id.ts'
 
@@ -19,7 +17,7 @@ let subjectsRepository: InMemorySubjectsRepository
 let trailsRepository: InMemoryTrailsRepository
 let usersRepository: InMemoryUsersRepository
 let sut: FindProjectByIdUseCase
-let author: User
+let author: Student
 let subject: Subject
 let trail: Trail
 let professor: Professor
@@ -37,7 +35,7 @@ describe('find project by id use case', () => {
 
     sut = new FindProjectByIdUseCase(projectsRepository)
 
-    const authorOrError = User.create({
+    const authorOrError = Student.create({
       name: 'John Doe',
       username: 'johndoe',
       email: 'johndoe@alu.ufc.br',

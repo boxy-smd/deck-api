@@ -1,11 +1,11 @@
-import { Entity } from '../core/interfaces/entity.ts'
-import type { Replace } from '../core/logic/replace.ts'
+import { Entity } from '../../core/entities/entity.ts'
+import type { Optional } from '../../core/types/optional.ts'
 import type { Project } from './project.entity.ts'
 
 export interface SubjectProps {
   name: string
   createdAt: Date
-  updatedAt: Date
+  updatedAt?: Date
   projects?: Project[]
 }
 
@@ -22,7 +22,7 @@ export class Subject extends Entity<SubjectProps> {
     return this.props.createdAt
   }
 
-  get updatedAt(): Date {
+  get updatedAt(): Date | undefined {
     return this.props.updatedAt
   }
 
@@ -39,24 +39,13 @@ export class Subject extends Entity<SubjectProps> {
   }
 
   static create(
-    {
-      createdAt = new Date(),
-      updatedAt = new Date(),
-      ...props
-    }: Replace<
-      SubjectProps,
-      {
-        createdAt?: Date
-        updatedAt?: Date
-      }
-    >,
+    props: Optional<SubjectProps, 'createdAt'>,
     id?: string,
   ): Subject {
     return new Subject(
       {
         ...props,
-        createdAt,
-        updatedAt,
+        createdAt: new Date(),
       },
       id,
     )

@@ -1,7 +1,7 @@
-import type { ProfileImagesRepository } from '@/application/repositories/profile-images-repository.ts'
-import { type Either, left, right } from '@/domain/core/logic/either.ts'
+import { type Either, left, right } from '@/core/either.ts'
 import { ProfileImage } from '@/domain/entities/profile-image.entity.ts'
-import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
+import type { ProfileImagesRepository } from '@/domain/repositories/profile-images-repository.ts'
+import { InvalidCredentialsError } from '../../../core/errors/invalid-credentials.error.ts'
 
 interface UploadProfileImageUseCaseRequest {
   url: string

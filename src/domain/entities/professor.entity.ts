@@ -1,11 +1,11 @@
-import { Entity } from '../core/interfaces/entity.ts'
-import type { Replace } from '../core/logic/replace.ts'
+import { Entity } from '../../core/entities/entity.ts'
+import type { Optional } from '../../core/types/optional.ts'
 import type { Project } from './project.entity.ts'
 
 export interface ProfessorProps {
   name: string
   createdAt: Date
-  updatedAt: Date
+  updatedAt?: Date
   projects?: Project[]
 }
 
@@ -14,49 +14,35 @@ export class Professor extends Entity<ProfessorProps> {
     return this.props.name
   }
 
-  set name(name: string) {
-    this.props.name = name
-  }
-
   get createdAt(): Date {
     return this.props.createdAt
   }
 
-  get updatedAt(): Date {
+  get updatedAt(): Date | undefined {
     return this.props.updatedAt
-  }
-
-  set updatedAt(updatedAt: Date) {
-    this.props.updatedAt = updatedAt
   }
 
   get projects(): Project[] {
     return this.props.projects || []
   }
 
+  private touch() {
+    this.props.updatedAt = new Date()
+  }
+
   set projects(projects: Project[]) {
     this.props.projects = projects
+    this.touch()
   }
 
   static create(
-    {
-      createdAt = new Date(),
-      updatedAt = new Date(),
-      ...props
-    }: Replace<
-      ProfessorProps,
-      {
-        createdAt?: Date
-        updatedAt?: Date
-      }
-    >,
+    props: Optional<ProfessorProps, 'createdAt'>,
     id?: string,
   ): Professor {
     return new Professor(
       {
         ...props,
-        createdAt,
-        updatedAt,
+        createdAt: new Date(),
       },
       id,
     )

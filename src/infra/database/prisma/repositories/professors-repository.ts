@@ -1,8 +1,8 @@
+import type { Professor } from '@/domain/entities/professor.entity.ts'
 import type {
   ProfessorsRepository,
   UpdateProfessorRequest,
-} from '@/application/repositories/professors-repository.ts'
-import type { Professor } from '@/domain/entities/professor.entity.ts'
+} from '@/domain/repositories/professors-repository.ts'
 import { prisma } from '../client.ts'
 import { ProfessorMapper } from '../mappers/professor-mapper.ts'
 

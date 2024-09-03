@@ -1,18 +1,18 @@
-import type { ProfessorsRepository } from '@/application/repositories/professors-repository.ts'
-import type { ProjectsRepository } from '@/application/repositories/projects-repository.ts'
-import type { SubjectsRepository } from '@/application/repositories/subjects-repository.ts'
-import type { TrailsRepository } from '@/application/repositories/trails-repository.ts'
-import type { UsersRepository } from '@/application/repositories/users-repository.ts'
-import { type Either, left, right } from '@/domain/core/logic/either.ts'
+import { type Either, left, right } from '@/core/either.ts'
 import {
   Project,
   type ProjectStatusEnum,
 } from '@/domain/entities/project.entity.ts'
-import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
+import type { ProfessorsRepository } from '@/domain/repositories/professors-repository.ts'
+import type { ProjectsRepository } from '@/domain/repositories/projects-repository.ts'
+import type { SubjectsRepository } from '@/domain/repositories/subjects-repository.ts'
+import type { TrailsRepository } from '@/domain/repositories/trails-repository.ts'
+import type { UsersRepository } from '@/domain/repositories/users-repository.ts'
+import { InvalidCredentialsError } from '../../../core/errors/invalid-credentials.error.ts'
+import { UserNotFoundError } from '../../../domain/students/application/use-cases/errors/user-not-found.error.ts'
 import { ProfessorNotFoundError } from '../professors/errors/professor-not-found.error.ts'
 import { SubjectNotFoundError } from '../subjects/errors/subject-not-found.error.ts'
 import { TrailNotFoundError } from '../trails/errors/trail-not-found.error.ts'
-import { UserNotFoundError } from '../users/errors/user-not-found.error.ts'
 
 interface PublishProjectUseCaseRequest {
   title: string

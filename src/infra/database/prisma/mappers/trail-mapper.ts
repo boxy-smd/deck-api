@@ -1,9 +1,9 @@
 import type { Prisma, Trail as RawTrail } from '@prisma/client'
 
-import type { UpdateTrailRequest } from '@/application/repositories/trails-repository.ts'
 import type { Project } from '@/domain/entities/project.entity.ts'
 import { Trail } from '@/domain/entities/trail.entity.ts'
 import type { User } from '@/domain/entities/user.entity.ts'
+import type { UpdateTrailRequest } from '@/domain/repositories/trails-repository.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class TrailMapper {

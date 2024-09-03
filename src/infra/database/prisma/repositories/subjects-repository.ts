@@ -1,8 +1,8 @@
+import type { Subject } from '@/domain/entities/subject.entity.ts'
 import type {
   SubjectsRepository,
   UpdateSubjectRequest,
-} from '@/application/repositories/subjects-repository.ts'
-import type { Subject } from '@/domain/entities/subject.entity.ts'
+} from '@/domain/repositories/subjects-repository.ts'
 import { prisma } from '../client.ts'
 import { SubjectMapper } from '../mappers/subject-mapper.ts'
 

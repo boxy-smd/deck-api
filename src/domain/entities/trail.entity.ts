@@ -1,13 +1,13 @@
-import { Entity } from '../core/interfaces/entity.ts'
-import type { Replace } from '../core/logic/replace.ts'
+import { Entity } from '../../core/entities/entity.ts'
+import type { Optional } from '../../core/types/optional.ts'
 import type { Project } from './project.entity.ts'
-import type { User } from './user.entity.ts'
+import type { Student } from './student.entity.ts'
 
 export interface TrailProps {
   name: string
   createdAt: Date
-  updatedAt: Date
-  users?: User[]
+  updatedAt?: Date
+  students?: Student[]
   projects?: Project[]
 }
 
@@ -24,7 +24,7 @@ export class Trail extends Entity<TrailProps> {
     return this.props.createdAt
   }
 
-  get updatedAt(): Date {
+  get updatedAt(): Date | undefined {
     return this.props.updatedAt
   }
 
@@ -32,12 +32,12 @@ export class Trail extends Entity<TrailProps> {
     this.props.updatedAt = value
   }
 
-  get users(): User[] {
-    return this.props.users || []
+  get students(): Student[] {
+    return this.props.students || []
   }
 
-  set users(value: User[]) {
-    this.props.users = value
+  set students(value: Student[]) {
+    this.props.students = value
   }
 
   get projects(): Project[] {
@@ -48,25 +48,11 @@ export class Trail extends Entity<TrailProps> {
     this.props.projects = value
   }
 
-  static create(
-    {
-      createdAt = new Date(),
-      updatedAt = new Date(),
-      ...props
-    }: Replace<
-      TrailProps,
-      {
-        createdAt?: Date
-        updatedAt?: Date
-      }
-    >,
-    id?: string,
-  ): Trail {
+  static create(props: Optional<TrailProps, 'createdAt'>, id?: string): Trail {
     return new Trail(
       {
         ...props,
-        createdAt,
-        updatedAt,
+        createdAt: new Date(),
       },
       id,
     )

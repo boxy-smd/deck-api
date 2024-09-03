@@ -1,5 +1,6 @@
-import { Entity } from '../core/interfaces/entity.ts'
-import type { Replace } from '../core/logic/replace.ts'
+import { Entity } from '../../core/entities/entity.ts'
+import type { UniqueEntityID } from '../../core/entities/unique-entity-id.ts'
+import type { Optional } from '../../core/types/optional.ts'
 import type { Comment } from './comment.entity.ts'
 import type { Professor } from './professor.entity.ts'
 import type { Trail } from './trail.entity.ts'
@@ -16,150 +17,152 @@ export interface ProjectProps {
   semester: number
   allowComments: boolean
   createdAt: Date
-  updatedAt: Date
+  updatedAt?: Date
   authorId: string
-  subjectId?: string
+  subjectId?: UniqueEntityID
   trails: Trail[]
   professors?: Professor[]
   comments?: Comment[]
 }
 
 export class Project extends Entity<ProjectProps> {
-  get title(): string {
+  get title() {
     return this.props.title
   }
 
-  set title(title: string) {
-    this.props.title = title
-  }
-
-  get description(): string {
+  get description() {
     return this.props.description
   }
 
-  set description(description: string) {
-    this.props.description = description
-  }
-
-  get bannerUrl(): string {
+  get bannerUrl() {
     return this.props.bannerUrl
   }
 
-  set bannerUrl(bannerUrl: string) {
-    this.props.bannerUrl = bannerUrl
+  get content() {
+    return this.props.content || ''
   }
 
-  get content(): string | undefined {
-    return this.props.content
-  }
-
-  set content(content: string) {
-    this.props.content = content
-  }
-
-  get publishedYear(): number {
+  get publishedYear() {
     return this.props.publishedYear
   }
 
-  set publishedYear(publishedYear: number) {
-    this.props.publishedYear = publishedYear
-  }
-
-  get status(): ProjectStatusEnum {
+  get status() {
     return this.props.status
   }
 
-  set status(status: ProjectStatusEnum) {
-    this.props.status = status
-  }
-
-  get semester(): number {
+  get semester() {
     return this.props.semester
   }
 
-  set semester(semester: number) {
-    this.props.semester = semester
-  }
-
-  get allowComments(): boolean {
+  get allowComments() {
     return this.props.allowComments
   }
 
-  set allowComments(allowComments: boolean) {
-    this.props.allowComments = allowComments
-  }
-
-  get createdAt(): Date {
+  get createdAt() {
     return this.props.createdAt
-  }
-
-  get updatedAt(): Date {
-    return this.props.updatedAt
   }
 
   set updatedAt(updatedAt: Date) {
     this.props.updatedAt = updatedAt
   }
 
-  get authorId(): string {
+  get authorId() {
     return this.props.authorId
   }
 
-  set authorId(authorId: string) {
-    this.props.authorId = authorId
-  }
-
-  get subjectId(): string | undefined {
+  get subjectId() {
     return this.props.subjectId
-  }
-
-  set subjectId(subjectId: string) {
-    this.props.subjectId = subjectId
   }
 
   get trails(): Trail[] {
     return this.props.trails
   }
 
-  set trails(trails: Trail[]) {
-    this.props.trails = trails
-  }
-
-  get professors(): Professor[] | undefined {
+  get professors() {
     return this.props.professors
   }
 
-  set professors(professors: Professor[]) {
-    this.props.professors = professors
-  }
-
-  get comments(): Comment[] | undefined {
+  get comments() {
     return this.props.comments
   }
 
-  set comments(comments: Comment[]) {
+  private touch() {
+    this.props.updatedAt = new Date()
+  }
+
+  set title(title: string) {
+    this.props.title = title
+    this.touch()
+  }
+
+  set description(description: string) {
+    this.props.description = description
+    this.touch()
+  }
+
+  set bannerUrl(bannerUrl: string) {
+    this.props.bannerUrl = bannerUrl
+    this.touch()
+  }
+
+  set content(content: string) {
+    this.props.content = content
+    this.touch()
+  }
+
+  set publishedYear(publishedYear: number) {
+    this.props.publishedYear = publishedYear
+    this.touch()
+  }
+
+  set status(status: ProjectStatusEnum) {
+    this.props.status = status
+    this.touch()
+  }
+
+  set semester(semester: number) {
+    this.props.semester = semester
+    this.touch()
+  }
+
+  set allowComments(allowComments: boolean) {
+    this.props.allowComments = allowComments
+    this.touch()
+  }
+
+  set authorId(authorId: string) {
+    this.props.authorId = authorId
+    this.touch()
+  }
+
+  set subjectId(subjectId: UniqueEntityID | undefined) {
+    this.props.subjectId = subjectId
+    this.touch()
+  }
+
+  set trails(trails: Trail[]) {
+    this.props.trails = trails
+    this.touch()
+  }
+
+  set professors(professors: Professor[] | undefined) {
+    this.props.professors = professors
+    this.touch()
+  }
+
+  set comments(comments: Comment[] | undefined) {
     this.props.comments = comments
+    this.touch()
   }
 
   static create(
-    {
-      createdAt = new Date(),
-      updatedAt = new Date(),
-      ...props
-    }: Replace<
-      ProjectProps,
-      {
-        createdAt?: Date
-        updatedAt?: Date
-      }
-    >,
+    props: Optional<ProjectProps, 'createdAt'>,
     id?: string,
   ): Project {
     return new Project(
       {
         ...props,
-        createdAt,
-        updatedAt,
+        createdAt: new Date(),
       },
       id,
     )

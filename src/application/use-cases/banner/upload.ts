@@ -1,7 +1,7 @@
-import type { BannersRepository } from '@/application/repositories/banners-repository.ts'
-import { type Either, left, right } from '@/domain/core/logic/either.ts'
+import { type Either, left, right } from '@/core/either.ts'
 import { Banner } from '@/domain/entities/banner.entity.ts'
-import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
+import type { BannersRepository } from '@/domain/repositories/banners-repository.ts'
+import { InvalidCredentialsError } from '../../../core/errors/invalid-credentials.error.ts'
 
 interface UploadBannerUseCaseRequest {
   url: string

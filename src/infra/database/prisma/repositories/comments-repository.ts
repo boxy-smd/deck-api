@@ -1,8 +1,8 @@
+import type { Comment } from '@/domain/entities/comment.entity.ts'
 import type {
   CommentsRepository,
   UpdateCommentRequest,
-} from '@/application/repositories/comments-repository.ts'
-import type { Comment } from '@/domain/entities/comment.entity.ts'
+} from '@/domain/repositories/comments-repository.ts'
 import { prisma } from '../client.ts'
 import { CommentMapper } from '../mappers/comment-mapper.ts'
 

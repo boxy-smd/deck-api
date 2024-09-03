@@ -1,7 +1,7 @@
 import type { Prisma, Banner as RawBanner } from '@prisma/client'
 
-import type { UpdateBannerRequest } from '@/application/repositories/banners-repository.ts'
 import { Banner } from '@/domain/entities/banner.entity.ts'
+import type { UpdateBannerRequest } from '@/domain/repositories/banners-repository.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class BannerMapper {

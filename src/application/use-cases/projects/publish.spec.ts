@@ -1,20 +1,17 @@
-import { beforeEach, describe, expect, it } from 'vitest'
-
 import { Professor } from '@/domain/entities/professor.entity.ts'
 import { Project } from '@/domain/entities/project.entity.ts'
 import { Subject } from '@/domain/entities/subject.entity.ts'
 import { Trail } from '@/domain/entities/trail.entity.ts'
-import { User } from '@/domain/entities/user.entity.ts'
-import { InMemoryProfessorsRepository } from '@/infra/database/in-memory/repositories/professors-repository.ts'
-import { InMemoryProjectsRepository } from '@/infra/database/in-memory/repositories/projects-repository.ts'
-import { InMemorySubjectsRepository } from '@/infra/database/in-memory/repositories/subjects-repository.ts'
-import { InMemoryTrailsRepository } from '@/infra/database/in-memory/repositories/trails-repository.ts'
-import { InMemoryUsersRepository } from '@/infra/database/in-memory/repositories/users-repository.ts'
-import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
+import { InMemoryProfessorsRepository } from '../../../../test/repositories/professors-repository.ts'
+import { InMemoryProjectsRepository } from '../../../../test/repositories/projects-repository.ts'
+import { InMemoryUsersRepository } from '../../../../test/repositories/students-repository.ts'
+import { InMemorySubjectsRepository } from '../../../../test/repositories/subjects-repository.ts'
+import { InMemoryTrailsRepository } from '../../../../test/repositories/trails-repository.ts'
+import { InvalidCredentialsError } from '../../../core/errors/invalid-credentials.error.ts'
+import { UserNotFoundError } from '../../../domain/students/application/use-cases/errors/user-not-found.error.ts'
 import { ProfessorNotFoundError } from '../professors/errors/professor-not-found.error.ts'
 import { SubjectNotFoundError } from '../subjects/errors/subject-not-found.error.ts'
 import { TrailNotFoundError } from '../trails/errors/trail-not-found.error.ts'
-import { UserNotFoundError } from '../users/errors/user-not-found.error.ts'
 import { PublishProjectUseCase } from './publish.ts'
 
 let projectsRepository: InMemoryProjectsRepository
@@ -49,7 +46,7 @@ describe('publish project use case', () => {
       usersRepository,
     )
 
-    const authorOrError = User.create({
+    const authorOrError = Student.create({
       name: 'John Doe',
       username: 'johndoe',
       email: 'johndoe@alu.ufc.br',

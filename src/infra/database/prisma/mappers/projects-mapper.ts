@@ -1,10 +1,10 @@
 import type { Prisma, Project as RawProject } from '@prisma/client'
 
-import type { UpdateProjectRequest } from '@/application/repositories/projects-repository.ts'
 import type { Comment } from '@/domain/entities/comment.entity.ts'
 import type { Professor } from '@/domain/entities/professor.entity.ts'
 import { Project } from '@/domain/entities/project.entity.ts'
 import type { Trail } from '@/domain/entities/trail.entity.ts'
+import type { UpdateProjectRequest } from '@/domain/repositories/projects-repository.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class ProjectMapper {

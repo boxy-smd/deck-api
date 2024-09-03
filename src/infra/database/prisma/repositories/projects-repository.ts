@@ -1,8 +1,8 @@
+import type { Project } from '@/domain/entities/project.entity.ts'
 import type {
   ProjectQuery,
   ProjectsRepository,
-} from '@/application/repositories/projects-repository.ts'
-import type { Project } from '@/domain/entities/project.entity.ts'
+} from '@/domain/repositories/projects-repository.ts'
 import { prisma } from '../client.ts'
 import { ProjectMapper } from '../mappers/projects-mapper.ts'
 import { TrailMapper } from '../mappers/trail-mapper.ts'

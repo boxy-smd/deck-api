@@ -1,7 +1,5 @@
-import { beforeEach, describe, expect, it } from 'vitest'
-
 import { Professor } from '@/domain/entities/professor.entity.ts'
-import { InMemoryProfessorsRepository } from '@/infra/database/in-memory/repositories/professors-repository.ts'
+import { InMemoryProfessorsRepository } from '../../../../test/repositories/professors-repository.ts'
 import { FetchProfessorsByNameUseCase } from './fetch-by-name.ts'
 
 let professorsRepository: InMemoryProfessorsRepository

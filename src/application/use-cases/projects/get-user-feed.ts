@@ -1,5 +1,5 @@
-import type { ProjectsRepository } from '@/application/repositories/projects-repository.ts'
 import type { Project } from '@/domain/entities/project.entity.ts'
+import type { ProjectsRepository } from '@/domain/repositories/projects-repository.ts'
 
 interface GetUserFeedUseCaseRequest {
   semester: number

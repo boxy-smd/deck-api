@@ -1,7 +1,7 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+
 
 import { Trail } from '@/domain/entities/trail.entity.ts'
-import { InMemoryTrailsRepository } from '@/infra/database/in-memory/repositories/trails-repository.ts'
+import { InMemoryTrailsRepository } from '../../../../test/repositories/trails-repository.ts'
 import { FetchTrailsUseCase } from './fetch.ts'
 
 let trailsRepository: InMemoryTrailsRepository

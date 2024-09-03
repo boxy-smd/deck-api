@@ -1,9 +1,9 @@
+import type { User } from '@/domain/entities/user.entity.ts'
 import type {
   UpdateUserRequest,
   UserQuery,
   UsersRepository,
-} from '@/application/repositories/users-repository.ts'
-import type { User } from '@/domain/entities/user.entity.ts'
+} from '@/domain/repositories/users-repository.ts'
 import { prisma } from '../client.ts'
 import { UserMapper } from '../mappers/user-mapper.ts'
 

@@ -1,8 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
-
 import { Banner } from '@/domain/entities/banner.entity.ts'
-import { InMemoryBannersRepository } from '@/infra/database/in-memory/repositories/banners-repository.ts'
-import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
+import { InMemoryBannersRepository } from '../../../../test/repositories/banners-repository.ts'
+import { InvalidCredentialsError } from '../../../core/errors/invalid-credentials.error.ts'
 import { UploadBannerUseCase } from './upload.ts'
 
 let bannersRepository: InMemoryBannersRepository

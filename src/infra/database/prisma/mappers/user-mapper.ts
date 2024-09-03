@@ -1,8 +1,7 @@
 import type { Prisma, User as RawUser } from '@prisma/client'
 
-import type { UpdateUserRequest } from '@/application/repositories/users-repository.ts'
 import type { Trail } from '@/domain/entities/trail.entity.ts'
-import { User } from '@/domain/entities/user.entity.ts'
+import type { UpdateUserRequest } from '@/domain/repositories/users-repository.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class UserMapper {

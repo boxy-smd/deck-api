@@ -1,70 +1,53 @@
-import { Entity } from '../core/interfaces/entity.ts'
-import type { Replace } from '../core/logic/replace.ts'
+import { Entity } from '../../core/entities/entity.ts'
+import type { UniqueEntityID } from '../../core/entities/unique-entity-id.ts'
+import type { Optional } from '../../core/types/optional.ts'
 
 export interface CommentProps {
   content: string
   createdAt: Date
-  updatedAt: Date
-  authorId: string
-  projectId: string
+  updatedAt?: Date
+  authorId: UniqueEntityID
+  projectId: UniqueEntityID
 }
 
 export class Comment extends Entity<CommentProps> {
-  get content(): string {
+  get content() {
     return this.props.content
+  }
+
+  get createdAt() {
+    return this.props.createdAt
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
+  }
+
+  get authorId() {
+    return this.props.authorId
+  }
+
+  get projectId() {
+    return this.props.projectId
+  }
+
+  private touch() {
+    this.props.updatedAt = new Date()
   }
 
   set content(value: string) {
     this.props.content = value
-  }
-
-  get createdAt(): Date {
-    return this.props.createdAt
-  }
-
-  get updatedAt(): Date {
-    return this.props.updatedAt
-  }
-
-  set updatedAt(value: Date) {
-    this.props.updatedAt = value
-  }
-
-  get authorId(): string {
-    return this.props.authorId
-  }
-
-  set authorId(value: string) {
-    this.props.authorId = value
-  }
-
-  get projectId(): string {
-    return this.props.projectId
-  }
-
-  set projectId(value: string) {
-    this.props.projectId = value
+    this.touch()
   }
 
   static create(
-    {
-      createdAt = new Date(),
-      updatedAt = new Date(),
-      ...props
-    }: Replace<
-      CommentProps,
-      {
-        createdAt?: Date
-        updatedAt?: Date
-      }
-    >,
+    props: Optional<CommentProps, 'createdAt'>,
     id?: string,
   ): Comment {
     return new Comment(
       {
         ...props,
-        createdAt,
-        updatedAt,
+        createdAt: new Date(),
       },
       id,
     )

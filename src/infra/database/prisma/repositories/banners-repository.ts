@@ -1,5 +1,5 @@
-import type { BannersRepository } from '@/application/repositories/banners-repository.ts'
 import type { Banner } from '@/domain/entities/banner.entity.ts'
+import type { BannersRepository } from '@/domain/repositories/banners-repository.ts'
 import { prisma } from '../client.ts'
 import { BannerMapper } from '../mappers/banners-mapper.ts'
 

@@ -1,4 +1,4 @@
-import type { Encrypter } from '@/application/use-cases/users/cryptography/encrypter.ts'
+import type { Encrypter } from '@/domain/students/application/use-cases/cryptography/encrypter.ts'
 import bcrypt from 'bcrypt'
 
 export class BcryptEncrypter implements Encrypter {

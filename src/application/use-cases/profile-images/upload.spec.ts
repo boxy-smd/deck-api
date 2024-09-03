@@ -1,8 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest'
-
 import { ProfileImage } from '@/domain/entities/profile-image.entity.ts'
-import { InMemoryProfileImagesRepository } from '@/infra/database/in-memory/repositories/profile-images-repository.ts'
-import { InvalidCredentialsError } from '../errors/invalid-credentials.error.ts'
+import { InMemoryProfileImagesRepository } from '../../../../test/repositories/profile-images-repository.ts'
+import { InvalidCredentialsError } from '../../../core/errors/invalid-credentials.error.ts'
 import { UploadProfileImageUseCase } from './upload.ts'
 
 let profileImagesRepository: InMemoryProfileImagesRepository
