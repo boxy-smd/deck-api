@@ -1,8 +1,8 @@
 import { Entity } from '@/core/entities/entity.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import type { Optional } from '@/core/types/optional.ts'
-import type { Project } from '@/domain/entities/project.entity.ts'
-import type { Trail } from '@/domain/entities/trail.entity.ts'
+import type { Project } from '@/domain/deck/enterprise/entities/project.entity.ts'
+import type { Trail } from '@/domain/deck/enterprise/entities/trail.entity.ts'
 import type { Encrypter } from '@/domain/students/application/use-cases/cryptography/encrypter.ts'
 import type { Email } from './value-objects/email.ts'
 

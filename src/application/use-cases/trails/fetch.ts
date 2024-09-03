@@ -1,5 +1,5 @@
+@/domain/deck/enterprise/entities/trail.entity.tsion/repositories/trails-repository.ts'
 import type { Trail } from '@/domain/entities/trail.entity.ts'
-import type { TrailsRepository } from '@/domain/repositories/trails-repository.ts'
 
 type FetchTrailsUseCaseResponse = Trail[]
 

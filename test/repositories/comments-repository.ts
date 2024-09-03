@@ -1,4 +1,4 @@
-import type { Comment } from '@/domain/entities/comment.entity.ts'
+import type { Comment } from '@/domain/deck/enterprise/entities/comment.entity.ts'
 import type {
   CommentsRepository,
   UpdateCommentRequest,

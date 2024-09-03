@@ -1,6 +1,6 @@
 import { type Either, left, right } from '@/core/either.ts'
-import type { Project } from '@/domain/entities/project.entity.ts'
-import type { ProjectsRepository } from '@/domain/repositories/projects-repository.ts'
+import type { ProjectsRepository } from '@/domain/deck/application/repositories/projects-repository.ts'
+import type { Project } from '@/domain/deck/enterprise/entities/project.entity.ts'
 import { ProjectNotFoundError } from './errors/project-not-found.ts'
 
 interface FindProjectByIdUseCaseRequest {

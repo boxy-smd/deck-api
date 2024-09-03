@@ -1,12 +1,12 @@
-import type { Professor } from '@/domain/entities/professor.entity.ts'
-import type { Project } from '@/domain/entities/project.entity.ts'
-import type { ProfessorsRepository } from '@/domain/repositories/professors-repository.ts'
+import type { ProfessorsRepository } from '@/domain/deck/application/repositories/professors-repository.ts'
 import type {
   ProjectQuery,
   ProjectsRepository,
   UpdateProjectRequest,
-} from '@/domain/repositories/projects-repository.ts'
-import type { TrailsRepository } from '@/domain/repositories/trails-repository.ts'
+} from '@/domain/deck/application/repositories/projects-repository.ts'
+import type { TrailsRepository } from '@/domain/deck/application/repositories/trails-repository.ts'
+import type { Professor } from '@/domain/deck/enterprise/entities/professor.entity.ts'
+import type { Project } from '@/domain/deck/enterprise/entities/project.entity.ts'
 
 export class InMemoryProjectsRepository implements ProjectsRepository {
   private projects: Project[] = []

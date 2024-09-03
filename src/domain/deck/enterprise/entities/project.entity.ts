@@ -1,6 +1,6 @@
-import { Entity } from '../../core/entities/entity.ts'
-import type { UniqueEntityID } from '../../core/entities/unique-entity-id.ts'
-import type { Optional } from '../../core/types/optional.ts'
+import { Entity } from '@/core/entities/entity.ts'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
+import type { Optional } from '@/core/types/optional.ts'
 import type { Comment } from './comment.entity.ts'
 import type { Professor } from './professor.entity.ts'
 import type { Trail } from './trail.entity.ts'
@@ -157,7 +157,7 @@ export class Project extends Entity<ProjectProps> {
 
   static create(
     props: Optional<ProjectProps, 'createdAt'>,
-    id?: string,
+    id?: UniqueEntityID,
   ): Project {
     return new Project(
       {

@@ -1,4 +1,4 @@
-import type { Subject } from '../entities/subject.entity.ts'
+import type { Subject } from '../../enterprise/entities/subject.entity.ts'
 
 export interface SubjectsRepository {
   findById(id: string): Promise<Subject | null>

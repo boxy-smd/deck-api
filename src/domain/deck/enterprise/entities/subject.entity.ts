@@ -1,17 +1,16 @@
-import { Entity } from '../../core/entities/entity.ts'
-import type { Optional } from '../../core/types/optional.ts'
+import { Entity } from '@/core/entities/entity.ts'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
+import type { Optional } from '@/core/types/optional.ts'
 import type { Project } from './project.entity.ts'
-import type { Student } from './student.entity.ts'
 
-export interface TrailProps {
+export interface SubjectProps {
   name: string
   createdAt: Date
   updatedAt?: Date
-  students?: Student[]
   projects?: Project[]
 }
 
-export class Trail extends Entity<TrailProps> {
+export class Subject extends Entity<SubjectProps> {
   get name(): string {
     return this.props.name
   }
@@ -32,14 +31,6 @@ export class Trail extends Entity<TrailProps> {
     this.props.updatedAt = value
   }
 
-  get students(): Student[] {
-    return this.props.students || []
-  }
-
-  set students(value: Student[]) {
-    this.props.students = value
-  }
-
   get projects(): Project[] {
     return this.props.projects || []
   }
@@ -48,8 +39,11 @@ export class Trail extends Entity<TrailProps> {
     this.props.projects = value
   }
 
-  static create(props: Optional<TrailProps, 'createdAt'>, id?: string): Trail {
-    return new Trail(
+  static create(
+    props: Optional<SubjectProps, 'createdAt'>,
+    id?: UniqueEntityID,
+  ): Subject {
+    return new Subject(
       {
         ...props,
         createdAt: new Date(),

@@ -1,12 +1,12 @@
 import { type Either, left, right } from '@/core/either.ts'
+import type { ProfessorsRepository } from '@/domain/deck/application/repositories/professors-repository.ts'
+import type { ProjectsRepository } from '@/domain/deck/application/repositories/projects-repository.ts'
+import type { SubjectsRepository } from '@/domain/deck/application/repositories/subjects-repository.ts'
+import type { TrailsRepository } from '@/domain/deck/application/repositories/trails-repository.ts'
 import {
   Project,
   type ProjectStatusEnum,
-} from '@/domain/entities/project.entity.ts'
-import type { ProfessorsRepository } from '@/domain/repositories/professors-repository.ts'
-import type { ProjectsRepository } from '@/domain/repositories/projects-repository.ts'
-import type { SubjectsRepository } from '@/domain/repositories/subjects-repository.ts'
-import type { TrailsRepository } from '@/domain/repositories/trails-repository.ts'
+} from '@/domain/deck/enterprise/entities/project.entity.ts'
 import type { UsersRepository } from '@/domain/repositories/users-repository.ts'
 import { InvalidCredentialsError } from '../../../core/errors/invalid-credentials.error.ts'
 import { UserNotFoundError } from '../../../domain/students/application/use-cases/errors/user-not-found.error.ts'

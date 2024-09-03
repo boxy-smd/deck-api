@@ -1,4 +1,4 @@
-import { Professor } from '@/domain/entities/professor.entity.ts'
+import { Professor } from '@/domain/deck/enterprise/entities/professor.entity.ts'
 import { InMemoryProfessorsRepository } from '../../../../test/repositories/professors-repository.ts'
 import { FetchProfessorsByNameUseCase } from './fetch-by-name.ts'
 

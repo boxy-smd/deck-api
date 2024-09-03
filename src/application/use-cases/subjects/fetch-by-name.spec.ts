@@ -1,6 +1,6 @@
 
 
-import { Subject } from '@/domain/entities/subject.entity.ts'
+import { Subject } from '@/domain/deck/enterprise/entities/subject.entity.ts'
 import { InMemorySubjectsRepository } from '../../../../test/repositories/subjects-repository.ts'
 import { FetchSubjectsByNameUseCase } from './fetch-by-name.ts'
 

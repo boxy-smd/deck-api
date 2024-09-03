@@ -2,7 +2,7 @@ import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { app } from '@/app.ts'
-import { Trail } from '@/domain/entities/trail.entity.ts'
+import { Trail } from '@/domain/deck/enterprise/entities/trail.entity.ts'
 import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository.ts'
 
 describe('fetch trails controller (e2e)', () => {

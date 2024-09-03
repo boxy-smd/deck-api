@@ -1,6 +1,6 @@
 
 
-import { Trail } from '@/domain/entities/trail.entity.ts'
+import { Trail } from '@/domain/deck/enterprise/entities/trail.entity.ts'
 import { InMemoryTrailsRepository } from '../../../../test/repositories/trails-repository.ts'
 import { FetchTrailsUseCase } from './fetch.ts'
 

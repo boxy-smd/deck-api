@@ -1,4 +1,4 @@
-import type { Comment, CommentProps } from '@/domain/entities/comment.entity.ts'
+import type { Comment, CommentProps } from '@/domain/deck/enterprise/entities/comment.entity.ts'
 
 export interface CommentsRepository {
   findById(id: string): Promise<Comment | null>

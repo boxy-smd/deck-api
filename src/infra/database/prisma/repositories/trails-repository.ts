@@ -1,8 +1,8 @@
-import type { Trail } from '@/domain/entities/trail.entity.ts'
 import type {
   TrailsRepository,
   UpdateTrailRequest,
-} from '@/domain/repositories/trails-repository.ts'
+} from '@/domain/deck/application/repositories/trails-repository.ts'
+import type { Trail } from '@/domain/deck/enterprise/entities/trail.entity.ts'
 import { prisma } from '../client.ts'
 import { TrailMapper } from '../mappers/trail-mapper.ts'
 

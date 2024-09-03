@@ -1,8 +1,8 @@
-import type { Subject } from '@/domain/entities/subject.entity.ts'
 import type {
   SubjectsRepository,
   UpdateSubjectRequest,
-} from '@/domain/repositories/subjects-repository.ts'
+} from '@/domain/deck/application/repositories/subjects-repository.ts'
+import type { Subject } from '@/domain/deck/enterprise/entities/subject.entity.ts'
 
 export class InMemorySubjectsRepository implements SubjectsRepository {
   private subjects: Subject[] = []

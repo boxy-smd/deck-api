@@ -1,5 +1,5 @@
-import type { Professor } from '@/domain/entities/professor.entity.ts'
-import type { ProfessorsRepository } from '@/domain/repositories/professors-repository.ts'
+import type { ProfessorsRepository } from '@/domain/deck/application/repositories/professors-repository.ts'
+import type { Professor } from '@/domain/deck/enterprise/entities/professor.entity.ts'
 
 interface FetchProfessorsByNameUseCaseRequest {
   name: string

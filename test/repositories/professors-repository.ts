@@ -1,8 +1,8 @@
-import type { Professor } from '@/domain/entities/professor.entity.ts'
 import type {
   ProfessorsRepository,
   UpdateProfessorRequest,
-} from '@/domain/repositories/professors-repository.ts'
+} from '@/domain/deck/application/repositories/professors-repository.ts'
+import type { Professor } from '@/domain/deck/enterprise/entities/professor.entity.ts'
 
 export class InMemoryProfessorsRepository implements ProfessorsRepository {
   private professors: Professor[] = []

@@ -1,7 +1,7 @@
 import type {
   Professor,
   ProfessorProps,
-} from '@/domain/entities/professor.entity.ts'
+} from '@/domain/deck/enterprise/entities/professor.entity.ts'
 
 export interface ProfessorsRepository {
   findById(id: string): Promise<Professor | null>
