@@ -18,11 +18,11 @@ export class InMemorySubjectsRepository implements SubjectsRepository {
     return Promise.resolve(this.items.find(item => item.name === name) || null)
   }
 
-  async fetchAll(): Promise<Subject[]> {
+  async findAll(): Promise<Subject[]> {
     return await Promise.resolve(this.items)
   }
 
-  async fetchByName(name: string): Promise<Subject[]> {
+  async findManyByName(name: string): Promise<Subject[]> {
     return await Promise.resolve(
       this.items.filter(item =>
         item.name.toLowerCase().includes(name.toLowerCase()),

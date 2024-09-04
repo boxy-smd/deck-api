@@ -2,26 +2,16 @@ import { Entity } from '@/core/entities/entity.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 
 export interface CommentProps {
-  authorId: UniqueEntityID
   content: string
   createdAt: Date
   updatedAt?: Date | null
+  authorId: UniqueEntityID
+  projectId: UniqueEntityID
 }
 
-export abstract class Comment<
-  Props extends CommentProps,
-> extends Entity<Props> {
-  get authorId() {
-    return this.props.authorId
-  }
-
+export class Comment extends Entity<CommentProps> {
   get content() {
     return this.props.content
-  }
-
-  set content(content: string) {
-    this.props.content = content
-    this.touch()
   }
 
   get createdAt() {
@@ -32,7 +22,33 @@ export abstract class Comment<
     return this.props.updatedAt
   }
 
+  get authorId() {
+    return this.props.authorId
+  }
+
+  get projectId() {
+    return this.props.projectId
+  }
+
   private touch() {
     this.props.updatedAt = new Date()
+  }
+
+  set content(content: string) {
+    this.props.content = content
+    this.touch()
+  }
+
+  static create(
+    props: Omit<CommentProps, 'createdAt'>,
+    id?: UniqueEntityID,
+  ): Comment {
+    return new Comment(
+      {
+        ...props,
+        createdAt: new Date(),
+      },
+      id,
+    )
   }
 }

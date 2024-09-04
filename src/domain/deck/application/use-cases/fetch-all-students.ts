@@ -7,6 +7,6 @@ export class FetchAllStudentsUseCase {
   constructor(private readonly studentsRepository: StudentsRepository) {}
 
   async execute(): Promise<FetchAllStudentsUseCaseResponse> {
-    return await this.studentsRepository.fetchAll()
+    return await this.studentsRepository.findAll()
   }
 }

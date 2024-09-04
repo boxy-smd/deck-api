@@ -1,7 +1,7 @@
 import { Entity } from '@/core/entities/entity.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import type { Optional } from '@/core/types/optional.ts'
-import { StudentTrailList } from './student-trail-list.ts'
+import type { Trail } from './trail.ts'
 import type { Email } from './value-objects/email.ts'
 
 export interface StudentProps {
@@ -14,7 +14,7 @@ export interface StudentProps {
   semester: number
   createdAt: Date
   updatedAt?: Date
-  trails: StudentTrailList
+  trails: Trail[]
 }
 
 export class Student extends Entity<StudentProps> {
@@ -97,19 +97,18 @@ export class Student extends Entity<StudentProps> {
     this.touch()
   }
 
-  set trails(trails: StudentTrailList) {
+  set trails(trails: Trail[]) {
     this.props.trails = trails
     this.touch()
   }
 
   static create(
-    props: Optional<StudentProps, 'createdAt' | 'trails'>,
+    props: Optional<StudentProps, 'createdAt'>,
     id?: UniqueEntityID,
   ): Student {
     return new Student(
       {
         ...props,
-        trails: props.trails ?? new StudentTrailList(),
         createdAt: new Date(),
       },
       id,

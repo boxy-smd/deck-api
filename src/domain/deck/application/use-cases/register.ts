@@ -1,11 +1,9 @@
 import { type Either, left, right } from '@/core/either.ts'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { ResourceAlreadyExistsError } from '@/core/errors/resource-already-exists.ts'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
 import type { TrailsRepository } from '@/domain/deck/application/repositories/trails-repository.ts'
-import { StudentTrailList } from '../../enterprise/entities/student-trail-list.ts'
-import { StudentTrail } from '../../enterprise/entities/student-trail.ts'
 import { Student } from '../../enterprise/entities/student.ts'
+import type { Trail } from '../../enterprise/entities/trail.ts'
 import { Email } from '../../enterprise/entities/value-objects/email.ts'
 import { EmailBadFormattedError } from '../../enterprise/entities/value-objects/errors/email-bad-formatted.error.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
@@ -17,7 +15,7 @@ interface RegisterUseCaseRequest {
   email: string
   password: string
   semester: number
-  trailsIds?: string[]
+  trailsIds: string[]
   about?: string
   profileUrl?: string
 }
@@ -29,7 +27,7 @@ type RegisterUseCaseResponse = Either<
 
 export class RegisterUseCase {
   constructor(
-    private usersRepository: StudentsRepository,
+    private studentsRepository: StudentsRepository,
     private trailsRepository: TrailsRepository,
     private hasher: HashGenerator,
   ) {}
@@ -44,7 +42,8 @@ export class RegisterUseCase {
     profileUrl,
     trailsIds,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
-    const isUsernameTaken = await this.usersRepository.findByUsername(username)
+    const isUsernameTaken =
+      await this.studentsRepository.findByUsername(username)
 
     if (isUsernameTaken) {
       return left(
@@ -52,7 +51,7 @@ export class RegisterUseCase {
       )
     }
 
-    const isEmailTaken = await this.usersRepository.findByEmail(email)
+    const isEmailTaken = await this.studentsRepository.findByEmail(email)
 
     if (isEmailTaken) {
       return left(
@@ -74,16 +73,16 @@ export class RegisterUseCase {
       return left(new EmailBadFormattedError())
     }
 
-    if (trailsIds) {
-      for (const trailId of trailsIds) {
+    const trails = await Promise.all(
+      trailsIds.map(async trailId => {
         const trail = await this.trailsRepository.findById(trailId)
 
-        if (!trail) {
-          return left(
-            new ResourceNotFoundError(`Trail with id ${trailId} not found.`),
-          )
-        }
-      }
+        return trail
+      }),
+    )
+
+    if (trails.some(trail => !trail)) {
+      return left(new ResourceNotFoundError('Some trails were not found.'))
     }
 
     const user = Student.create({
@@ -94,18 +93,10 @@ export class RegisterUseCase {
       semester,
       about,
       profileUrl,
+      trails: trails as Trail[],
     })
 
-    const trails = trailsIds?.map(trailId => {
-      return StudentTrail.create({
-        trailId: new UniqueEntityID(trailId),
-        studentId: user.id,
-      })
-    })
-
-    user.trails = new StudentTrailList(trails)
-
-    await this.usersRepository.create(user)
+    await this.studentsRepository.create(user)
 
     return right(user)
   }

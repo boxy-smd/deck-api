@@ -9,10 +9,10 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "password_hash" TEXT NOT NULL,
     "about" TEXT,
-    "profile_url" TEXT,
     "semester" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+    "profile_url" TEXT,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
@@ -52,7 +52,6 @@ CREATE TABLE "projects" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "banner_url" TEXT NOT NULL,
     "content" TEXT,
     "published_year" INTEGER NOT NULL,
     "status" "ProjectStatus" NOT NULL DEFAULT 'DRAFT',
@@ -62,6 +61,7 @@ CREATE TABLE "projects" (
     "updated_at" TIMESTAMP(3) NOT NULL,
     "author_id" TEXT NOT NULL,
     "subject_id" TEXT NOT NULL,
+    "banner_url" TEXT NOT NULL,
 
     CONSTRAINT "projects_pkey" PRIMARY KEY ("id")
 );
@@ -101,6 +101,9 @@ CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "projects_banner_url_key" ON "projects"("banner_url");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_ProfessorToProject_AB_unique" ON "_ProfessorToProject"("A", "B");

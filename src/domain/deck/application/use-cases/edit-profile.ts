@@ -1,16 +1,13 @@
 import { type Either, left, right } from '@/core/either.ts'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import type { InvalidCredentialsError } from '@/core/errors/invalid-credentials.error.ts'
 import type { ResourceAlreadyExistsError } from '@/core/errors/resource-already-exists.ts'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
-import { StudentTrailList } from '../../enterprise/entities/student-trail-list.ts'
-import { StudentTrail } from '../../enterprise/entities/student-trail.ts'
 import type { Student } from '../../enterprise/entities/student.ts'
-import type { StudentTrailsRepository } from '../repositories/student-trails-repository.ts'
+import type { Trail } from '../../enterprise/entities/trail.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
 import type { TrailsRepository } from '../repositories/trails-repository.ts'
 
-interface UpdateProfileUseCaseRequest {
+interface EditProfileUseCaseRequest {
   studentId: string
   name?: string
   about?: string
@@ -19,16 +16,15 @@ interface UpdateProfileUseCaseRequest {
   trailsIds?: string[]
 }
 
-type UpdateProfileUseCaseResponse = Either<
+type EditProfileUseCaseResponse = Either<
   InvalidCredentialsError | ResourceNotFoundError | ResourceAlreadyExistsError,
   Student
 >
 
-export class UpdateProfileUseCase {
+export class EditProfileUseCase {
   constructor(
     private readonly studentRepository: StudentsRepository,
     private readonly trailsRepository: TrailsRepository,
-    private readonly studentTrailsRepository: StudentTrailsRepository,
   ) {}
 
   async execute({
@@ -38,44 +34,32 @@ export class UpdateProfileUseCase {
     semester,
     profileUrl,
     trailsIds,
-  }: UpdateProfileUseCaseRequest): Promise<UpdateProfileUseCaseResponse> {
+  }: EditProfileUseCaseRequest): Promise<EditProfileUseCaseResponse> {
     const student = await this.studentRepository.findById(studentId)
 
     if (!student) {
       return left(new ResourceNotFoundError('Student not found.'))
     }
 
-    if (trailsIds) {
-      for (const trailId of trailsIds) {
-        const trail = await this.trailsRepository.findById(trailId)
+    const studentTrailsList = trailsIds
+      ? await Promise.all(
+          trailsIds.map(async trailId => {
+            const trail = await this.trailsRepository.findById(trailId)
 
-        if (!trail) {
-          return left(new ResourceNotFoundError('Trail not found.'))
-        }
-      }
-    }
+            return trail
+          }),
+        )
+      : student.trails
 
-    const currentTrails =
-      await this.studentTrailsRepository.findManyByStudentId(studentId)
-
-    const studentTrailsList = new StudentTrailList(currentTrails)
-
-    if (trailsIds) {
-      const studentTrails = trailsIds?.map(trailId =>
-        StudentTrail.create({
-          studentId: student.id,
-          trailId: new UniqueEntityID(trailId),
-        }),
-      )
-
-      studentTrailsList.update(studentTrails)
+    if (studentTrailsList.some(trail => !trail)) {
+      return left(new ResourceNotFoundError('Trail not found.'))
     }
 
     student.name = name ?? student.name
     student.about = about ?? student.about
     student.semester = semester ?? student.semester
     student.profileUrl = profileUrl ?? student.profileUrl
-    student.trails = studentTrailsList
+    student.trails = studentTrailsList as Trail[]
 
     await this.studentRepository.save(student)
 

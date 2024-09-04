@@ -1,48 +1,57 @@
-import type {
-  ProfessorsRepository,
-  UpdateProfessorRequest,
-} from '@/domain/deck/application/repositories/professors-repository.ts'
+import type { ProfessorsRepository } from '@/domain/deck/application/repositories/professors-repository.ts'
 import type { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
-import { prisma } from '../client.ts'
-import { ProfessorMapper } from '../mappers/professor-mapper.ts'
+import type { PrismaClient } from '@prisma/client'
+import { PrismaProfessorMapper } from '../mappers/prisma-professor-mapper.ts'
 
 export class PrismaProfessorsRepository implements ProfessorsRepository {
-  async create(professor: Professor): Promise<Professor> {
-    const raw = ProfessorMapper.toPersistence(professor)
-    const createdRaw = await prisma.professor.create({ data: raw })
-    return ProfessorMapper.toDomain(createdRaw)
-  }
+  constructor(private readonly prisma: PrismaClient) {}
 
   async findById(id: string): Promise<Professor | null> {
-    const raw = await prisma.professor.findUnique({ where: { id } })
-    return raw ? ProfessorMapper.toDomain(raw) : null
+    const professor = await this.prisma.professor.findUnique({ where: { id } })
+
+    if (!professor) return null
+
+    return PrismaProfessorMapper.toEntity(professor)
+  }
+
+  async findByName(name: string): Promise<Professor | null> {
+    const professor = await this.prisma.professor.findFirst({ where: { name } })
+
+    if (!professor) return null
+
+    return PrismaProfessorMapper.toEntity(professor)
+  }
+
+  async fetchAll(): Promise<Professor[]> {
+    const professors = await this.prisma.professor.findMany()
+    return professors.map(PrismaProfessorMapper.toEntity)
   }
 
   async fetchByName(name: string): Promise<Professor[]> {
-    const professors = await prisma.professor.findMany({
-      where: { name: { contains: name, mode: 'insensitive' } },
+    const professors = await this.prisma.professor.findMany({
+      where: { name: { contains: name } },
     })
-    return professors.map(professor => ProfessorMapper.toDomain(professor))
+
+    return professors.map(PrismaProfessorMapper.toEntity)
   }
 
-  async fetch(): Promise<Professor[]> {
-    const professors = await prisma.professor.findMany()
-    return professors.map(professor => ProfessorMapper.toDomain(professor))
+  async create(professor: Professor): Promise<void> {
+    const data = PrismaProfessorMapper.toPrisma(professor)
+    await this.prisma.professor.create({ data })
   }
 
-  async update(
-    id: string,
-    request: UpdateProfessorRequest,
-  ): Promise<Professor | null> {
-    const raw = ProfessorMapper.toPersistenceUpdate(request)
-    const updatedProfessor = await prisma.professor.update({
-      where: { id },
-      data: raw,
+  async save(professor: Professor): Promise<void> {
+    const data = PrismaProfessorMapper.toPrisma(professor)
+
+    await this.prisma.professor.update({
+      where: { id: professor.id.toString() },
+      data,
     })
-    return ProfessorMapper.toDomain(updatedProfessor)
   }
 
-  async delete(id: string): Promise<void> {
-    await prisma.professor.delete({ where: { id } })
+  async delete(professor: Professor): Promise<void> {
+    await this.prisma.professor.delete({
+      where: { id: professor.id.toString() },
+    })
   }
 }

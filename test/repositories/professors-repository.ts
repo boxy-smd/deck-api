@@ -10,11 +10,11 @@ export class InMemoryProfessorsRepository implements ProfessorsRepository {
     )
   }
 
-  async fetchAll(): Promise<Professor[]> {
+  async findAll(): Promise<Professor[]> {
     return await Promise.resolve(this.items)
   }
 
-  async fetchByName(name: string): Promise<Professor[]> {
+  async findManyByName(name: string): Promise<Professor[]> {
     return await Promise.resolve(
       this.items.filter(item =>
         item.name.toLowerCase().includes(name.toLowerCase()),
@@ -31,16 +31,6 @@ export class InMemoryProfessorsRepository implements ProfessorsRepository {
 
     if (index !== -1) {
       this.items[index] = professor
-    }
-
-    return await Promise.resolve()
-  }
-
-  async delete(professor: Professor): Promise<void> {
-    const index = this.items.findIndex(item => item.id.equals(professor.id))
-
-    if (index !== -1) {
-      this.items.splice(index, 1)
     }
 
     return await Promise.resolve()

@@ -1,58 +1,57 @@
-import type {
-  SubjectsRepository,
-  UpdateSubjectRequest,
-} from '@/domain/deck/application/repositories/subjects-repository.ts'
+import type { SubjectsRepository } from '@/domain/deck/application/repositories/subjects-repository.ts'
 import type { Subject } from '@/domain/deck/enterprise/entities/subject.ts'
-import { prisma } from '../client.ts'
-import { SubjectMapper } from '../mappers/subject-mapper.ts'
+import type { PrismaClient } from '@prisma/client'
+import { PrismaSubjectMapper } from '../mappers/prisma-subject-mapper.ts'
 
 export class PrismaSubjectsRepository implements SubjectsRepository {
-  async create(subject: Subject): Promise<Subject> {
-    const raw = SubjectMapper.toPersistence(subject)
-    const createdRaw = await prisma.subject.create({ data: raw })
-    return SubjectMapper.toDomain(createdRaw)
-  }
+  constructor(private readonly prisma: PrismaClient) {}
 
   async findById(id: string): Promise<Subject | null> {
-    const raw = await prisma.subject.findUnique({ where: { id } })
-    return raw ? SubjectMapper.toDomain(raw) : null
+    const subject = await this.prisma.subject.findUnique({ where: { id } })
+
+    if (!subject) return null
+
+    return PrismaSubjectMapper.toEntity(subject)
   }
 
   async findByName(name: string): Promise<Subject | null> {
-    const raw = await prisma.subject.findFirst({ where: { name } })
-    return raw ? SubjectMapper.toDomain(raw) : null
+    const subject = await this.prisma.subject.findFirst({ where: { name } })
+
+    if (!subject) return null
+
+    return PrismaSubjectMapper.toEntity(subject)
+  }
+
+  async fetchAll(): Promise<Subject[]> {
+    const subjects = await this.prisma.subject.findMany()
+    return subjects.map(PrismaSubjectMapper.toEntity)
   }
 
   async fetchByName(name: string): Promise<Subject[]> {
-    const subjects = await prisma.subject.findMany({
-      where: {
-        name: {
-          contains: name,
-          mode: 'insensitive',
-        },
-      },
+    const subjects = await this.prisma.subject.findMany({
+      where: { name: { contains: name } },
     })
-    return subjects.map(subject => SubjectMapper.toDomain(subject))
+
+    return subjects.map(PrismaSubjectMapper.toEntity)
   }
 
-  async fetch(): Promise<Subject[]> {
-    const subjects = await prisma.subject.findMany()
-    return subjects.map(subject => SubjectMapper.toDomain(subject))
+  async create(subject: Subject): Promise<void> {
+    const data = PrismaSubjectMapper.toPrisma(subject)
+    await this.prisma.subject.create({ data })
   }
 
-  async update(
-    id: string,
-    request: UpdateSubjectRequest,
-  ): Promise<Subject | null> {
-    const raw = SubjectMapper.toPersistenceUpdate(request)
-    const updatedSubject = await prisma.subject.update({
-      where: { id },
-      data: raw,
+  async save(subject: Subject): Promise<void> {
+    const data = PrismaSubjectMapper.toPrisma(subject)
+
+    await this.prisma.subject.update({
+      where: { id: subject.id.toString() },
+      data,
     })
-    return SubjectMapper.toDomain(updatedSubject)
   }
 
-  async delete(id: string): Promise<void> {
-    await prisma.subject.delete({ where: { id } })
+  async delete(subject: Subject): Promise<void> {
+    await this.prisma.subject.delete({
+      where: { id: subject.id.toString() },
+    })
   }
 }

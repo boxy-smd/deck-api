@@ -17,13 +17,11 @@ model User {
   semester     Int
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
-
-  profileUrl   String?       @unique @map("profile_url")
-  profileImage ProfileImage? @relation(fields: [profileUrl], references: [url])
+  profileUrl   String?  @map("profile_url")
 
   trails   Trail[]
-  projects Project[]
   comments Comment[]
+  projects Project[]
 
   @@map("users")
 }
@@ -76,6 +74,7 @@ model Project {
   status        ProjectStatus @default(DRAFT)
   semester      Int
   allowComments Boolean       @map("allow_comments")
+  bannerUrl     String        @map("banner_url")
   createdAt     DateTime      @default(now()) @map("created_at")
   updatedAt     DateTime      @updatedAt @map("updated_at")
 
@@ -83,8 +82,6 @@ model Project {
   author    User    @relation(fields: [authorId], references: [id])
   subjectId String  @map("subject_id")
   subject   Subject @relation(fields: [subjectId], references: [id])
-  bannerUrl String  @unique @map("banner_url")
-  banner    Banner  @relation(fields: [bannerUrl], references: [url])
 
   trails     Trail[]
   professors Professor[]
@@ -105,26 +102,4 @@ model Comment {
   project   Project @relation(fields: [projectId], references: [id])
 
   @@map("comments")
-}
-
-model ProfileImage {
-  id        String   @id @default(uuid())
-  url       String   @unique
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  user User?
-
-  @@map("profile_images")
-}
-
-model Banner {
-  id        String   @id @default(uuid())
-  url       String   @unique
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  project Project?
-
-  @@map("banners")
 }

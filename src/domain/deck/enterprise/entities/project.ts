@@ -1,9 +1,9 @@
 import { AggregateRoot } from '@/core/entities/aggregate-root.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import type { Optional } from '@/core/types/optional.ts'
-import type { ProjectCommentList } from './project-comment-list.ts'
-import type { ProjectProfessorList } from './project-professor-list.ts'
-import { ProjectTrailList } from './project-trail-list.ts'
+import type { Comment } from './comment.ts'
+import type { Professor } from './professor.ts'
+import type { Trail } from './trail.ts'
 
 export type ProjectStatusEnum = 'DRAFT' | 'PUBLISHED'
 
@@ -20,9 +20,9 @@ export interface ProjectProps {
   updatedAt?: Date
   authorId: UniqueEntityID
   subjectId?: UniqueEntityID
-  trails: ProjectTrailList
-  professors?: ProjectProfessorList
-  comments?: ProjectCommentList
+  trails: Trail[]
+  professors?: Professor[]
+  comments?: Comment[]
 }
 
 export class Project extends AggregateRoot<ProjectProps> {
@@ -140,29 +140,28 @@ export class Project extends AggregateRoot<ProjectProps> {
     this.touch()
   }
 
-  set trails(trails: ProjectTrailList) {
+  set trails(trails: Trail[]) {
     this.props.trails = trails
     this.touch()
   }
 
-  set professors(professors: ProjectProfessorList | undefined) {
+  set professors(professors: Professor[] | undefined) {
     this.props.professors = professors
     this.touch()
   }
 
-  set comments(comments: ProjectCommentList | undefined) {
+  set comments(comments: Comment[] | undefined) {
     this.props.comments = comments
     this.touch()
   }
 
   static create(
-    props: Optional<ProjectProps, 'createdAt' | 'trails'>,
+    props: Optional<ProjectProps, 'createdAt'>,
     id?: UniqueEntityID,
   ): Project {
     return new Project(
       {
         ...props,
-        trails: props.trails ?? new ProjectTrailList(),
         createdAt: new Date(),
       },
       id,

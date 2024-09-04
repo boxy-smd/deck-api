@@ -21,6 +21,7 @@ export async function makeStudent(
       semester: 3,
       about: 'I am a student at UFC',
       profileUrl: 'https://boxy.com/test.png',
+      trails: [],
       ...override,
     },
     id,

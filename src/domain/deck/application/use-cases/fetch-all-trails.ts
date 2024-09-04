@@ -7,6 +7,6 @@ export class FetchAllTrailsUseCase {
   constructor(private readonly trailsRepository: TrailsRepository) {}
 
   async execute(): Promise<FetchTrailsUseCaseResponse> {
-    return await this.trailsRepository.fetchAll()
+    return await this.trailsRepository.findAll()
   }
 }

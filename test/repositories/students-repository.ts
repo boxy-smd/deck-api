@@ -3,14 +3,9 @@ import type {
   StudentsRepository,
 } from '@/domain/deck/application/repositories/students-repository.ts'
 import type { Student } from '@/domain/deck/enterprise/entities/student.ts'
-import type { InMemoryStudentTrailsRepository } from './student-trails-repository.ts'
 
 export class InMemoryStudentsRepository implements StudentsRepository {
   public items: Student[] = []
-
-  constructor(
-    private studentTrailsRepository: InMemoryStudentTrailsRepository,
-  ) {}
 
   async findById(id: string): Promise<Student | null> {
     const student = this.items.find(item => item.id.toString() === id)
@@ -27,7 +22,7 @@ export class InMemoryStudentsRepository implements StudentsRepository {
     return await Promise.resolve(student || null)
   }
 
-  async fetchByQuery({ name, username }: StudentQuery): Promise<Student[]> {
+  async findManyByQuery({ name, username }: StudentQuery): Promise<Student[]> {
     const students = this.items.filter(item => {
       if (name && !item.name.includes(name)) {
         return false
@@ -43,7 +38,7 @@ export class InMemoryStudentsRepository implements StudentsRepository {
     return await Promise.resolve(students)
   }
 
-  async fetchAll(): Promise<Student[]> {
+  async findAll(): Promise<Student[]> {
     const students = this.items
 
     return await Promise.resolve(students)
@@ -52,8 +47,6 @@ export class InMemoryStudentsRepository implements StudentsRepository {
   async create(user: Student): Promise<void> {
     this.items.push(user)
 
-    await this.studentTrailsRepository.createMany(user.trails.getItems())
-
     return await Promise.resolve()
   }
 
@@ -61,8 +54,6 @@ export class InMemoryStudentsRepository implements StudentsRepository {
     const index = this.items.findIndex(item => item.id === user.id)
 
     this.items[index] = user
-
-    await this.studentTrailsRepository.createMany(user.trails.getItems())
 
     return Promise.resolve()
   }

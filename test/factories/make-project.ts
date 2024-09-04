@@ -1,11 +1,8 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
-import { ProjectTrailList } from '@/domain/deck/enterprise/entities/project-trail-list.ts'
 import {
   Project,
   type ProjectProps,
 } from '@/domain/deck/enterprise/entities/project.ts'
-import { makeProjectTrail } from './make-project-trails.ts'
-import { makeTrail } from './make-trail.ts'
 
 export function makeProject(
   override: Partial<ProjectProps> = {},
@@ -21,19 +18,11 @@ export function makeProject(
       semester: 1,
       allowComments: true,
       authorId: new UniqueEntityID(),
+      trails: [],
       ...override,
     },
     id,
   )
-
-  const trail = makeTrail()
-
-  const projectTrail = makeProjectTrail({
-    projectId: project.id,
-    trailId: trail.id,
-  })
-
-  project.trails = new ProjectTrailList([projectTrail])
 
   return project
 }

@@ -7,6 +7,6 @@ export class FetchAllSubjectsUseCase {
   constructor(private readonly subjectsRepository: SubjectsRepository) {}
 
   async execute(): Promise<FetchSubjectsUseCaseResponse> {
-    return await this.subjectsRepository.fetchAll()
+    return await this.subjectsRepository.findAll()
   }
 }

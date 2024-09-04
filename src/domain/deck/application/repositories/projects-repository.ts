@@ -15,10 +15,10 @@ export type ProjectQuery = {
 export interface ProjectsRepository {
   findById(id: string): Promise<Project | null>
   findDetailsById(id: string): Promise<ProjectDetails | null>
-  fetchAll(): Promise<Project[]>
-  fetchAllDetails(): Promise<ProjectDetails[]>
-  fetchAllDetailsByQuery(query: ProjectQuery): Promise<ProjectDetails[]>
+  findAll(): Promise<Project[]>
+  findAllDetails(): Promise<ProjectDetails[]>
+  findManyDetailsByQuery(query: ProjectQuery): Promise<ProjectDetails[]>
   create(project: ProjectProps): Promise<void>
   save(project: Project): Promise<void>
-  delete(project: Project): Promise<void>
+  delete(id: string): Promise<void>
 }

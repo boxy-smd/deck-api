@@ -4,6 +4,7 @@ import { InMemoryTrailsRepository } from 'test/repositories/trails-repository.ts
 import { FetchAllTrailsUseCase } from './fetch-all-trails.ts'
 
 let trailsRepository: InMemoryTrailsRepository
+
 let trail: Trail
 
 let sut: FetchAllTrailsUseCase
@@ -11,6 +12,7 @@ let sut: FetchAllTrailsUseCase
 describe('fetch all trails use case', () => {
   beforeEach(() => {
     trailsRepository = new InMemoryTrailsRepository()
+
     trail = makeTrail()
 
     sut = new FetchAllTrailsUseCase(trailsRepository)

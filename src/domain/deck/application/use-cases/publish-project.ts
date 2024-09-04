@@ -1,15 +1,12 @@
 import { type Either, left, right } from '@/core/either.ts'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
-import { ProjectProfessorList } from '../../enterprise/entities/project-professor-list.ts'
-import { ProjectProfessor } from '../../enterprise/entities/project-professor.ts'
-import { ProjectTrailList } from '../../enterprise/entities/project-trail-list.ts'
-import { ProjectTrail } from '../../enterprise/entities/project-trail.ts'
+
 import {
   Project,
   type ProjectStatusEnum,
 } from '../../enterprise/entities/project.ts'
 import type { Subject } from '../../enterprise/entities/subject.ts'
+import type { ProfessorsRepository } from '../repositories/professors-repository.ts'
 import type { ProjectsRepository } from '../repositories/projects-repository.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
 import type { SubjectsRepository } from '../repositories/subjects-repository.ts'
@@ -43,6 +40,7 @@ export class PublishProjectUseCase {
     private readonly studentsRepository: StudentsRepository,
     private readonly subjectsRepository: SubjectsRepository,
     private readonly trailsRepository: TrailsRepository,
+    private readonly professorsRepository: ProfessorsRepository,
   ) {}
 
   async execute({
@@ -75,6 +73,33 @@ export class PublishProjectUseCase {
       }
     }
 
+    const trails = await Promise.all(
+      trailsIds.map(async trailId => {
+        const trail = await this.trailsRepository.findById(trailId)
+
+        return trail
+      }),
+    )
+
+    if (trails.some(trail => !trail)) {
+      return left(new ResourceNotFoundError('Trail not found.'))
+    }
+
+    const professors = await Promise.all(
+      professorsIds
+        ? professorsIds.map(async professorId => {
+            const professor =
+              await this.professorsRepository.findById(professorId)
+
+            return professor
+          })
+        : [],
+    )
+
+    if (professorsIds && professors.some(professor => !professor)) {
+      return left(new ResourceNotFoundError('Professor not found.'))
+    }
+
     const project = Project.create({
       title,
       description,
@@ -86,33 +111,9 @@ export class PublishProjectUseCase {
       allowComments,
       authorId: student.id,
       subjectId: subject?.id,
+      trails: trails.filter(trail => trail !== null),
+      professors: professors.filter(professor => professor !== null),
     })
-
-    for (const trailId of trailsIds) {
-      const trail = await this.trailsRepository.findById(trailId)
-
-      if (!trail) {
-        return left(new ResourceNotFoundError('Trail not found.'))
-      }
-    }
-
-    const trails = trailsIds?.map(trailId => {
-      return ProjectTrail.create({
-        projectId: project.id,
-        trailId: new UniqueEntityID(trailId),
-      })
-    })
-
-    project.trails = new ProjectTrailList(trails)
-
-    const professors = professorsIds?.map(professorId => {
-      return ProjectProfessor.create({
-        projectId: project.id,
-        professorId: new UniqueEntityID(professorId),
-      })
-    })
-
-    project.professors = new ProjectProfessorList(professors)
 
     await this.projectsRepository.create(project)
 

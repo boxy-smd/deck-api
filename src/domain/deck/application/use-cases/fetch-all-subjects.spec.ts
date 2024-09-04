@@ -4,6 +4,7 @@ import { InMemorySubjectsRepository } from 'test/repositories/subjects-repositor
 import { FetchAllSubjectsUseCase } from './fetch-all-subjects.ts'
 
 let subjectsRepository: InMemorySubjectsRepository
+
 let subject: Subject
 
 let sut: FetchAllSubjectsUseCase

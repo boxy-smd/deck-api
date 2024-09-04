@@ -2,33 +2,32 @@ import { InvalidCredentialsError } from '@/core/errors/invalid-credentials.error
 import { FakeEncrypter } from 'test/cryptography/fake-encrypter.ts'
 import { FakeHasher } from 'test/cryptography/fake-hasher.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
-import { InMemoryStudentTrailsRepository } from 'test/repositories/student-trails-repository.ts'
 import { InMemoryStudentsRepository } from '../../../../../test/repositories/students-repository.ts'
 import type { Student } from '../../enterprise/entities/student.ts'
 import { LoginUseCase } from './login.ts'
 
 let studentsRepository: InMemoryStudentsRepository
-let studentTrailsRepository: InMemoryStudentTrailsRepository
-let student: Student
 let encrypter: FakeEncrypter
 let hasher: FakeHasher
+
+let student: Student
 
 let sut: LoginUseCase
 
 describe('login use case', () => {
   beforeEach(async () => {
-    studentTrailsRepository = new InMemoryStudentTrailsRepository()
-    studentsRepository = new InMemoryStudentsRepository(studentTrailsRepository)
+    studentsRepository = new InMemoryStudentsRepository()
     encrypter = new FakeEncrypter()
     hasher = new FakeHasher()
+
     student = await makeStudent()
+
+    await studentsRepository.create(student)
 
     sut = new LoginUseCase(studentsRepository, hasher, encrypter)
   })
 
   it('should be able to login a student', async () => {
-    await studentsRepository.create(student)
-
     const result = await sut.execute({
       email: student.email.value,
       password: '123456',

@@ -2,32 +2,25 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { ValueObject } from '@/core/entities/value-object.ts'
 
 interface CommentWithAuthorProps {
-  content: string
   commentId: UniqueEntityID
+  content: string
+  createdAt: Date
+  updatedAt?: Date
   author: {
     name: string
     username: string
+    profileUrl?: string
   }
   authorId: UniqueEntityID
-  createdAt: Date
-  updatedAt?: Date
 }
 
 export class CommentWithAuthor extends ValueObject<CommentWithAuthorProps> {
-  get content() {
-    return this.props.content
-  }
-
   get commentId() {
     return this.props.commentId
   }
 
-  get author() {
-    return this.props.author
-  }
-
-  get authorId() {
-    return this.props.authorId
+  get content() {
+    return this.props.content
   }
 
   get createdAt() {
@@ -36,6 +29,14 @@ export class CommentWithAuthor extends ValueObject<CommentWithAuthorProps> {
 
   get updatedAt() {
     return this.props.updatedAt
+  }
+
+  get author() {
+    return this.props.author
+  }
+
+  get authorId() {
+    return this.props.authorId
   }
 
   static create(props: CommentWithAuthorProps): CommentWithAuthor {

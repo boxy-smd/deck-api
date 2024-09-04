@@ -1,47 +1,57 @@
-import type {
-  TrailsRepository,
-  UpdateTrailRequest,
-} from '@/domain/deck/application/repositories/trails-repository.ts'
+import type { TrailsRepository } from '@/domain/deck/application/repositories/trails-repository.ts'
 import type { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
-import { prisma } from '../client.ts'
-import { TrailMapper } from '../mappers/trail-mapper.ts'
+import type { PrismaClient } from '@prisma/client'
+import { PrismaTrailMapper } from '../mappers/prisma-trail-mapper.ts'
 
 export class PrismaTrailsRepository implements TrailsRepository {
-  async create(trail: Trail): Promise<Trail> {
-    const raw = TrailMapper.toPersistence(trail)
-    const createdRaw = await prisma.trail.create({ data: raw })
-    return TrailMapper.toDomain(createdRaw)
-  }
+  constructor(private readonly prisma: PrismaClient) {}
 
   async findById(id: string): Promise<Trail | null> {
-    const raw = await prisma.trail.findUnique({ where: { id } })
-    return raw ? TrailMapper.toDomain(raw) : null
+    const trail = await this.prisma.trail.findUnique({ where: { id } })
+
+    if (!trail) return null
+
+    return PrismaTrailMapper.toEntity(trail)
   }
 
   async findByName(name: string): Promise<Trail | null> {
-    const raw = await prisma.trail.findFirst({
-      where: {
-        name: {
-          contains: name,
-          mode: 'insensitive',
-        },
-      },
+    const trail = await this.prisma.trail.findFirst({ where: { name } })
+
+    if (!trail) return null
+
+    return PrismaTrailMapper.toEntity(trail)
+  }
+
+  async fetchAll(): Promise<Trail[]> {
+    const trails = await this.prisma.trail.findMany()
+    return trails.map(PrismaTrailMapper.toEntity)
+  }
+
+  async fetchByName(name: string): Promise<Trail[]> {
+    const trails = await this.prisma.trail.findMany({
+      where: { name: { contains: name } },
     })
-    return raw ? TrailMapper.toDomain(raw) : null
+
+    return trails.map(PrismaTrailMapper.toEntity)
   }
 
-  async fetch(): Promise<Trail[]> {
-    const trails = await prisma.trail.findMany()
-    return trails.map(trail => TrailMapper.toDomain(trail))
+  async create(trail: Trail): Promise<void> {
+    const data = PrismaTrailMapper.toPrisma(trail)
+    await this.prisma.trail.create({ data })
   }
 
-  async update(id: string, request: UpdateTrailRequest): Promise<Trail | null> {
-    const raw = TrailMapper.toPersistenceUpdate(request)
-    const updatedTrail = await prisma.trail.update({ where: { id }, data: raw })
-    return TrailMapper.toDomain(updatedTrail)
+  async save(trail: Trail): Promise<void> {
+    const data = PrismaTrailMapper.toPrisma(trail)
+
+    await this.prisma.trail.update({
+      where: { id: trail.id.toString() },
+      data,
+    })
   }
 
-  async delete(id: string): Promise<void> {
-    await prisma.trail.delete({ where: { id } })
+  async delete(trail: Trail): Promise<void> {
+    await this.prisma.trail.delete({
+      where: { id: trail.id.toString() },
+    })
   }
 }

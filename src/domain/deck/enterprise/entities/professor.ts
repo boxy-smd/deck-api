@@ -1,11 +1,12 @@
 import { Entity } from '@/core/entities/entity.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
-import type { Optional } from '@/core/types/optional.ts'
+import type { Project } from './project.ts'
 
 export interface ProfessorProps {
   name: string
   createdAt: Date
   updatedAt?: Date
+  projects?: Project[]
 }
 
 export class Professor extends Entity<ProfessorProps> {
@@ -31,7 +32,7 @@ export class Professor extends Entity<ProfessorProps> {
   }
 
   static create(
-    props: Optional<ProfessorProps, 'createdAt'>,
+    props: Omit<ProfessorProps, 'createdAt'>,
     id?: UniqueEntityID,
   ): Professor {
     return new Professor(

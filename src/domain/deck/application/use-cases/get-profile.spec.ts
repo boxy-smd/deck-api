@@ -1,20 +1,17 @@
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
-import { InMemoryStudentTrailsRepository } from 'test/repositories/student-trails-repository.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'
 import { Student } from '../../enterprise/entities/student.ts'
 import { GetProfileUseCase } from './get-profile.ts'
 
 let studentsRepository: InMemoryStudentsRepository
-let studentTrailsRepository: InMemoryStudentTrailsRepository
 let student: Student
 
 let sut: GetProfileUseCase
 
 describe('get profile use case', () => {
   beforeEach(async () => {
-    studentTrailsRepository = new InMemoryStudentTrailsRepository()
-    studentsRepository = new InMemoryStudentsRepository(studentTrailsRepository)
+    studentsRepository = new InMemoryStudentsRepository()
     student = await makeStudent()
 
     sut = new GetProfileUseCase(studentsRepository)

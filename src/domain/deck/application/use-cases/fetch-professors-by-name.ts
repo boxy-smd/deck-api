@@ -13,7 +13,7 @@ export class FetchProfessorsByNameUseCase {
   async execute({
     name,
   }: FetchProfessorsByNameUseCaseRequest): Promise<FetchProfessorsByNameUseCaseResponse> {
-    const professors = await this.professorsRepository.fetchByName(name)
+    const professors = await this.professorsRepository.findManyByName(name)
 
     return professors
   }

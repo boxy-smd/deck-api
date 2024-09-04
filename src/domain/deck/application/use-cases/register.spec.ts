@@ -1,38 +1,38 @@
 import { ResourceAlreadyExistsError } from '@/core/errors/resource-already-exists.ts'
 import { FakeHasher } from 'test/cryptography/fake-hasher.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
-import { InMemoryStudentTrailsRepository } from 'test/repositories/student-trails-repository.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository.ts'
 import { Student } from '../../enterprise/entities/student.ts'
 import { RegisterUseCase } from './register.ts'
 
 let studentsRepository: InMemoryStudentsRepository
-let studentTrailsRepository: InMemoryStudentTrailsRepository
 let trailsRepository: InMemoryTrailsRepository
-let student: Student
 let hasher: FakeHasher
+
+let student: Student
 
 let sut: RegisterUseCase
 
 describe('register use case', () => {
   beforeEach(async () => {
-    studentTrailsRepository = new InMemoryStudentTrailsRepository()
-    studentsRepository = new InMemoryStudentsRepository(studentTrailsRepository)
+    studentsRepository = new InMemoryStudentsRepository()
     trailsRepository = new InMemoryTrailsRepository()
-    student = await makeStudent()
     hasher = new FakeHasher()
+
+    student = await makeStudent()
 
     sut = new RegisterUseCase(studentsRepository, trailsRepository, hasher)
   })
 
   it('should be able to register a user', async () => {
     const result = await sut.execute({
-      name: student.name,
-      username: student.username,
-      email: student.email.value,
+      name: 'John Doe',
+      username: 'johndoe',
+      email: 'johndoe@alu.ufc.br',
       password: '123456',
-      semester: student.semester,
+      semester: 1,
+      trailsIds: [],
     })
 
     expect(result.isRight()).toBe(true)
@@ -43,11 +43,12 @@ describe('register use case', () => {
     await studentsRepository.create(student)
 
     const result = await sut.execute({
-      name: student.name,
-      username: student.username,
+      name: 'John Doe',
+      username: 'johndoe',
       email: student.email.value,
       password: '123456',
-      semester: student.semester,
+      semester: 1,
+      trailsIds: [],
     })
 
     expect(result.isLeft()).toBe(true)
@@ -58,11 +59,12 @@ describe('register use case', () => {
     await studentsRepository.create(student)
 
     const result = await sut.execute({
-      name: student.name,
+      name: 'John Doe',
       username: student.username,
-      email: 'otheremail@alu.ufc.br',
+      email: 'johndoe@alu.ufc.br',
       password: '123456',
-      semester: student.semester,
+      semester: 1,
+      trailsIds: [],
     })
 
     expect(result.isLeft()).toBe(true)

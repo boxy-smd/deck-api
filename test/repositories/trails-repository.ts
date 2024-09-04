@@ -18,11 +18,11 @@ export class InMemoryTrailsRepository implements TrailsRepository {
     return Promise.resolve(this.items.find(item => item.name === name) || null)
   }
 
-  async fetchAll(): Promise<Trail[]> {
+  async findAll(): Promise<Trail[]> {
     return await Promise.resolve(this.items)
   }
 
-  async fetchByName(name: string): Promise<Trail[]> {
+  async findManyByName(name: string): Promise<Trail[]> {
     return await Promise.resolve(
       this.items.filter(item =>
         item.name.toLowerCase().includes(name.toLowerCase()),

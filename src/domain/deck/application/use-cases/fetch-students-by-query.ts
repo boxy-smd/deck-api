@@ -15,7 +15,7 @@ export class FetchStudentsByQueryUseCase {
     name,
     username,
   }: FetchStudentsByQueryUseCaseRequest): Promise<FetchStudentsByQueryUseCaseResponse> {
-    const students = await this.studentsRepository.fetchByQuery({
+    const students = await this.studentsRepository.findManyByQuery({
       name,
       username,
     })
