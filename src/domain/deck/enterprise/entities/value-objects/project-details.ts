@@ -24,7 +24,6 @@ interface ProjectDetailsProps {
   subjectId?: UniqueEntityID
   trails: Trail[]
   professors?: Professor[]
-  comments?: Comment[]
 }
 
 export class ProjectDetails extends ValueObject<ProjectDetailsProps> {
@@ -41,7 +40,7 @@ export class ProjectDetails extends ValueObject<ProjectDetailsProps> {
   }
 
   get content() {
-    return this.props.content || ''
+    return this.props.content
   }
 
   get publishedYear() {
@@ -82,10 +81,6 @@ export class ProjectDetails extends ValueObject<ProjectDetailsProps> {
 
   get professors() {
     return this.props.professors || []
-  }
-
-  get comments() {
-    return this.props.comments || []
   }
 
   static create(props: ProjectDetailsProps): ProjectDetails {

@@ -5,9 +5,11 @@ import type {
 import type { Project } from '@/domain/deck/enterprise/entities/project.ts'
 import { ProjectDetails } from '@/domain/deck/enterprise/entities/value-objects/project-details.ts'
 import type { InMemoryProfessorsRepository } from './professors-repository.ts'
+import type { InMemoryProjectCommentsRepository } from './project-comments-repository.ts'
 import type { InMemoryProjectProfessorsRepository } from './project-professors-repository.ts'
 import type { InMemoryProjectTrailsRepository } from './project-trails-repository.ts'
 import type { InMemoryStudentsRepository } from './students-repository.ts'
+import type { InMemorySubjectsRepository } from './subjects-repository.ts'
 import type { InMemoryTrailsRepository } from './trails-repository.ts'
 
 export class InMemoryProjectsRepository implements ProjectsRepository {
@@ -16,8 +18,9 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
   constructor(
     private projectTrailsRepository: InMemoryProjectTrailsRepository,
     private projectProfessorsRepository: InMemoryProjectProfessorsRepository,
+    private projectCommentsRepository: InMemoryProjectCommentsRepository,
     private studentsRepository: InMemoryStudentsRepository,
-    private subjectsRepository: InMemoryStudentsRepository,
+    private subjectsRepository: InMemorySubjectsRepository,
     private trailsRepository: InMemoryTrailsRepository,
     private professorsRepository: InMemoryProfessorsRepository,
   ) {}
@@ -88,6 +91,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     return await Promise.resolve(
       ProjectDetails.create({
         title: project.title,
+        content: project.content,
         description: project.description,
         bannerUrl: project.bannerUrl,
         publishedYear: project.publishedYear,
@@ -101,9 +105,10 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
         authorId: project.authorId,
         subject: subject?.name,
         subjectId: project?.subjectId,
-        professors,
-        trails,
         createdAt: project.createdAt,
+        updatedAt: project.updatedAt,
+        trails,
+        professors,
       }),
     )
   }
@@ -113,46 +118,202 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     return await Promise.resolve(projects)
   }
 
-  async fetchByQuery({
+  async fetchAllDetails(): Promise<ProjectDetails[]> {
+    const projectsDetails = await Promise.all(
+      this.items.map(async project => {
+        const author = this.studentsRepository.items.find(
+          item => item.id === project.authorId,
+        )
+
+        if (!author) {
+          throw new Error(`Author with ID ${project.authorId} not found.`)
+        }
+
+        const subject = this.subjectsRepository.items.find(
+          item => item.id === project.subjectId,
+        )
+
+        const projectTrails = this.projectTrailsRepository.items.filter(
+          item => {
+            return item.projectId.equals(project.id)
+          },
+        )
+
+        const trails = projectTrails.map(projectTrail => {
+          const trail = this.trailsRepository.items.find(item =>
+            item.id.equals(projectTrail.trailId),
+          )
+
+          if (!trail) {
+            throw new Error(`Trail with ID ${projectTrail.trailId} not found.`)
+          }
+
+          return trail
+        })
+
+        const projectProfessors = this.projectProfessorsRepository.items.filter(
+          item => {
+            return item.projectId.equals(project.id)
+          },
+        )
+
+        const professors = projectProfessors.map(projectProfessor => {
+          const professor = this.professorsRepository.items.find(
+            item => item.id === projectProfessor.id,
+          )
+
+          if (!professor) {
+            throw new Error(
+              `Professor with ID ${projectProfessor.id} not found.`,
+            )
+          }
+
+          return professor
+        })
+
+        return ProjectDetails.create({
+          title: project.title,
+          content: project.content,
+          description: project.description,
+          bannerUrl: project.bannerUrl,
+          publishedYear: project.publishedYear,
+          status: project.status,
+          semester: project.semester,
+          allowComments: project.allowComments,
+          author: {
+            name: author.name,
+            username: author.username,
+          },
+          authorId: project.authorId,
+          subject: subject?.name,
+          subjectId: project?.subjectId,
+          createdAt: project.createdAt,
+          updatedAt: project.updatedAt,
+          trails,
+          professors,
+        })
+      }),
+    )
+
+    return await Promise.resolve(projectsDetails)
+  }
+
+  async fetchAllDetailsByQuery({
     title,
     subjectId,
     authorId,
     professorsIds,
     publishedYear,
-  }: ProjectQuery): Promise<Project[]> {
-    return await Promise.resolve(
-      this.items.filter(item => {
-        if (title && !item.title.toLowerCase().includes(title.toLowerCase())) {
-          return false
+  }: ProjectQuery): Promise<ProjectDetails[]> {
+    const projects = this.items.filter(item => {
+      if (title && !item.title.toLowerCase().includes(title.toLowerCase())) {
+        return false
+      }
+
+      if (subjectId && !(item.subjectId?.toString() === subjectId)) {
+        return false
+      }
+
+      if (authorId && !(item.authorId.toString() === authorId)) {
+        return false
+      }
+
+      if (
+        professorsIds &&
+        item.professors &&
+        !item.professors
+          .getItems()
+          .every(professor =>
+            professorsIds.includes(professor.professorId.toString()),
+          )
+      ) {
+        return false
+      }
+
+      if (publishedYear && item.publishedYear !== publishedYear) {
+        return false
+      }
+
+      return true
+    })
+
+    const projectsDetails = await Promise.all(
+      projects.map(async project => {
+        const author = this.studentsRepository.items.find(
+          item => item.id === project.authorId,
+        )
+
+        if (!author) {
+          throw new Error(`Author with ID ${project.authorId} not found.`)
         }
 
-        if (subjectId && !(item.subjectId?.toString() === subjectId)) {
-          return false
-        }
+        const subject = this.subjectsRepository.items.find(
+          item => item.id === project.subjectId,
+        )
 
-        if (authorId && !(item.authorId.toString() === authorId)) {
-          return false
-        }
+        const projectTrails = this.projectTrailsRepository.items.filter(
+          item => {
+            return item.projectId.equals(project.id)
+          },
+        )
 
-        if (
-          professorsIds &&
-          item.professors &&
-          !item.professors
-            .getItems()
-            .every(professor =>
-              professorsIds.includes(professor.professorId.toString()),
+        const trails = projectTrails.map(projectTrail => {
+          const trail = this.trailsRepository.items.find(item =>
+            item.id.equals(projectTrail.trailId),
+          )
+
+          if (!trail) {
+            throw new Error(`Trail with ID ${projectTrail.trailId} not found.`)
+          }
+
+          return trail
+        })
+
+        const projectProfessors = this.projectProfessorsRepository.items.filter(
+          item => {
+            return item.projectId.equals(project.id)
+          },
+        )
+
+        const professors = projectProfessors.map(projectProfessor => {
+          const professor = this.professorsRepository.items.find(
+            item => item.id === projectProfessor.id,
+          )
+
+          if (!professor) {
+            throw new Error(
+              `Professor with ID ${projectProfessor.id} not found.`,
             )
-        ) {
-          return false
-        }
+          }
 
-        if (publishedYear && item.publishedYear !== publishedYear) {
-          return false
-        }
+          return professor
+        })
 
-        return true
+        return ProjectDetails.create({
+          title: project.title,
+          content: project.content,
+          description: project.description,
+          bannerUrl: project.bannerUrl,
+          publishedYear: project.publishedYear,
+          status: project.status,
+          semester: project.semester,
+          allowComments: project.allowComments,
+          author: {
+            name: author.name,
+            username: author.username,
+          },
+          authorId: project.authorId,
+          subject: subject?.name,
+          subjectId: project?.subjectId,
+          createdAt: project.createdAt,
+          updatedAt: project.updatedAt,
+          trails,
+          professors,
+        })
       }),
     )
+
+    return await Promise.resolve(projectsDetails)
   }
 
   async create(project: Project): Promise<void> {
@@ -195,6 +356,12 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     }
 
     await this.projectTrailsRepository.deleteMany(project.trails.getItems())
+
+    if (project.comments) {
+      await this.projectCommentsRepository.deleteMany(
+        project.comments.getItems(),
+      )
+    }
 
     if (project.professors) {
       await this.projectProfessorsRepository.deleteMany(

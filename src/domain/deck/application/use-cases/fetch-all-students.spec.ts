@@ -1,15 +1,19 @@
 import type { Student } from '@/domain/deck/enterprise/entities/student.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
+import { InMemoryStudentTrailsRepository } from 'test/repositories/student-trails-repository.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'
 import { FetchAllStudentsUseCase } from './fetch-all-students.ts'
 
 let studentsRepository: InMemoryStudentsRepository
-let sut: FetchAllStudentsUseCase
+let studentTrailsRepository: InMemoryStudentTrailsRepository
 let student: Student
+
+let sut: FetchAllStudentsUseCase
 
 describe('fetch all students use case', () => {
   beforeEach(async () => {
-    studentsRepository = new InMemoryStudentsRepository()
+    studentTrailsRepository = new InMemoryStudentTrailsRepository()
+    studentsRepository = new InMemoryStudentsRepository(studentTrailsRepository)
     student = await makeStudent()
 
     sut = new FetchAllStudentsUseCase(studentsRepository)

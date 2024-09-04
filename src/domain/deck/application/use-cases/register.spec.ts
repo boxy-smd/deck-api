@@ -1,12 +1,14 @@
 import { ResourceAlreadyExistsError } from '@/core/errors/resource-already-exists.ts'
 import { FakeHasher } from 'test/cryptography/fake-hasher.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
+import { InMemoryStudentTrailsRepository } from 'test/repositories/student-trails-repository.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository.ts'
 import { Student } from '../../enterprise/entities/student.ts'
 import { RegisterUseCase } from './register.ts'
 
 let studentsRepository: InMemoryStudentsRepository
+let studentTrailsRepository: InMemoryStudentTrailsRepository
 let trailsRepository: InMemoryTrailsRepository
 let student: Student
 let hasher: FakeHasher
@@ -15,7 +17,8 @@ let sut: RegisterUseCase
 
 describe('register use case', () => {
   beforeEach(async () => {
-    studentsRepository = new InMemoryStudentsRepository()
+    studentTrailsRepository = new InMemoryStudentTrailsRepository()
+    studentsRepository = new InMemoryStudentsRepository(studentTrailsRepository)
     trailsRepository = new InMemoryTrailsRepository()
     student = await makeStudent()
     hasher = new FakeHasher()

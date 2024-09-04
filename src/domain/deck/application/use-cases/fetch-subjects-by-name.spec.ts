@@ -3,8 +3,9 @@ import { InMemorySubjectsRepository } from 'test/repositories/subjects-repositor
 import { FetchSubjectsByNameUseCase } from './fetch-subjects-by-name.ts'
 
 let subjectsRepository: InMemorySubjectsRepository
-let sut: FetchSubjectsByNameUseCase
 let subjects: Subject[]
+
+let sut: FetchSubjectsByNameUseCase
 
 describe('Fetch subjects by name use case', () => {
   beforeEach(() => {

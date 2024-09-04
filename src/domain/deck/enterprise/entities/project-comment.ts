@@ -1,24 +1,26 @@
-import { Entity } from '@/core/entities/entity.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
+import type { Optional } from '@/core/types/optional.ts'
+import { Comment, type CommentProps } from './comment.ts'
 
-export interface ProjectCommentProps {
+export interface ProjectCommentProps extends CommentProps {
   projectId: UniqueEntityID
-  commentId: UniqueEntityID
 }
 
-export class ProjectComment extends Entity<ProjectCommentProps> {
+export class ProjectComment extends Comment<ProjectCommentProps> {
   get projectId() {
     return this.props.projectId
   }
 
-  get commentId() {
-    return this.props.commentId
-  }
-
   static create(
-    props: ProjectCommentProps,
+    props: Optional<ProjectCommentProps, 'createdAt'>,
     id?: UniqueEntityID,
   ): ProjectComment {
-    return new ProjectComment(props, id)
+    return new ProjectComment(
+      {
+        ...props,
+        createdAt: props.createdAt || new Date(),
+      },
+      id,
+    )
   }
 }

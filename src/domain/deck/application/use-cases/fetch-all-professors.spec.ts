@@ -4,8 +4,9 @@ import { InMemoryProfessorsRepository } from 'test/repositories/professors-repos
 import { FetchAllProfessorsUseCase } from './fetch-all-professors.ts'
 
 let professorsRepository: InMemoryProfessorsRepository
-let sut: FetchAllProfessorsUseCase
 let professor: Professor
+
+let sut: FetchAllProfessorsUseCase
 
 describe('fetch all professors use case', () => {
   beforeEach(() => {

@@ -4,8 +4,9 @@ import type { Professor } from '../../enterprise/entities/professor.ts'
 import { FetchProfessorsByNameUseCase } from './fetch-professors-by-name.ts'
 
 let professorsRepository: InMemoryProfessorsRepository
-let sut: FetchProfessorsByNameUseCase
 let professors: Professor[]
+
+let sut: FetchProfessorsByNameUseCase
 
 describe('fetch professors by name use case', () => {
   beforeEach(() => {

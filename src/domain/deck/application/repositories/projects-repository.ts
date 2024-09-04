@@ -16,7 +16,8 @@ export interface ProjectsRepository {
   findById(id: string): Promise<Project | null>
   findDetailsById(id: string): Promise<ProjectDetails | null>
   fetchAll(): Promise<Project[]>
-  fetchByQuery(query: ProjectQuery): Promise<Project[]>
+  fetchAllDetails(): Promise<ProjectDetails[]>
+  fetchAllDetailsByQuery(query: ProjectQuery): Promise<ProjectDetails[]>
   create(project: ProjectProps): Promise<void>
   save(project: Project): Promise<void>
   delete(project: Project): Promise<void>

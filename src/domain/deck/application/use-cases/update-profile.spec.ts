@@ -21,9 +21,9 @@ let sut: UpdateProfileUseCase
 
 describe('update profile use case', () => {
   beforeEach(async () => {
-    studentsRepository = new InMemoryStudentsRepository()
     trailsRepository = new InMemoryTrailsRepository()
     studentTrailsRepository = new InMemoryStudentTrailsRepository()
+    studentsRepository = new InMemoryStudentsRepository(studentTrailsRepository)
 
     student = await makeStudent()
     trail = makeTrail()

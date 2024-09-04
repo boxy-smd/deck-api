@@ -1,14 +1,16 @@
-import type { StudentTrailsRepository } from '@/domain/deck/application/repositories/student-trails-repository.ts'
 import type {
   StudentQuery,
   StudentsRepository,
 } from '@/domain/deck/application/repositories/students-repository.ts'
 import type { Student } from '@/domain/deck/enterprise/entities/student.ts'
+import type { InMemoryStudentTrailsRepository } from './student-trails-repository.ts'
 
 export class InMemoryStudentsRepository implements StudentsRepository {
   public items: Student[] = []
 
-  constructor(private studentTrailsRepository: StudentTrailsRepository) {}
+  constructor(
+    private studentTrailsRepository: InMemoryStudentTrailsRepository,
+  ) {}
 
   async findById(id: string): Promise<Student | null> {
     const student = this.items.find(item => item.id.toString() === id)

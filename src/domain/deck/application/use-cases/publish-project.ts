@@ -13,6 +13,7 @@ import type { Subject } from '../../enterprise/entities/subject.ts'
 import type { ProjectsRepository } from '../repositories/projects-repository.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
 import type { SubjectsRepository } from '../repositories/subjects-repository.ts'
+import type { TrailsRepository } from '../repositories/trails-repository.ts'
 
 interface PublishProjectUseCaseRequest {
   title: string
@@ -25,17 +26,23 @@ interface PublishProjectUseCaseRequest {
   allowComments: boolean
   authorId: string
   subjectId?: string
-  trailsIds?: string[]
+  trailsIds: string[]
   professorsIds?: string[]
 }
 
-type PublishProjectUseCaseResponse = Either<ResourceNotFoundError, Project>
+type PublishProjectUseCaseResponse = Either<
+  ResourceNotFoundError,
+  {
+    projectId: string
+  }
+>
 
 export class PublishProjectUseCase {
   constructor(
     private readonly projectsRepository: ProjectsRepository,
     private readonly studentsRepository: StudentsRepository,
     private readonly subjectsRepository: SubjectsRepository,
+    private readonly trailsRepository: TrailsRepository,
   ) {}
 
   async execute({
@@ -81,6 +88,14 @@ export class PublishProjectUseCase {
       subjectId: subject?.id,
     })
 
+    for (const trailId of trailsIds) {
+      const trail = await this.trailsRepository.findById(trailId)
+
+      if (!trail) {
+        return left(new ResourceNotFoundError('Trail not found.'))
+      }
+    }
+
     const trails = trailsIds?.map(trailId => {
       return ProjectTrail.create({
         projectId: project.id,
@@ -101,6 +116,8 @@ export class PublishProjectUseCase {
 
     await this.projectsRepository.create(project)
 
-    return right(project)
+    return right({
+      projectId: project.id.toString(),
+    })
   }
 }

@@ -1,16 +1,19 @@
 import { makeStudent } from 'test/factories/make-student.ts'
+import { InMemoryStudentTrailsRepository } from 'test/repositories/student-trails-repository.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'
 import type { Student } from '../../enterprise/entities/student.ts'
 import { FetchStudentsByQueryUseCase } from './fetch-students-by-query.ts'
 
 let studentsRepository: InMemoryStudentsRepository
+let studentTrailsRepository: InMemoryStudentTrailsRepository
 let students: Student[]
 
 let sut: FetchStudentsByQueryUseCase
 
 describe('fetch students by query use case', () => {
   beforeEach(async () => {
-    studentsRepository = new InMemoryStudentsRepository()
+    studentTrailsRepository = new InMemoryStudentTrailsRepository()
+    studentsRepository = new InMemoryStudentsRepository(studentTrailsRepository)
     students = [
       await makeStudent({
         name: 'David Silva',

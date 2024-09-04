@@ -10,8 +10,11 @@ export function makeProjectComment(
 ) {
   const projectComment = ProjectComment.create(
     {
+      content: 'Great job!',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      authorId: new UniqueEntityID(),
       projectId: new UniqueEntityID(),
-      commentId: new UniqueEntityID(),
       ...override,
     },
     id,
