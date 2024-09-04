@@ -1,9 +1,8 @@
-import { Entity } from '@/core/entities/entity.ts'
+import { AggregateRoot } from '@/core/entities/aggregate-root.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import type { Optional } from '@/core/types/optional.ts'
-import type { Comment } from './comment.entity.ts'
-import type { ProjectProfessor } from './project-professor.entity.ts'
-import type { ProjectTrail } from './project-trail.entity.ts'
+import type { ProjectProfessorList } from './project-professor-list.entity.ts'
+import type { ProjectTrailList } from './project-trail-list.entity.ts'
 
 export type ProjectStatusEnum = 'DRAFT' | 'PUBLISHED'
 
@@ -20,12 +19,11 @@ export interface ProjectProps {
   updatedAt?: Date
   authorId: UniqueEntityID
   subjectId?: UniqueEntityID
-  trails: ProjectTrail[]
-  professors?: ProjectProfessor[]
-  comments?: Comment[]
+  trails: ProjectTrailList
+  professors?: ProjectProfessorList
 }
 
-export class Project extends Entity<ProjectProps> {
+export class Project extends AggregateRoot<ProjectProps> {
   get title() {
     return this.props.title
   }
@@ -82,10 +80,6 @@ export class Project extends Entity<ProjectProps> {
     return this.props.professors
   }
 
-  get comments() {
-    return this.props.comments
-  }
-
   private touch() {
     this.props.updatedAt = new Date()
   }
@@ -140,18 +134,13 @@ export class Project extends Entity<ProjectProps> {
     this.touch()
   }
 
-  set trails(trails: ProjectTrail[]) {
+  set trails(trails: ProjectTrailList) {
     this.props.trails = trails
     this.touch()
   }
 
-  set professors(professors: ProjectProfessor[] | undefined) {
+  set professors(professors: ProjectProfessorList | undefined) {
     this.props.professors = professors
-    this.touch()
-  }
-
-  set comments(comments: Comment[] | undefined) {
-    this.props.comments = comments
     this.touch()
   }
 

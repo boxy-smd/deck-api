@@ -9,24 +9,25 @@ export interface TrailProps {
 }
 
 export class Trail extends Entity<TrailProps> {
-  get name(): string {
+  get name() {
     return this.props.name
+  }
+
+  get createdAt() {
+    return this.props.createdAt
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
+  }
+
+  private touch() {
+    this.props.updatedAt = new Date()
   }
 
   set name(value: string) {
     this.props.name = value
-  }
-
-  get createdAt(): Date {
-    return this.props.createdAt
-  }
-
-  get updatedAt(): Date | undefined {
-    return this.props.updatedAt
-  }
-
-  set updatedAt(value: Date) {
-    this.props.updatedAt = value
+    this.touch()
   }
 
   static create(

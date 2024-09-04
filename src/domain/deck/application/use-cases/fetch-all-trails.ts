@@ -3,7 +3,7 @@ import type { TrailsRepository } from '../repositories/trails-repository.ts'
 
 type FetchTrailsUseCaseResponse = Trail[]
 
-export class FetchTrailsUseCase {
+export class FetchAllTrailsUseCase {
   constructor(private readonly trailsRepository: TrailsRepository) {}
 
   async execute(): Promise<FetchTrailsUseCaseResponse> {

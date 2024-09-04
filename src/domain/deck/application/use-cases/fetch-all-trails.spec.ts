@@ -1,26 +1,27 @@
-import { Trail } from '@/domain/deck/enterprise/entities/trail.entity.ts'
+import type { Trail } from '@/domain/deck/enterprise/entities/trail.entity.ts'
+import { makeTrail } from 'test/factories/make-trail.ts'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository.ts'
-import { FetchTrailsUseCase } from './fetch-all-trails.ts'
+import { FetchAllTrailsUseCase } from './fetch-all-trails.ts'
 
 let trailsRepository: InMemoryTrailsRepository
-let sut: FetchTrailsUseCase
+let sut: FetchAllTrailsUseCase
+let trail: Trail
 
 describe('fetch all trails use case', () => {
   beforeEach(() => {
     trailsRepository = new InMemoryTrailsRepository()
-    sut = new FetchTrailsUseCase(trailsRepository)
+    trail = makeTrail()
+
+    sut = new FetchAllTrailsUseCase(trailsRepository)
   })
 
   it('should be able to fetch trails', async () => {
-    const trail = Trail.create({
-      name: 'Sistemas Multimídia',
-    })
-
     await trailsRepository.create(trail)
 
     const result = await sut.execute()
 
-    expect(result).toBeInstanceOf(Array)
+    expect(result).toBeInstanceOf(Array<Trail>)
+    expect(result).toHaveLength(1)
   })
 
   it('should be able to fetch trails with empty array', async () => {

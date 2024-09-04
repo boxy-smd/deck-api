@@ -25,6 +25,11 @@ export class Professor extends Entity<ProfessorProps> {
     this.props.updatedAt = new Date()
   }
 
+  set name(value: string) {
+    this.props.name = value
+    this.touch()
+  }
+
   static create(
     props: Optional<ProfessorProps, 'createdAt'>,
     id?: UniqueEntityID,
