@@ -1,4 +1,4 @@
-import type { Student } from '../../enterprise/student.entity.ts'
+import type { Student } from '@/domain/deck/enterprise/entities/student.entity.ts'
 
 export interface StudentsRepository {
   findById(id: string): Promise<Student | null>

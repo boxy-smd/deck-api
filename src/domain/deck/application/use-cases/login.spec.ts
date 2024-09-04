@@ -2,7 +2,7 @@ import { InvalidCredentialsError } from '@/core/errors/invalid-credentials.error
 import { Base64Encrypter } from 'test/cryptography/base64-encrypter.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
 import { InMemoryStudentsRepository } from '../../../../../test/repositories/students-repository.ts'
-import { Student } from '../../enterprise/student.entity.ts'
+import { Student } from '../../enterprise/entities/student.entity.ts'
 import { LoginUseCase } from './login.ts'
 
 let studentsRepository: InMemoryStudentsRepository

@@ -1,13 +1,11 @@
-
-
 import { Trail } from '@/domain/deck/enterprise/entities/trail.entity.ts'
-import { InMemoryTrailsRepository } from '../../../../test/repositories/trails-repository.ts'
-import { FetchTrailsUseCase } from './fetch.ts'
+import { InMemoryTrailsRepository } from 'test/repositories/trails-repository.ts'
+import { FetchTrailsUseCase } from './fetch-all-trails.ts'
 
 let trailsRepository: InMemoryTrailsRepository
 let sut: FetchTrailsUseCase
 
-describe('fetch trails use case', () => {
+describe('fetch all trails use case', () => {
   beforeEach(() => {
     trailsRepository = new InMemoryTrailsRepository()
     sut = new FetchTrailsUseCase(trailsRepository)

@@ -1,9 +1,8 @@
 import { Entity } from '@/core/entities/entity.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import type { Optional } from '@/core/types/optional.ts'
-import type { Project } from '@/domain/deck/enterprise/entities/project.entity.ts'
-import type { Trail } from '@/domain/deck/enterprise/entities/trail.entity.ts'
-import type { Encrypter } from '@/domain/students/application/use-cases/cryptography/encrypter.ts'
+import type { Encrypter } from '../../application/use-cases/cryptography/encrypter.ts'
+import { StudentTrailList } from './student-trail-list.entity.ts'
 import type { Email } from './value-objects/email.ts'
 
 export interface StudentProps {
@@ -16,9 +15,7 @@ export interface StudentProps {
   semester: number
   createdAt: Date
   updatedAt?: Date
-  trails: Trail[]
-  projects?: Project[]
-  comments?: Comment[]
+  trails: StudentTrailList
 }
 
 export class Student extends Entity<StudentProps> {
@@ -62,14 +59,6 @@ export class Student extends Entity<StudentProps> {
     return this.props.trails
   }
 
-  get projects() {
-    return this.props.projects
-  }
-
-  get comments() {
-    return this.props.comments
-  }
-
   private touch() {
     this.props.updatedAt = new Date()
   }
@@ -109,28 +98,19 @@ export class Student extends Entity<StudentProps> {
     this.touch()
   }
 
-  set trails(trails: Trail[]) {
+  set trails(trails: StudentTrailList) {
     this.props.trails = trails
     this.touch()
   }
 
-  set projects(projects: Project[] | undefined) {
-    this.props.projects = projects
-    this.touch()
-  }
-
-  set comments(comments: Comment[] | undefined) {
-    this.props.comments = comments
-    this.touch()
-  }
-
   static create(
-    props: Optional<StudentProps, 'createdAt'>,
+    props: Optional<StudentProps, 'createdAt' | 'trails'>,
     id?: UniqueEntityID,
   ): Student {
     return new Student(
       {
         ...props,
+        trails: props.trails ?? new StudentTrailList(),
         createdAt: new Date(),
       },
       id,

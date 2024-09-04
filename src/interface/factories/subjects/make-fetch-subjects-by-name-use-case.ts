@@ -1,4 +1,4 @@
-import { FetchSubjectsByNameUseCase } from '@/application/use-cases/subjects/fetch-by-name.ts'
+import { FetchSubjectsByNameUseCase } from '@/domain/deck/application/use-cases/fetch-by-name.ts'
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
 
 export function makeFetchSubjectByNameUseCase() {

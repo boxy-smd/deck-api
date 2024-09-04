@@ -1,4 +1,7 @@
-import type { Project, ProjectProps } from '@/domain/deck/enterprise/entities/project.entity.ts'
+import type {
+  Project,
+  ProjectProps,
+} from '@/domain/deck/enterprise/entities/project.entity.ts'
 
 export type ProjectQuery = {
   title?: string

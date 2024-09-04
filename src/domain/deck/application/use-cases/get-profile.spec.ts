@@ -1,7 +1,7 @@
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'
-import { Student } from '../../enterprise/student.entity.ts'
+import { Student } from '../../enterprise/entities/student.entity.ts'
 import { GetProfileUseCase } from './get-profile.ts'
 
 let studentsRepository: InMemoryStudentsRepository

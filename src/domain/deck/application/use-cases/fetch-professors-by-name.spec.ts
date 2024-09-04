@@ -1,11 +1,11 @@
 import { Professor } from '@/domain/deck/enterprise/entities/professor.entity.ts'
-import { InMemoryProfessorsRepository } from '../../../../test/repositories/professors-repository.ts'
-import { FetchProfessorsByNameUseCase } from './fetch-by-name.ts'
+import { InMemoryProfessorsRepository } from 'test/repositories/professors-repository.ts'
+import { FetchProfessorsByNameUseCase } from './fetch-professors-by-name.ts'
 
 let professorsRepository: InMemoryProfessorsRepository
 let sut: FetchProfessorsByNameUseCase
 
-describe('Fetch professors by name use case', () => {
+describe('fetch professors by name use case', () => {
   beforeEach(() => {
     professorsRepository = new InMemoryProfessorsRepository()
     sut = new FetchProfessorsByNameUseCase(professorsRepository)

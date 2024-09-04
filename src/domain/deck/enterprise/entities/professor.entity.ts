@@ -1,13 +1,11 @@
 import { Entity } from '@/core/entities/entity.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import type { Optional } from '@/core/types/optional.ts'
-import type { Project } from './project.entity.ts'
 
 export interface ProfessorProps {
   name: string
   createdAt: Date
   updatedAt?: Date
-  projects?: Project[]
 }
 
 export class Professor extends Entity<ProfessorProps> {
@@ -23,17 +21,8 @@ export class Professor extends Entity<ProfessorProps> {
     return this.props.updatedAt
   }
 
-  get projects(): Project[] {
-    return this.props.projects || []
-  }
-
   private touch() {
     this.props.updatedAt = new Date()
-  }
-
-  set projects(projects: Project[]) {
-    this.props.projects = projects
-    this.touch()
   }
 
   static create(

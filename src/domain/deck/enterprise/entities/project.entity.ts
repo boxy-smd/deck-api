@@ -2,8 +2,8 @@ import { Entity } from '@/core/entities/entity.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import type { Optional } from '@/core/types/optional.ts'
 import type { Comment } from './comment.entity.ts'
-import type { Professor } from './professor.entity.ts'
-import type { Trail } from './trail.entity.ts'
+import type { ProjectProfessor } from './project-professor.entity.ts'
+import type { ProjectTrail } from './project-trail.entity.ts'
 
 export type ProjectStatusEnum = 'DRAFT' | 'PUBLISHED'
 
@@ -18,10 +18,10 @@ export interface ProjectProps {
   allowComments: boolean
   createdAt: Date
   updatedAt?: Date
-  authorId: string
+  authorId: UniqueEntityID
   subjectId?: UniqueEntityID
-  trails: Trail[]
-  professors?: Professor[]
+  trails: ProjectTrail[]
+  professors?: ProjectProfessor[]
   comments?: Comment[]
 }
 
@@ -74,7 +74,7 @@ export class Project extends Entity<ProjectProps> {
     return this.props.subjectId
   }
 
-  get trails(): Trail[] {
+  get trails() {
     return this.props.trails
   }
 
@@ -130,7 +130,7 @@ export class Project extends Entity<ProjectProps> {
     this.touch()
   }
 
-  set authorId(authorId: string) {
+  set authorId(authorId: UniqueEntityID) {
     this.props.authorId = authorId
     this.touch()
   }
@@ -140,12 +140,12 @@ export class Project extends Entity<ProjectProps> {
     this.touch()
   }
 
-  set trails(trails: Trail[]) {
+  set trails(trails: ProjectTrail[]) {
     this.props.trails = trails
     this.touch()
   }
 
-  set professors(professors: Professor[] | undefined) {
+  set professors(professors: ProjectProfessor[] | undefined) {
     this.props.professors = professors
     this.touch()
   }

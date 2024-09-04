@@ -1,48 +1,36 @@
+import type { CommentsRepository } from '@/domain/deck/application/repositories/comments-repository.ts'
 import type { Comment } from '@/domain/deck/enterprise/entities/comment.entity.ts'
-import type {
-  CommentsRepository,
-  UpdateCommentRequest,
-} from '@/domain/repositories/comments-repository.ts'
 
 export class InMemoryCommentsRepository implements CommentsRepository {
-  private comments: Comment[] = []
+  private items: Comment[] = []
 
-  async create(comment: Comment): Promise<Comment> {
-    this.comments.push(comment)
-    return await Promise.resolve(comment)
+  async create(comment: Comment): Promise<void> {
+    await Promise.resolve(this.items.push(comment))
   }
 
   async findById(id: string): Promise<Comment | null> {
-    const comment = this.comments.find(comment => comment.id === id)
-    return await Promise.resolve(comment ?? null)
+    return Promise.resolve(
+      this.items.find(item => item.id.toString() === id) || null,
+    )
   }
 
-  async fetchByProjectId(projectId: string): Promise<Comment[]> {
-    const comments = this.comments.filter(comment => {
-      if (comment.projectId !== projectId) return false
-      return true
-    })
+  async save(comment: Comment): Promise<void> {
+    const index = this.items.findIndex(item => item.id.equals(comment.id))
 
-    return await Promise.resolve(comments)
-  }
-
-  async update(
-    id: string,
-    request: UpdateCommentRequest,
-  ): Promise<Comment | null> {
-    const comment = this.comments.find(comment => comment.id === id)
-
-    if (!comment) return await Promise.resolve(null)
-
-    if (request.content) {
-      comment.content = request.content
+    if (index !== -1) {
+      this.items[index] = comment
     }
 
-    return await Promise.resolve(comment)
+    return await Promise.resolve()
   }
 
-  async delete(id: string): Promise<void> {
-    this.comments = this.comments.filter(comment => comment.id !== id)
+  async delete(comment: Comment): Promise<void> {
+    const index = this.items.findIndex(item => item.id.equals(comment.id))
+
+    if (index !== -1) {
+      this.items.splice(index, 1)
+    }
+
     return await Promise.resolve()
   }
 }

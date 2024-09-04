@@ -1,12 +1,14 @@
 import { type Either, left, right } from '@/core/either.ts'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { InvalidCredentialsError } from '@/core/errors/invalid-credentials.error.ts'
 import { ResourceAlreadyExistsError } from '@/core/errors/resource-already-exists.ts'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
 import type { TrailsRepository } from '@/domain/deck/application/repositories/trails-repository.ts'
-import type { Trail } from '@/domain/deck/enterprise/entities/trail.entity.ts'
-import { Student } from '../../enterprise/student.entity.ts'
-import { Email } from '../../enterprise/value-objects/email.ts'
-import type { EmailBadFormattedError } from '../../enterprise/value-objects/errors/email-bad-formatted.error.ts'
+import { StudentTrailList } from '../../enterprise/entities/student-trail-list.entity.ts'
+import { StudentTrail } from '../../enterprise/entities/student-trail.entity.ts'
+import { Student } from '../../enterprise/entities/student.entity.ts'
+import { Email } from '../../enterprise/entities/value-objects/email.ts'
+import type { EmailBadFormattedError } from '../../enterprise/entities/value-objects/errors/email-bad-formatted.error.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
 import type { Encrypter } from './cryptography/encrypter.ts'
 
@@ -70,18 +72,6 @@ export class RegisterUseCase {
 
     const passwordHash = await Student.hashPassword(password, this.encrypter)
 
-    const trails: Trail[] = []
-
-    if (trailsIds) {
-      for (const trailId of trailsIds) {
-        const trail = await this.trailsRepository.findById(trailId)
-        if (!trail) {
-          return left(new ResourceNotFoundError('Trail not found.'))
-        }
-        trails.push(trail)
-      }
-    }
-
     const emailOrError = Email.create(email)
 
     if (emailOrError.isLeft()) {
@@ -89,6 +79,18 @@ export class RegisterUseCase {
     }
 
     const validatedEmail = emailOrError.value
+
+    if (trailsIds) {
+      for (const trailId of trailsIds) {
+        const trail = await this.trailsRepository.findById(trailId)
+
+        if (!trail) {
+          return left(
+            new ResourceNotFoundError(`Trail with id ${trailId} not found.`),
+          )
+        }
+      }
+    }
 
     const user = Student.create({
       name,
@@ -98,8 +100,16 @@ export class RegisterUseCase {
       semester,
       about,
       profileUrl,
-      trails,
     })
+
+    const trails = trailsIds?.map(trailId => {
+      return StudentTrail.create({
+        trailId: new UniqueEntityID(trailId),
+        studentId: user.id,
+      })
+    })
+
+    user.trails = new StudentTrailList(trails)
 
     await this.usersRepository.create(user)
 

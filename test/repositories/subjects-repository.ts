@@ -1,58 +1,52 @@
-import type {
-  SubjectsRepository,
-  UpdateSubjectRequest,
-} from '@/domain/deck/application/repositories/subjects-repository.ts'
+import type { SubjectsRepository } from '@/domain/deck/application/repositories/subjects-repository.ts'
 import type { Subject } from '@/domain/deck/enterprise/entities/subject.entity.ts'
 
 export class InMemorySubjectsRepository implements SubjectsRepository {
-  private subjects: Subject[] = []
+  private items: Subject[] = []
 
-  async create(subject: Subject): Promise<Subject> {
-    this.subjects.push(subject)
-    return await Promise.resolve(subject)
+  async create(subject: Subject): Promise<void> {
+    await Promise.resolve(this.items.push(subject))
   }
 
   async findById(id: string): Promise<Subject | null> {
-    const subject = this.subjects.find(subject => subject.id === id)
-    return await Promise.resolve(subject ?? null)
+    return Promise.resolve(
+      this.items.find(item => item.id.toString() === id) || null,
+    )
   }
 
   async findByName(name: string): Promise<Subject | null> {
-    const subject = this.subjects.find(subject => subject.name === name)
-    return await Promise.resolve(subject ?? null)
+    return Promise.resolve(this.items.find(item => item.name === name) || null)
   }
 
-  async fetch(): Promise<Subject[]> {
-    return await Promise.resolve(this.subjects)
+  async fetchAll(): Promise<Subject[]> {
+    return await Promise.resolve(this.items)
   }
 
   async fetchByName(name: string): Promise<Subject[]> {
-    const subjects = this.subjects.filter(subject => {
-      if (!subject.name.includes(name)) return false
-      return true
-    })
-    return await Promise.resolve(subjects)
+    return await Promise.resolve(
+      this.items.filter(item =>
+        item.name.toLowerCase().includes(name.toLowerCase()),
+      ),
+    )
   }
 
-  async update(
-    id: string,
-    { name }: UpdateSubjectRequest,
-  ): Promise<Subject | null> {
-    const subject = this.subjects.find(subject => subject.id === id)
+  async save(subject: Subject): Promise<void> {
+    const index = this.items.findIndex(item => item.id.equals(subject.id))
 
-    if (!subject) return await Promise.resolve(null)
-
-    if (name) {
-      subject.name = name
+    if (index !== -1) {
+      this.items[index] = subject
     }
 
-    subject.updatedAt = new Date()
-
-    return await Promise.resolve(subject)
+    return await Promise.resolve()
   }
 
-  async delete(id: string): Promise<void> {
-    this.subjects = this.subjects.filter(subject => subject.id !== id)
+  async delete(subject: Subject): Promise<void> {
+    const index = this.items.findIndex(item => item.id.equals(subject.id))
+
+    if (index !== -1) {
+      this.items.splice(index, 1)
+    }
+
     return await Promise.resolve()
   }
 }

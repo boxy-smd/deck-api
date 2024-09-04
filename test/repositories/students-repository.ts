@@ -1,5 +1,5 @@
-import type { StudentsRepository } from '@/domain/community/application/repositories/students-repository.ts'
-import type { Student } from '@/domain/community/enterprise/student.entity.ts'
+import type { StudentsRepository } from '@/domain/deck/application/repositories/students-repository.ts'
+import type { Student } from '@/domain/deck/enterprise/entities/student.entity.ts'
 
 export class InMemoryStudentsRepository implements StudentsRepository {
   private items: Student[] = []
