@@ -3,7 +3,7 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import type { Optional } from '@/core/types/optional.ts'
 import type { ProjectCommentList } from './project-comment-list.ts'
 import type { ProjectProfessorList } from './project-professor-list.ts'
-import type { ProjectTrailList } from './project-trail-list.ts'
+import { ProjectTrailList } from './project-trail-list.ts'
 
 export type ProjectStatusEnum = 'DRAFT' | 'PUBLISHED'
 
@@ -156,12 +156,13 @@ export class Project extends AggregateRoot<ProjectProps> {
   }
 
   static create(
-    props: Optional<ProjectProps, 'createdAt'>,
+    props: Optional<ProjectProps, 'createdAt' | 'trails'>,
     id?: UniqueEntityID,
   ): Project {
     return new Project(
       {
         ...props,
+        trails: props.trails ?? new ProjectTrailList(),
         createdAt: new Date(),
       },
       id,

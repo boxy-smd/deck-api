@@ -2,7 +2,7 @@ import type { TrailsRepository } from '@/domain/deck/application/repositories/tr
 import type { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
 
 export class InMemoryTrailsRepository implements TrailsRepository {
-  private items: Trail[] = []
+  public items: Trail[] = []
 
   async create(trail: Trail): Promise<void> {
     await Promise.resolve(this.items.push(trail))

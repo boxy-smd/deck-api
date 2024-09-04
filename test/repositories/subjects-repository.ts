@@ -2,7 +2,7 @@ import type { SubjectsRepository } from '@/domain/deck/application/repositories/
 import type { Subject } from '@/domain/deck/enterprise/entities/subject.ts'
 
 export class InMemorySubjectsRepository implements SubjectsRepository {
-  private items: Subject[] = []
+  public items: Subject[] = []
 
   async create(subject: Subject): Promise<void> {
     await Promise.resolve(this.items.push(subject))

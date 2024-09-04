@@ -2,7 +2,7 @@ import type {
   ProjectQuery,
   ProjectsRepository,
 } from '@/domain/deck/application/repositories/projects-repository.ts'
-import type { Project } from '@/domain/deck/enterprise/entities/project.entity.ts'
+import type { Project } from '@/domain/deck/enterprise/entities/project.ts'
 import { prisma } from '../client.ts'
 import { ProjectMapper } from '../mappers/projects-mapper.ts'
 import { TrailMapper } from '../mappers/trail-mapper.ts'

@@ -1,7 +1,7 @@
 import { Entity } from '@/core/entities/entity.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 
-interface ProjectTrailProps {
+export interface ProjectTrailProps {
   projectId: UniqueEntityID
   trailId: UniqueEntityID
 }

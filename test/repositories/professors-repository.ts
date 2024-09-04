@@ -2,11 +2,7 @@ import type { ProfessorsRepository } from '@/domain/deck/application/repositorie
 import type { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
 
 export class InMemoryProfessorsRepository implements ProfessorsRepository {
-  private items: Professor[] = []
-
-  async create(professor: Professor): Promise<void> {
-    await Promise.resolve(this.items.push(professor))
-  }
+  public items: Professor[] = []
 
   async findById(id: string): Promise<Professor | null> {
     return Promise.resolve(
@@ -24,6 +20,10 @@ export class InMemoryProfessorsRepository implements ProfessorsRepository {
         item.name.toLowerCase().includes(name.toLowerCase()),
       ),
     )
+  }
+
+  async create(professor: Professor): Promise<void> {
+    await Promise.resolve(this.items.push(professor))
   }
 
   async save(professor: Professor): Promise<void> {

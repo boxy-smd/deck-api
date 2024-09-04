@@ -2,16 +2,10 @@ import type { CommentsRepository } from '@/domain/deck/application/repositories/
 import type { Comment } from '@/domain/deck/enterprise/entities/comment.ts'
 
 export class InMemoryCommentsRepository implements CommentsRepository {
-  private items: Comment[] = []
+  public items: Comment[] = []
 
   async create(comment: Comment): Promise<void> {
     await Promise.resolve(this.items.push(comment))
-  }
-
-  async findById(id: string): Promise<Comment | null> {
-    return Promise.resolve(
-      this.items.find(item => item.id.toString() === id) || null,
-    )
   }
 
   async save(comment: Comment): Promise<void> {

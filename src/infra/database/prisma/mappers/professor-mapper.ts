@@ -2,7 +2,7 @@ import type { Prisma, Professor as RawProfessor } from '@prisma/client'
 
 import type { UpdateProfessorRequest } from '@/domain/deck/application/repositories/professors-repository.ts'
 import { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
-import type { Project } from '@/domain/deck/enterprise/entities/project.entity.ts'
+import type { Project } from '@/domain/deck/enterprise/entities/project.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class ProfessorMapper {

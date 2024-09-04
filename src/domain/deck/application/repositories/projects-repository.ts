@@ -1,7 +1,8 @@
 import type {
   Project,
   ProjectProps,
-} from '@/domain/deck/enterprise/entities/project.entity.ts'
+} from '@/domain/deck/enterprise/entities/project.ts'
+import type { ProjectDetails } from '../../enterprise/entities/value-objects/project-details.ts'
 
 export type ProjectQuery = {
   title?: string
@@ -13,6 +14,7 @@ export type ProjectQuery = {
 
 export interface ProjectsRepository {
   findById(id: string): Promise<Project | null>
+  findDetailsById(id: string): Promise<ProjectDetails | null>
   fetchAll(): Promise<Project[]>
   fetchByQuery(query: ProjectQuery): Promise<Project[]>
   create(project: ProjectProps): Promise<void>

@@ -1,3 +1,4 @@
+import type { StudentTrailsRepository } from '@/domain/deck/application/repositories/student-trails-repository.ts'
 import type {
   StudentQuery,
   StudentsRepository,
@@ -5,7 +6,9 @@ import type {
 import type { Student } from '@/domain/deck/enterprise/entities/student.ts'
 
 export class InMemoryStudentsRepository implements StudentsRepository {
-  private items: Student[] = []
+  public items: Student[] = []
+
+  constructor(private studentTrailsRepository: StudentTrailsRepository) {}
 
   async findById(id: string): Promise<Student | null> {
     const student = this.items.find(item => item.id.toString() === id)
@@ -46,6 +49,9 @@ export class InMemoryStudentsRepository implements StudentsRepository {
 
   async create(user: Student): Promise<void> {
     this.items.push(user)
+
+    await this.studentTrailsRepository.createMany(user.trails.getItems())
+
     return await Promise.resolve()
   }
 
@@ -53,6 +59,9 @@ export class InMemoryStudentsRepository implements StudentsRepository {
     const index = this.items.findIndex(item => item.id === user.id)
 
     this.items[index] = user
+
+    await this.studentTrailsRepository.createMany(user.trails.getItems())
+
     return Promise.resolve()
   }
 }

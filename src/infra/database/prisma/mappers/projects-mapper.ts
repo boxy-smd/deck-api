@@ -3,7 +3,7 @@ import type { Prisma, Project as RawProject } from '@prisma/client'
 import type { UpdateProjectRequest } from '@/domain/deck/application/repositories/projects-repository.ts'
 import type { Comment } from '@/domain/deck/enterprise/entities/comment.ts'
 import type { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
-import { Project } from '@/domain/deck/enterprise/entities/project.entity.ts'
+import { Project } from '@/domain/deck/enterprise/entities/project.ts'
 import type { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>

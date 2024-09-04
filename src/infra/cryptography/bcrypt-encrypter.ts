@@ -1,14 +1,16 @@
-import type { Encrypter } from '@/domain/students/application/use-cases/cryptography/encrypter.ts'
-import bcrypt from 'bcrypt'
+import { compare, hash } from 'bcrypt'
 
-export class BcryptEncrypter implements Encrypter {
-  private SALT_ROUNDS = 6
+import type { HashComparer } from '@/domain/deck/application/use-cases/cryptography/hash-comparer.ts'
+import type { HashGenerator } from '@/domain/deck/application/use-cases/cryptography/hash-generator.ts'
 
-  public async hash(data: string): Promise<string> {
-    return await bcrypt.hash(data, this.SALT_ROUNDS)
+export class BcryptHasher implements HashGenerator, HashComparer {
+  private HASH_SALT_LENGTH = 8
+
+  hash(plain: string): Promise<string> {
+    return hash(plain, this.HASH_SALT_LENGTH)
   }
 
-  public async compare(data: string, encryptedData: string): Promise<boolean> {
-    return await bcrypt.compare(data, encryptedData)
+  compare(plain: string, hash: string): Promise<boolean> {
+    return compare(plain, hash)
   }
 }

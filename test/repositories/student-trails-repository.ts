@@ -4,7 +4,7 @@ import type { StudentTrail } from '@/domain/deck/enterprise/entities/student-tra
 export class InMemoryStudentTrailsRepository
   implements StudentTrailsRepository
 {
-  private items: StudentTrail[] = []
+  public items: StudentTrail[] = []
 
   async findManyByStudentId(studentId: string): Promise<StudentTrail[]> {
     const studentTrails = this.items.filter(
@@ -12,5 +12,23 @@ export class InMemoryStudentTrailsRepository
     )
 
     return studentTrails
+  }
+
+  async create(studentTrail: StudentTrail): Promise<void> {
+    await Promise.resolve(this.items.push(studentTrail))
+  }
+
+  async delete(studentTrail: StudentTrail): Promise<void> {
+    const index = this.items.findIndex(item => item.id.equals(studentTrail.id))
+
+    if (index !== -1) {
+      this.items.splice(index, 1)
+    }
+
+    return await Promise.resolve()
+  }
+
+  async createMany(studentTrails: StudentTrail[]): Promise<void> {
+    await Promise.resolve(this.items.push(...studentTrails))
   }
 }
