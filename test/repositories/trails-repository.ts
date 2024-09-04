@@ -1,5 +1,5 @@
 import type { TrailsRepository } from '@/domain/deck/application/repositories/trails-repository.ts'
-import type { Trail } from '@/domain/deck/enterprise/entities/trail.entity.ts'
+import type { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
 
 export class InMemoryTrailsRepository implements TrailsRepository {
   private items: Trail[] = []

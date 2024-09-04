@@ -1,4 +1,4 @@
-import type { Professor } from '../../enterprise/entities/professor.entity.ts'
+import type { Professor } from '../../enterprise/entities/professor.ts'
 import type { ProfessorsRepository } from '../repositories/professors-repository.ts'
 
 type FetchAllProfessorsUseCaseResponse = Professor[]

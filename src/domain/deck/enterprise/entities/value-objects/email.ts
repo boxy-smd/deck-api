@@ -1,23 +1,13 @@
-import { type Either, left, right } from '@/core/either.ts'
+import { ValueObject } from '@/core/entities/value-object.ts'
 import { EmailBadFormattedError } from './errors/email-bad-formatted.error.ts'
 
 interface EmailProps {
   value: string
 }
 
-export class Email {
-  private props: EmailProps
-
+export class Email extends ValueObject<EmailProps> {
   get value() {
     return this.props.value
-  }
-
-  set value(email: string) {
-    this.value = email
-  }
-
-  protected constructor(props: EmailProps) {
-    this.props = props
   }
 
   static validate(email: string) {
@@ -28,15 +18,15 @@ export class Email {
     return [!emailRegex.test(email), !institutionEmailRegex.test(email)]
   }
 
-  static create(email: string): Either<EmailBadFormattedError, Email> {
+  static create(email: string) {
     const [isEmailBadFormatted, isNotInstitutionEmail] = Email.validate(email)
 
     if (isEmailBadFormatted)
-      return left(new EmailBadFormattedError('Email bad formatted.'))
+      throw new EmailBadFormattedError('Email bad formatted.')
 
     if (isNotInstitutionEmail)
-      return left(new EmailBadFormattedError('Email must be from UFC.'))
+      throw new EmailBadFormattedError('Email must be from UFC.')
 
-    return right(new Email({ value: email }))
+    return new Email({ value: email })
   }
 }

@@ -1,19 +1,25 @@
 import { type Either, left, right } from '@/core/either.ts'
 import { InvalidCredentialsError } from '@/core/errors/invalid-credentials.error.ts'
-import type { Student } from '../../enterprise/entities/student.entity.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
 import type { Encrypter } from './cryptography/encrypter.ts'
+import type { HashComparer } from './cryptography/hash-comparer.ts'
 
 interface LoginUseCaseRequest {
   email: string
   password: string
 }
 
-type LoginUseCaseResponse = Either<InvalidCredentialsError, Student>
+type LoginUseCaseResponse = Either<
+  InvalidCredentialsError,
+  {
+    accessToken: string
+  }
+>
 
 export class LoginUseCase {
   constructor(
     private studentsRepository: StudentsRepository,
+    private hashComparer: HashComparer,
     private encrypter: Encrypter,
   ) {}
 
@@ -21,19 +27,13 @@ export class LoginUseCase {
     email,
     password,
   }: LoginUseCaseRequest): Promise<LoginUseCaseResponse> {
-    if (!(email && password)) {
-      return left(
-        new InvalidCredentialsError('Email and password must be provided.'),
-      )
-    }
-
     const student = await this.studentsRepository.findByEmail(email)
 
     if (!student) {
       return left(new InvalidCredentialsError())
     }
 
-    const isPasswordValid = await this.encrypter.compare(
+    const isPasswordValid = await this.hashComparer.compare(
       password,
       student.passwordHash,
     )
@@ -42,6 +42,12 @@ export class LoginUseCase {
       return left(new InvalidCredentialsError())
     }
 
-    return right(student)
+    const accessToken = await this.encrypter.encrypt({
+      sub: student.id.toString(),
+    })
+
+    return right({
+      accessToken,
+    })
   }
 }

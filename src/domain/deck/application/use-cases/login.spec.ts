@@ -1,21 +1,26 @@
 import { InvalidCredentialsError } from '@/core/errors/invalid-credentials.error.ts'
-import { Base64Encrypter } from 'test/cryptography/base64-encrypter.ts'
+import { FakeEncrypter } from 'test/cryptography/fake-encrypter.ts'
+import { FakeHasher } from 'test/cryptography/fake-hasher.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
 import { InMemoryStudentsRepository } from '../../../../../test/repositories/students-repository.ts'
-import { Student } from '../../enterprise/entities/student.entity.ts'
+import type { Student } from '../../enterprise/entities/student.ts'
 import { LoginUseCase } from './login.ts'
 
 let studentsRepository: InMemoryStudentsRepository
-let sut: LoginUseCase
 let student: Student
+let encrypter: FakeEncrypter
+let hasher: FakeHasher
+
+let sut: LoginUseCase
 
 describe('login use case', () => {
   beforeEach(async () => {
     studentsRepository = new InMemoryStudentsRepository()
-    const encrypter = new Base64Encrypter()
+    encrypter = new FakeEncrypter()
+    hasher = new FakeHasher()
     student = await makeStudent()
 
-    sut = new LoginUseCase(studentsRepository, encrypter)
+    sut = new LoginUseCase(studentsRepository, hasher, encrypter)
   })
 
   it('should be able to login a student', async () => {
@@ -27,27 +32,9 @@ describe('login use case', () => {
     })
 
     expect(result.isRight()).toBe(true)
-    expect(result.value).toBeInstanceOf(Student)
-  })
-
-  it('should not be able to login a student with no email', async () => {
-    const result = await sut.execute({
-      email: '',
-      password: '123456',
-    })
-
-    expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(InvalidCredentialsError)
-  })
-
-  it('should not be able to login a student with no password', async () => {
-    const result = await sut.execute({
-      email: student.email.value,
-      password: '',
-    })
-
-    expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(InvalidCredentialsError)
+    expect(result.isRight() && result.value.accessToken).toEqual(
+      JSON.stringify({ sub: student.id.toString() }),
+    )
   })
 
   it('should not be able to login an unregistered student', async () => {

@@ -2,7 +2,7 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import {
   Professor,
   type ProfessorProps,
-} from '@/domain/deck/enterprise/entities/professor.entity.ts'
+} from '@/domain/deck/enterprise/entities/professor.ts'
 
 export function makeProfessor(
   override: Partial<ProfessorProps> = {},

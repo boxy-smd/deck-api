@@ -1,4 +1,4 @@
-import type { Trail } from '@/domain/deck/enterprise/entities/trail.entity.ts'
+import type { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
 import { makeTrail } from 'test/factories/make-trail.ts'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository.ts'
 import { FetchAllTrailsUseCase } from './fetch-all-trails.ts'

@@ -4,19 +4,20 @@ import { makeTrail } from 'test/factories/make-trail.ts'
 import { InMemoryStudentTrailsRepository } from 'test/repositories/student-trails-repository.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository.ts'
-import { StudentTrailList } from '../../enterprise/entities/student-trail-list.entity.ts'
-import type { StudentTrail } from '../../enterprise/entities/student-trail.entity.ts'
-import { Student } from '../../enterprise/entities/student.entity.ts'
-import type { Trail } from '../../enterprise/entities/trail.entity.ts'
+import { StudentTrailList } from '../../enterprise/entities/student-trail-list.ts'
+import type { StudentTrail } from '../../enterprise/entities/student-trail.ts'
+import { Student } from '../../enterprise/entities/student.ts'
+import type { Trail } from '../../enterprise/entities/trail.ts'
 import { UpdateProfileUseCase } from './update-profile.ts'
 
 let studentsRepository: InMemoryStudentsRepository
 let trailsRepository: InMemoryTrailsRepository
 let studentTrailsRepository: InMemoryStudentTrailsRepository
-let sut: UpdateProfileUseCase
 let student: Student
 let studentTrail: StudentTrail
 let trail: Trail
+
+let sut: UpdateProfileUseCase
 
 describe('update profile use case', () => {
   beforeEach(async () => {

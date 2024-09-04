@@ -2,7 +2,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import {
   StudentTrail,
   type StudentTrailProps,
-} from '@/domain/deck/enterprise/entities/student-trail.entity.ts'
+} from '@/domain/deck/enterprise/entities/student-trail.ts'
 
 export function makeStudentTrail(
   override: Partial<StudentTrailProps> = {},

@@ -1,4 +1,3 @@
-export interface Encrypter {
-  hash: (data: string) => Promise<string>
-  compare: (data: string, encryptedData: string) => Promise<boolean>
+export abstract class Encrypter {
+  abstract encrypt(payload: Record<string, unknown>): Promise<string>
 }

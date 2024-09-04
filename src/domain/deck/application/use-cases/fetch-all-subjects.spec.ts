@@ -1,4 +1,4 @@
-import type { Subject } from '@/domain/deck/enterprise/entities/subject.entity.ts'
+import type { Subject } from '@/domain/deck/enterprise/entities/subject.ts'
 import { makeSubject } from 'test/factories/make-subject.ts'
 import { InMemorySubjectsRepository } from 'test/repositories/subjects-repository.ts'
 import { FetchAllSubjectsUseCase } from './fetch-all-subjects.ts'

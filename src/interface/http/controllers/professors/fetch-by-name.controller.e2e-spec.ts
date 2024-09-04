@@ -2,7 +2,7 @@ import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { app } from '@/app.ts'
-import { Professor } from '@/domain/deck/enterprise/entities/professor.entity.ts'
+import { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
 
 describe('fetch professors by name controller (e2e)', () => {

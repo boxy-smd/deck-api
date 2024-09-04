@@ -1,8 +1,7 @@
 import { Entity } from '@/core/entities/entity.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import type { Optional } from '@/core/types/optional.ts'
-import type { Encrypter } from '../../application/use-cases/cryptography/encrypter.ts'
-import { StudentTrailList } from './student-trail-list.entity.ts'
+import { StudentTrailList } from './student-trail-list.ts'
 import type { Email } from './value-objects/email.ts'
 
 export interface StudentProps {
@@ -115,9 +114,5 @@ export class Student extends Entity<StudentProps> {
       },
       id,
     )
-  }
-
-  static hashPassword(password: string, encrypter: Encrypter): Promise<string> {
-    return encrypter.hash(password)
   }
 }

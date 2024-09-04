@@ -2,7 +2,7 @@ import type { Prisma, Subject as RawSubject } from '@prisma/client'
 
 import type { UpdateSubjectRequest } from '@/domain/deck/application/repositories/subjects-repository.ts'
 import type { Project } from '@/domain/deck/enterprise/entities/project.entity.ts'
-import { Subject } from '@/domain/deck/enterprise/entities/subject.entity.ts'
+import { Subject } from '@/domain/deck/enterprise/entities/subject.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class SubjectMapper {

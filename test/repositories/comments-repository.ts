@@ -1,5 +1,5 @@
 import type { CommentsRepository } from '@/domain/deck/application/repositories/comments-repository.ts'
-import type { Comment } from '@/domain/deck/enterprise/entities/comment.entity.ts'
+import type { Comment } from '@/domain/deck/enterprise/entities/comment.ts'
 
 export class InMemoryCommentsRepository implements CommentsRepository {
   private items: Comment[] = []

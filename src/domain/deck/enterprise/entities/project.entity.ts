@@ -1,8 +1,9 @@
 import { AggregateRoot } from '@/core/entities/aggregate-root.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import type { Optional } from '@/core/types/optional.ts'
-import type { ProjectProfessorList } from './project-professor-list.entity.ts'
-import type { ProjectTrailList } from './project-trail-list.entity.ts'
+import type { ProjectCommentList } from './project-comment-list.ts'
+import type { ProjectProfessorList } from './project-professor-list.ts'
+import type { ProjectTrailList } from './project-trail-list.ts'
 
 export type ProjectStatusEnum = 'DRAFT' | 'PUBLISHED'
 
@@ -21,6 +22,7 @@ export interface ProjectProps {
   subjectId?: UniqueEntityID
   trails: ProjectTrailList
   professors?: ProjectProfessorList
+  comments?: ProjectCommentList
 }
 
 export class Project extends AggregateRoot<ProjectProps> {
@@ -78,6 +80,10 @@ export class Project extends AggregateRoot<ProjectProps> {
 
   get professors() {
     return this.props.professors
+  }
+
+  get comments() {
+    return this.props.comments
   }
 
   private touch() {
@@ -141,6 +147,11 @@ export class Project extends AggregateRoot<ProjectProps> {
 
   set professors(professors: ProjectProfessorList | undefined) {
     this.props.professors = professors
+    this.touch()
+  }
+
+  set comments(comments: ProjectCommentList | undefined) {
+    this.props.comments = comments
     this.touch()
   }
 

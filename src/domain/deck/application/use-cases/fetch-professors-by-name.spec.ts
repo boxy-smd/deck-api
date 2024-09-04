@@ -1,6 +1,6 @@
 import { makeProfessor } from 'test/factories/make-professor.ts'
 import { InMemoryProfessorsRepository } from 'test/repositories/professors-repository.ts'
-import type { Professor } from '../../enterprise/entities/professor.entity.ts'
+import type { Professor } from '../../enterprise/entities/professor.ts'
 import { FetchProfessorsByNameUseCase } from './fetch-professors-by-name.ts'
 
 let professorsRepository: InMemoryProfessorsRepository

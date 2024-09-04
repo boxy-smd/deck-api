@@ -1,4 +1,4 @@
-import type { Subject } from '../../enterprise/entities/subject.entity.ts'
+import type { Subject } from '../../enterprise/entities/subject.ts'
 import type { SubjectsRepository } from '../repositories/subjects-repository.ts'
 
 type FetchSubjectsUseCaseResponse = Subject[]

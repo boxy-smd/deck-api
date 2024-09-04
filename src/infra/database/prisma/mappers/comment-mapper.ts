@@ -1,6 +1,6 @@
 import type { Prisma, Comment as RawComment } from '@prisma/client'
 
-import { Comment } from '@/domain/deck/enterprise/entities/comment.entity.ts'
+import { Comment } from '@/domain/deck/enterprise/entities/comment.ts'
 import type { UpdateCommentRequest } from '@/domain/repositories/comments-repository.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>

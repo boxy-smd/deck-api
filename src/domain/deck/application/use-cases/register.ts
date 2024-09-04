@@ -1,16 +1,15 @@
 import { type Either, left, right } from '@/core/either.ts'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
-import { InvalidCredentialsError } from '@/core/errors/invalid-credentials.error.ts'
 import { ResourceAlreadyExistsError } from '@/core/errors/resource-already-exists.ts'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
 import type { TrailsRepository } from '@/domain/deck/application/repositories/trails-repository.ts'
-import { StudentTrailList } from '../../enterprise/entities/student-trail-list.entity.ts'
-import { StudentTrail } from '../../enterprise/entities/student-trail.entity.ts'
-import { Student } from '../../enterprise/entities/student.entity.ts'
+import { StudentTrailList } from '../../enterprise/entities/student-trail-list.ts'
+import { StudentTrail } from '../../enterprise/entities/student-trail.ts'
+import { Student } from '../../enterprise/entities/student.ts'
 import { Email } from '../../enterprise/entities/value-objects/email.ts'
-import type { EmailBadFormattedError } from '../../enterprise/entities/value-objects/errors/email-bad-formatted.error.ts'
+import { EmailBadFormattedError } from '../../enterprise/entities/value-objects/errors/email-bad-formatted.error.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
-import type { Encrypter } from './cryptography/encrypter.ts'
+import type { HashGenerator } from './cryptography/hash-generator.ts'
 
 interface RegisterUseCaseRequest {
   name: string
@@ -24,10 +23,7 @@ interface RegisterUseCaseRequest {
 }
 
 type RegisterUseCaseResponse = Either<
-  | InvalidCredentialsError
-  | ResourceNotFoundError
-  | ResourceAlreadyExistsError
-  | EmailBadFormattedError,
+  ResourceNotFoundError | ResourceAlreadyExistsError | EmailBadFormattedError,
   Student
 >
 
@@ -35,7 +31,7 @@ export class RegisterUseCase {
   constructor(
     private usersRepository: StudentsRepository,
     private trailsRepository: TrailsRepository,
-    private encrypter: Encrypter,
+    private hasher: HashGenerator,
   ) {}
 
   public async execute({
@@ -48,12 +44,6 @@ export class RegisterUseCase {
     profileUrl,
     trailsIds,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
-    if (!(name && username && email && password && semester)) {
-      return left(
-        new InvalidCredentialsError('Required fields must be provided.'),
-      )
-    }
-
     const isUsernameTaken = await this.usersRepository.findByUsername(username)
 
     if (isUsernameTaken) {
@@ -70,15 +60,19 @@ export class RegisterUseCase {
       )
     }
 
-    const passwordHash = await Student.hashPassword(password, this.encrypter)
+    const passwordHash = await this.hasher.hash(password)
 
-    const emailOrError = Email.create(email)
+    let validatedEmail: Email
 
-    if (emailOrError.isLeft()) {
-      return left(emailOrError.value)
+    try {
+      validatedEmail = Email.create(email)
+    } catch (error) {
+      if (error instanceof EmailBadFormattedError) {
+        return left(error)
+      }
+
+      return left(new EmailBadFormattedError())
     }
-
-    const validatedEmail = emailOrError.value
 
     if (trailsIds) {
       for (const trailId of trailsIds) {
