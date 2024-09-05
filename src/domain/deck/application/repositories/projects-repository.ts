@@ -10,6 +10,7 @@ export type ProjectQuery = {
   subjectId?: string
   professorsIds?: string[]
   publishedYear?: number
+  semester?: number
 }
 
 export interface ProjectsRepository {

@@ -1,8 +1,6 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { ValueObject } from '@/core/entities/value-object.ts'
-import type { Professor } from '../professor.ts'
 import type { ProjectStatusEnum } from '../project.ts'
-import type { Trail } from '../trail.ts'
 
 interface ProjectDetailsProps {
   title: string
@@ -22,8 +20,8 @@ interface ProjectDetailsProps {
   authorId: UniqueEntityID
   subject?: string
   subjectId?: UniqueEntityID
-  trails: Trail[]
-  professors?: Professor[]
+  trails: string[]
+  professors?: string[]
 }
 
 export class ProjectDetails extends ValueObject<ProjectDetailsProps> {

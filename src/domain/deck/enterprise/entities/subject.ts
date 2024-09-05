@@ -37,7 +37,7 @@ export class Subject extends Entity<SubjectProps> {
     return new Subject(
       {
         ...props,
-        createdAt: new Date(),
+        createdAt: props.createdAt ?? new Date(),
       },
       id,
     )

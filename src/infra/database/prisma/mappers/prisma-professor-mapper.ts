@@ -2,7 +2,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
 import type { Prisma, Professor as ProfessorRaw } from '@prisma/client'
 
-// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
+// biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaProfessorMapper {
   static toEntity(raw: ProfessorRaw): Professor {
     return Professor.create(

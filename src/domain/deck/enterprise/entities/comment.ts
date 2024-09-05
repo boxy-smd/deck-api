@@ -1,5 +1,6 @@
 import { Entity } from '@/core/entities/entity.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
+import type { Optional } from '@/core/types/optional.ts'
 
 export interface CommentProps {
   content: string
@@ -40,13 +41,13 @@ export class Comment extends Entity<CommentProps> {
   }
 
   static create(
-    props: Omit<CommentProps, 'createdAt'>,
+    props: Optional<CommentProps, 'createdAt'>,
     id?: UniqueEntityID,
   ): Comment {
     return new Comment(
       {
         ...props,
-        createdAt: new Date(),
+        createdAt: props.createdAt ?? new Date(),
       },
       id,
     )

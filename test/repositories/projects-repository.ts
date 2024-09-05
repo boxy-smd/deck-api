@@ -61,14 +61,14 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
       createdAt: project.createdAt,
       updatedAt: project.updatedAt,
       author: {
-        name: author?.name || '',
-        username: author?.username || '',
+        name: author.name,
+        username: author.username,
       },
       authorId: project.authorId,
-      subject: subject?.name || '',
+      subject: subject?.name,
       subjectId: project.subjectId,
-      trails: project.trails,
-      professors: project.professors,
+      trails: project.trails.map(trail => trail.name),
+      professors: project.professors?.map(professor => professor.name),
     })
   }
 
@@ -102,14 +102,14 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
         createdAt: project.createdAt,
         updatedAt: project.updatedAt,
         author: {
-          name: author.name || '',
-          username: author.username || '',
+          name: author.name,
+          username: author.username,
         },
         authorId: project.authorId,
-        subject: subject?.name || '',
+        subject: subject?.name,
         subjectId: project.subjectId,
-        trails: project.trails,
-        professors: project.professors,
+        trails: project.trails.map(trail => trail.name),
+        professors: project.professors?.map(professor => professor.name),
       })
     })
 
@@ -117,11 +117,12 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
   }
 
   async findManyDetailsByQuery({
+    title,
+    publishedYear,
+    semester,
     authorId,
     professorsIds,
-    publishedYear,
     subjectId,
-    title,
   }: ProjectQuery): Promise<ProjectDetails[]> {
     const projects = this.items.filter(
       item =>
@@ -132,7 +133,8 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
           )) &&
         (!publishedYear || item.publishedYear === publishedYear) &&
         (!subjectId || item.subjectId?.toString() === subjectId) &&
-        (!title || item.title.includes(title)),
+        (!title || item.title.includes(title)) &&
+        (!semester || item.semester === semester),
     )
 
     const projectsDetails = projects.map(async project => {
@@ -160,14 +162,14 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
         createdAt: project.createdAt,
         updatedAt: project.updatedAt,
         author: {
-          name: author.name || '',
-          username: author.username || '',
+          name: author.name,
+          username: author.username,
         },
         authorId: project.authorId,
-        subject: subject?.name || '',
+        subject: subject?.name,
         subjectId: project.subjectId,
-        trails: project.trails,
-        professors: project.professors,
+        trails: project.trails.map(trail => trail.name),
+        professors: project.professors?.map(professor => professor.name),
       })
     })
 

@@ -3,372 +3,200 @@ import type {
   ProjectsRepository,
 } from '@/domain/deck/application/repositories/projects-repository.ts'
 import type { Project } from '@/domain/deck/enterprise/entities/project.ts'
-import { ProjectDetails } from '@/domain/deck/enterprise/entities/value-objects/project-details.ts'
-import type { InMemoryProfessorsRepository } from './professors-repository.ts'
-import type { InMemoryProjectCommentsRepository } from './project-comments-repository.ts'
-import type { InMemoryProjectProfessorsRepository } from './project-professors-repository.ts'
-import type { InMemoryProjectTrailsRepository } from './project-trails-repository.ts'
-import type { InMemoryStudentsRepository } from './students-repository.ts'
-import type { InMemorySubjectsRepository } from './subjects-repository.ts'
-import type { InMemoryTrailsRepository } from './trails-repository.ts'
+import type { ProjectDetails } from '@/domain/deck/enterprise/entities/value-objects/project-details.ts'
+import { prisma } from '../client.ts'
+import { PrismaProjectMapper } from '../mappers/prisma-project-mapper.ts'
 
-export class InMemoryProjectsRepository implements ProjectsRepository {
-  public items: Project[] = []
-
-  constructor(
-    private projectTrailsRepository: InMemoryProjectTrailsRepository,
-    private projectProfessorsRepository: InMemoryProjectProfessorsRepository,
-    private projectCommentsRepository: InMemoryProjectCommentsRepository,
-    private studentsRepository: InMemoryStudentsRepository,
-    private subjectsRepository: InMemorySubjectsRepository,
-    private trailsRepository: InMemoryTrailsRepository,
-    private professorsRepository: InMemoryProfessorsRepository,
-  ) {}
-
+export class PrismaProjectsRepository implements ProjectsRepository {
   async findById(id: string): Promise<Project | null> {
-    const project = this.items.find(item => item.id.toString() === id)
+    const raw = await prisma.project.findUnique({
+      where: {
+        id,
+      },
+    })
 
-    if (!project) {
-      return null
-    }
+    if (!raw) return null
 
-    return await Promise.resolve(project)
+    return PrismaProjectMapper.toEntity(raw)
   }
 
   async findDetailsById(id: string): Promise<ProjectDetails | null> {
-    const project = this.items.find(item => item.id.toString() === id)
-
-    if (!project) {
-      return null
-    }
-
-    const author = this.studentsRepository.items.find(
-      item => item.id === project.authorId,
-    )
-
-    if (!author) {
-      throw new Error(`Author with ID ${project.authorId} not found.`)
-    }
-
-    const subject = this.subjectsRepository.items.find(
-      item => item.id === project.subjectId,
-    )
-
-    const projectTrails = this.projectTrailsRepository.items.filter(item => {
-      return item.projectId.equals(project.id)
-    })
-
-    const trails = projectTrails.map(projectTrail => {
-      const trail = this.trailsRepository.items.find(item =>
-        item.id.equals(projectTrail.trailId),
-      )
-
-      if (!trail) {
-        throw new Error(`Trail with ID ${projectTrail.trailId} not found.`)
-      }
-
-      return trail
-    })
-
-    const projectProfessors = this.projectProfessorsRepository.items.filter(
-      item => {
-        return item.projectId.equals(project.id)
+    const raw = await prisma.project.findUnique({
+      where: {
+        id,
       },
-    )
-
-    const professors = projectProfessors.map(projectProfessor => {
-      const professor = this.professorsRepository.items.find(
-        item => item.id === projectProfessor.id,
-      )
-
-      if (!professor) {
-        throw new Error(`Professor with ID ${projectProfessor.id} not found.`)
-      }
-
-      return professor
+      include: {
+        author: {
+          select: {
+            name: true,
+            username: true,
+          },
+        },
+        professors: {
+          select: {
+            name: true,
+          },
+        },
+        subject: {
+          select: {
+            name: true,
+          },
+        },
+        trails: {
+          select: {
+            name: true,
+          },
+        },
+      },
     })
 
-    return await Promise.resolve(
-      ProjectDetails.create({
-        title: project.title,
-        content: project.content,
-        description: project.description,
-        bannerUrl: project.bannerUrl,
-        publishedYear: project.publishedYear,
-        status: project.status,
-        semester: project.semester,
-        allowComments: project.allowComments,
+    if (!raw) return null
+
+    return PrismaProjectMapper.toEntityDetails(raw)
+  }
+
+  async findAll(): Promise<Project[]> {
+    const raw = await prisma.project.findMany()
+    return raw.map(PrismaProjectMapper.toEntity)
+  }
+
+  async findAllDetails(): Promise<ProjectDetails[]> {
+    const raw = await prisma.project.findMany({
+      include: {
         author: {
-          name: author.name,
-          username: author.username,
+          select: {
+            name: true,
+            username: true,
+          },
         },
-        authorId: project.authorId,
-        subject: subject?.name,
-        subjectId: project?.subjectId,
-        createdAt: project.createdAt,
-        updatedAt: project.updatedAt,
-        trails,
-        professors,
-      }),
-    )
+        professors: {
+          select: {
+            name: true,
+          },
+        },
+        subject: {
+          select: {
+            name: true,
+          },
+        },
+        trails: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    })
+
+    return raw.map(PrismaProjectMapper.toEntityDetails)
   }
 
-  async fetchAll(): Promise<Project[]> {
-    const projects = this.items
-    return await Promise.resolve(projects)
-  }
-
-  async fetchAllDetails(): Promise<ProjectDetails[]> {
-    const projectsDetails = await Promise.all(
-      this.items.map(async project => {
-        const author = this.studentsRepository.items.find(
-          item => item.id === project.authorId,
-        )
-
-        if (!author) {
-          throw new Error(`Author with ID ${project.authorId} not found.`)
-        }
-
-        const subject = this.subjectsRepository.items.find(
-          item => item.id === project.subjectId,
-        )
-
-        const projectTrails = this.projectTrailsRepository.items.filter(
-          item => {
-            return item.projectId.equals(project.id)
-          },
-        )
-
-        const trails = projectTrails.map(projectTrail => {
-          const trail = this.trailsRepository.items.find(item =>
-            item.id.equals(projectTrail.trailId),
-          )
-
-          if (!trail) {
-            throw new Error(`Trail with ID ${projectTrail.trailId} not found.`)
-          }
-
-          return trail
-        })
-
-        const projectProfessors = this.projectProfessorsRepository.items.filter(
-          item => {
-            return item.projectId.equals(project.id)
-          },
-        )
-
-        const professors = projectProfessors.map(projectProfessor => {
-          const professor = this.professorsRepository.items.find(
-            item => item.id === projectProfessor.id,
-          )
-
-          if (!professor) {
-            throw new Error(
-              `Professor with ID ${projectProfessor.id} not found.`,
-            )
-          }
-
-          return professor
-        })
-
-        return ProjectDetails.create({
-          title: project.title,
-          content: project.content,
-          description: project.description,
-          bannerUrl: project.bannerUrl,
-          publishedYear: project.publishedYear,
-          status: project.status,
-          semester: project.semester,
-          allowComments: project.allowComments,
-          author: {
-            name: author.name,
-            username: author.username,
-          },
-          authorId: project.authorId,
-          subject: subject?.name,
-          subjectId: project?.subjectId,
-          createdAt: project.createdAt,
-          updatedAt: project.updatedAt,
-          trails,
-          professors,
-        })
-      }),
-    )
-
-    return await Promise.resolve(projectsDetails)
-  }
-
-  async fetchAllDetailsByQuery({
+  async findAllByQuery({
     title,
-    subjectId,
+    publishedYear,
     authorId,
     professorsIds,
-    publishedYear,
-  }: ProjectQuery): Promise<ProjectDetails[]> {
-    const projects = this.items.filter(item => {
-      if (title && !item.title.toLowerCase().includes(title.toLowerCase())) {
-        return false
-      }
-
-      if (subjectId && !(item.subjectId?.toString() === subjectId)) {
-        return false
-      }
-
-      if (authorId && !(item.authorId.toString() === authorId)) {
-        return false
-      }
-
-      if (
-        professorsIds &&
-        item.professors &&
-        !item.professors
-          .getItems()
-          .every(professor =>
-            professorsIds.includes(professor.professorId.toString()),
-          )
-      ) {
-        return false
-      }
-
-      if (publishedYear && item.publishedYear !== publishedYear) {
-        return false
-      }
-
-      return true
+    subjectId,
+    semester,
+  }: ProjectQuery): Promise<Project[]> {
+    const raw = await prisma.project.findMany({
+      where: {
+        title: {
+          contains: title,
+        },
+        publishedYear,
+        authorId,
+        professors: {
+          some: {
+            id: {
+              in: professorsIds,
+            },
+          },
+        },
+        subjectId,
+        semester,
+      },
     })
 
-    const projectsDetails = await Promise.all(
-      projects.map(async project => {
-        const author = this.studentsRepository.items.find(
-          item => item.id === project.authorId,
-        )
+    return raw.map(PrismaProjectMapper.toEntity)
+  }
 
-        if (!author) {
-          throw new Error(`Author with ID ${project.authorId} not found.`)
-        }
-
-        const subject = this.subjectsRepository.items.find(
-          item => item.id === project.subjectId,
-        )
-
-        const projectTrails = this.projectTrailsRepository.items.filter(
-          item => {
-            return item.projectId.equals(project.id)
+  async findManyDetailsByQuery({
+    title,
+    publishedYear,
+    authorId,
+    professorsIds,
+    subjectId,
+    semester,
+  }: ProjectQuery): Promise<ProjectDetails[]> {
+    const raw = await prisma.project.findMany({
+      where: {
+        title: {
+          contains: title,
+        },
+        publishedYear,
+        authorId,
+        professors: {
+          some: {
+            id: {
+              in: professorsIds,
+            },
           },
-        )
-
-        const trails = projectTrails.map(projectTrail => {
-          const trail = this.trailsRepository.items.find(item =>
-            item.id.equals(projectTrail.trailId),
-          )
-
-          if (!trail) {
-            throw new Error(`Trail with ID ${projectTrail.trailId} not found.`)
-          }
-
-          return trail
-        })
-
-        const projectProfessors = this.projectProfessorsRepository.items.filter(
-          item => {
-            return item.projectId.equals(project.id)
+        },
+        subjectId,
+        semester,
+      },
+      include: {
+        author: {
+          select: {
+            name: true,
+            username: true,
           },
-        )
-
-        const professors = projectProfessors.map(projectProfessor => {
-          const professor = this.professorsRepository.items.find(
-            item => item.id === projectProfessor.id,
-          )
-
-          if (!professor) {
-            throw new Error(
-              `Professor with ID ${projectProfessor.id} not found.`,
-            )
-          }
-
-          return professor
-        })
-
-        return ProjectDetails.create({
-          title: project.title,
-          content: project.content,
-          description: project.description,
-          bannerUrl: project.bannerUrl,
-          publishedYear: project.publishedYear,
-          status: project.status,
-          semester: project.semester,
-          allowComments: project.allowComments,
-          author: {
-            name: author.name,
-            username: author.username,
+        },
+        professors: {
+          select: {
+            name: true,
           },
-          authorId: project.authorId,
-          subject: subject?.name,
-          subjectId: project?.subjectId,
-          createdAt: project.createdAt,
-          updatedAt: project.updatedAt,
-          trails,
-          professors,
-        })
-      }),
-    )
+        },
+        subject: {
+          select: {
+            name: true,
+          },
+        },
+        trails: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    })
 
-    return await Promise.resolve(projectsDetails)
+    return raw.map(PrismaProjectMapper.toEntityDetails)
   }
 
   async create(project: Project): Promise<void> {
-    await Promise.resolve(this.items.push(project))
+    const raw = PrismaProjectMapper.toPrisma(project)
 
-    await this.projectTrailsRepository.createMany(project.trails.getItems())
-
-    if (project.professors) {
-      await this.projectProfessorsRepository.createMany(
-        project.professors.getItems(),
-      )
-    }
-
-    return await Promise.resolve()
+    await prisma.project.create({
+      data: raw,
+    })
   }
 
   async save(project: Project): Promise<void> {
-    const index = this.items.findIndex(item => item.id.equals(project.id))
+    const raw = PrismaProjectMapper.toPrisma(project)
 
-    if (index !== -1) {
-      this.items[index] = project
-    }
-
-    await this.projectTrailsRepository.createMany(project.trails.getItems())
-
-    if (project.professors) {
-      await this.projectProfessorsRepository.createMany(
-        project.professors.getItems(),
-      )
-    }
-
-    return await Promise.resolve()
+    await prisma.project.update({
+      where: {
+        id: raw.id,
+      },
+      data: raw,
+    })
   }
 
-  async delete(project: Project): Promise<void> {
-    const index = this.items.findIndex(item => item.id.equals(project.id))
-
-    if (index !== -1) {
-      this.items.splice(index, 1)
-    }
-
-    await this.projectTrailsRepository.deleteMany(project.trails.getItems())
-
-    if (project.comments) {
-      await this.projectCommentsRepository.deleteMany(
-        project.comments.getItems(),
-      )
-    }
-
-    if (project.professors) {
-      await this.projectProfessorsRepository.deleteMany(
-        project.professors.getItems(),
-      )
-    }
-
-    return await Promise.resolve()
+  async delete(id: string): Promise<void> {
+    await prisma.project.delete({
+      where: {
+        id,
+      },
+    })
   }
 }

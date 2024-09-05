@@ -1,5 +1,6 @@
 import { Entity } from '@/core/entities/entity.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
+import type { Optional } from '@/core/types/optional.ts'
 import type { Project } from './project.ts'
 import type { Student } from './student.ts'
 
@@ -34,13 +35,13 @@ export class Trail extends Entity<TrailProps> {
   }
 
   static create(
-    props: Omit<TrailProps, 'createdAt'>,
+    props: Optional<TrailProps, 'createdAt'>,
     id?: UniqueEntityID,
   ): Trail {
     return new Trail(
       {
         ...props,
-        createdAt: new Date(),
+        createdAt: props.createdAt ?? new Date(),
       },
       id,
     )

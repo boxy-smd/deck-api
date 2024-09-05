@@ -109,7 +109,7 @@ export class Student extends Entity<StudentProps> {
     return new Student(
       {
         ...props,
-        createdAt: new Date(),
+        createdAt: props.createdAt ?? new Date(),
       },
       id,
     )

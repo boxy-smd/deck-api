@@ -162,7 +162,7 @@ export class Project extends AggregateRoot<ProjectProps> {
     return new Project(
       {
         ...props,
-        createdAt: new Date(),
+        createdAt: props.createdAt ?? new Date(),
       },
       id,
     )

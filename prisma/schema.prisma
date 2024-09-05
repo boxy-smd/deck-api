@@ -78,10 +78,10 @@ model Project {
   createdAt     DateTime      @default(now()) @map("created_at")
   updatedAt     DateTime      @updatedAt @map("updated_at")
 
-  authorId  String  @map("author_id")
-  author    User    @relation(fields: [authorId], references: [id])
-  subjectId String  @map("subject_id")
-  subject   Subject @relation(fields: [subjectId], references: [id])
+  authorId  String   @map("author_id")
+  author    User     @relation(fields: [authorId], references: [id])
+  subjectId String?  @map("subject_id")
+  subject   Subject? @relation(fields: [subjectId], references: [id])
 
   trails     Trail[]
   professors Professor[]

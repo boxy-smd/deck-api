@@ -3,7 +3,7 @@ import { Student } from '@/domain/deck/enterprise/entities/student.ts'
 import { Email } from '@/domain/deck/enterprise/entities/value-objects/email.ts'
 import type { Prisma, User as UserRaw } from '@prisma/client'
 
-// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
+// biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaStudentMapper {
   static toEntity(raw: UserRaw): Student {
     return Student.create(
@@ -17,6 +17,7 @@ export class PrismaStudentMapper {
         updatedAt: raw.updatedAt,
         about: raw.about ?? undefined,
         profileUrl: raw.profileUrl ?? undefined,
+        trails: [],
       },
       new UniqueEntityID(raw.id),
     )
@@ -34,6 +35,9 @@ export class PrismaStudentMapper {
       updatedAt: student.updatedAt ?? undefined,
       about: student.about ?? undefined,
       profileUrl: student.profileUrl ?? undefined,
+      trails: {
+        connect: student.trails.map(trail => ({ id: trail.id.toString() })),
+      },
     }
   }
 }
