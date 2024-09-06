@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { makeRegisterUseCase } from '@/interface/factories/users/make-register-use-case.ts'
-import type { RegisterBodySchema } from '@/interface/http/schemas/users/register.schemas.ts'
+import { makeRegisterUseCase } from '@/interface/factories/students/make-register-use-case.ts'
+import type { RegisterBodySchema } from '@/interface/http/schemas/students/register.schemas.ts'
 
 export async function register(
   request: FastifyRequest<{
@@ -9,8 +9,16 @@ export async function register(
   }>,
   reply: FastifyReply,
 ) {
-  const { name, username, email, password, semester, about, profileUrl } =
-    request.body
+  const {
+    name,
+    username,
+    email,
+    password,
+    semester,
+    about,
+    profileUrl,
+    trailsIds,
+  } = request.body
 
   const registerUseCase = makeRegisterUseCase()
 
@@ -22,6 +30,7 @@ export async function register(
     semester,
     about,
     profileUrl,
+    trailsIds,
   })
 
   if (result.isLeft()) {
@@ -29,5 +38,5 @@ export async function register(
     return reply.status(error.statusCode).send({ message: error.message })
   }
 
-  return reply.status(201).send({ user_id: result.value.id })
+  return reply.status(201).send({ user_id: result.value.id.toString() })
 }

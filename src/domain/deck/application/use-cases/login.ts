@@ -1,7 +1,6 @@
 import { type Either, left, right } from '@/core/either.ts'
 import { InvalidCredentialsError } from '@/core/errors/invalid-credentials.error.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
-import type { Encrypter } from './cryptography/encrypter.ts'
 import type { HashComparer } from './cryptography/hash-comparer.ts'
 
 interface LoginUseCaseRequest {
@@ -12,7 +11,7 @@ interface LoginUseCaseRequest {
 type LoginUseCaseResponse = Either<
   InvalidCredentialsError,
   {
-    accessToken: string
+    email: string
   }
 >
 
@@ -20,7 +19,6 @@ export class LoginUseCase {
   constructor(
     private studentsRepository: StudentsRepository,
     private hashComparer: HashComparer,
-    private encrypter: Encrypter,
   ) {}
 
   public async execute({
@@ -42,12 +40,8 @@ export class LoginUseCase {
       return left(new InvalidCredentialsError())
     }
 
-    const accessToken = await this.encrypter.encrypt({
-      sub: student.id.toString(),
-    })
-
     return right({
-      accessToken,
+      email: student.email.value,
     })
   }
 }

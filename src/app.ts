@@ -14,7 +14,7 @@ import {
 import { envToLogger } from '@/infra/config/env-to-logger.ts'
 import { env } from '@/infra/config/env.ts'
 import { errorHandler } from '@/interface/error-handler.ts'
-import { usersRoutes } from '@/interface/http/routes/users.routes.ts'
+import { studentsRoutes } from '@/interface/http/routes/students.routes.ts'
 import { professorsRoutes } from './interface/http/routes/professors.routes.ts'
 import { projectsRoutes } from './interface/http/routes/projects.routes.ts'
 import { subjectsRoutes } from './interface/http/routes/subjects.routes.ts'
@@ -70,7 +70,7 @@ async function buildServer() {
         version: '1.0.0',
       },
       tags: [
-        { name: 'Users', description: 'Operations related to users' },
+        { name: 'Students', description: 'Operations related to students' },
         { name: 'Professors', description: 'Operations related to professors' },
         { name: 'Subjects', description: 'Operations related to subjects' },
         { name: 'Trails', description: 'Operations related to trails' },
@@ -95,7 +95,7 @@ async function buildServer() {
     },
   })
 
-  app.register(usersRoutes)
+  app.register(studentsRoutes)
   app.register(subjectsRoutes)
   app.register(professorsRoutes)
   app.register(trailsRoutes)

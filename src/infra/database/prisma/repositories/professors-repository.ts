@@ -20,16 +20,16 @@ export class PrismaProfessorsRepository implements ProfessorsRepository {
     return PrismaProfessorMapper.toEntity(professor)
   }
 
-  async findAll(): Promise<Professor[]> {
-    const professors = await prisma.professor.findMany()
-    return professors.map(PrismaProfessorMapper.toEntity)
-  }
-
   async findManyByName(name: string): Promise<Professor[]> {
     const professors = await prisma.professor.findMany({
       where: { name: { contains: name } },
     })
 
+    return professors.map(PrismaProfessorMapper.toEntity)
+  }
+
+  async findAll(): Promise<Professor[]> {
+    const professors = await prisma.professor.findMany()
     return professors.map(PrismaProfessorMapper.toEntity)
   }
 

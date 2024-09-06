@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const fetchSubjectsResponseSchema = z.object(
+const fetchAllSubjectsResponseSchema = z.object(
   {
     subjects: z.array(
       z.object({
@@ -18,10 +18,10 @@ const fetchSubjectsResponseSchema = z.object(
   },
 )
 
-export const fetchSubjectsSchemas = {
-  summary: 'Fetch subjects',
+export const fetchAllSubjectsSchemas = {
+  summary: 'Fetch all subjects',
   tags: ['Subjects'],
   response: {
-    200: fetchSubjectsResponseSchema,
+    200: fetchAllSubjectsResponseSchema,
   },
 }

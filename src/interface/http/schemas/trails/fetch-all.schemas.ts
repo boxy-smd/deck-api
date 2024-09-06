@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const fetchTrailsResponseSchema = z.object(
+const fetchAllTrailsResponseSchema = z.object(
   {
     trails: z.array(
       z.object({
@@ -18,10 +18,10 @@ const fetchTrailsResponseSchema = z.object(
   },
 )
 
-export const fetchTrailsSchemas = {
-  summary: 'Fetch trails',
+export const fetchAllTrailsSchemas = {
+  summary: 'Fetch all trails',
   tags: ['Trails'],
   response: {
-    200: fetchTrailsResponseSchema,
+    200: fetchAllTrailsResponseSchema,
   },
 }

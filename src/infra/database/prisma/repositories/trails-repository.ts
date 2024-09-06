@@ -20,16 +20,16 @@ export class PrismaTrailsRepository implements TrailsRepository {
     return PrismaTrailMapper.toEntity(trail)
   }
 
-  async findAll(): Promise<Trail[]> {
-    const trails = await prisma.trail.findMany()
-    return trails.map(PrismaTrailMapper.toEntity)
-  }
-
   async findManyByName(name: string): Promise<Trail[]> {
     const trails = await prisma.trail.findMany({
       where: { name: { contains: name } },
     })
 
+    return trails.map(PrismaTrailMapper.toEntity)
+  }
+
+  async findAll(): Promise<Trail[]> {
+    const trails = await prisma.trail.findMany()
     return trails.map(PrismaTrailMapper.toEntity)
   }
 

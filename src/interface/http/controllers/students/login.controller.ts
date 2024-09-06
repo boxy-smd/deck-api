@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { makeLoginUseCase } from '@/interface/factories/users/make-login-use-case.ts'
-import type { LoginBodySchema } from '@/interface/http/schemas/users/login.schemas.ts'
+import { makeLoginUseCase } from '@/interface/factories/students/make-login-use-case.ts'
+import type { LoginBodySchema } from '@/interface/http/schemas/students/login.schemas.ts'
 
 export async function login(
   request: FastifyRequest<{
@@ -25,13 +25,13 @@ export async function login(
 
   const token = await reply.jwtSign({
     sign: {
-      sub: result.value.id,
+      sub: result.value.email,
     },
   })
 
   const refreshToken = await reply.jwtSign({
     sign: {
-      sub: result.value.id,
+      sub: result.value.email,
       expiresIn: '7d',
     },
   })

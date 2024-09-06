@@ -72,12 +72,26 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     })
   }
 
-  async findAll(): Promise<Project[]> {
-    return await Promise.resolve(this.items)
-  }
+  async findManyDetailsByQuery({
+    title,
+    semester,
+    publishedYear,
+    authorId,
+    subjectId,
+    trailsIds,
+  }: ProjectQuery): Promise<ProjectDetails[]> {
+    const projects = this.items.filter(
+      item =>
+        (!title || item.title.includes(title)) &&
+        (!semester || item.semester === semester) &&
+        (!publishedYear || item.publishedYear === publishedYear) &&
+        (!authorId || item.authorId.toString() === authorId) &&
+        (!subjectId || item.subjectId?.toString() === subjectId) &&
+        (!trailsIds ||
+          item.trails.some(trail => trailsIds.includes(trail.id.toString()))),
+    )
 
-  async findAllDetails(): Promise<ProjectDetails[]> {
-    const projectsDetails = this.items.map(async project => {
+    const projectsDetails = projects.map(async project => {
       const author = await this.studentsRepository.findById(
         project.authorId.toString(),
       )
@@ -116,28 +130,12 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     return await Promise.all(projectsDetails)
   }
 
-  async findManyDetailsByQuery({
-    title,
-    publishedYear,
-    semester,
-    authorId,
-    professorsIds,
-    subjectId,
-  }: ProjectQuery): Promise<ProjectDetails[]> {
-    const projects = this.items.filter(
-      item =>
-        (!authorId || item.authorId.toString() === authorId) &&
-        (!professorsIds ||
-          item.professors?.some(professor =>
-            professorsIds.includes(professor.id.toString()),
-          )) &&
-        (!publishedYear || item.publishedYear === publishedYear) &&
-        (!subjectId || item.subjectId?.toString() === subjectId) &&
-        (!title || item.title.includes(title)) &&
-        (!semester || item.semester === semester),
-    )
+  async findAll(): Promise<Project[]> {
+    return await Promise.resolve(this.items)
+  }
 
-    const projectsDetails = projects.map(async project => {
+  async findAllDetails(): Promise<ProjectDetails[]> {
+    const projectsDetails = this.items.map(async project => {
       const author = await this.studentsRepository.findById(
         project.authorId.toString(),
       )

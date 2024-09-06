@@ -9,8 +9,8 @@ export interface StudentsRepository {
   findById(id: string): Promise<Student | null>
   findByEmail(email: string): Promise<Student | null>
   findByUsername(username: string): Promise<Student | null>
-  findAll(): Promise<Student[]>
   findManyByQuery(query: StudentQuery): Promise<Student[]>
+  findAll(): Promise<Student[]>
   create(user: Student): Promise<void>
   save(user: Student): Promise<void>
 }

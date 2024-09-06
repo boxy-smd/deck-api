@@ -4,13 +4,13 @@ import { zodErrorSchema } from '../common.ts'
 const loginBodySchema = z.object({
   email: z
     .string({
-      description: 'User email.',
+      description: 'Student email.',
     })
     .email('Invalid email.')
     .regex(/@alu.ufc.br$/, 'Invalid email. Must be an academic email.'),
   password: z
     .string({
-      description: 'User password.',
+      description: 'Student password.',
     })
     .min(6, 'Password must have at least 6 characters.'),
 })
@@ -18,17 +18,17 @@ const loginBodySchema = z.object({
 const loginResponseSchema = z.object(
   {
     token: z.string({
-      description: 'User token.',
+      description: 'Student token.',
     }),
   },
   {
-    description: 'User logged in successfully.',
+    description: 'Student logged in successfully.',
   },
 )
 
 export const loginSchemas = {
   summary: 'Login',
-  tags: ['Users'],
+  tags: ['Students'],
   body: loginBodySchema,
   response: {
     200: loginResponseSchema,

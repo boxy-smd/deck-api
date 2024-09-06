@@ -20,16 +20,16 @@ export class PrismaSubjectsRepository implements SubjectsRepository {
     return PrismaSubjectMapper.toEntity(subject)
   }
 
-  async findAll(): Promise<Subject[]> {
-    const subjects = await prisma.subject.findMany()
-    return subjects.map(PrismaSubjectMapper.toEntity)
-  }
-
   async findManyByName(name: string): Promise<Subject[]> {
     const subjects = await prisma.subject.findMany({
       where: { name: { contains: name } },
     })
 
+    return subjects.map(PrismaSubjectMapper.toEntity)
+  }
+
+  async findAll(): Promise<Subject[]> {
+    const subjects = await prisma.subject.findMany()
     return subjects.map(PrismaSubjectMapper.toEntity)
   }
 

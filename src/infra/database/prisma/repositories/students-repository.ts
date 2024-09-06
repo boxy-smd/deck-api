@@ -39,11 +39,6 @@ export class PrismaStudentsRepository implements StudentsRepository {
     return PrismaStudentMapper.toEntity(student)
   }
 
-  async findAll(): Promise<Student[]> {
-    const students = await prisma.user.findMany()
-    return students.map(PrismaStudentMapper.toEntity)
-  }
-
   async findManyByQuery({ name, username }: StudentQuery): Promise<Student[]> {
     const students = await prisma.user.findMany({
       where: {
@@ -52,6 +47,11 @@ export class PrismaStudentsRepository implements StudentsRepository {
       },
     })
 
+    return students.map(PrismaStudentMapper.toEntity)
+  }
+
+  async findAll(): Promise<Student[]> {
+    const students = await prisma.user.findMany()
     return students.map(PrismaStudentMapper.toEntity)
   }
 

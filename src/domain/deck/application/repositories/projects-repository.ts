@@ -6,19 +6,19 @@ import type { ProjectDetails } from '../../enterprise/entities/value-objects/pro
 
 export type ProjectQuery = {
   title?: string
+  semester?: number
+  publishedYear?: number
   authorId?: string
   subjectId?: string
-  professorsIds?: string[]
-  publishedYear?: number
-  semester?: number
+  trailsIds?: string[]
 }
 
 export interface ProjectsRepository {
   findById(id: string): Promise<Project | null>
   findDetailsById(id: string): Promise<ProjectDetails | null>
+  findManyDetailsByQuery(query: ProjectQuery): Promise<ProjectDetails[]>
   findAll(): Promise<Project[]>
   findAllDetails(): Promise<ProjectDetails[]>
-  findManyDetailsByQuery(query: ProjectQuery): Promise<ProjectDetails[]>
   create(project: ProjectProps): Promise<void>
   save(project: Project): Promise<void>
   delete(id: string): Promise<void>

@@ -55,13 +55,31 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     return PrismaProjectMapper.toEntityDetails(raw)
   }
 
-  async findAll(): Promise<Project[]> {
-    const raw = await prisma.project.findMany()
-    return raw.map(PrismaProjectMapper.toEntity)
-  }
-
-  async findAllDetails(): Promise<ProjectDetails[]> {
+  async findManyDetailsByQuery({
+    title,
+    semester,
+    publishedYear,
+    authorId,
+    subjectId,
+    trailsIds,
+  }: ProjectQuery): Promise<ProjectDetails[]> {
     const raw = await prisma.project.findMany({
+      where: {
+        title: {
+          contains: title,
+        },
+        publishedYear,
+        authorId,
+        subjectId,
+        semester,
+        trails: {
+          some: {
+            id: {
+              in: trailsIds,
+            },
+          },
+        },
+      },
       include: {
         author: {
           select: {
@@ -92,59 +110,41 @@ export class PrismaProjectsRepository implements ProjectsRepository {
 
   async findAllByQuery({
     title,
+    semester,
     publishedYear,
     authorId,
-    professorsIds,
     subjectId,
-    semester,
+    trailsIds,
   }: ProjectQuery): Promise<Project[]> {
     const raw = await prisma.project.findMany({
       where: {
         title: {
           contains: title,
         },
+        semester,
         publishedYear,
         authorId,
-        professors: {
+        subjectId,
+        trails: {
           some: {
             id: {
-              in: professorsIds,
+              in: trailsIds,
             },
           },
         },
-        subjectId,
-        semester,
       },
     })
 
     return raw.map(PrismaProjectMapper.toEntity)
   }
 
-  async findManyDetailsByQuery({
-    title,
-    publishedYear,
-    authorId,
-    professorsIds,
-    subjectId,
-    semester,
-  }: ProjectQuery): Promise<ProjectDetails[]> {
+  async findAll(): Promise<Project[]> {
+    const raw = await prisma.project.findMany()
+    return raw.map(PrismaProjectMapper.toEntity)
+  }
+
+  async findAllDetails(): Promise<ProjectDetails[]> {
     const raw = await prisma.project.findMany({
-      where: {
-        title: {
-          contains: title,
-        },
-        publishedYear,
-        authorId,
-        professors: {
-          some: {
-            id: {
-              in: professorsIds,
-            },
-          },
-        },
-        subjectId,
-        semester,
-      },
       include: {
         author: {
           select: {

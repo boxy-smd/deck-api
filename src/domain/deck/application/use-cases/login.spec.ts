@@ -1,5 +1,4 @@
 import { InvalidCredentialsError } from '@/core/errors/invalid-credentials.error.ts'
-import { FakeEncrypter } from 'test/cryptography/fake-encrypter.ts'
 import { FakeHasher } from 'test/cryptography/fake-hasher.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
 import { InMemoryStudentsRepository } from '../../../../../test/repositories/students-repository.ts'
@@ -7,7 +6,6 @@ import type { Student } from '../../enterprise/entities/student.ts'
 import { LoginUseCase } from './login.ts'
 
 let studentsRepository: InMemoryStudentsRepository
-let encrypter: FakeEncrypter
 let hasher: FakeHasher
 
 let student: Student
@@ -17,14 +15,13 @@ let sut: LoginUseCase
 describe('login use case', () => {
   beforeEach(async () => {
     studentsRepository = new InMemoryStudentsRepository()
-    encrypter = new FakeEncrypter()
     hasher = new FakeHasher()
 
     student = await makeStudent()
 
     await studentsRepository.create(student)
 
-    sut = new LoginUseCase(studentsRepository, hasher, encrypter)
+    sut = new LoginUseCase(studentsRepository, hasher)
   })
 
   it('should be able to login a student', async () => {
@@ -34,9 +31,9 @@ describe('login use case', () => {
     })
 
     expect(result.isRight()).toBe(true)
-    expect(result.isRight() && result.value.accessToken).toEqual(
-      JSON.stringify({ sub: student.id.toString() }),
-    )
+    expect(result.isRight() && result.value).toMatchObject({
+      email: student.email.value,
+    })
   })
 
   it('should not be able to login an unregistered student', async () => {

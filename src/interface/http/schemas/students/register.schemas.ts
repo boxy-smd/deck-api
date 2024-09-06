@@ -3,39 +3,46 @@ import { errorResponseSchema, zodErrorSchema } from '../common.ts'
 
 const registerBodySchema = z.object({
   name: z.string({
-    description: 'User name.',
+    description: 'Student name.',
   }),
   username: z
     .string({
-      description: 'User username.',
+      description: 'Student username.',
     })
     .min(3, 'Username must have at least 3 characters.'),
   email: z
     .string({
-      description: 'User email.',
+      description: 'Student email.',
     })
     .email('Invalid email.')
     .regex(/@alu.ufc.br$/, 'Invalid email. Must be an academic email.'),
   password: z
     .string({
-      description: 'User password.',
+      description: 'Student password.',
     })
     .min(6, 'Password must have at least 6 characters.'),
   semester: z
     .number({
-      description: 'User semester.',
+      description: 'Student semester.',
     })
     .int()
     .min(1, 'Invalid semester.')
     .max(12, 'Invalid semester.'),
+  trailsIds: z.array(
+    z
+      .string({
+        description: 'Trails ids.',
+      })
+      .uuid('Invalid trail id. Must be a valid uuid v4 format.'),
+  ),
   about: z
     .string({
-      description: 'User about.',
+      description: 'Student about.',
     })
     .optional(),
   profileUrl: z
     .string({
-      description: 'User profile url.',
+      description: 'Student profile url.',
     })
     .url()
     .optional(),
@@ -44,17 +51,17 @@ const registerBodySchema = z.object({
 const registerResponseSchema = z.object(
   {
     user_id: z.string({
-      description: 'User id.',
+      description: 'Student id.',
     }),
   },
   {
-    description: 'User registered successfully.',
+    description: 'Student registered successfully.',
   },
 )
 
 export const registerSchemas = {
   summary: 'Register',
-  tags: ['Users'],
+  tags: ['Students'],
   body: registerBodySchema,
   response: {
     201: registerResponseSchema,
