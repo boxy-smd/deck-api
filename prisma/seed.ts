@@ -2,6 +2,8 @@ import axios from 'axios'
 import { load } from 'cheerio'
 
 import { prisma } from '@/infra/database/prisma/client.ts'
+import { makeStudent } from 'test/factories/make-student.ts'
+import { Email } from '@/domain/deck/enterprise/entities/value-objects/email.ts'
 
 async function fetchProfessors() {
   const instance = axios.create()
@@ -199,9 +201,9 @@ async function seed() {
     ),
   )
 
-  const trails = ['Sistemas', 'Mídias', 'Audiovisual', 'Jogos']
+  const trails = ['Sistemas', 'Design', 'Audiovisual', 'Jogos']
 
-  await Promise.all(
+  const [systemsTrail, designTrail] = await Promise.all(
     trails.map(trail =>
       prisma.trail.create({
         data: {
@@ -210,6 +212,52 @@ async function seed() {
       }),
     ),
   )
+
+  const amanda = await makeStudent({
+    name: 'Amanda Coelho',
+    username: 'amandafnsc',
+    email: Email.create('amanda@alu.ufc.br'),
+    about: 'Estudante de Sistemas e Mídias',
+  })
+
+  const levi = await makeStudent({
+    name: 'Levi de Brito',
+    username: 'levikbrito',
+    email: Email.create('levi@alu.ufc.br'),
+    about: 'Estudante de Sistemas e Mídias',
+  })
+
+  await prisma.user.create({
+    data: {
+      name: amanda.name,
+      username: amanda.username,
+      email: amanda.email.value,
+      about: amanda.about,
+      passwordHash: '123456',
+      semester: 3,
+      trails: {
+       connect: {
+          id: designTrail.id
+       }
+      }
+    },
+  })
+
+  await prisma.user.create({
+    data: {
+      name: levi.name,
+      username: levi.username,
+      email: levi.email.value,
+      about: levi.about,
+      passwordHash: '123456',
+      semester: 3,
+      trails: {
+        connect: {
+          id: systemsTrail.id
+        }
+      }
+    },
+  })
 }
 
 seed().then(() => {
