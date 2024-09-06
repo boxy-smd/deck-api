@@ -31,7 +31,7 @@ describe('get profile controller (e2e)', () => {
         about: student.about,
         semester: student.semester,
         profileUrl: student.profileUrl,
-        trailsIds: student.trails.map(trail => trail.id.toString()),
+        trails: student.trails.map(trail => trail.name),
       },
     })
   })
