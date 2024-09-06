@@ -7,7 +7,7 @@ import type { GetProfileParams } from '../../schemas/students/get-profile.schema
 export async function getProfile(
   request: FastifyRequest<{
     Params: GetProfileParams
-  }>,
+  }>, 
   reply: FastifyReply,
 ) {
   const { id } = request.params

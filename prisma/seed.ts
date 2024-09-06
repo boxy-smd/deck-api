@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { load } from 'cheerio'
 
+import { Email } from '@/domain/deck/enterprise/entities/value-objects/email.ts'
 import { prisma } from '@/infra/database/prisma/client.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
-import { Email } from '@/domain/deck/enterprise/entities/value-objects/email.ts'
 
 async function fetchProfessors() {
   const instance = axios.create()

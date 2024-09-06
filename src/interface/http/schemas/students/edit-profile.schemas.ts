@@ -63,9 +63,9 @@ const editProfileResponseSchema = z.object(
         profileUrl: z.string({
           description: 'Student profile url.',
         }),
-        trailsIds: z.array(
+        trails: z.array(
           z.string({
-            description: 'Trail id.',
+            description: 'Trail name.',
           }),
         ),
       },
