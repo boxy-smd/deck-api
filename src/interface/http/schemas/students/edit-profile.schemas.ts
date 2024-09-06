@@ -3,25 +3,34 @@ import { z } from 'zod'
 import { zodErrorSchema } from '../common.ts'
 
 const editProfileBodySchema = z.object({
-  name: z.string({
-    description: 'Student name.',
-  }),
-  about: z.string({
-    description: 'Student about.',
-  }),
-  semester: z.number({
-    description: 'Student semester.',
-  }),
+  name: z
+    .string({
+      description: 'Student name.',
+    })
+    .optional(),
+  about: z
+    .string({
+      description: 'Student about.',
+    })
+    .optional(),
+  semester: z
+    .number({
+      description: 'Student semester.',
+    })
+    .optional(),
   profileUrl: z
     .string({
       description: 'Student profile url.',
     })
-    .url('Invalid url.'),
-  trailsIds: z.array(
-    z.string({
-      description: 'Trail id.',
-    }),
-  ),
+    .url('Invalid url.')
+    .optional(),
+  trailsIds: z
+    .array(
+      z.string({
+        description: 'Trail id.',
+      }),
+    )
+    .optional(),
 })
 
 const editProfileParamsSchema = z.object({
@@ -34,28 +43,35 @@ const editProfileParamsSchema = z.object({
 
 const editProfileResponseSchema = z.object(
   {
-    id: z.string({
-      description: 'Student id.',
-    }),
-    name: z.string({
-      description: 'Student name.',
-    }),
-    username: z.string({
-      description: 'Student username.',
-    }),
-    semester: z.number({
-      description: 'Student semester.',
-    }),
-    about: z.string({
-      description: 'Student about.',
-    }),
-    profileUrl: z.string({
-      description: 'Student profile url.',
-    }),
-    trailsIds: z.array(
-      z.string({
-        description: 'Trail id.',
-      }),
+    profile: z.object(
+      {
+        id: z.string({
+          description: 'Student id.',
+        }),
+        name: z.string({
+          description: 'Student name.',
+        }),
+        username: z.string({
+          description: 'Student username.',
+        }),
+        semester: z.number({
+          description: 'Student semester.',
+        }),
+        about: z.string({
+          description: 'Student about.',
+        }),
+        profileUrl: z.string({
+          description: 'Student profile url.',
+        }),
+        trailsIds: z.array(
+          z.string({
+            description: 'Trail id.',
+          }),
+        ),
+      },
+      {
+        description: 'Student profile.',
+      },
     ),
   },
   {

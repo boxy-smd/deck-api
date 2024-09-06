@@ -32,5 +32,7 @@ export async function editProfile(
     return reply.status(error.statusCode).send({ message: error.message })
   }
 
-  return reply.status(200).send(StudentProfilePresenter.toHTTP(result.value))
+  return reply.status(200).send({
+    profile: StudentProfilePresenter.toHTTP(result.value),
+  })
 }

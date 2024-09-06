@@ -18,5 +18,7 @@ export async function fetchStudents(
     name,
   })
 
-  return reply.status(200).send(result.map(StudentPresenter.toHTTP))
+  return reply.status(200).send({
+    students: result.map(StudentPresenter.toHTTP),
+  })
 }

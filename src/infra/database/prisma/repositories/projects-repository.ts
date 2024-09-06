@@ -9,19 +9,19 @@ import { PrismaProjectMapper } from '../mappers/prisma-project-mapper.ts'
 
 export class PrismaProjectsRepository implements ProjectsRepository {
   async findById(id: string): Promise<Project | null> {
-    const raw = await prisma.project.findUnique({
+    const data = await prisma.project.findUnique({
       where: {
         id,
       },
     })
 
-    if (!raw) return null
+    if (!data) return null
 
-    return PrismaProjectMapper.toEntity(raw)
+    return PrismaProjectMapper.toEntity(data)
   }
 
   async findDetailsById(id: string): Promise<ProjectDetails | null> {
-    const raw = await prisma.project.findUnique({
+    const data = await prisma.project.findUnique({
       where: {
         id,
       },
@@ -50,9 +50,9 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    if (!raw) return null
+    if (!data) return null
 
-    return PrismaProjectMapper.toEntityDetails(raw)
+    return PrismaProjectMapper.toEntityDetails(data)
   }
 
   async findManyDetailsByQuery({
@@ -63,7 +63,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     subjectId,
     trailsIds,
   }: ProjectQuery): Promise<ProjectDetails[]> {
-    const raw = await prisma.project.findMany({
+    const data = await prisma.project.findMany({
       where: {
         title: {
           contains: title,
@@ -105,7 +105,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return raw.map(PrismaProjectMapper.toEntityDetails)
+    return data.map(PrismaProjectMapper.toEntityDetails)
   }
 
   async findAllByQuery({
@@ -116,7 +116,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     subjectId,
     trailsIds,
   }: ProjectQuery): Promise<Project[]> {
-    const raw = await prisma.project.findMany({
+    const data = await prisma.project.findMany({
       where: {
         title: {
           contains: title,
@@ -135,16 +135,16 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return raw.map(PrismaProjectMapper.toEntity)
+    return data.map(PrismaProjectMapper.toEntity)
   }
 
   async findAll(): Promise<Project[]> {
-    const raw = await prisma.project.findMany()
-    return raw.map(PrismaProjectMapper.toEntity)
+    const data = await prisma.project.findMany()
+    return data.map(PrismaProjectMapper.toEntity)
   }
 
   async findAllDetails(): Promise<ProjectDetails[]> {
-    const raw = await prisma.project.findMany({
+    const data = await prisma.project.findMany({
       include: {
         author: {
           select: {
@@ -170,25 +170,25 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return raw.map(PrismaProjectMapper.toEntityDetails)
+    return data.map(PrismaProjectMapper.toEntityDetails)
   }
 
   async create(project: Project): Promise<void> {
-    const raw = PrismaProjectMapper.toPrisma(project)
+    const data = PrismaProjectMapper.toPrisma(project)
 
     await prisma.project.create({
-      data: raw,
+      data,
     })
   }
 
   async save(project: Project): Promise<void> {
-    const raw = PrismaProjectMapper.toPrisma(project)
+    const data = PrismaProjectMapper.toPrisma(project)
 
     await prisma.project.update({
       where: {
-        id: raw.id,
+        id: data.id,
       },
-      data: raw,
+      data,
     })
   }
 

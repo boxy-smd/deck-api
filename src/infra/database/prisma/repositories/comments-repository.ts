@@ -6,31 +6,31 @@ import { PrismaCommentMapper } from '../mappers/prisma-comment-mapper.ts'
 
 export class PrismaCommentsRepository implements CommentsRepository {
   async findById(id: string): Promise<Comment | null> {
-    const raw = await prisma.comment.findUnique({
+    const data = await prisma.comment.findUnique({
       where: {
         id,
       },
     })
 
-    if (!raw) return null
+    if (!data) return null
 
-    return PrismaCommentMapper.toEntity(raw)
+    return PrismaCommentMapper.toEntity(data)
   }
 
   async findByProjectId(projectId: string): Promise<Comment[]> {
-    const raw = await prisma.comment.findMany({
+    const data = await prisma.comment.findMany({
       where: {
         projectId,
       },
     })
 
-    return raw.map(PrismaCommentMapper.toEntity)
+    return data.map(PrismaCommentMapper.toEntity)
   }
 
   async findManyByProjectIdWithAuthors(
     projectId: string,
   ): Promise<CommentWithAuthor[]> {
-    const raw = await prisma.comment.findMany({
+    const data = await prisma.comment.findMany({
       where: {
         projectId,
       },
@@ -45,25 +45,25 @@ export class PrismaCommentsRepository implements CommentsRepository {
       },
     })
 
-    return raw.map(PrismaCommentMapper.toEntityWithAuthor)
+    return data.map(PrismaCommentMapper.toEntityWithAuthor)
   }
 
   async create(comment: Comment): Promise<void> {
-    const raw = PrismaCommentMapper.toPrisma(comment)
+    const data = PrismaCommentMapper.toPrisma(comment)
 
     await prisma.comment.create({
-      data: raw,
+      data,
     })
   }
 
   async save(comment: Comment): Promise<void> {
-    const raw = PrismaCommentMapper.toPrisma(comment)
+    const data = PrismaCommentMapper.toPrisma(comment)
 
     await prisma.comment.update({
       where: {
-        id: raw.id,
+        id: data.id,
       },
-      data: raw,
+      data,
     })
   }
 
