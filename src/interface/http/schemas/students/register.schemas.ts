@@ -70,4 +70,4 @@ export const registerSchemas = {
   },
 }
 
-export type RegisterBodySchema = z.infer<typeof registerSchemas.body>
+export type RegisterBody = z.infer<typeof registerSchemas.body>

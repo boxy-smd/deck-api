@@ -1,21 +1,21 @@
 import type { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
 import { makeTrail } from 'test/factories/make-trail.ts'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository.ts'
-import { FetchAllTrailsUseCase } from './fetch-all-trails.ts'
+import { FetchTrailsUseCase } from './fetch-trails.ts'
 
 let trailsRepository: InMemoryTrailsRepository
 
 let trail: Trail
 
-let sut: FetchAllTrailsUseCase
+let sut: FetchTrailsUseCase
 
-describe('fetch all trails use case', () => {
+describe('fetch trails use case', () => {
   beforeEach(() => {
     trailsRepository = new InMemoryTrailsRepository()
 
     trail = makeTrail()
 
-    sut = new FetchAllTrailsUseCase(trailsRepository)
+    sut = new FetchTrailsUseCase(trailsRepository)
   })
 
   it('should be able to fetch trails', async () => {

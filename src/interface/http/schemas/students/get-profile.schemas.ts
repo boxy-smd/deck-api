@@ -50,4 +50,4 @@ export const getProfileSchemas = {
   },
 }
 
-export type GetProfileParamsSchema = z.infer<typeof getProfileSchemas.params>
+export type GetProfileParams = z.infer<typeof getProfileSchemas.params>

@@ -74,5 +74,5 @@ export const editProfileSchemas = {
   },
 }
 
-export type EditProfileBodySchema = z.infer<typeof editProfileSchemas.body>
-export type EditProfileParamsSchema = z.infer<typeof editProfileSchemas.params>
+export type EditProfileBody = z.infer<typeof editProfileSchemas.body>
+export type EditProfileParams = z.infer<typeof editProfileSchemas.params>

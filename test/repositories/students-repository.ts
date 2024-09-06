@@ -1,7 +1,4 @@
-import type {
-  StudentQuery,
-  StudentsRepository,
-} from '@/domain/deck/application/repositories/students-repository.ts'
+import type { StudentsRepository } from '@/domain/deck/application/repositories/students-repository.ts'
 import type { Student } from '@/domain/deck/enterprise/entities/student.ts'
 
 export class InMemoryStudentsRepository implements StudentsRepository {
@@ -22,17 +19,16 @@ export class InMemoryStudentsRepository implements StudentsRepository {
     return await Promise.resolve(student || null)
   }
 
-  async findManyByQuery({ name, username }: StudentQuery): Promise<Student[]> {
+  async findManyByName(name: string): Promise<Student[]> {
     const students = this.items.filter(item => {
-      if (name && !item.name.includes(name)) {
-        return false
+      if (
+        (name.startsWith('@') && item.username.includes(name.slice(1))) ||
+        item.name.toLowerCase().includes(name.toLowerCase())
+      ) {
+        return true
       }
 
-      if (username && !item.username.includes(username)) {
-        return false
-      }
-
-      return true
+      return false
     })
 
     return await Promise.resolve(students)

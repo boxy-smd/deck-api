@@ -1,7 +1,4 @@
-import type {
-  StudentQuery,
-  StudentsRepository,
-} from '@/domain/deck/application/repositories/students-repository.ts'
+import type { StudentsRepository } from '@/domain/deck/application/repositories/students-repository.ts'
 import type { Student } from '@/domain/deck/enterprise/entities/student.ts'
 import { prisma } from '../client.ts'
 import { PrismaStudentMapper } from '../mappers/prisma-student-mapper.ts'
@@ -39,11 +36,13 @@ export class PrismaStudentsRepository implements StudentsRepository {
     return PrismaStudentMapper.toEntity(student)
   }
 
-  async findManyByQuery({ name, username }: StudentQuery): Promise<Student[]> {
+  async findManyByName(name: string): Promise<Student[]> {
     const students = await prisma.user.findMany({
       where: {
         name: { contains: name, mode: 'insensitive' },
-        username: { contains: username, mode: 'insensitive' },
+        username: name.startsWith('@')
+          ? { contains: name.slice(1), mode: 'insensitive' }
+          : undefined,
       },
     })
 

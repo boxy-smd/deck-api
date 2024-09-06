@@ -2,15 +2,12 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
 import { editProfile } from '../controllers/students/edit-profile.controller.ts'
-import { fetchAllStudents } from '../controllers/students/fetch-all-students.controller.ts'
-import { fetchStudentsByQuery } from '../controllers/students/fetch-students-by-query.ts'
+import { fetchStudents } from '../controllers/students/fetch.controller.ts'
 import { getProfile } from '../controllers/students/get-profile.controller.ts'
 import { login } from '../controllers/students/login.controller.ts'
 import { register } from '../controllers/students/register.controller.ts'
 import { editProfileSchemas } from '../schemas/students/edit-profile.schemas.ts'
-
-import { fetchAllStudentsSchemas } from '../schemas/students/fetch-all-students.schemas.ts'
-import { fetchStudentsByQuerySchemas } from '../schemas/students/fetch-students-by-query.schemas.ts'
+import { fetchStudentsSchemas } from '../schemas/students/fetch.schemas.ts'
 import { getProfileSchemas } from '../schemas/students/get-profile.schemas.ts'
 import { loginSchemas } from '../schemas/students/login.schemas.ts'
 import { registerSchemas } from '../schemas/students/register.schemas.ts'
@@ -44,16 +41,8 @@ export async function studentsRoutes(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
     '/students',
     {
-      schema: fetchAllStudentsSchemas,
+      schema: fetchStudentsSchemas,
     },
-    fetchAllStudents,
-  )
-
-  app.withTypeProvider<ZodTypeProvider>().get(
-    '/students?name={name}&username={username}',
-    {
-      schema: fetchStudentsByQuerySchemas,
-    },
-    fetchStudentsByQuery,
+    fetchStudents,
   )
 }

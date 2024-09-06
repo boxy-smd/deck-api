@@ -2,7 +2,15 @@ import { z } from 'zod'
 
 import { zodErrorSchema } from '../common.ts'
 
-const fetchAllStudentsResponseSchema = z.array(
+const fetchStudentsQuerySchema = z.object({
+  name: z
+    .string({
+      description: 'Student name.',
+    })
+    .optional(),
+})
+
+const fetchStudentsResponseSchema = z.array(
   z.object(
     {
       id: z.string({
@@ -35,11 +43,14 @@ const fetchAllStudentsResponseSchema = z.array(
   },
 )
 
-export const fetchAllStudentsSchemas = {
-  summary: 'Fetch all students',
+export const fetchStudentsSchemas = {
+  summary: 'Fetch students',
   tags: ['Students'],
+  querystring: fetchStudentsQuerySchema,
   response: {
-    200: fetchAllStudentsResponseSchema,
+    200: fetchStudentsResponseSchema,
     400: zodErrorSchema,
   },
 }
+
+export type FetchStudentsQuery = z.infer<typeof fetchStudentsQuerySchema>

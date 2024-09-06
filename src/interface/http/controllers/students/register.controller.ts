@@ -1,11 +1,11 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
 import { makeRegisterUseCase } from '@/interface/factories/students/make-register-use-case.ts'
-import type { RegisterBodySchema } from '@/interface/http/schemas/students/register.schemas.ts'
+import type { RegisterBody } from '@/interface/http/schemas/students/register.schemas.ts'
 
 export async function register(
   request: FastifyRequest<{
-    Body: RegisterBodySchema
+    Body: RegisterBody
   }>,
   reply: FastifyReply,
 ) {

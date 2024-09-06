@@ -1,6 +1,7 @@
 import { z } from 'zod'
+import { zodErrorSchema } from '../common.ts'
 
-const fetchAllTrailsResponseSchema = z.object(
+const fetchTrailsResponseSchema = z.object(
   {
     trails: z.array(
       z.object({
@@ -18,10 +19,11 @@ const fetchAllTrailsResponseSchema = z.object(
   },
 )
 
-export const fetchAllTrailsSchemas = {
-  summary: 'Fetch all trails',
+export const fetchTrailsSchemas = {
+  summary: 'Fetch trails',
   tags: ['Trails'],
   response: {
-    200: fetchAllTrailsResponseSchema,
+    200: fetchTrailsResponseSchema,
+    400: zodErrorSchema,
   },
 }

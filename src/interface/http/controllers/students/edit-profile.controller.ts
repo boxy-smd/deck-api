@@ -2,23 +2,29 @@ import { makeEditProfileUseCase } from '@/interface/factories/students/make-edit
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { StudentProfilePresenter } from '../../presenters/student-profile.ts'
 import type {
-  EditProfileBodySchema,
-  EditProfileParamsSchema,
+  EditProfileBody,
+  EditProfileParams,
 } from '../../schemas/students/edit-profile.schemas.ts'
 
 export async function editProfile(
   request: FastifyRequest<{
-    Body: EditProfileBodySchema
-    Params: EditProfileParamsSchema
+    Body: EditProfileBody
+    Params: EditProfileParams
   }>,
   reply: FastifyReply,
 ) {
   const { id } = request.params
+  const { name, about, profileUrl, semester, trailsIds } = request.body
 
   const editProfileUseCase = makeEditProfileUseCase()
 
   const result = await editProfileUseCase.execute({
     studentId: id,
+    name,
+    about,
+    profileUrl,
+    semester,
+    trailsIds,
   })
 
   if (result.isLeft()) {

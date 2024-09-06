@@ -50,17 +50,15 @@ const publishProjectBodySchema = z.object({
   subjectId: z.string({
     description: 'Project subject id.',
   }),
-  trailsIds: z
-    .array(
-      z
-        .string({
-          description: 'Project trails ids.',
-        })
-        .uuid({
-          message: 'Trail id must be a valid UUID.',
-        }),
-    )
-    .optional(),
+  trailsIds: z.array(
+    z
+      .string({
+        description: 'Project trails ids.',
+      })
+      .uuid({
+        message: 'Trail id must be a valid UUID.',
+      }),
+  ),
   professorsIds: z
     .array(
       z
@@ -94,6 +92,4 @@ export const publishProjectSchemas = {
   },
 }
 
-export type PublishProjectBodySchema = z.infer<
-  typeof publishProjectBodySchema
->
+export type PublishProjectBody = z.infer<typeof publishProjectBodySchema>

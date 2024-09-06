@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+
 import { publishProject } from '../controllers/projects/publish.controller.ts'
 import { publishProjectSchemas } from '../schemas/projects/publish.schemas.ts'
 

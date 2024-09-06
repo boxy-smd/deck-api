@@ -1,9 +1,9 @@
-import { FetchAllProfessorsUseCase } from '@/domain/deck/application/use-cases/fetch-all-professors.ts'
+import { FetchProfessorsUseCase } from '@/domain/deck/application/use-cases/fetch-professors.ts'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
 
-export function makeFetchAllProfessorsUseCase() {
+export function makeFetchProfessorsUseCase() {
   const professorsRepository = new PrismaProfessorsRepository()
-  const fetchProfessorsUseCase = new FetchAllProfessorsUseCase(
+  const fetchProfessorsUseCase = new FetchProfessorsUseCase(
     professorsRepository,
   )
 

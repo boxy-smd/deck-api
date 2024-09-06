@@ -36,4 +36,4 @@ export const loginSchemas = {
   },
 }
 
-export type LoginBodySchema = z.infer<typeof loginSchemas.body>
+export type LoginBody = z.infer<typeof loginSchemas.body>

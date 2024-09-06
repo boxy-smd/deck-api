@@ -1,11 +1,12 @@
-import { makeGetProfileUseCase } from '@/interface/factories/students/make-get-profile-use-case.ts'
 import type { FastifyReply, FastifyRequest } from 'fastify'
+
+import { makeGetProfileUseCase } from '@/interface/factories/students/make-get-profile-use-case.ts'
 import { StudentProfilePresenter } from '../../presenters/student-profile.ts'
-import type { GetProfileParamsSchema } from '../../schemas/students/get-profile.schemas.ts'
+import type { GetProfileParams } from '../../schemas/students/get-profile.schemas.ts'
 
 export async function getProfile(
   request: FastifyRequest<{
-    Params: GetProfileParamsSchema
+    Params: GetProfileParams
   }>,
   reply: FastifyReply,
 ) {

@@ -30,8 +30,6 @@ describe('register controller (e2e)', () => {
         trailsIds: [trail.id.toString()],
       })
 
-    console.log(response.body)
-
     expect(response.status).toBe(201)
     expect(response.body).toMatchObject({
       user_id: expect.any(String),
