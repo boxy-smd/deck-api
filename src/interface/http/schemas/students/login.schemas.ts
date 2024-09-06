@@ -5,12 +5,14 @@ const loginBodySchema = z.object({
   email: z
     .string({
       description: 'Student email.',
+      message: 'Email is required.',
     })
     .email('Invalid email.')
     .regex(/@alu.ufc.br$/, 'Invalid email. Must be an academic email.'),
   password: z
     .string({
       description: 'Student password.',
+      message: 'Password is required.',
     })
     .min(6, 'Password must have at least 6 characters.'),
 })

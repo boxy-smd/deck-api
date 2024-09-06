@@ -4,26 +4,31 @@ import { errorResponseSchema, zodErrorSchema } from '../common.ts'
 const registerBodySchema = z.object({
   name: z.string({
     description: 'Student name.',
+    message: 'Name is required.',
   }),
   username: z
     .string({
       description: 'Student username.',
+      message: 'Username is required.',
     })
     .min(3, 'Username must have at least 3 characters.'),
   email: z
     .string({
       description: 'Student email.',
+      message: 'Email is required.',
     })
     .email('Invalid email.')
     .regex(/@alu.ufc.br$/, 'Invalid email. Must be an academic email.'),
   password: z
     .string({
       description: 'Student password.',
+      message: 'Password is required.',
     })
     .min(6, 'Password must have at least 6 characters.'),
   semester: z
     .number({
       description: 'Student semester.',
+      message: 'Semester is required.',
     })
     .int()
     .min(1, 'Invalid semester.')
@@ -32,6 +37,7 @@ const registerBodySchema = z.object({
     z
       .string({
         description: 'Trails ids.',
+        message: 'Trail id is required.',
       })
       .uuid('Invalid trail id. Must be a valid uuid v4 format.'),
   ),
