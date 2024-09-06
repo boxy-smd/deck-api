@@ -1,6 +1,6 @@
 # Deck API
 
-Esse é o backend do projeto "Boxy", um projeto de uma aplicação que servirá como repositório de trabalhos realizados por alunos do curso de Sistemas e Mídias Digitais da Universidade Federal do Ceará.
+Esse é o backend do projeto Deck, um projeto de uma aplicação que servirá como repositório de trabalhos realizados por alunos do curso de Sistemas e Mídias Digitais da Universidade Federal do Ceará.
 
 ## Requisitos Funcionais (RF's)
 
