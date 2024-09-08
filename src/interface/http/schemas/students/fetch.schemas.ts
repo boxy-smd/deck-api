@@ -10,21 +10,23 @@ const fetchStudentsQuerySchema = z.object({
     .optional(),
 })
 
-const fetchStudentsResponseSchema = z.object({
-  students: z.array(
-    z.object({
-      id: z.string(),
-      name: z.string(),
-      username: z.string(),
-      semester: z.number(),
-      profileUrl: z.string(),
-      trails: z.array(z.string()),
-    }),
-    {
-      description: 'Students fetched successfully.',
-    },
-  ),
-})
+const fetchStudentsResponseSchema = z.object(
+  {
+    students: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        username: z.string(),
+        semester: z.number(),
+        profileUrl: z.string(),
+        trails: z.array(z.string()),
+      }),
+    ),
+  },
+  {
+    description: 'Students fetched successfully.',
+  },
+)
 
 export const fetchStudentsSchemas = {
   summary: 'Fetch students',

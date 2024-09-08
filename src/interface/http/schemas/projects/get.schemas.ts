@@ -34,10 +34,26 @@ const getProjectResponseSchema = z.object(
         username: z.string(),
         profileUrl: z.string().optional(),
       }),
+      createdAt: z.date(),
+      updatedAt: z.date().optional(),
       subjectId: z.string().optional(),
       subject: z.string().optional(),
       trails: z.array(z.string()),
       professors: z.array(z.string()).optional(),
+      comments: z.array(
+        z.object({
+          id: z.string(),
+          content: z.string(),
+          createdAt: z.date(),
+          updatedAt: z.date().optional(),
+          author: z.object({
+            name: z.string(),
+            username: z.string(),
+            profileUrl: z.string().url().optional(),
+          }),
+          authorId: z.string().uuid(),
+        }),
+      ),
     }),
   },
   {

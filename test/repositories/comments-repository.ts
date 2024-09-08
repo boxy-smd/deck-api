@@ -32,6 +32,7 @@ export class InMemoryCommentsRepository implements CommentsRepository {
         }
 
         return CommentWithAuthor.create({
+          id: comment.id,
           content: comment.content,
           author: {
             name: author.name,
@@ -40,7 +41,6 @@ export class InMemoryCommentsRepository implements CommentsRepository {
           },
           authorId: author.id,
           createdAt: comment.createdAt,
-          commentId: comment.id,
           updatedAt: comment.updatedAt || undefined,
         })
       }),

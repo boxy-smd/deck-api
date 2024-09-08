@@ -1,5 +1,6 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { Project } from '@/domain/deck/enterprise/entities/project.ts'
+import { Post } from '@/domain/deck/enterprise/entities/value-objects/post.ts'
 import { ProjectDetails } from '@/domain/deck/enterprise/entities/value-objects/project-details.ts'
 import type { Prisma, Project as ProjectRaw } from '@prisma/client'
 
@@ -61,6 +62,48 @@ export class PrismaProjectMapper {
         username: raw.author.username,
         profileUrl: raw.author.profileUrl ?? undefined,
       },
+      subject: raw.subject?.name,
+      subjectId: raw.subjectId ? new UniqueEntityID(raw.subjectId) : undefined,
+      trails: raw.trails.map(trail => trail.name),
+      professors: raw.professors?.map(professor => professor.name),
+    })
+  }
+
+  static toEntityPost(
+    raw: ProjectRaw & {
+      author: {
+        name: string
+        username: string
+        profileUrl?: string | null
+      }
+      subject?: {
+        name: string
+      } | null
+      professors?: {
+        name: string
+      }[]
+      trails: {
+        name: string
+      }[]
+    },
+  ): Post {
+    return Post.create({
+      id: new UniqueEntityID(raw.id),
+      title: raw.title,
+      description: raw.description,
+      bannerUrl: raw.bannerUrl ?? undefined,
+      content: raw.content ?? undefined,
+      publishedYear: raw.publishedYear,
+      status: raw.status,
+      semester: raw.semester,
+      createdAt: raw.createdAt,
+      updatedAt: raw.updatedAt,
+      author: {
+        name: raw.author.name,
+        username: raw.author.username,
+        profileUrl: raw.author.profileUrl ?? undefined,
+      },
+      authorId: new UniqueEntityID(raw.authorId),
       subject: raw.subject?.name,
       subjectId: raw.subjectId ? new UniqueEntityID(raw.subjectId) : undefined,
       trails: raw.trails.map(trail => trail.name),

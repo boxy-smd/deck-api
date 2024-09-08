@@ -25,7 +25,7 @@ export class GetProfileUseCase {
       return left(new ResourceNotFoundError('Student not found.'))
     }
 
-    const projects = await this.projectRepository.findManyDetailsByQuery({
+    const posts = await this.projectRepository.findManyPostsByQuery({
       authorId: studentId,
     })
 
@@ -40,7 +40,7 @@ export class GetProfileUseCase {
         createdAt: student.createdAt,
         updatedAt: student.updatedAt,
         trails: student.trails.map(trail => trail.name),
-        projects,
+        posts,
       }),
     )
   }

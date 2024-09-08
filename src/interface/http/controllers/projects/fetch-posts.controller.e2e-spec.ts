@@ -10,7 +10,7 @@ import { makeStudent } from 'test/factories/make-student.ts'
 import { makeSubject } from 'test/factories/make-subject.ts'
 import { makeTrail } from 'test/factories/make-trail.ts'
 
-describe('get project (e2e)', () => {
+describe('fetch posts (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -19,7 +19,7 @@ describe('get project (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to get a project', async () => {
+  it('should be able to fetch posts', async () => {
     const studentsRepository = new PrismaStudentsRepository()
     const trailsRepository = new PrismaTrailsRepository()
     const subjectsRepository = new PrismaSubjectsRepository()
@@ -39,34 +39,34 @@ describe('get project (e2e)', () => {
     await subjectsRepository.create(subject)
     await projectsRepository.create(project)
 
-    const result = await request(app.server).get(`/projects/${project.id}`)
+    const result = await request(app.server).get('/projects')
 
     expect(result.status).toBe(200)
     expect(result.body).toEqual({
-      project: {
-        id: project.id.toString(),
-        title: project.title,
-        description: project.description,
-        bannerUrl: project.bannerUrl,
-        content: project.content,
-        publishedYear: project.publishedYear,
-        status: project.status,
-        semester: project.semester,
-        allowComments: project.allowComments,
-        createdAt: project.createdAt.toJSON(),
-        updatedAt: expect.any(String),
-        authorId: project.authorId.toString(),
-        author: {
-          name: author.name,
-          username: author.username,
-          profileUrl: author.profileUrl,
+      posts: [
+        {
+          id: project.id.toString(),
+          title: project.title,
+          description: project.description,
+          bannerUrl: project.bannerUrl,
+          content: project.content,
+          publishedYear: project.publishedYear,
+          status: project.status,
+          semester: project.semester,
+          createdAt: project.createdAt.toJSON(),
+          updatedAt: expect.any(String),
+          authorId: project.authorId.toString(),
+          author: {
+            name: author.name,
+            username: author.username,
+            profileUrl: author.profileUrl,
+          },
+          subjectId: project.subjectId?.toString(),
+          subject: subject.name,
+          trails: project.trails.map(trail => trail.name),
+          professors: [],
         },
-        subjectId: project.subjectId?.toString(),
-        subject: subject.name,
-        trails: project.trails.map(trail => trail.name),
-        professors: [],
-        comments: [],
-      },
+      ],
     })
   })
 })

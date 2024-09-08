@@ -28,7 +28,7 @@ export class PrismaCommentMapper {
     },
   ): CommentWithAuthor {
     return CommentWithAuthor.create({
-      commentId: new UniqueEntityID(raw.id),
+      id: new UniqueEntityID(raw.id),
       content: raw.content,
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,

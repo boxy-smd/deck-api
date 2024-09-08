@@ -1,6 +1,6 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { ValueObject } from '@/core/entities/value-object.ts'
-import type { ProjectDetails } from './project-details.ts'
+import type { Post } from './post.ts'
 
 interface StudentProfileProps {
   id: UniqueEntityID
@@ -12,7 +12,7 @@ interface StudentProfileProps {
   createdAt: Date
   updatedAt?: Date
   trails: string[]
-  projects: ProjectDetails[]
+  posts: Post[]
 }
 
 export class StudentProfile extends ValueObject<StudentProfileProps> {
@@ -52,8 +52,8 @@ export class StudentProfile extends ValueObject<StudentProfileProps> {
     return this.props.trails
   }
 
-  get projects() {
-    return this.props.projects
+  get posts() {
+    return this.props.posts
   }
 
   static create(props: StudentProfileProps): StudentProfile {

@@ -2,6 +2,7 @@ import type {
   Project,
   ProjectProps,
 } from '@/domain/deck/enterprise/entities/project.ts'
+import type { Post } from '../../enterprise/entities/value-objects/post.ts'
 import type { ProjectDetails } from '../../enterprise/entities/value-objects/project-details.ts'
 
 export type ProjectQuery = {
@@ -16,9 +17,9 @@ export type ProjectQuery = {
 export interface ProjectsRepository {
   findById(id: string): Promise<Project | null>
   findDetailsById(id: string): Promise<ProjectDetails | null>
-  findManyDetailsByQuery(query: ProjectQuery): Promise<ProjectDetails[]>
+  findManyPostsByQuery(query: ProjectQuery): Promise<Post[]>
   findAll(): Promise<Project[]>
-  findAllDetails(): Promise<ProjectDetails[]>
+  findAllPosts(): Promise<Post[]>
   create(project: ProjectProps): Promise<void>
   save(project: Project): Promise<void>
   delete(id: string): Promise<void>

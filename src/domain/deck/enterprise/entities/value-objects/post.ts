@@ -1,9 +1,8 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { ValueObject } from '@/core/entities/value-object.ts'
 import type { ProjectStatusEnum } from '../project.ts'
-import type { CommentWithAuthor } from './comment-with-author.ts'
 
-interface ProjectDetailsProps {
+interface PostProps {
   id: UniqueEntityID
   title: string
   description: string
@@ -12,7 +11,6 @@ interface ProjectDetailsProps {
   publishedYear: number
   status: ProjectStatusEnum
   semester: number
-  allowComments: boolean
   createdAt: Date
   updatedAt?: Date
   author: {
@@ -25,10 +23,9 @@ interface ProjectDetailsProps {
   subjectId?: UniqueEntityID
   trails: string[]
   professors?: string[]
-  comments?: CommentWithAuthor[]
 }
 
-export class ProjectDetails extends ValueObject<ProjectDetailsProps> {
+export class Post extends ValueObject<PostProps> {
   get id() {
     return this.props.id
   }
@@ -59,10 +56,6 @@ export class ProjectDetails extends ValueObject<ProjectDetailsProps> {
 
   get semester() {
     return this.props.semester
-  }
-
-  get allowComments() {
-    return this.props.allowComments
   }
 
   get createdAt() {
@@ -97,11 +90,7 @@ export class ProjectDetails extends ValueObject<ProjectDetailsProps> {
     return this.props.professors || []
   }
 
-  get comments() {
-    return this.props.comments || null
-  }
-
-  static create(props: ProjectDetailsProps): ProjectDetails {
-    return new ProjectDetails(props)
+  static create(props: PostProps): Post {
+    return new Post(props)
   }
 }

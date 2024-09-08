@@ -52,7 +52,7 @@ const editProfileResponseSchema = z.object(
       about: z.string(),
       profileUrl: z.string(),
       trails: z.array(z.string()),
-      projects: z.array(
+      posts: z.array(
         z.object({
           id: z.string(),
           title: z.string(),

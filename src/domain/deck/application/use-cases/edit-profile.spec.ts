@@ -1,5 +1,6 @@
 import { makeStudent } from 'test/factories/make-student.ts'
 import { makeTrail } from 'test/factories/make-trail.ts'
+import { InMemoryCommentsRepository } from 'test/repositories/comments-repository.ts'
 import { InMemoryProjectsRepository } from 'test/repositories/projects-repository.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'
 import { InMemorySubjectsRepository } from 'test/repositories/subjects-repository.ts'
@@ -12,6 +13,7 @@ import { EditProfileUseCase } from './edit-profile.ts'
 let studentsRepository: InMemoryStudentsRepository
 let subjectsRepository: InMemorySubjectsRepository
 let projectsRepository: InMemoryProjectsRepository
+let commentsRepository: InMemoryCommentsRepository
 let trailsRepository: InMemoryTrailsRepository
 
 let student: Student
@@ -23,9 +25,11 @@ describe('edit profile use case', () => {
   beforeEach(async () => {
     trailsRepository = new InMemoryTrailsRepository()
     subjectsRepository = new InMemorySubjectsRepository()
+    commentsRepository = new InMemoryCommentsRepository(studentsRepository)
     projectsRepository = new InMemoryProjectsRepository(
       studentsRepository,
       subjectsRepository,
+      commentsRepository,
     )
     studentsRepository = new InMemoryStudentsRepository()
 

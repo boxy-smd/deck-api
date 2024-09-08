@@ -1,5 +1,6 @@
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
+import { InMemoryCommentsRepository } from 'test/repositories/comments-repository.ts'
 import { InMemoryProjectsRepository } from 'test/repositories/projects-repository.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'
 import { InMemorySubjectsRepository } from 'test/repositories/subjects-repository.ts'
@@ -9,7 +10,9 @@ import { GetProfileUseCase } from './get-profile.ts'
 
 let studentsRepository: InMemoryStudentsRepository
 let subjectsRepository: InMemorySubjectsRepository
+let commentsRepository: InMemoryCommentsRepository
 let projectRepository: InMemoryProjectsRepository
+
 let student: Student
 
 let sut: GetProfileUseCase
@@ -18,9 +21,11 @@ describe('get profile use case', () => {
   beforeEach(async () => {
     studentsRepository = new InMemoryStudentsRepository()
     subjectsRepository = new InMemorySubjectsRepository()
+    commentsRepository = new InMemoryCommentsRepository(studentsRepository)
     projectRepository = new InMemoryProjectsRepository(
       studentsRepository,
       subjectsRepository,
+      commentsRepository,
     )
     student = await makeStudent()
 

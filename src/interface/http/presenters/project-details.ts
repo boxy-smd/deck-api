@@ -13,6 +13,8 @@ export class ProjectDetailsPresenter {
       status: details.status,
       semester: details.semester,
       allowComments: details.allowComments,
+      createdAt: details.createdAt,
+      updatedAt: details.updatedAt ?? undefined,
       authorId: details.authorId.toString(),
       author: {
         name: details.author.name,
@@ -23,6 +25,19 @@ export class ProjectDetailsPresenter {
       subject: details.subject ?? undefined,
       trails: details.trails,
       professors: details.professors,
+      comments:
+        details.comments?.map(comment => ({
+          id: comment.id.toString(),
+          content: comment.content,
+          createdAt: comment.createdAt,
+          updatedAt: comment.updatedAt ?? undefined,
+          author: {
+            name: comment.author.name,
+            username: comment.author.username,
+            profileUrl: comment.author.profileUrl,
+          },
+          authorId: comment.authorId.toString(),
+        })) ?? [],
     }
   }
 }

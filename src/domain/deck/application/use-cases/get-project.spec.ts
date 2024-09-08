@@ -1,6 +1,7 @@
 import { makeProject } from 'test/factories/make-project.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
 import { makeTrail } from 'test/factories/make-trail.ts'
+import { InMemoryCommentsRepository } from 'test/repositories/comments-repository.ts'
 import { InMemoryProjectsRepository } from 'test/repositories/projects-repository.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'
 import { InMemorySubjectsRepository } from 'test/repositories/subjects-repository.ts'
@@ -14,6 +15,7 @@ import { GetProjectUseCase } from './get-project.ts'
 let studentsRepository: InMemoryStudentsRepository
 let subjectsRepository: InMemorySubjectsRepository
 let trailsRepository: InMemoryTrailsRepository
+let commentsRepository: InMemoryCommentsRepository
 let projectsRepository: InMemoryProjectsRepository
 
 let author: Student
@@ -27,9 +29,11 @@ describe('get project use case', () => {
     studentsRepository = new InMemoryStudentsRepository()
     subjectsRepository = new InMemorySubjectsRepository()
     trailsRepository = new InMemoryTrailsRepository()
+    commentsRepository = new InMemoryCommentsRepository(studentsRepository)
     projectsRepository = new InMemoryProjectsRepository(
       studentsRepository,
       subjectsRepository,
+      commentsRepository,
     )
 
     author = await makeStudent()

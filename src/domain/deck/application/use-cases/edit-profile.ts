@@ -65,7 +65,7 @@ export class EditProfileUseCase {
 
     await this.studentRepository.save(student)
 
-    const projects = await this.projectsRepository.findManyDetailsByQuery({
+    const posts = await this.projectsRepository.findManyPostsByQuery({
       authorId: studentId,
     })
 
@@ -80,7 +80,7 @@ export class EditProfileUseCase {
         createdAt: student.createdAt,
         updatedAt: student.updatedAt,
         trails: student.trails.map(trail => trail.name),
-        projects,
+        posts,
       }),
     )
   }
