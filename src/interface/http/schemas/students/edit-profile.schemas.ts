@@ -44,80 +44,30 @@ const editProfileParamsSchema = z.object({
 
 const editProfileResponseSchema = z.object(
   {
-    profile: z.object(
-      {
-        id: z.string({
-          description: 'Student id.',
+    profile: z.object({
+      id: z.string(),
+      name: z.string(),
+      username: z.string(),
+      semester: z.number(),
+      about: z.string(),
+      profileUrl: z.string(),
+      trails: z.array(z.string()),
+      projects: z.array(
+        z.object({
+          id: z.string(),
+          title: z.string(),
+          bannerUrl: z.string(),
+          content: z.string(),
+          publishedYear: z.number(),
+          semester: z.number(),
+          createdAt: z.date(),
+          updatedAt: z.date(),
+          subject: z.string(),
+          trails: z.array(z.string()),
+          professors: z.array(z.string()),
         }),
-        name: z.string({
-          description: 'Student name.',
-        }),
-        username: z.string({
-          description: 'Student username.',
-        }),
-        semester: z.number({
-          description: 'Student semester.',
-        }),
-        about: z.string({
-          description: 'Student about.',
-        }),
-        profileUrl: z.string({
-          description: 'Student profile url.',
-        }),
-        trails: z.array(
-          z.string({
-            description: 'Trail name.',
-          }),
-        ),
-        projects: z.array(
-          z.object({
-            id: z.string({
-              description: 'Project id.',
-            }),
-            title: z.string({
-              description: 'Project title.',
-            }),
-            description: z.string({
-              description: 'Project description.',
-            }),
-            bannerUrl: z.string({
-              description: 'Project banner url.',
-            }),
-            content: z.string({
-              description: 'Project content.',
-            }),
-            publishedYear: z.number({
-              description: 'Project published year.',
-            }),
-            semester: z.number({
-              description: 'Project semester.',
-            }),
-            createdAt: z.date({
-              description: 'Project created at.',
-            }),
-            updatedAt: z.date({
-              description: 'Project updated at.',
-            }),
-            subject: z.string({
-              description: 'Project subject.',
-            }),
-            trails: z.array(
-              z.string({
-                description: 'Trail name.',
-              }),
-            ),
-            professors: z.array(
-              z.string({
-                description: 'Professor name.',
-              }),
-            ),
-          }),
-        ),
-      },
-      {
-        description: 'Student profile.',
-      },
-    ),
+      ),
+    }),
   },
   {
     description: 'Student profile updated successfully.',

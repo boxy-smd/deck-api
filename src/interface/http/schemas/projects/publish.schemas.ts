@@ -1,4 +1,5 @@
 import { z } from 'zod'
+
 import { errorResponseSchema, zodErrorSchema } from '../common.ts'
 
 const publishProjectBodySchema = z.object({
@@ -55,9 +56,7 @@ const publishProjectBodySchema = z.object({
       description: 'Project author id.',
       message: 'Author id is required.',
     })
-    .uuid({
-      message: 'Author id must be a valid UUID.',
-    }),
+    .uuid('Invalid author id.'),
   subjectId: z.string({
     description: 'Project subject id.',
   }),
@@ -67,9 +66,7 @@ const publishProjectBodySchema = z.object({
         description: 'Project trails ids.',
         message: 'Trail id is required.',
       })
-      .uuid({
-        message: 'Trail id must be a valid UUID.',
-      }),
+      .uuid('Invalid trail id.'),
   ),
   professorsIds: z
     .array(
@@ -77,9 +74,7 @@ const publishProjectBodySchema = z.object({
         .string({
           description: 'Project professors ids.',
         })
-        .uuid({
-          message: 'Professor id must be a valid UUID.',
-        }),
+        .uuid('Invalid professor id.'),
     )
     .optional(),
 })

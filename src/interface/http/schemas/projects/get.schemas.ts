@@ -1,0 +1,59 @@
+import { z } from 'zod'
+
+import { errorResponseSchema, zodErrorSchema } from '../common.ts'
+
+const getProjectParamsSchema = z.object(
+  {
+    projectId: z
+      .string({
+        description: 'Project id.',
+        required_error: 'Project id is required.',
+      })
+      .uuid('Invalid project id.'),
+  },
+  {
+    description: 'Project id.',
+  },
+)
+
+const getProjectResponseSchema = z.object(
+  {
+    project: z.object({
+      id: z.string(),
+      title: z.string(),
+      description: z.string(),
+      bannerUrl: z.string(),
+      content: z.string().optional(),
+      publishedYear: z.number(),
+      status: z.enum(['DRAFT', 'PUBLISHED']),
+      semester: z.number(),
+      allowComments: z.boolean(),
+      authorId: z.string(),
+      author: z.object({
+        name: z.string(),
+        username: z.string(),
+        profileUrl: z.string().optional(),
+      }),
+      subjectId: z.string().optional(),
+      subject: z.string().optional(),
+      trails: z.array(z.string()),
+      professors: z.array(z.string()).optional(),
+    }),
+  },
+  {
+    description: 'Project get successfully.',
+  },
+)
+
+export const getProjectSchemas = {
+  summary: 'Get a project',
+  tags: ['Projects'],
+  params: getProjectParamsSchema,
+  response: {
+    200: getProjectResponseSchema,
+    400: zodErrorSchema,
+    404: errorResponseSchema,
+  },
+}
+
+export type GetProjectParams = z.infer<typeof getProjectParamsSchema>

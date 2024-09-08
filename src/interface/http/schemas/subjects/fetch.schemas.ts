@@ -14,12 +14,8 @@ const fetchSubjectsResponseSchema = z.object(
   {
     subjects: z.array(
       z.object({
-        id: z.string({
-          description: 'Subject id.',
-        }),
-        name: z.string({
-          description: 'Subject name.',
-        }),
+        id: z.string(),
+        name: z.string(),
       }),
     ),
   },

@@ -17,6 +17,7 @@ interface ProjectDetailsProps {
   author: {
     name: string
     username: string
+    profileUrl?: string
   }
   authorId: UniqueEntityID
   subject?: string
@@ -26,6 +27,10 @@ interface ProjectDetailsProps {
 }
 
 export class ProjectDetails extends ValueObject<ProjectDetailsProps> {
+  get id() {
+    return this.props.id
+  }
+
   get title() {
     return this.props.title
   }

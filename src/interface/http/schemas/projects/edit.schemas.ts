@@ -1,14 +1,14 @@
 import { z } from 'zod'
+
 import { errorResponseSchema, zodErrorSchema } from '../common.ts'
 
 const editProjectBodySchema = z.object({
   authorId: z
     .string({
       description: 'Project author id.',
+      required_error: 'Author id is required.',
     })
-    .uuid({
-      message: 'Author id must be a valid UUID.',
-    }),
+    .uuid('Invalid author id.'),
   title: z
     .string({
       description: 'Project title.',
@@ -36,7 +36,6 @@ const editProjectBodySchema = z.object({
   publishedYear: z
     .number({
       description: 'Project published year.',
-      message: 'Published year is required.',
     })
     .min(2000)
     .max(new Date().getFullYear())
@@ -66,40 +65,41 @@ const editProjectBodySchema = z.object({
     .string({
       description: 'Project subject id.',
     })
-    .uuid({
-      message: 'Subject id must be a valid UUID.',
-    })
+    .uuid('Invalid subject id.')
     .optional(),
   trailsIds: z
     .array(
       z
         .string({
-          description: 'Project trails ids.',
-          message: 'Trail id is required.',
+          description: 'Project trail id.',
+          required_error: 'Trail id is required.',
         })
-        .uuid({
-          message: 'Trail id must be a valid UUID.',
-        }),
+        .uuid('Invalid trail id.'),
+      {
+        description: 'Project trails ids.',
+        required_error: 'Trails ids are required.',
+      },
     )
     .optional(),
   professorsIds: z
     .array(
       z
         .string({
-          description: 'Project professors ids.',
+          description: 'Project professor id.',
         })
-        .uuid({
-          message: 'Professor id must be a valid UUID.',
-        }),
+        .uuid('Invalid professor id.'),
+      {
+        description: 'Project professors ids.',
+      },
     )
     .optional(),
 })
 
-const editProjectParamsSchemas = z.object(
+const editProjectParamsSchema = z.object(
   {
     projectId: z.string({
       description: 'Project id.',
-      message: 'Invalid project id.',
+      required_error: 'Project id is required.',
     }),
   },
   {
@@ -134,7 +134,7 @@ export const editProjectSchemas = {
   summary: 'Edit a project',
   tags: ['Projects'],
   body: editProjectBodySchema,
-  params: editProjectParamsSchemas,
+  params: editProjectParamsSchema,
   response: {
     201: editProjectResponseSchema,
     400: zodErrorSchema,
@@ -143,5 +143,5 @@ export const editProjectSchemas = {
 }
 
 export type EditProjectBody = z.infer<typeof editProjectBodySchema>
-export type EditProjectParams = z.infer<typeof editProjectParamsSchemas>
+export type EditProjectParams = z.infer<typeof editProjectParamsSchema>
 export type EditProjectResponse = z.infer<typeof editProjectResponseSchema>

@@ -4,31 +4,31 @@ import { errorResponseSchema, zodErrorSchema } from '../common.ts'
 const registerBodySchema = z.object({
   name: z.string({
     description: 'Student name.',
-    message: 'Name is required.',
+    required_error: 'Name is required.',
   }),
   username: z
     .string({
       description: 'Student username.',
-      message: 'Username is required.',
+      required_error: 'Username is required.',
     })
     .min(3, 'Username must have at least 3 characters.'),
   email: z
     .string({
       description: 'Student email.',
-      message: 'Email is required.',
+      required_error: 'Email is required.',
     })
     .email('Invalid email.')
     .regex(/@alu.ufc.br$/, 'Invalid email. Must be an academic email.'),
   password: z
     .string({
       description: 'Student password.',
-      message: 'Password is required.',
+      required_error: 'Password is required.',
     })
     .min(6, 'Password must have at least 6 characters.'),
   semester: z
     .number({
       description: 'Student semester.',
-      message: 'Semester is required.',
+      required_error: 'Semester is required.',
     })
     .int()
     .min(1, 'Invalid semester.')
@@ -36,10 +36,14 @@ const registerBodySchema = z.object({
   trailsIds: z.array(
     z
       .string({
-        description: 'Trails ids.',
-        message: 'Trail id is required.',
+        description: 'Trail id.',
+        required_error: 'Trail id is required.',
       })
-      .uuid('Invalid trail id. Must be a valid uuid v4 format.'),
+      .uuid('Invalid trail id.'),
+    {
+      description: 'Trails ids.',
+      required_error: 'Trails ids is required.',
+    },
   ),
   about: z
     .string({
@@ -50,15 +54,13 @@ const registerBodySchema = z.object({
     .string({
       description: 'Student profile url.',
     })
-    .url()
+    .url('Invalid url.')
     .optional(),
 })
 
 const registerResponseSchema = z.object(
   {
-    user_id: z.string({
-      description: 'Student id.',
-    }),
+    user_id: z.string(),
   },
   {
     description: 'Student registered successfully.',

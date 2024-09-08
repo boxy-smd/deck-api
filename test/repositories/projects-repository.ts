@@ -64,6 +64,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
       author: {
         name: author.name,
         username: author.username,
+        profileUrl: author.profileUrl,
       },
       authorId: project.authorId,
       subject: subject?.name,
@@ -120,6 +121,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
         author: {
           name: author.name,
           username: author.username,
+          profileUrl: author.profileUrl,
         },
         authorId: project.authorId,
         subject: subject?.name,
@@ -165,6 +167,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
         author: {
           name: author.name,
           username: author.username,
+          profileUrl: author.profileUrl,
         },
         authorId: project.authorId,
         subject: subject?.name,

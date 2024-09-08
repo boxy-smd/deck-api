@@ -30,6 +30,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
           select: {
             name: true,
             username: true,
+            profileUrl: true,
           },
         },
         professors: {
@@ -85,6 +86,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
           select: {
             name: true,
             username: true,
+            profileUrl: true,
           },
         },
         professors: {

@@ -1,6 +1,6 @@
-import { makeEditProjectUseCase } from '@/interface/factories/projects/make-edit-project-use-case.ts'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { ProjectPresenter } from '../../presenters/project.ts'
+
+import { makeEditProjectUseCase } from '@/interface/factories/projects/make-edit-project-use-case.ts'
 import type {
   EditProjectBody,
   EditProjectParams,
@@ -53,6 +53,6 @@ export async function editProject(
   }
 
   return reply.status(200).send({
-    project: ProjectPresenter.toHTTP(result.value),
+    message: 'Project updated successfully',
   })
 }

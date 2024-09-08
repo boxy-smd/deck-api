@@ -30,6 +30,7 @@ export class PrismaProjectMapper {
       author: {
         name: string
         username: string
+        profileUrl?: string | null
       }
       subject?: {
         name: string
@@ -58,6 +59,7 @@ export class PrismaProjectMapper {
       author: {
         name: raw.author.name,
         username: raw.author.username,
+        profileUrl: raw.author.profileUrl ?? undefined,
       },
       subject: raw.subject?.name,
       subjectId: raw.subjectId ? new UniqueEntityID(raw.subjectId) : undefined,
