@@ -69,6 +69,50 @@ const editProfileResponseSchema = z.object(
             description: 'Trail name.',
           }),
         ),
+        projects: z.array(
+          z.object({
+            id: z.string({
+              description: 'Project id.',
+            }),
+            title: z.string({
+              description: 'Project title.',
+            }),
+            description: z.string({
+              description: 'Project description.',
+            }),
+            bannerUrl: z.string({
+              description: 'Project banner url.',
+            }),
+            content: z.string({
+              description: 'Project content.',
+            }),
+            publishedYear: z.number({
+              description: 'Project published year.',
+            }),
+            semester: z.number({
+              description: 'Project semester.',
+            }),
+            createdAt: z.date({
+              description: 'Project created at.',
+            }),
+            updatedAt: z.date({
+              description: 'Project updated at.',
+            }),
+            subject: z.string({
+              description: 'Project subject.',
+            }),
+            trails: z.array(
+              z.string({
+                description: 'Trail name.',
+              }),
+            ),
+            professors: z.array(
+              z.string({
+                description: 'Professor name.',
+              }),
+            ),
+          }),
+        ),
       },
       {
         description: 'Student profile.',

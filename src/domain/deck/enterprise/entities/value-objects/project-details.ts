@@ -3,6 +3,7 @@ import { ValueObject } from '@/core/entities/value-object.ts'
 import type { ProjectStatusEnum } from '../project.ts'
 
 interface ProjectDetailsProps {
+  id: UniqueEntityID
   title: string
   description: string
   bannerUrl: string
@@ -65,8 +66,16 @@ export class ProjectDetails extends ValueObject<ProjectDetailsProps> {
     return this.props.updatedAt || null
   }
 
+  get author() {
+    return this.props.author
+  }
+
   get authorId() {
     return this.props.authorId
+  }
+
+  get subject() {
+    return this.props.subject || null
   }
 
   get subjectId() {

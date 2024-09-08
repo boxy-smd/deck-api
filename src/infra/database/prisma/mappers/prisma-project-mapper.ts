@@ -43,6 +43,7 @@ export class PrismaProjectMapper {
     },
   ): ProjectDetails {
     return ProjectDetails.create({
+      id: new UniqueEntityID(raw.id),
       title: raw.title,
       description: raw.description,
       content: raw.content ?? undefined,

@@ -1,10 +1,15 @@
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
+import { InMemoryProjectsRepository } from 'test/repositories/projects-repository.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'
-import { Student } from '../../enterprise/entities/student.ts'
+import { InMemorySubjectsRepository } from 'test/repositories/subjects-repository.ts'
+import type { Student } from '../../enterprise/entities/student.ts'
+import { StudentProfile } from '../../enterprise/entities/value-objects/student-profile.ts'
 import { GetProfileUseCase } from './get-profile.ts'
 
 let studentsRepository: InMemoryStudentsRepository
+let subjectsRepository: InMemorySubjectsRepository
+let projectRepository: InMemoryProjectsRepository
 let student: Student
 
 let sut: GetProfileUseCase
@@ -12,9 +17,14 @@ let sut: GetProfileUseCase
 describe('get profile use case', () => {
   beforeEach(async () => {
     studentsRepository = new InMemoryStudentsRepository()
+    subjectsRepository = new InMemorySubjectsRepository()
+    projectRepository = new InMemoryProjectsRepository(
+      studentsRepository,
+      subjectsRepository,
+    )
     student = await makeStudent()
 
-    sut = new GetProfileUseCase(studentsRepository)
+    sut = new GetProfileUseCase(studentsRepository, projectRepository)
   })
 
   it('should be able to get a student profile', async () => {
@@ -25,7 +35,7 @@ describe('get profile use case', () => {
     })
 
     expect(result.isRight()).toBe(true)
-    expect(result.value).toBeInstanceOf(Student)
+    expect(result.value).toBeInstanceOf(StudentProfile)
   })
 
   it('should not be able to get a student with no id', async () => {

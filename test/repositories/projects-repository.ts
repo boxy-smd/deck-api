@@ -50,6 +50,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     }
 
     return ProjectDetails.create({
+      id: project.id,
       title: project.title,
       description: project.description,
       bannerUrl: project.bannerUrl,
@@ -105,6 +106,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
         : null
 
       return ProjectDetails.create({
+        id: project.id,
         title: project.title,
         description: project.description,
         bannerUrl: project.bannerUrl,
@@ -149,6 +151,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
         : null
 
       return ProjectDetails.create({
+        id: project.id,
         title: project.title,
         description: project.description,
         bannerUrl: project.bannerUrl,
