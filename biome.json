@@ -31,7 +31,7 @@
       },
       "correctness": {
         "noNewSymbol": "error",
-        "noUndeclaredVariables": "error",
+        "noUndeclaredVariables": "off",
         "noUnusedImports": "warn",
         "noUnusedVariables": "warn"
       },

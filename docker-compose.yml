@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
   postgresql:
     image: bitnami/postgresql:latest
@@ -8,4 +6,4 @@ services:
     environment:
       - POSTGRESQL_USERNAME=docker
       - POSTGRESQL_PASSWORD=docker
-      - POSTGRESQL_DATABASE=boxy
+      - POSTGRESQL_DATABASE=deck

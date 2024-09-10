@@ -13,7 +13,9 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"],
+      "test/*": ["./test/*"]
+    },
+    "types": ["vitest/globals"]
   }
 }

@@ -7,5 +7,5 @@ app
     port: env.PORT,
   })
   .then(() => {
-    console.log('HTTP server is running on port 3333! ✨')
+    app.log.info(`Docs available at http://localhost:${env.PORT}/docs`)
   })
