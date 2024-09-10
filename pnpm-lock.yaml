@@ -53,6 +53,9 @@ importers:
       supertest:
         specifier: ^7.0.0
         version: 7.0.0
+      tsup:
+        specifier: ^8.2.4
+        version: 8.2.4(postcss@8.4.45)(tsx@4.19.0)(typescript@5.5.4)(yaml@2.5.1)
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -78,9 +81,6 @@ importers:
       prisma:
         specifier: ^5.19.1
         version: 5.19.1
-      tsup:
-        specifier: ^8.2.4
-        version: 8.2.4(postcss@8.4.45)(tsx@4.19.0)(typescript@5.5.4)(yaml@2.5.1)
       tsx:
         specifier: ^4.19.0
         version: 4.19.0
