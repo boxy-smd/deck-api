@@ -8,7 +8,7 @@
     "start:dev": "tsx watch --env-file .env src/server.ts",
     "prestart": "pnpm run build",
     "start": "node --env-file=.env build/server.cjs",
-    "build": "tsup src --out-dir build",
+    "build": "tsup src --out-dir build --format esm",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:unit": "vitest run -c vitest.unit.config.ts",
