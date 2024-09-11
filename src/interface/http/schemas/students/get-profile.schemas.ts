@@ -6,6 +6,7 @@ const getProfileParamsSchema = z.object({
   id: z
     .string({
       description: 'Student id.',
+      invalid_type_error: 'Student id must be a string.',
       required_error: 'Student id is required.',
     })
     .uuid('Invalid id.'),

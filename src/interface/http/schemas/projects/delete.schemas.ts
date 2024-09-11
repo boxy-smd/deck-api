@@ -5,6 +5,7 @@ import { errorResponseSchema, zodErrorSchema } from '../common.ts'
 const deleteProjectParamsSchemas = z.object({
   projectId: z.string({
     description: 'Project id.',
+    required_error: 'Project id is required.',
     message: 'Invalid project id.',
   }),
 })

@@ -5,6 +5,7 @@ const fetchSubjectsQuerySchema = z.object({
   name: z
     .string({
       description: 'Subject name.',
+      invalid_type_error: 'Subject name must be a string.',
     })
     .min(1, 'Name must have at least 1 character.')
     .optional(),

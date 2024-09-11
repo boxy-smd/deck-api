@@ -5,6 +5,7 @@ const fetchProfessorsQuerySchema = z.object({
   name: z
     .string({
       description: 'Professor name.',
+      invalid_type_error: 'Professor name must be a string.',
     })
     .min(1, 'Name must have at least 1 character.')
     .optional(),

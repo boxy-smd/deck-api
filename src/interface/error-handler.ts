@@ -3,11 +3,18 @@ import { ZodError } from 'zod'
 
 type FastifyErrorHandler = FastifyInstance['errorHandler']
 
-export const errorHandler: FastifyErrorHandler = (error, _, reply) => {
+export const errorHandler: FastifyErrorHandler = (error, request, reply) => {
+  request.log.error(request)
+
   if (error instanceof ZodError) {
+    const errors = {
+      fields: error.flatten().fieldErrors,
+      form: error.flatten().formErrors,
+    }
+
     return reply.status(400).send({
       message: 'Error during validation.',
-      errors: error.flatten().fieldErrors,
+      errors,
     })
   }
 

@@ -7,6 +7,7 @@ const getProjectParamsSchema = z.object(
     projectId: z
       .string({
         description: 'Project id.',
+        invalid_type_error: 'Project id must be a string.',
         required_error: 'Project id is required.',
       })
       .uuid('Invalid project id.'),

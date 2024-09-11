@@ -4,20 +4,28 @@ import { errorResponseSchema, zodErrorSchema } from '../common.ts'
 const commentOnProjectParamsSchema = z.object({
   projectId: z.string({
     description: 'The project id',
+    invalid_type_error: 'Project id must be a string',
     required_error: 'Project id is required',
   }),
 })
 
-const commentOnProjectBodySchema = z.object({
-  content: z.string({
-    description: 'The comment content',
-    required_error: 'Content is required',
-  }),
-  authorId: z.string({
-    description: 'The author id',
-    required_error: 'Author id is required',
-  }),
-})
+const commentOnProjectBodySchema = z.object(
+  {
+    content: z.string({
+      description: 'The comment content',
+      required_error: 'Content is required',
+    }),
+    authorId: z.string({
+      description: 'The author id',
+      required_error: 'Author id is required',
+    }),
+  },
+  {
+    description: 'Comment on project body.',
+    required_error: 'Body is required.',
+    invalid_type_error: 'Body must be an object.',
+  },
+)
 
 const commentOnProjectResponseSchema = z.object(
   {

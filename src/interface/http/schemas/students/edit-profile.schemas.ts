@@ -2,41 +2,49 @@ import { z } from 'zod'
 
 import { zodErrorSchema } from '../common.ts'
 
-const editProfileBodySchema = z.object({
-  name: z
-    .string({
-      description: 'Student name.',
-    })
-    .optional(),
-  about: z
-    .string({
-      description: 'Student about.',
-    })
-    .optional(),
-  semester: z
-    .number({
-      description: 'Student semester.',
-    })
-    .optional(),
-  profileUrl: z
-    .string({
-      description: 'Student profile url.',
-    })
-    .url('Invalid url.')
-    .optional(),
-  trailsIds: z
-    .array(
-      z.string({
-        description: 'Trail id.',
-      }),
-    )
-    .optional(),
-})
+const editProfileBodySchema = z.object(
+  {
+    name: z
+      .string({
+        description: 'Student name.',
+      })
+      .optional(),
+    about: z
+      .string({
+        description: 'Student about.',
+      })
+      .optional(),
+    semester: z
+      .number({
+        description: 'Student semester.',
+      })
+      .optional(),
+    profileUrl: z
+      .string({
+        description: 'Student profile url.',
+      })
+      .url('Invalid url.')
+      .optional(),
+    trailsIds: z
+      .array(
+        z.string({
+          description: 'Trail id.',
+        }),
+      )
+      .optional(),
+  },
+  {
+    description: 'Student edit profile body.',
+    required_error: 'Body is required.',
+    invalid_type_error: 'Body must be an object.',
+  },
+)
 
 const editProfileParamsSchema = z.object({
   id: z
     .string({
       description: 'Student id.',
+      invalid_type_error: 'Student id must be a string.',
       message: 'Student id is required.',
     })
     .uuid('Invalid id.'),

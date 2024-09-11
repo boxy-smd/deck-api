@@ -16,6 +16,10 @@ const loginBodySchema = z.object({
       required_error: 'Password is required.',
     })
     .min(6, 'Password must have at least 6 characters.'),
+}, {
+  description: 'Student login body.',
+  required_error: 'Body is required.',
+  invalid_type_error: 'Body must be an object.',
 })
 
 const loginResponseSchema = z.object(
