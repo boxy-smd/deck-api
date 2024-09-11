@@ -36,7 +36,7 @@ describe('get profile use case', () => {
     await studentsRepository.create(student)
 
     const result = await sut.execute({
-      studentId: student.id.toString(),
+      username: student.username,
     })
 
     expect(result.isRight()).toBe(true)
@@ -45,7 +45,7 @@ describe('get profile use case', () => {
 
   it('should not be able to get a student with no id', async () => {
     const result = await sut.execute({
-      studentId: '',
+      username: '',
     })
 
     expect(result.isLeft()).toBe(true)
@@ -54,7 +54,7 @@ describe('get profile use case', () => {
 
   it('should not be able to get a student with no student', async () => {
     const result = await sut.execute({
-      studentId: 'invalid-id',
+      username: 'invalid-id',
     })
 
     expect(result.isLeft()).toBe(true)

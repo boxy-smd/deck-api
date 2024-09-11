@@ -5,7 +5,7 @@ import type { ProjectsRepository } from '../repositories/projects-repository.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
 
 interface GetProfileUseCaseRequest {
-  studentId: string
+  username: string
 }
 
 type GetProfileUseCaseResponse = Either<ResourceNotFoundError, StudentProfile>
@@ -17,16 +17,16 @@ export class GetProfileUseCase {
   ) {}
 
   async execute({
-    studentId,
+    username,
   }: GetProfileUseCaseRequest): Promise<GetProfileUseCaseResponse> {
-    const student = await this.studentRepository.findById(studentId)
+    const student = await this.studentRepository.findByUsername(username)
 
     if (!student) {
       return left(new ResourceNotFoundError('Student not found.'))
     }
 
     const posts = await this.projectRepository.findManyPostsByQuery({
-      authorId: studentId,
+      authorId: student.id.toString(),
     })
 
     return right(

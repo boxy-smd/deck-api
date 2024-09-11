@@ -20,7 +20,9 @@ describe('get profile controller (e2e)', () => {
 
     await studentsRepository.create(student)
 
-    const response = await request(app.server).get(`/profile/${student.id}`)
+    const response = await request(app.server).get(
+      `/profiles/${student.username}`,
+    )
 
     expect(response.status).toBe(200)
     expect(response.body).toMatchObject({

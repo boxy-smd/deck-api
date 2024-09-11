@@ -34,18 +34,19 @@ const registerBodySchema = z.object(
       .int()
       .min(1, 'Invalid semester.')
       .max(12, 'Invalid semester.'),
-    trailsIds: z.array(
-      z
-        .string({
-          description: 'Trail id.',
-          required_error: 'Trail id is required.',
-        })
-        .uuid('Invalid trail id.'),
-      {
-        description: 'Trails ids.',
-        required_error: 'Trails ids is required.',
-      },
-    ),
+    trailsIds: z
+      .array(
+        z
+          .string({
+            description: 'Trail id.',
+          })
+          .uuid('Invalid trail id.'),
+        {
+          description: 'Trails ids.',
+          required_error: 'Trails ids is required.',
+        },
+      )
+      .optional(),
     about: z
       .string({
         description: 'Student about.',
@@ -55,7 +56,6 @@ const registerBodySchema = z.object(
       .string({
         description: 'Student profile url.',
       })
-      .url('Invalid url.')
       .optional(),
   },
   {

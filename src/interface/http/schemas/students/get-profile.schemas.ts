@@ -3,13 +3,11 @@ import { z } from 'zod'
 import { zodErrorSchema } from '../common.ts'
 
 const getProfileParamsSchema = z.object({
-  id: z
-    .string({
-      description: 'Student id.',
-      invalid_type_error: 'Student id must be a string.',
-      required_error: 'Student id is required.',
-    })
-    .uuid('Invalid id.'),
+  username: z.string({
+    description: 'Student username.',
+    invalid_type_error: 'Student username must be a string.',
+    required_error: 'Student username is required.',
+  }),
 })
 
 const getProfileResponseSchema = z.object(

@@ -21,7 +21,7 @@ describe('edit profile controller (e2e)', () => {
     await studentsRepository.create(student)
 
     const response = await request(app.server)
-      .put(`/profile/${student.id}`)
+      .put(`/profiles/${student.id}`)
       .send({
         semester: 8,
       })

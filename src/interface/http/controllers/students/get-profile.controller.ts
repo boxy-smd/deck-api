@@ -10,12 +10,12 @@ export async function getProfile(
   }>,
   reply: FastifyReply,
 ) {
-  const { id } = request.params
+  const { username } = request.params
 
   const getProfileUseCase = makeGetProfileUseCase()
 
   const result = await getProfileUseCase.execute({
-    studentId: id,
+    username,
   })
 
   if (result.isLeft()) {

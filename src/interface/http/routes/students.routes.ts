@@ -23,7 +23,7 @@ export async function studentsRoutes(app: FastifyInstance) {
     .post('/sessions', { schema: loginSchemas }, login)
 
   app.withTypeProvider<ZodTypeProvider>().get(
-    '/profile/:id',
+    '/profiles/:username',
     {
       schema: getProfileSchemas,
     },
@@ -31,7 +31,7 @@ export async function studentsRoutes(app: FastifyInstance) {
   )
 
   app.withTypeProvider<ZodTypeProvider>().put(
-    '/profile/:id',
+    '/profiles/:id',
     {
       schema: editProfileSchemas,
     },

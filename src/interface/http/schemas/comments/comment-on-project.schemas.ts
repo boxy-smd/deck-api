@@ -2,11 +2,13 @@ import { z } from 'zod'
 import { errorResponseSchema, zodErrorSchema } from '../common.ts'
 
 const commentOnProjectParamsSchema = z.object({
-  projectId: z.string({
-    description: 'The project id',
-    invalid_type_error: 'Project id must be a string',
-    required_error: 'Project id is required',
-  }),
+  projectId: z
+    .string({
+      description: 'The project id',
+      invalid_type_error: 'Project id must be a string',
+      required_error: 'Project id is required',
+    })
+    .uuid('Invalid project id'),
 })
 
 const commentOnProjectBodySchema = z.object(
