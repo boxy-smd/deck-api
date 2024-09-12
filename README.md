@@ -18,6 +18,8 @@ Deck é uma aplicação que servirá como repositório de trabalhos realizados p
 
 ## :file_folder: Rotas do Projeto
 
+## Estudantes
+
 > - **`POST` /profile-images/:username** _Realiza o upload da imagem de perfil do estudante._
 > - **`POST` /students** _Regista um estudante._
 > - **`POST` /sessions** _Autentica um estudante._
@@ -25,9 +27,7 @@ Deck é uma aplicação que servirá como repositório de trabalhos realizados p
 > - **`GET` /profiles** _Obtém o perfil de um estudante._
 > - **`PUT` /profiles** _Edita o perfil de um estudante._
 
-> - **`GET` /professors** _Lista os professores._
-> - **`GET` /subjects** _Lista as disciplinas._
-> - **`GET` /trails** _Lista as trilhas._
+## Projetos
 
 > - **`GET` /projects** _Lista os projetos._
 > - **`GET` /projects/:id** _Obtém os detlhes de um projeto._
@@ -35,6 +35,14 @@ Deck é uma aplicação que servirá como repositório de trabalhos realizados p
 > - **`PUT` /projects/:id** _Edita um projeto._
 > - **`DELETE` /projects** _Exclui um projeto._
 > - **`POST` /banners/:projectId** _Realiza o upload do banner do projeto._
+
+### Tags
+
+> - **`GET` /professors** _Lista os professores._
+> - **`GET` /subjects** _Lista as disciplinas._
+> - **`GET` /trails** _Lista as trilhas._
+
+### Comentários
 
 > - **`POST` /projects/:id/comments** _Comenta em um projeto._
 
