@@ -1,12 +1,12 @@
 import type { CommentsRepository } from '@/domain/deck/application/repositories/comments-repository.ts'
-import type { StudentsRepository } from '@/domain/deck/application/repositories/students-repository.ts'
 import type { Comment } from '@/domain/deck/enterprise/entities/comment.ts'
 import { CommentWithAuthor } from '@/domain/deck/enterprise/entities/value-objects/comment-with-author.ts'
+import type { InMemoryStudentsRepository } from './students-repository.ts'
 
 export class InMemoryCommentsRepository implements CommentsRepository {
   public items: Comment[] = []
 
-  constructor(private studentsRepository: StudentsRepository) {}
+  constructor(private studentsRepository: InMemoryStudentsRepository) {}
 
   async findById(id: string): Promise<Comment | null> {
     return Promise.resolve(

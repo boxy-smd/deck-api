@@ -1,8 +1,10 @@
+import type { Prisma, Project as ProjectRaw } from '@prisma/client'
+
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { Project } from '@/domain/deck/enterprise/entities/project.ts'
+import { CommentWithAuthor } from '@/domain/deck/enterprise/entities/value-objects/comment-with-author.ts'
 import { Post } from '@/domain/deck/enterprise/entities/value-objects/post.ts'
 import { ProjectDetails } from '@/domain/deck/enterprise/entities/value-objects/project-details.ts'
-import type { Prisma, Project as ProjectRaw } from '@prisma/client'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaProjectMapper {
@@ -42,6 +44,18 @@ export class PrismaProjectMapper {
       trails: {
         name: string
       }[]
+      comments: {
+        id: string
+        content: string
+        createdAt: Date
+        updatedAt: Date
+        authorId: string
+        author: {
+          name: string
+          username: string
+          profileUrl: string | null
+        }
+      }[]
     },
   ): ProjectDetails {
     return ProjectDetails.create({
@@ -66,6 +80,20 @@ export class PrismaProjectMapper {
       subjectId: raw.subjectId ? new UniqueEntityID(raw.subjectId) : undefined,
       trails: raw.trails.map(trail => trail.name),
       professors: raw.professors?.map(professor => professor.name),
+      comments: raw.comments.map(comment =>
+        CommentWithAuthor.create({
+          id: new UniqueEntityID(comment.id),
+          content: comment.content,
+          createdAt: comment.createdAt,
+          updatedAt: comment.updatedAt,
+          authorId: new UniqueEntityID(comment.authorId),
+          author: {
+            name: comment.author.name,
+            username: comment.author.username,
+            profileUrl: comment.author.profileUrl ?? undefined,
+          },
+        }),
+      ),
     })
   }
 

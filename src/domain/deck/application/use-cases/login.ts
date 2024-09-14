@@ -11,7 +11,7 @@ interface LoginUseCaseRequest {
 type LoginUseCaseResponse = Either<
   InvalidCredentialsError,
   {
-    email: string
+    id: string
   }
 >
 
@@ -41,7 +41,7 @@ export class LoginUseCase {
     }
 
     return right({
-      email: student.email.value,
+      id: student.id.toString(),
     })
   }
 }

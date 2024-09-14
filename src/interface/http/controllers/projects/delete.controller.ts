@@ -10,10 +10,12 @@ export async function deleteProject(
   reply: FastifyReply,
 ) {
   const { projectId } = request.params
+  const studentId = request.user.sign.sub
 
   const deleteProjectUseCase = makeDeleteProjectUseCase()
 
   const result = await deleteProjectUseCase.execute({
+    studentId,
     projectId,
   })
 

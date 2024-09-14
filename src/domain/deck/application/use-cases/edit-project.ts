@@ -1,5 +1,6 @@
 import { type Either, left, right } from '@/core/either.ts'
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
+import { ForbiddenError } from '@/core/errors/forbidden.error.ts'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error.ts'
 import type {
   Project,
   ProjectStatusEnum,
@@ -12,6 +13,7 @@ import type { SubjectsRepository } from '../repositories/subjects-repository.ts'
 import type { TrailsRepository } from '../repositories/trails-repository.ts'
 
 interface EditProjectUseCaseRequest {
+  studentId: string
   projectId: string
   title?: string
   description?: string
@@ -21,13 +23,15 @@ interface EditProjectUseCaseRequest {
   status?: ProjectStatusEnum
   semester?: number
   allowComments?: boolean
-  authorId: string
   subjectId?: string
   trailsIds?: string[]
   professorsIds?: string[]
 }
 
-type EditProjectUseCaseResponse = Either<ResourceNotFoundError, Project>
+type EditProjectUseCaseResponse = Either<
+  ForbiddenError | ResourceNotFoundError,
+  Project
+>
 
 export class EditProjectUseCase {
   constructor(
@@ -40,6 +44,7 @@ export class EditProjectUseCase {
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: This function is complex by nature
   async execute({
+    studentId,
     projectId,
     title,
     description,
@@ -49,21 +54,24 @@ export class EditProjectUseCase {
     status,
     semester,
     allowComments,
-    authorId,
     subjectId,
     trailsIds,
     professorsIds,
   }: EditProjectUseCaseRequest): Promise<EditProjectUseCaseResponse> {
-    const student = await this.studentsRepository.findById(authorId)
-
-    if (!student) {
-      return left(new ResourceNotFoundError('Student not found.'))
-    }
-
     const project = await this.projectsRepository.findById(projectId)
 
     if (!project) {
       return left(new ResourceNotFoundError('Project not found.'))
+    }
+
+    if (project.status !== 'DRAFT') {
+      return left(new ForbiddenError('Only drafts can be edited.'))
+    }
+
+    if (project.authorId.toString() !== studentId) {
+      return left(
+        new ForbiddenError('You are not allowed to edit this project.'),
+      )
     }
 
     project.title = title ?? project.title

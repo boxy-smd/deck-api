@@ -14,14 +14,14 @@ export async function commentOnProject(
   reply: FastifyReply,
 ) {
   const { projectId } = request.params
-  const { content, authorId } = request.body
+  const { content } = request.body
 
   const commentOnProjectUseCase = makeCommentOnProjectUseCase()
 
   const result = await commentOnProjectUseCase.execute({
     projectId,
     content,
-    authorId,
+    authorId: request.user.sign.sub,
   })
 
   if (result.isLeft()) {

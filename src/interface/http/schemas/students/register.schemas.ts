@@ -79,6 +79,7 @@ export const registerSchemas = {
   response: {
     201: registerResponseSchema,
     400: zodErrorSchema,
+    404: errorResponseSchema,
     409: errorResponseSchema,
   },
 }

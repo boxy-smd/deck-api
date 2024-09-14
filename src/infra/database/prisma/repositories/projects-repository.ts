@@ -83,6 +83,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
   }: ProjectQuery): Promise<Post[]> {
     const data = await prisma.project.findMany({
       where: {
+        status: 'PUBLISHED',
         title: {
           contains: title,
         },
@@ -137,6 +138,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
   }: ProjectQuery): Promise<Project[]> {
     const data = await prisma.project.findMany({
       where: {
+        status: 'PUBLISHED',
         title: {
           contains: title,
         },
@@ -187,6 +189,9 @@ export class PrismaProjectsRepository implements ProjectsRepository {
             name: true,
           },
         },
+      },
+      where: {
+        status: 'PUBLISHED',
       },
       orderBy: {
         publishedYear: 'desc',

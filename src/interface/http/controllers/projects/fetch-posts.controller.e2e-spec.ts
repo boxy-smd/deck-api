@@ -20,15 +20,16 @@ describe('fetch posts (e2e)', () => {
   })
 
   it('should be able to fetch posts', async () => {
-    const studentsRepository = new PrismaStudentsRepository()
+    const projectsRepository = new PrismaProjectsRepository()
+    const studentsRepository = new PrismaStudentsRepository(projectsRepository)
     const trailsRepository = new PrismaTrailsRepository()
     const subjectsRepository = new PrismaSubjectsRepository()
-    const projectsRepository = new PrismaProjectsRepository()
 
     const author = await makeStudent()
     const trail = makeTrail()
     const subject = makeSubject()
     const project = makeProject({
+      status: 'PUBLISHED',
       authorId: author.id,
       subjectId: subject.id,
       trails: [trail],

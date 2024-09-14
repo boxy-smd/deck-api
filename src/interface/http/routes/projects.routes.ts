@@ -8,6 +8,7 @@ import { fetchPosts } from '../controllers/projects/fetch-posts.controller.ts'
 import { getProject } from '../controllers/projects/get.controller.ts'
 import { publishProject } from '../controllers/projects/publish.controller.ts'
 import { uploadBanner } from '../controllers/projects/upload-banner.ts'
+import { type ProtectedRoute, verifyJWT } from '../middlewares/verify-jwt.ts'
 import { commentOnProjectSchemas } from '../schemas/comments/comment-on-project.schemas.ts'
 import { deleteProjectSchemas } from '../schemas/projects/delete.schemas.ts'
 import { editProjectSchemas } from '../schemas/projects/edit.schemas.ts'
@@ -22,8 +23,8 @@ export async function projectsRoutes(app: FastifyInstance) {
     .withTypeProvider<ZodTypeProvider>()
     .post(
       '/banners/:projectId',
-      { schema: uploadBannerSchemas },
-      uploadBanner,
+      { preHandler: verifyJWT, schema: uploadBannerSchemas },
+      uploadBanner as ProtectedRoute,
     )
 
   app.withTypeProvider<ZodTypeProvider>().get(
@@ -42,27 +43,39 @@ export async function projectsRoutes(app: FastifyInstance) {
     getProject,
   )
 
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .post('/projects', { schema: publishProjectSchemas }, publishProject)
+  app.withTypeProvider<ZodTypeProvider>().post(
+    '/projects',
+    {
+      preHandler: verifyJWT,
+      schema: publishProjectSchemas,
+    },
+    publishProject as ProtectedRoute,
+  )
 
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .post(
-      '/projects/:projectId/comments',
-      { schema: commentOnProjectSchemas },
-      commentOnProject,
-    )
+  app.withTypeProvider<ZodTypeProvider>().post(
+    '/projects/:projectId/comments',
+    {
+      preHandler: verifyJWT,
+      schema: commentOnProjectSchemas,
+    },
+    commentOnProject as ProtectedRoute,
+  )
 
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .put('/projects/:projectId', { schema: editProjectSchemas }, editProject)
+  app.withTypeProvider<ZodTypeProvider>().put(
+    '/projects/:projectId',
+    {
+      preHandler: verifyJWT,
+      schema: editProjectSchemas,
+    },
+    editProject as ProtectedRoute,
+  )
 
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .delete(
-      '/projects/:projectId',
-      { schema: deleteProjectSchemas },
-      deleteProject,
-    )
+  app.withTypeProvider<ZodTypeProvider>().delete(
+    '/projects/:projectId',
+    {
+      preHandler: verifyJWT,
+      schema: deleteProjectSchemas,
+    },
+    deleteProject as ProtectedRoute,
+  )
 }

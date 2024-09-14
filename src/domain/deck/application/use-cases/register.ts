@@ -1,6 +1,6 @@
 import { type Either, left, right } from '@/core/either.ts'
-import { ResourceAlreadyExistsError } from '@/core/errors/resource-already-exists.ts'
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
+import { ResourceAlreadyExistsError } from '@/core/errors/resource-already-exists.error.ts'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error.ts'
 import type { TrailsRepository } from '@/domain/deck/application/repositories/trails-repository.ts'
 import { Student } from '../../enterprise/entities/student.ts'
 import type { Trail } from '../../enterprise/entities/trail.ts'

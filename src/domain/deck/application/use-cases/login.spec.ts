@@ -32,7 +32,7 @@ describe('login use case', () => {
 
     expect(result.isRight()).toBe(true)
     expect(result.isRight() && result.value).toMatchObject({
-      email: student.email.value,
+      id: student.id.toString(),
     })
   })
 

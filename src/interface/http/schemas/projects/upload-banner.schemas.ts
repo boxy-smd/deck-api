@@ -27,6 +27,7 @@ export const uploadBannerSchemas = {
   response: {
     200: uploadBannerResponseSchema,
     400: zodErrorSchema,
+    403: zodErrorSchema,
   },
 }
 

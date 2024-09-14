@@ -19,6 +19,7 @@ export const deleteProjectSchemas = {
   response: {
     204: deleteProjectResponseSchema,
     400: zodErrorSchema,
+    403: errorResponseSchema,
     404: errorResponseSchema,
   },
 }

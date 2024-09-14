@@ -1,6 +1,6 @@
 import { type Either, left, right } from '@/core/either.ts'
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
-
+import { ForbiddenError } from '@/core/errors/forbidden.error.ts'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error.ts'
 import {
   Project,
   type ProjectStatusEnum,
@@ -28,7 +28,7 @@ interface PublishProjectUseCaseRequest {
 }
 
 type PublishProjectUseCaseResponse = Either<
-  ResourceNotFoundError,
+  ForbiddenError | ResourceNotFoundError,
   {
     projectId: string
   }
@@ -57,6 +57,12 @@ export class PublishProjectUseCase {
     trailsIds,
     professorsIds,
   }: PublishProjectUseCaseRequest): Promise<PublishProjectUseCaseResponse> {
+    if (!authorId) {
+      return left(
+        new ForbiddenError('You must be logged in to publish a project.'),
+      )
+    }
+
     const student = await this.studentsRepository.findById(authorId)
 
     if (!student) {

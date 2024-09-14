@@ -1,5 +1,6 @@
 import { type Either, left, right } from '@/core/either.ts'
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
+import { ForbiddenError } from '@/core/errors/forbidden.error.ts'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error.ts'
 import { Comment } from '../../enterprise/entities/comment.ts'
 import type { CommentsRepository } from '../repositories/comments-repository.ts'
 import type { ProjectsRepository } from '../repositories/projects-repository.ts'
@@ -12,7 +13,7 @@ interface CommentOnProjectUseCaseRequest {
 }
 
 type CommentOnProjectUseCaseResponse = Either<
-  ResourceNotFoundError,
+  ForbiddenError | ResourceNotFoundError,
   {
     commentId: string
   }
@@ -25,23 +26,31 @@ export class CommentOnProjectUseCase {
     private readonly subjectsRepository: StudentsRepository,
   ) {}
 
-  async execute(
-    request: CommentOnProjectUseCaseRequest,
-  ): Promise<CommentOnProjectUseCaseResponse> {
-    const project = await this.projectsRepository.findById(request.projectId)
-
-    if (!project) {
-      return left(new ResourceNotFoundError('Project not found.'))
+  async execute({
+    authorId,
+    projectId,
+    content,
+  }: CommentOnProjectUseCaseRequest): Promise<CommentOnProjectUseCaseResponse> {
+    if (!authorId) {
+      return left(
+        new ForbiddenError('You must be logged in to comment on a project.'),
+      )
     }
 
-    const author = await this.subjectsRepository.findById(request.authorId)
+    const author = await this.subjectsRepository.findById(authorId)
 
     if (!author) {
       return left(new ResourceNotFoundError('Author not found.'))
     }
 
+    const project = await this.projectsRepository.findById(projectId)
+
+    if (!project) {
+      return left(new ResourceNotFoundError('Project not found.'))
+    }
+
     const comment = Comment.create({
-      content: request.content,
+      content,
       authorId: author.id,
       projectId: project.id,
     })

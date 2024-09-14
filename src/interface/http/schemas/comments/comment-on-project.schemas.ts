@@ -17,10 +17,6 @@ const commentOnProjectBodySchema = z.object(
       description: 'The comment content',
       required_error: 'Content is required',
     }),
-    authorId: z.string({
-      description: 'The author id',
-      required_error: 'Author id is required',
-    }),
   },
   {
     description: 'Comment on project body.',
@@ -46,6 +42,7 @@ export const commentOnProjectSchemas = {
   response: {
     201: commentOnProjectResponseSchema,
     400: zodErrorSchema,
+    403: errorResponseSchema,
     404: errorResponseSchema,
   },
 }

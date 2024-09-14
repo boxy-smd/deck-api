@@ -4,12 +4,6 @@ import { errorResponseSchema, zodErrorSchema } from '../common.ts'
 
 const editProjectBodySchema = z.object(
   {
-    authorId: z
-      .string({
-        description: 'Project author id.',
-        required_error: 'Author id is required.',
-      })
-      .uuid('Invalid author id.'),
     title: z
       .string({
         description: 'Project title.',
@@ -146,6 +140,7 @@ export const editProjectSchemas = {
   response: {
     201: editProjectResponseSchema,
     400: zodErrorSchema,
+    403: errorResponseSchema,
     404: errorResponseSchema,
   },
 }

@@ -85,9 +85,5 @@ Esse é o backend do projeto Deck, um projeto de uma aplicação que servirá co
 
 ## Requisitos Não Funcionais (RNF's)
 
-- [x] RNF01 - O backend deve ser desenvolvido em Node.js;
-- [x] RNF02 - O backend deve ser desenvolvido com o framework Fastify;
-- [x] RNF03 - O backend deve ser desenvolvido com o ORM Prisma;
-- [ ] RNF04 - O backend deve ser hospedado no Render;
-- [ ] RNF05 - A senha do usuário deve ser criptografada;
-- [ ] RNF06 - O usuário deve ser autenticado com JWT.
+- [ ] RNF01 - A senha do usuário deve ser criptografada;
+- [ ] RNF02 - O usuário deve ser autenticado com JWT.

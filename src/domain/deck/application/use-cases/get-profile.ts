@@ -1,7 +1,6 @@
 import { type Either, left, right } from '@/core/either.ts'
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
-import { StudentProfile } from '../../enterprise/entities/value-objects/student-profile.ts'
-import type { ProjectsRepository } from '../repositories/projects-repository.ts'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error.ts'
+import type { StudentProfile } from '../../enterprise/entities/value-objects/student-profile.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
 
 interface GetProfileUseCaseRequest {
@@ -11,37 +10,17 @@ interface GetProfileUseCaseRequest {
 type GetProfileUseCaseResponse = Either<ResourceNotFoundError, StudentProfile>
 
 export class GetProfileUseCase {
-  constructor(
-    private studentRepository: StudentsRepository,
-    private projectRepository: ProjectsRepository,
-  ) {}
+  constructor(private studentRepository: StudentsRepository) {}
 
   async execute({
     username,
   }: GetProfileUseCaseRequest): Promise<GetProfileUseCaseResponse> {
-    const student = await this.studentRepository.findByUsername(username)
+    const profile = await this.studentRepository.findProfileByUsername(username)
 
-    if (!student) {
+    if (!profile) {
       return left(new ResourceNotFoundError('Student not found.'))
     }
 
-    const posts = await this.projectRepository.findManyPostsByQuery({
-      authorId: student.id.toString(),
-    })
-
-    return right(
-      StudentProfile.create({
-        id: student.id,
-        name: student.name,
-        username: student.username,
-        about: student.about,
-        profileUrl: student.profileUrl,
-        semester: student.semester,
-        createdAt: student.createdAt,
-        updatedAt: student.updatedAt,
-        trails: student.trails.map(trail => trail.name),
-        posts,
-      }),
-    )
+    return right(profile)
   }
 }

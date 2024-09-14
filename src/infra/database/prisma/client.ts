@@ -1,4 +1,4 @@
-import { env } from '@/infra/config/env.ts'
+import { env } from '@/infra/config/env/env.ts'
 import { PrismaClient } from '@prisma/client'
 
 export const prisma = new PrismaClient({

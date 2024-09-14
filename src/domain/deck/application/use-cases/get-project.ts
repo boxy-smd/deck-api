@@ -1,5 +1,5 @@
 import { type Either, left, right } from '@/core/either.ts'
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error.ts'
 import type { ProjectDetails } from '../../enterprise/entities/value-objects/project-details.ts'
 import type { ProjectsRepository } from '../repositories/projects-repository.ts'
 
