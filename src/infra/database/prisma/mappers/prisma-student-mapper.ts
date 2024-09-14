@@ -1,11 +1,24 @@
+import type { Prisma, User as UserRaw } from '@prisma/client'
+
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { Student } from '@/domain/deck/enterprise/entities/student.ts'
+import { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
 import { Email } from '@/domain/deck/enterprise/entities/value-objects/email.ts'
-import type { Prisma, User as UserRaw } from '@prisma/client'
+import type { Post } from '@/domain/deck/enterprise/entities/value-objects/post.ts'
+import { StudentProfile } from '@/domain/deck/enterprise/entities/value-objects/student-profile.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaStudentMapper {
-  static toEntity(raw: UserRaw): Student {
+  static toEntity(
+    raw: UserRaw & {
+      trails: {
+        id: string
+        name: string
+        createdAt: Date
+        updatedAt: Date
+      }[]
+    },
+  ): Student {
     return Student.create(
       {
         name: raw.name,
@@ -17,10 +30,41 @@ export class PrismaStudentMapper {
         updatedAt: raw.updatedAt,
         about: raw.about ?? undefined,
         profileUrl: raw.profileUrl ?? undefined,
-        trails: [],
+        trails: raw.trails.map(trail =>
+          Trail.create(
+            {
+              name: trail.name,
+              createdAt: trail.createdAt,
+              updatedAt: trail.updatedAt,
+            },
+            new UniqueEntityID(trail.id),
+          ),
+        ),
       },
       new UniqueEntityID(raw.id),
     )
+  }
+
+  static toEntityProfile(
+    raw: UserRaw & {
+      trails: {
+        name: string
+      }[]
+      posts: Post[]
+    },
+  ): StudentProfile {
+    return StudentProfile.create({
+      id: new UniqueEntityID(raw.id),
+      name: raw.name,
+      username: raw.username,
+      about: raw.about ?? undefined,
+      profileUrl: raw.profileUrl ?? undefined,
+      semester: raw.semester,
+      createdAt: raw.createdAt,
+      updatedAt: raw.updatedAt,
+      trails: raw.trails.map(trail => trail.name),
+      posts: raw.posts,
+    })
   }
 
   static toPrisma(student: Student): Prisma.UserUncheckedCreateInput {

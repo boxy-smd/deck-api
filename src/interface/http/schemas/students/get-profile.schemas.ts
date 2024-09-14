@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { zodErrorSchema } from '../common.ts'
+import { errorResponseSchema, zodErrorSchema } from '../common.ts'
 
 const getProfileParamsSchema = z.object({
   username: z.string({
@@ -17,8 +17,8 @@ const getProfileResponseSchema = z.object(
       name: z.string(),
       username: z.string(),
       semester: z.number(),
-      about: z.string(),
-      profileUrl: z.string(),
+      about: z.string().optional(),
+      profileUrl: z.string().optional(),
       trails: z.array(z.string()),
       posts: z.array(
         z.object({
@@ -50,6 +50,7 @@ export const getProfileSchemas = {
   response: {
     200: getProfileResponseSchema,
     400: zodErrorSchema,
+    404: errorResponseSchema,
   },
 }
 

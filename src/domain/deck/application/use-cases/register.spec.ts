@@ -1,4 +1,4 @@
-import { ResourceAlreadyExistsError } from '@/core/errors/resource-already-exists.ts'
+import { ResourceAlreadyExistsError } from '@/core/errors/resource-already-exists.error.ts'
 import { FakeHasher } from 'test/cryptography/fake-hasher.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'

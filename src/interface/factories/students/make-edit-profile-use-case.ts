@@ -4,12 +4,11 @@ import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/s
 import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository.ts'
 
 export function makeEditProfileUseCase() {
-  const studentsRepository = new PrismaStudentsRepository()
-  const trailsRepository = new PrismaTrailsRepository()
   const projectsRepository = new PrismaProjectsRepository()
+  const studentsRepository = new PrismaStudentsRepository(projectsRepository)
+  const trailsRepository = new PrismaTrailsRepository()
   const editProfileUseCase = new EditProfileUseCase(
     studentsRepository,
-    projectsRepository,
     trailsRepository,
   )
 

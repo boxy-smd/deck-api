@@ -201,13 +201,31 @@ async function seed() {
     ),
   )
 
-  const trails = ['Sistemas', 'Design', 'Audiovisual', 'Jogos']
+  const trails = [
+    {
+      id: 'e310c8db-1609-404a-a190-15ab03b30991',
+      name: 'Sistemas',
+    },
+    {
+      id: '160d7df1-c66e-48b5-9421-3097d5eea46e',
+      name: 'Design',
+    },
+    {
+      id: '6984d27d-e9b7-4fe0-bacd-6fb2c79f139a',
+      name: 'Audiovisual',
+    },
+    {
+      id: 'f66f4f5b-d872-4cda-a384-3d005d1df00b',
+      name: 'Jogos',
+    },
+  ]
 
   const [systemsTrail, designTrail] = await Promise.all(
     trails.map(trail =>
       prisma.trail.create({
         data: {
-          name: trail,
+          id: trail.id,
+          name: trail.name,
         },
       }),
     ),
@@ -236,10 +254,10 @@ async function seed() {
       passwordHash: '123456',
       semester: 3,
       trails: {
-       connect: {
-          id: designTrail.id
-       }
-      }
+        connect: {
+          id: designTrail.id,
+        },
+      },
     },
   })
 
@@ -253,9 +271,9 @@ async function seed() {
       semester: 3,
       trails: {
         connect: {
-          id: systemsTrail.id
-        }
-      }
+          id: systemsTrail.id,
+        },
+      },
     },
   })
 }

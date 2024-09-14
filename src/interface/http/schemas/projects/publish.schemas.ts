@@ -52,15 +52,11 @@ const publishProjectBodySchema = z.object(
     allowComments: z.boolean({
       description: 'Project allow comments.',
     }),
-    authorId: z
+    subjectId: z
       .string({
-        description: 'Project author id.',
-        message: 'Author id is required.',
+        description: 'Project subject id.',
       })
-      .uuid('Invalid author id.'),
-    subjectId: z.string({
-      description: 'Project subject id.',
-    }),
+      .optional(),
     trailsIds: z.array(
       z
         .string({
@@ -102,6 +98,7 @@ export const publishProjectSchemas = {
   response: {
     201: publishProjectResponseSchema,
     400: zodErrorSchema,
+    403: errorResponseSchema,
     404: errorResponseSchema,
   },
 }

@@ -13,9 +13,10 @@ export async function editProject(
   }>,
   reply: FastifyReply,
 ) {
+  const studentId = request.user.sign.sub
+
   const { projectId } = request.params
   const {
-    authorId,
     title,
     description,
     bannerUrl,
@@ -32,6 +33,7 @@ export async function editProject(
   const editProjectUseCase = makeEditProjectUseCase()
 
   const result = await editProjectUseCase.execute({
+    studentId,
     projectId,
     title,
     description,
@@ -44,7 +46,6 @@ export async function editProject(
     subjectId,
     trailsIds,
     professorsIds,
-    authorId,
   })
 
   if (result.isLeft()) {

@@ -1,5 +1,6 @@
 import type { StudentsRepository } from '@/domain/deck/application/repositories/students-repository.ts'
 import type { Student } from '@/domain/deck/enterprise/entities/student.ts'
+import { StudentProfile } from '@/domain/deck/enterprise/entities/value-objects/student-profile.ts'
 
 export class InMemoryStudentsRepository implements StudentsRepository {
   public items: Student[] = []
@@ -12,6 +13,29 @@ export class InMemoryStudentsRepository implements StudentsRepository {
   async findByUsername(username: string): Promise<Student | null> {
     const student = this.items.find(item => item.username === username)
     return await Promise.resolve(student || null)
+  }
+
+  async findProfileByUsername(
+    username: string,
+  ): Promise<StudentProfile | null> {
+    const student = this.items.find(item => item.username === username)
+
+    if (!student) return null
+
+    return await Promise.resolve(
+      StudentProfile.create({
+        id: student.id,
+        name: student.name,
+        username: student.username,
+        profileUrl: student.profileUrl,
+        createdAt: student.createdAt,
+        updatedAt: student.updatedAt,
+        posts: [],
+        semester: student.semester,
+        trails: [],
+        about: student.about,
+      }),
+    )
   }
 
   async findByEmail(email: string): Promise<Student | null> {

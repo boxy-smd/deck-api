@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { profilesRef } from '@/infra/config/firebase.ts'
+import { profilesRef } from '@/infra/config/services/firebase.ts'
 import { uploadImageToStorage } from '@/infra/database/firebase/upload-image-to-storage.ts'
 import type { UpdateProfileImageParams } from '../../schemas/students/upload-profile-image.schemas.ts'
 

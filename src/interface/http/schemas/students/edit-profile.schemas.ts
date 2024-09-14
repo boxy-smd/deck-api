@@ -1,27 +1,35 @@
 import { z } from 'zod'
 
-import { zodErrorSchema } from '../common.ts'
+import { errorResponseSchema, zodErrorSchema } from '../common.ts'
+
+const editProfileParamsSchema = z.object({
+  studentId: z
+    .string({
+      description: 'Student id.',
+      invalid_type_error: 'Student id must be a string.',
+      message: 'Student id is required.',
+    })
+    .uuid('Invalid id.'),
+})
 
 const editProfileBodySchema = z.object(
   {
-    name: z
-      .string({
-        description: 'Student name.',
-      })
-      .optional(),
     about: z
       .string({
         description: 'Student about.',
+        invalid_type_error: 'About must be a string.',
       })
       .optional(),
     semester: z
       .number({
         description: 'Student semester.',
+        invalid_type_error: 'Semester must be a number.',
       })
       .optional(),
     profileUrl: z
       .string({
         description: 'Student profile url.',
+        invalid_type_error: 'Profile url must be a string.',
       })
       .url('Invalid url.')
       .optional(),
@@ -40,16 +48,6 @@ const editProfileBodySchema = z.object(
   },
 )
 
-const editProfileParamsSchema = z.object({
-  id: z
-    .string({
-      description: 'Student id.',
-      invalid_type_error: 'Student id must be a string.',
-      message: 'Student id is required.',
-    })
-    .uuid('Invalid id.'),
-})
-
 const editProfileResponseSchema = z.object(
   {
     profile: z.object({
@@ -57,8 +55,8 @@ const editProfileResponseSchema = z.object(
       name: z.string(),
       username: z.string(),
       semester: z.number(),
-      about: z.string(),
-      profileUrl: z.string(),
+      about: z.string().optional(),
+      profileUrl: z.string().optional(),
       trails: z.array(z.string()),
       posts: z.array(
         z.object({
@@ -90,6 +88,8 @@ export const editProfileSchemas = {
   response: {
     200: editProfileResponseSchema,
     400: zodErrorSchema,
+    403: errorResponseSchema,
+    404: errorResponseSchema,
   },
 }
 

@@ -9,6 +9,8 @@ export async function publishProject(
   }>,
   reply: FastifyReply,
 ) {
+  const authorId = request.user.sign.sub
+
   const {
     title,
     description,
@@ -18,7 +20,6 @@ export async function publishProject(
     status,
     semester,
     allowComments,
-    authorId,
     subjectId,
     trailsIds,
     professorsIds,

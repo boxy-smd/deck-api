@@ -1,5 +1,6 @@
-import { makeEditProfileUseCase } from '@/interface/factories/students/make-edit-profile-use-case.ts'
 import type { FastifyReply, FastifyRequest } from 'fastify'
+
+import { makeEditProfileUseCase } from '@/interface/factories/students/make-edit-profile-use-case.ts'
 import { StudentProfilePresenter } from '../../presenters/student-profile.ts'
 import type {
   EditProfileBody,
@@ -8,23 +9,27 @@ import type {
 
 export async function editProfile(
   request: FastifyRequest<{
-    Body: EditProfileBody
     Params: EditProfileParams
+    Body: EditProfileBody
   }>,
   reply: FastifyReply,
 ) {
-  const { id } = request.params
-  const { name, about, profileUrl, semester, trailsIds } = request.body
+  const { studentId } = request.params
+
+  if (studentId !== request.user.sign.sub) {
+    return reply.status(403).send({ message: 'Forbidden.' })
+  }
+
+  const { about, profileUrl, semester, trailsIds } = request.body
 
   const editProfileUseCase = makeEditProfileUseCase()
 
   const result = await editProfileUseCase.execute({
-    studentId: id,
-    name,
-    about,
+    studentId,
     profileUrl,
     semester,
     trailsIds,
+    about,
   })
 
   if (result.isLeft()) {

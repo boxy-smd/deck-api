@@ -11,8 +11,8 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 
-import { envToLogger } from '@/infra/config/env-to-logger.ts'
-import { env } from '@/infra/config/env.ts'
+import { envToLogger } from '@/infra/config/env/env-to-logger.ts'
+import { env } from '@/infra/config/env/env.ts'
 import { errorHandler } from '@/interface/error-handler.ts'
 import { studentsRoutes } from '@/interface/http/routes/students.routes.ts'
 import { professorsRoutes } from './interface/http/routes/professors.routes.ts'
@@ -30,25 +30,24 @@ async function buildServer() {
   })
 
   app.register(fastifyJWT, {
-    secret: env.JWT_SECRET,
     cookie: {
       cookieName: 'refreshToken',
       signed: false,
     },
+    secret: env.JWT_SECRET,
     sign: {
       expiresIn: '10m',
     },
   })
 
-  app.register(fastifyCookie)
+  app.register(fastifyCookie, {
+    secret: env.JWT_SECRET,
+  })
+
   app.register(fastifyMultipart, {
     limits: {
-      fieldNameSize: 100, // 100 bytes
-      fieldSize: 3000000, // 3MB
-      fields: 10,
-      fileSize: 3000000, // 3MB
       files: 1,
-      headerPairs: 2000, // 2000 bytes
+      fileSize: 5 * 1024 * 1024, // 5MB
     },
   })
 

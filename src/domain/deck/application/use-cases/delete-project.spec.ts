@@ -1,7 +1,9 @@
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
+import { ForbiddenError } from '@/core/errors/forbidden.error.ts'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error.ts'
 import { makeProject } from 'test/factories/make-project.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
 import { makeTrail } from 'test/factories/make-trail.ts'
+import { InMemoryCommentsRepository } from 'test/repositories/comments-repository.ts'
 import { InMemoryProjectsRepository } from 'test/repositories/projects-repository.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'
 import { InMemorySubjectsRepository } from 'test/repositories/subjects-repository.ts'
@@ -14,6 +16,7 @@ import { DeleteProjectUseCase } from './delete-project.ts'
 let studentsRepository: InMemoryStudentsRepository
 let trailsRepository: InMemoryTrailsRepository
 let subjectsRepository: InMemorySubjectsRepository
+let commentsRepository: InMemoryCommentsRepository
 let projectsRepository: InMemoryProjectsRepository
 
 let author: Student
@@ -27,9 +30,11 @@ describe('delete project use case', () => {
     studentsRepository = new InMemoryStudentsRepository()
     subjectsRepository = new InMemorySubjectsRepository()
     trailsRepository = new InMemoryTrailsRepository()
+    commentsRepository = new InMemoryCommentsRepository(studentsRepository)
     projectsRepository = new InMemoryProjectsRepository(
       studentsRepository,
       subjectsRepository,
+      commentsRepository,
     )
 
     author = await makeStudent()
@@ -46,17 +51,36 @@ describe('delete project use case', () => {
     sut = new DeleteProjectUseCase(projectsRepository)
   })
 
-  it('should delete a project', async () => {
-    const response = await sut.execute({ projectId: project.id.toString() })
+  it('should be able to delete a project', async () => {
+    const response = await sut.execute({
+      studentId: author.id.toString(),
+      projectId: project.id.toString(),
+    })
 
     expect(response.isRight()).toBe(true)
     expect(await projectsRepository.findById(project.id.toString())).toBe(null)
   })
 
-  it('should return a ResourceNotFoundError when project does not exist', async () => {
-    const response = await sut.execute({ projectId: 'non-existing-id' })
+  it('should not be able to delete a project that does not exist', async () => {
+    const response = await sut.execute({
+      studentId: author.id.toString(),
+      projectId: 'invalid-id',
+    })
 
     expect(response.isLeft()).toBe(true)
     expect(response.value).toBeInstanceOf(ResourceNotFoundError)
+  })
+
+  it('should not be able to delete a project that does not belong to the student', async () => {
+    const otherAuthor = await makeStudent()
+    await studentsRepository.save(otherAuthor)
+
+    const response = await sut.execute({
+      studentId: otherAuthor.id.toString(),
+      projectId: project.id.toString(),
+    })
+
+    expect(response.isLeft()).toBe(true)
+    expect(response.value).toBeInstanceOf(ForbiddenError)
   })
 })

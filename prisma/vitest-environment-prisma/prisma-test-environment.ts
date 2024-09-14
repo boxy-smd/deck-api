@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto'
 
 import type { Environment } from 'vitest/environments'
 
-import { env } from '@/infra/config/env.ts'
+import { env } from '@/infra/config/env/env.ts'
 import { prisma } from '@/infra/database/prisma/client.ts'
 
 function generateDatabaseURL(schema: string) {

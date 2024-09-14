@@ -25,13 +25,13 @@ export async function login(
 
   const token = await reply.jwtSign({
     sign: {
-      sub: result.value.email,
+      sub: result.value.id,
     },
   })
 
   const refreshToken = await reply.jwtSign({
     sign: {
-      sub: result.value.email,
+      sub: result.value.id,
       expiresIn: '7d',
     },
   })

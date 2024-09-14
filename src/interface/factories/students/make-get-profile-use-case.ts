@@ -3,9 +3,9 @@ import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/p
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
 
 export function makeGetProfileUseCase() {
-  const studentsRepository = new PrismaStudentsRepository()
   const projectsRepository = new PrismaProjectsRepository()
-  const getProfileUseCase = new GetProfileUseCase(studentsRepository, projectsRepository)
+  const studentsRepository = new PrismaStudentsRepository(projectsRepository)
+  const getProfileUseCase = new GetProfileUseCase(studentsRepository)
 
   return getProfileUseCase
 }

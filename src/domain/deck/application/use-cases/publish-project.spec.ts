@@ -1,4 +1,4 @@
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found.ts'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error.ts'
 import { makeProfessor } from 'test/factories/make-professor.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
 import { makeSubject } from 'test/factories/make-subject.ts'

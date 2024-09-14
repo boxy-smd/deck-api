@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { bannersRef } from '@/infra/config/firebase.ts'
+import { bannersRef } from '@/infra/config/services/firebase.ts'
 import { uploadImageToStorage } from '@/infra/database/firebase/upload-image-to-storage.ts'
 import type { UpdateBannerParams } from '../../schemas/projects/upload-banner.schemas.ts'
 

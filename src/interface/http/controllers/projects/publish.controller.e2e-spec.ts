@@ -2,13 +2,10 @@ import request from 'supertest'
 
 import { app } from '@/app.ts'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
-import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
-import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository.ts'
+import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students.ts'
 import { makeProfessor } from 'test/factories/make-professor.ts'
-import { makeStudent } from 'test/factories/make-student.ts'
 import { makeSubject } from 'test/factories/make-subject.ts'
-import { makeTrail } from 'test/factories/make-trail.ts'
 
 describe('publish project (e2e)', () => {
   beforeAll(async () => {
@@ -20,14 +17,10 @@ describe('publish project (e2e)', () => {
   })
 
   it('should be able to publish a project', async () => {
-    const trailsRepository = new PrismaTrailsRepository()
+    const { token, trail } = await createAndAuthenticateStudent()
+
     const professorsRepository = new PrismaProfessorsRepository()
     const subjectsRepository = new PrismaSubjectsRepository()
-    const studentsRepository = new PrismaStudentsRepository()
-
-    const trail = makeTrail({
-      name: 'Design',
-    })
 
     const professor = makeProfessor({
       name: 'Ticianne de Gois Ribeiro Darin',
@@ -37,15 +30,12 @@ describe('publish project (e2e)', () => {
       name: 'Interação Humano-Computador I',
     })
 
-    const author = await makeStudent()
-
-    await trailsRepository.create(trail)
     await professorsRepository.create(professor)
     await subjectsRepository.create(subject)
-    await studentsRepository.create(author)
 
     const response = await request(app.server)
       .post('/projects')
+      .set('Authorization', `Bearer ${token}`)
       .send({
         title: 'Design de Interação',
         description: 'Projeto de Design de Interação',
@@ -55,7 +45,6 @@ describe('publish project (e2e)', () => {
         status: 'PUBLISHED',
         semester: 3,
         allowComments: true,
-        authorId: author.id.toString(),
         subjectId: subject.id.toString(),
         trailsIds: [trail.id.toString()],
         professorsIds: [professor.id.toString()],

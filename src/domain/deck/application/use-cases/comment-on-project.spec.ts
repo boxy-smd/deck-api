@@ -26,6 +26,7 @@ describe('comment on project use case', () => {
     projectsRepository = new InMemoryProjectsRepository(
       studentsRepository,
       subjectsRepository,
+      commentsRepository,
     )
 
     author = await makeStudent()
