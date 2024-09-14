@@ -20,10 +20,10 @@ describe('get project (e2e)', () => {
   })
 
   it('should be able to get a project', async () => {
-    const studentsRepository = new PrismaStudentsRepository()
+    const projectsRepository = new PrismaProjectsRepository()
+    const studentsRepository = new PrismaStudentsRepository(projectsRepository)
     const trailsRepository = new PrismaTrailsRepository()
     const subjectsRepository = new PrismaSubjectsRepository()
-    const projectsRepository = new PrismaProjectsRepository()
 
     const author = await makeStudent()
     const trail = makeTrail()
@@ -39,7 +39,9 @@ describe('get project (e2e)', () => {
     await subjectsRepository.create(subject)
     await projectsRepository.create(project)
 
-    const result = await request(app.server).get(`/projects/${project.id}`)
+    const result = await request(app.server).get(
+      `/projects/${project.id.toString()}`,
+    )
 
     expect(result.status).toBe(200)
     expect(result.body).toEqual({

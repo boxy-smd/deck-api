@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { errorResponseSchema, zodErrorSchema } from '../common.ts'
+import { errorResponseSchema, zodErrorSchema } from '../common.schemas.ts'
 
 const editProjectBodySchema = z.object(
   {

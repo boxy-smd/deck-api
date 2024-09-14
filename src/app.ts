@@ -15,6 +15,7 @@ import { envToLogger } from '@/infra/config/env/env-to-logger.ts'
 import { env } from '@/infra/config/env/env.ts'
 import { errorHandler } from '@/interface/error-handler.ts'
 import { studentsRoutes } from '@/interface/http/routes/students.routes.ts'
+import { commentsRoutes } from './interface/http/routes/comments.routes.ts'
 import { professorsRoutes } from './interface/http/routes/professors.routes.ts'
 import { projectsRoutes } from './interface/http/routes/projects.routes.ts'
 import { subjectsRoutes } from './interface/http/routes/subjects.routes.ts'
@@ -99,6 +100,7 @@ async function buildServer() {
   app.register(professorsRoutes)
   app.register(trailsRoutes)
   app.register(projectsRoutes)
+  app.register(commentsRoutes)
 
   app.get('/health-check', () => {
     return {

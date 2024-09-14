@@ -1,7 +1,5 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-
-import { commentOnProject } from '../controllers/comments/comment-on-project.controller.ts'
 import { deleteProject } from '../controllers/projects/delete.controller.ts'
 import { editProject } from '../controllers/projects/edit.controller.ts'
 import { fetchPosts } from '../controllers/projects/fetch-posts.controller.ts'
@@ -9,7 +7,6 @@ import { getProject } from '../controllers/projects/get.controller.ts'
 import { publishProject } from '../controllers/projects/publish.controller.ts'
 import { uploadBanner } from '../controllers/projects/upload-banner.ts'
 import { type ProtectedRoute, verifyJWT } from '../middlewares/verify-jwt.ts'
-import { commentOnProjectSchemas } from '../schemas/comments/comment-on-project.schemas.ts'
 import { deleteProjectSchemas } from '../schemas/projects/delete.schemas.ts'
 import { editProjectSchemas } from '../schemas/projects/edit.schemas.ts'
 import { fetchPostsSchemas } from '../schemas/projects/fetch-posts.ts'
@@ -50,15 +47,6 @@ export async function projectsRoutes(app: FastifyInstance) {
       schema: publishProjectSchemas,
     },
     publishProject as ProtectedRoute,
-  )
-
-  app.withTypeProvider<ZodTypeProvider>().post(
-    '/projects/:projectId/comments',
-    {
-      preHandler: verifyJWT,
-      schema: commentOnProjectSchemas,
-    },
-    commentOnProject as ProtectedRoute,
   )
 
   app.withTypeProvider<ZodTypeProvider>().put(

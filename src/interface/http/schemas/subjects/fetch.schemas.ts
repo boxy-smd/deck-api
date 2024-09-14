@@ -1,5 +1,6 @@
 import { z } from 'zod'
-import { zodErrorSchema } from '../common.ts'
+
+import { zodErrorSchema } from '../common.schemas.ts'
 
 const fetchSubjectsQuerySchema = z.object({
   name: z

@@ -6,8 +6,8 @@ import { Student } from '../../enterprise/entities/student.ts'
 import type { Trail } from '../../enterprise/entities/trail.ts'
 import { Email } from '../../enterprise/entities/value-objects/email.ts'
 import { EmailBadFormattedError } from '../../enterprise/entities/value-objects/errors/email-bad-formatted.error.ts'
+import type { HashGenerator } from '../cryptography/hash-generator.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
-import type { HashGenerator } from './cryptography/hash-generator.ts'
 
 interface RegisterUseCaseRequest {
   name: string

@@ -3,8 +3,11 @@ import type { Comment } from '@/domain/deck/enterprise/entities/comment.ts'
 import type { CommentWithAuthor } from '@/domain/deck/enterprise/entities/value-objects/comment-with-author.ts'
 import { prisma } from '../client.ts'
 import { PrismaCommentMapper } from '../mappers/prisma-comment-mapper.ts'
+import type { PrismaReportsRepository } from './reports-repository.ts'
 
 export class PrismaCommentsRepository implements CommentsRepository {
+  constructor(private readonly reportsRepository: PrismaReportsRepository) {}
+
   async findById(id: string): Promise<Comment | null> {
     const data = await prisma.comment.findUnique({
       where: {
@@ -68,6 +71,8 @@ export class PrismaCommentsRepository implements CommentsRepository {
   }
 
   async delete(id: string): Promise<void> {
+    this.reportsRepository.deleteManyByCommentId(id)
+
     await prisma.comment.delete({
       where: {
         id,

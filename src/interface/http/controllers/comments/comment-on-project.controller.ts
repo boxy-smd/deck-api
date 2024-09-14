@@ -29,7 +29,7 @@ export async function commentOnProject(
     return reply.code(error.statusCode).send(error)
   }
 
-  reply.code(201).send({
+  return reply.code(201).send({
     commentId: result.value.commentId,
   })
 }
