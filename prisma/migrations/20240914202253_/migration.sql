@@ -79,6 +79,19 @@ CREATE TABLE "comments" (
 );
 
 -- CreateTable
+CREATE TABLE "reports" (
+    "id" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "is_resolved" BOOLEAN NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+    "author_id" TEXT NOT NULL,
+    "comment_id" TEXT NOT NULL,
+
+    CONSTRAINT "reports_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "_ProfessorToProject" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
@@ -131,6 +144,12 @@ ALTER TABLE "comments" ADD CONSTRAINT "comments_author_id_fkey" FOREIGN KEY ("au
 
 -- AddForeignKey
 ALTER TABLE "comments" ADD CONSTRAINT "comments_project_id_fkey" FOREIGN KEY ("project_id") REFERENCES "projects"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "reports" ADD CONSTRAINT "reports_author_id_fkey" FOREIGN KEY ("author_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "reports" ADD CONSTRAINT "reports_comment_id_fkey" FOREIGN KEY ("comment_id") REFERENCES "comments"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_ProfessorToProject" ADD CONSTRAINT "_ProfessorToProject_A_fkey" FOREIGN KEY ("A") REFERENCES "professors"("id") ON DELETE CASCADE ON UPDATE CASCADE;

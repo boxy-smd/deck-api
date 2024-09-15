@@ -1,19 +1,19 @@
-import { CommentOnProjectUseCase } from '@/domain/deck/application/use-cases/comment-on-project.ts'
+import { DeleteCommentUseCase } from '@/domain/deck/application/use-cases/delete-comment.ts'
 import { PrismaCommentsRepository } from '@/infra/database/prisma/repositories/comments-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 import { PrismaReportsRepository } from '@/infra/database/prisma/repositories/reports-repository.ts'
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
 
-export function makeCommentOnProjectUseCase() {
+export function makeDeleteCommentUseCase() {
   const reportsRepository = new PrismaReportsRepository()
   const commentsRepository = new PrismaCommentsRepository(reportsRepository)
-  const projectRepository = new PrismaProjectsRepository()
-  const studentsRepository = new PrismaStudentsRepository(projectRepository)
-  const commentOnProjectUseCase = new CommentOnProjectUseCase(
+  const projectsRepository = new PrismaProjectsRepository()
+  const studentsRepository = new PrismaStudentsRepository(projectsRepository)
+  const deleteCommentUseCase = new DeleteCommentUseCase(
     commentsRepository,
-    projectRepository,
     studentsRepository,
+    projectsRepository,
   )
 
-  return commentOnProjectUseCase
+  return deleteCommentUseCase
 }

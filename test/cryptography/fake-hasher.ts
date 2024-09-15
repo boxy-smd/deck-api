@@ -1,5 +1,5 @@
-import type { HashComparer } from '@/domain/deck/application/use-cases/cryptography/hash-comparer.ts'
-import type { HashGenerator } from '@/domain/deck/application/use-cases/cryptography/hash-generator.ts'
+import type { HashComparer } from '@/domain/deck/application/cryptography/hash-comparer.ts'
+import type { HashGenerator } from '@/domain/deck/application/cryptography/hash-generator.ts'
 
 export class FakeHasher implements HashGenerator, HashComparer {
   async hash(plain: string): Promise<string> {

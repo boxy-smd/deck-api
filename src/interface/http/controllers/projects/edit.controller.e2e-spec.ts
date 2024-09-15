@@ -54,7 +54,7 @@ describe('edit project (e2e)', () => {
     await projectsRepository.create(project)
 
     const response = await request(app.server)
-      .put(`/projects/${project.id}`)
+      .put(`/projects/${project.id.toString()}`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         subjectId: subject.id.toString(),

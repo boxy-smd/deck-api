@@ -1,7 +1,7 @@
 import { type Either, left, right } from '@/core/either.ts'
 import { InvalidCredentialsError } from '@/core/errors/invalid-credentials.error.ts'
+import type { HashComparer } from '../cryptography/hash-comparer.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
-import type { HashComparer } from './cryptography/hash-comparer.ts'
 
 interface LoginUseCaseRequest {
   email: string

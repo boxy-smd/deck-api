@@ -1,6 +1,7 @@
 import request from 'supertest'
 
 import { app } from '@/app.ts'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
 
@@ -14,7 +15,8 @@ describe('get profile controller (e2e)', () => {
   })
 
   it('should be able to get profile', async () => {
-    const studentsRepository = new PrismaStudentsRepository()
+    const projectsRepository = new PrismaProjectsRepository()
+    const studentsRepository = new PrismaStudentsRepository(projectsRepository)
 
     const student = await makeStudent()
 
