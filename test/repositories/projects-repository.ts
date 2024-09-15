@@ -81,23 +81,274 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     })
   }
 
+  async findManyPostsByTitle(title: string): Promise<Post[]> {
+    const projects = this.items.filter(item =>
+      item.title.toLowerCase().includes(title.toLowerCase()),
+    )
+
+    const posts = projects.map(async post => {
+      const author = await this.studentsRepository.findById(
+        post.authorId.toString(),
+      )
+
+      if (!author) {
+        throw new Error('Author not found.')
+      }
+
+      const subject = post.subjectId
+        ? await this.subjectsRepository.findById(post.subjectId.toString())
+        : null
+
+      return Post.create({
+        id: post.id,
+        title: post.title,
+        description: post.description,
+        bannerUrl: post.bannerUrl,
+        content: post.content,
+        publishedYear: post.publishedYear,
+        status: post.status,
+        semester: post.semester,
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt,
+        author: {
+          name: author.name,
+          username: author.username,
+          profileUrl: author.profileUrl,
+        },
+        authorId: post.authorId,
+        subject: subject?.name,
+        subjectId: post.subjectId,
+        trails: post.trails.map(trail => trail.name),
+        professors: post.professors?.map(professor => professor.name),
+      })
+    })
+
+    return await Promise.all(posts)
+  }
+
+  async findManyPostsByProfessorName(name: string): Promise<Post[]> {
+    const projects = this.items.filter(item =>
+      item.professors?.some(professor =>
+        professor.name.toLowerCase().includes(name.toLowerCase()),
+      ),
+    )
+
+    const posts = projects.map(async post => {
+      const author = await this.studentsRepository.findById(
+        post.authorId.toString(),
+      )
+
+      if (!author) {
+        throw new Error('Author not found.')
+      }
+
+      const subject = post.subjectId
+        ? await this.subjectsRepository.findById(post.subjectId.toString())
+        : null
+
+      return Post.create({
+        id: post.id,
+        title: post.title,
+        description: post.description,
+        bannerUrl: post.bannerUrl,
+        content: post.content,
+        publishedYear: post.publishedYear,
+        status: post.status,
+        semester: post.semester,
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt,
+        author: {
+          name: author.name,
+          username: author.username,
+          profileUrl: author.profileUrl,
+        },
+        authorId: post.authorId,
+        subject: subject?.name,
+        subjectId: post.subjectId,
+        trails: post.trails.map(trail => trail.name),
+        professors: post.professors?.map(professor => professor.name),
+      })
+    })
+
+    return await Promise.all(posts)
+  }
+
   async findManyPostsByQuery({
-    title,
     semester,
     publishedYear,
-    authorId,
     subjectId,
     trailsIds,
   }: ProjectQuery): Promise<Post[]> {
     const projects = this.items.filter(
       item =>
-        (!title || item.title.includes(title)) &&
         (!semester || item.semester === semester) &&
         (!publishedYear || item.publishedYear === publishedYear) &&
-        (!authorId || item.authorId.toString() === authorId) &&
         (!subjectId || item.subjectId?.toString() === subjectId) &&
         (!trailsIds ||
           item.trails.some(trail => trailsIds.includes(trail.id.toString()))),
+    )
+
+    const posts = projects.map(async post => {
+      const author = await this.studentsRepository.findById(
+        post.authorId.toString(),
+      )
+
+      if (!author) {
+        throw new Error('Author not found.')
+      }
+
+      const subject = post.subjectId
+        ? await this.subjectsRepository.findById(post.subjectId.toString())
+        : null
+
+      return Post.create({
+        id: post.id,
+        title: post.title,
+        description: post.description,
+        bannerUrl: post.bannerUrl,
+        content: post.content,
+        publishedYear: post.publishedYear,
+        status: post.status,
+        semester: post.semester,
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt,
+        author: {
+          name: author.name,
+          username: author.username,
+          profileUrl: author.profileUrl,
+        },
+        authorId: post.authorId,
+        subject: subject?.name,
+        subjectId: post.subjectId,
+        trails: post.trails.map(trail => trail.name),
+        professors: post.professors?.map(professor => professor.name),
+      })
+    })
+
+    return await Promise.all(posts)
+  }
+
+  async findManyPostsByTag(tag: string): Promise<Post[]> {
+    const semesterVariants: Record<number, string[]> = {
+      1: ['1', 'primeiro', '1º'],
+      2: ['2', 'segundo', '2º'],
+      3: ['3', 'terceiro', '3º'],
+      4: ['4', 'quarto', '4º'],
+      5: ['5', 'quinto', '5º'],
+      6: ['6', 'sexto', '6º'],
+      7: ['7', 'sétimo', 'setimo', '7º'],
+      8: ['8', 'oitavo', '8º'],
+      9: ['9', 'nono', '9º'],
+      10: ['10', 'décimo', 'decimo', '10º'],
+      11: [
+        '11',
+        'décimo primeiro',
+        'decimo primeiro',
+        'décimo-primeiro',
+        'decimo-primeiro',
+        '11º',
+      ],
+      12: [
+        '12',
+        'décimo segundo',
+        'decimo segundo',
+        'décimo-segundo',
+        'decimo-segundo',
+        '12º',
+      ],
+    }
+
+    let searchedSemester: number | undefined = undefined
+
+    for (const key in semesterVariants) {
+      const variants = semesterVariants[key]
+
+      if (variants.includes(tag.toLowerCase())) {
+        searchedSemester = Number.parseInt(key)
+
+        break
+      }
+    }
+
+    const subjects = await this.subjectsRepository.findManyByName(tag)
+
+    const filteredProjects: Project[] = []
+
+    async function filterProjectByTag(item: Project) {
+      if (
+        item.trails.some(trail =>
+          trail.name.toLowerCase().includes(tag.toLowerCase()),
+        )
+      ) {
+        return filteredProjects.push(item)
+      }
+
+      if (item.subjectId) {
+        if (
+          subjects.some(subject =>
+            subject.name.toLowerCase().includes(tag.toLowerCase()),
+          )
+        ) {
+          return filteredProjects.push(item)
+        }
+      }
+
+      if (item.publishedYear === Number.parseInt(tag)) {
+        return filteredProjects.push(item)
+      }
+
+      if (searchedSemester && item.semester === searchedSemester) {
+        return filteredProjects.push(item)
+      }
+
+      return
+    }
+
+    this.items.forEach(filterProjectByTag)
+
+    const posts = filteredProjects.map(async post => {
+      const author = await this.studentsRepository.findById(
+        post.authorId.toString(),
+      )
+
+      if (!author) {
+        throw new Error('Author not found.')
+      }
+
+      const subject = post.subjectId
+        ? await this.subjectsRepository.findById(post.subjectId.toString())
+        : null
+
+      return Post.create({
+        id: post.id,
+        title: post.title,
+        description: post.description,
+        bannerUrl: post.bannerUrl,
+        content: post.content,
+        publishedYear: post.publishedYear,
+        status: post.status,
+        semester: post.semester,
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt,
+        author: {
+          name: author.name,
+          username: author.username,
+          profileUrl: author.profileUrl,
+        },
+        authorId: post.authorId,
+        subject: subject?.name,
+        subjectId: post.subjectId,
+        trails: post.trails.map(trail => trail.name),
+        professors: post.professors?.map(professor => professor.name),
+      })
+    })
+
+    return await Promise.all(posts)
+  }
+
+  async findManyPostsByStudentId(studentId: string): Promise<Post[]> {
+    const projects = this.items.filter(
+      item => item.authorId.toString() === studentId,
     )
 
     const posts = projects.map(async post => {

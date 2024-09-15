@@ -13,8 +13,6 @@ export async function deleteComment(
 
   const deleteCommentUseCase = makeDeleteCommentUseCase()
 
-  console.log(authorId, commentId, projectId)
-
   const result = await deleteCommentUseCase.execute({
     authorId,
     commentId,

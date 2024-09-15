@@ -45,10 +45,11 @@ export class InMemoryStudentsRepository implements StudentsRepository {
 
   async findManyByName(name: string): Promise<Student[]> {
     const students = this.items.filter(item => {
-      if (
-        (name.startsWith('@') && item.username.includes(name.slice(1))) ||
-        item.name.toLowerCase().includes(name.toLowerCase())
-      ) {
+      if (item.name.toLowerCase().includes(name.toLowerCase())) {
+        return true
+      }
+
+      if (item.username.toLowerCase().includes(name.toLowerCase())) {
         return true
       }
 
