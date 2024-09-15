@@ -68,9 +68,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
 
     const student = {
       ...raw,
-      posts: await this.projectsRepository.findManyPostsByQuery({
-        authorId: raw.id,
-      }),
+      posts: await this.projectsRepository.findManyPostsByStudentId(raw.id),
     }
 
     return PrismaStudentMapper.toEntityProfile(student)

@@ -50,7 +50,7 @@ describe('fetch students use case', () => {
     await studentsRepository.create(otherStudent)
     await studentsRepository.create(student)
 
-    const result = await sut.execute({ name: `@${student.username}` })
+    const result = await sut.execute({ name: student.username })
 
     expect(result).toBeInstanceOf(Array<Student>)
     expect(result).toHaveLength(1)

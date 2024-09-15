@@ -73,28 +73,51 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     return PrismaProjectMapper.toEntityDetails(data)
   }
 
-  async findManyPostsByQuery({
-    title,
-    semester,
-    publishedYear,
-    authorId,
-    subjectId,
-    trailsIds,
-  }: ProjectQuery): Promise<Post[]> {
+  async findManyPostsByTitle(title: string): Promise<Post[]> {
     const data = await prisma.project.findMany({
       where: {
-        status: 'PUBLISHED',
         title: {
           contains: title,
+          mode: 'insensitive',
         },
-        publishedYear,
-        authorId,
-        subjectId,
-        semester,
+      },
+      include: {
+        author: {
+          select: {
+            name: true,
+            username: true,
+            profileUrl: true,
+          },
+        },
+        professors: {
+          select: {
+            name: true,
+          },
+        },
+        subject: {
+          select: {
+            name: true,
+          },
+        },
         trails: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    })
+
+    return data.map(PrismaProjectMapper.toEntityPost)
+  }
+
+  async findManyPostsByProfessorName(name: string): Promise<Post[]> {
+    const data = await prisma.project.findMany({
+      where: {
+        professors: {
           some: {
-            id: {
-              in: trailsIds,
+            name: {
+              contains: name,
+              mode: 'insensitive',
             },
           },
         },
@@ -128,35 +151,221 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     return data.map(PrismaProjectMapper.toEntityPost)
   }
 
-  async findAllByQuery({
-    title,
+  async findManyPostsByQuery({
     semester,
     publishedYear,
-    authorId,
     subjectId,
     trailsIds,
-  }: ProjectQuery): Promise<Project[]> {
+  }: ProjectQuery): Promise<Post[]> {
     const data = await prisma.project.findMany({
       where: {
-        status: 'PUBLISHED',
-        title: {
-          contains: title,
+        AND: [
+          {
+            status: 'PUBLISHED',
+          },
+          publishedYear
+            ? {
+                publishedYear: {
+                  equals: publishedYear,
+                },
+              }
+            : {},
+          semester
+            ? {
+                semester: {
+                  equals: semester,
+                },
+              }
+            : {},
+          subjectId
+            ? {
+                subjectId: {
+                  equals: subjectId,
+                },
+              }
+            : {},
+          trailsIds?.length
+            ? {
+                trails: {
+                  some: {
+                    id: {
+                      in: trailsIds,
+                    },
+                  },
+                },
+              }
+            : {},
+        ],
+      },
+      include: {
+        author: {
+          select: {
+            name: true,
+            username: true,
+            profileUrl: true,
+          },
         },
-        semester,
-        publishedYear,
-        authorId,
-        subjectId,
+        professors: {
+          select: {
+            name: true,
+          },
+        },
+        subject: {
+          select: {
+            name: true,
+          },
+        },
         trails: {
-          some: {
-            id: {
-              in: trailsIds,
-            },
+          select: {
+            name: true,
           },
         },
       },
     })
 
-    return data.map(PrismaProjectMapper.toEntity)
+    return data.map(PrismaProjectMapper.toEntityPost)
+  }
+
+  async findManyPostsByTag(tag: string): Promise<Post[]> {
+    const semesterVariants: Record<number, string[]> = {
+      1: ['1', 'primeiro', '1º'],
+      2: ['2', 'segundo', '2º'],
+      3: ['3', 'terceiro', '3º'],
+      4: ['4', 'quarto', '4º'],
+      5: ['5', 'quinto', '5º'],
+      6: ['6', 'sexto', '6º'],
+      7: ['7', 'sétimo', 'setimo', '7º'],
+      8: ['8', 'oitavo', '8º'],
+      9: ['9', 'nono', '9º'],
+      10: ['10', 'décimo', 'decimo', '10º'],
+      11: [
+        '11',
+        'décimo primeiro',
+        'decimo primeiro',
+        'décimo-primeiro',
+        'decimo-primeiro',
+        '11º',
+      ],
+      12: [
+        '12',
+        'décimo segundo',
+        'decimo segundo',
+        'décimo-segundo',
+        'decimo-segundo',
+        '12º',
+      ],
+    }
+
+    let searchedSemester: number | undefined = undefined
+
+    for (const key in semesterVariants) {
+      const variants = semesterVariants[key]
+
+      if (variants.includes(tag.toLowerCase())) {
+        searchedSemester = Number.parseInt(key)
+
+        break
+      }
+    }
+
+    const data = await prisma.project.findMany({
+      where: {
+        OR: [
+          {
+            trails: {
+              some: {
+                name: {
+                  contains: tag,
+                  mode: 'insensitive',
+                },
+              },
+            },
+          },
+          {
+            subject: {
+              name: {
+                contains: tag,
+                mode: 'insensitive',
+              },
+            },
+          },
+          Number.parseInt(tag)
+            ? {
+                publishedYear: {
+                  equals: Number.parseInt(tag),
+                },
+              }
+            : {},
+          searchedSemester
+            ? {
+                semester: {
+                  equals: searchedSemester,
+                },
+              }
+            : {},
+        ],
+      },
+      include: {
+        author: {
+          select: {
+            name: true,
+            username: true,
+            profileUrl: true,
+          },
+        },
+        professors: {
+          select: {
+            name: true,
+          },
+        },
+        subject: {
+          select: {
+            name: true,
+          },
+        },
+        trails: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    })
+
+    return data.map(PrismaProjectMapper.toEntityPost)
+  }
+
+  async findManyPostsByStudentId(studentId: string): Promise<Post[]> {
+    const data = await prisma.project.findMany({
+      where: {
+        authorId: studentId,
+      },
+      include: {
+        author: {
+          select: {
+            name: true,
+            username: true,
+            profileUrl: true,
+          },
+        },
+        professors: {
+          select: {
+            name: true,
+          },
+        },
+        subject: {
+          select: {
+            name: true,
+          },
+        },
+        trails: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    })
+
+    return data.map(PrismaProjectMapper.toEntityPost)
   }
 
   async findAll(): Promise<Project[]> {
