@@ -1,0 +1,10 @@
+# project dependencies
+node_modules
+
+# build files
+build
+coverage
+
+# local env files
+.env
+.env.local
