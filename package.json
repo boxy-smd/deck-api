@@ -7,7 +7,7 @@
   "scripts": {
     "start:dev": "tsx watch --env-file .env src/server.ts",
     "prestart": "pnpm run build",
-    "start": "node --env-file .env build/server.js",
+    "start": "node build/server.js",
     "build": "tsup src --out-dir build --format esm",
     "test": "vitest run",
     "test:watch": "vitest",
