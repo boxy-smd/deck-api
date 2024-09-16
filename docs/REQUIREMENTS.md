@@ -6,78 +6,76 @@ Esse é o backend do projeto Deck, um projeto de uma aplicação que servirá co
 
 ### 1. Cadastrar Usuário
 
-- [x] RF01 - Deve ser possível se cadastrar como estudante;
-- [x] RF02 - Deve ser possível fazer o upload de uma foto de perfil.
+- [x]  RF01 - Deve ser possível se cadastrar como estudante.
 
 ### 2. Autenticar Usuário
 
-- [x] RF03 - Deve ser possível fazer login como estudante.
+- [x]  RF02 - Deve ser possível fazer login como estudante.
 
 ### 3. Gerenciar Projetos
 
-- [x] RF04 - Deve ser possível publicar um projeto;
-- [x] RF05 - Deve ser possível fazer o upload de um banner para o projeto;
-- [x] RF06 - Deve ser possível editar um projeto em rascunho;
-- [x] RF07 - Deve ser possível excluir um projeto.
+- [x]  RF05 - Deve ser possível publicar um projeto;
+- [x]  RF06 - Deve ser possível editar um projeto;
+- [x]  RF07 - Deve ser possível excluir um projeto.
 
 ### 4. Exibir Projetos
 
-- [x] RF08 - Deve ser possível visualizar o feed com os projetos publicados;
-- [ ] RF09 - Deve ser possível visualizar o feed de acordo com o semestre do usuário;
-- [x] RF10 - Deve ser possível visualizar os detalhes de um projeto;
-- [x] RF11 - Deve ser possível filtrar projetos por trilha, semestre, ano e disciplina;
-- [ ] RF12 - Deve ser possível pesquisar projetos por título, professor e tags;
-- [x] RF13 - Deve ser possível visualizar os projetos de um usuário.
+- [x]  RF08 - Deve ser possível visualizar o feed com as publicações;
+- [x]  RF09 - Deve ser possível visualizar os detalhes de um projeto;
+- [x]  RF10 - Deve ser possível filtrar as publicações;
+- [x]  RF11 - Deve ser possível pesquisar publicações.
 
 ### 5. Interagir com Projetos
 
-- [x] RF14 - Deve ser possível comentar em um projeto;
-- [x] RF15 - Deve ser possível excluir o seu comentário em um projeto;
-- [ ] RF16 - Deve ser possível excluir o comentário de outro usuário no seu projeto.
+- [x]  RF12 - Deve ser possível comentar em um projeto;
+- [x]  RF13 - Deve ser possível excluir um comentário;
+- [x]  RF14 - Deve ser possível denunciar um comentário.
 
 ### 6. Gerenciar Perfil
 
-- [x] RF17 - Deve ser possível visualizar o seu perfil;
-- [x] RF18 - Deve ser possível visualizar o perfil de outro usuário;
-- [x] RF19 - Deve ser possível pesquisar usuários por nome;
-- [x] RF20 - Deve ser possível editar o seu perfil.
+- [x]  RF15 - Deve ser possível visualizar o perfil de um estudante;
+- [x]  RF16 - Deve ser possível pesquisar estudantes;
+- [x]  RF17 - Deve ser possível editar um perfil.
 
 ### 7. Exportar Portfólio:
 
-- ...
+- [ ]  RF18 - Deve ser possível exportar o portfólio de um estudante;
 
 ## Regras de Negócio (RN's)
 
 ### 1. Cadastrar Usuário
 
-- [x] RN01 - O usuário deve conter um email institucional da UFC (@alu.ufc.br);
-- [x] RN02 - O usuário não pode se cadastrar com um email já cadastrado;
-- [x] RN03 - O usuário deve conter um nome de usuário único;
-- [x] RN04 - O usuário deve conter uma senha com no mínimo 6 caracteres.
+- [x]  RN01 - O estudante deve conter um email institucional da UFC (@alu.ufc.br);
+- [x]  RN02 - O estudante não pode se cadastrar com um email já cadastrado;
+- [x]  RN03 - O estudante deve conter um nome de usuário único;
+- [x]  RN04 - O estudante deve conter uma senha com no mínimo 6 caracteres;
+- [ ]  RN05 - O nome do estudante deve ser composto apenas por letras;
+- [x]  RN06 - O estudante deve fazer parte de um semestre.
 
 ### 2. Autenticar Usuário
 
-- [x] RN05 - O usuário deve ser autenticado com um email e senha válidos.
+- [x]  RN07 - O usuário deve ser autenticado com um email e senha válidos.
 
 ### 3. Gerenciar Projetos
 
-- [ ] RN06 - O projeto deve conter um título com no máximo xxx caracteres;
-- [ ] RN07 - O projeto deve conter uma descrição com no máximo xxx caracteres;
-- [x] RN08 - O projeto deve conter obrigatoriamente uma trilha, um semestre e o ano de publicação.
+- [x]  RN08 - O projeto deve conter um banner;
+- [ ]  RN09 - O projeto deve conter obrigatoriamente título, descrição uma trilha, um semestre e o ano de publicação.
 
 ### 4. Exibir Projetos
 
-- [ ] RN09 - O feed deve ser ordenado com projetos alinhados com o semestre do usuário (se o usuário estiver no 4º semestre, os projetos do 4º semestre devem aparecer primeiro, depois os do 5º, 6º, e assim por diante, até o 1º semestre).
+- [ ]  RN10 - Se o usuário for um estudante logado, o feed deve ser ordenado com projetos alinhados com o semestre do usuário (se o usuário estiver no 4º semestre, os projetos do 4º semestre devem aparecer primeiro, depois os do 5º, 6º, e assim por diante, até o 1º semestre);
+- [x]  RN11 - Se o usuário não estiver logado, o feed deve ser disposto por data da publicação.
 
 ### 5. Interagir com Projetos
 
-- [ ] RN10 - O comentário não pode conter palavras ofensivas;
-- [ ] RN11 - O comentário não pode ser feito em um projeto com os comentários desativados;
-- [ ] RN12 - O usuário só pode excluir o seu próprio comentário.
+- [ ]  RN12 - O comentário não pode conter palavras ofensivas;
+- [ ]  RN13 - O comentário não pode ser feito em um projeto com os comentários desativados;
+- [x]  RN14 - Somente estudantes logados podem comentar em projetos;
+- [x]  RN15 - Um comentário só pode ser excluído pelo seu autor ou pelo autor do projeto.
 
 ### 6. Gerenciar Perfil
 
-- [x] RN13 - O usuário só pode editar o seu próprio perfil.
+- [x]  RN16 - O usuário só pode editar o seu próprio perfil.
 
 ### 7. Exportar Portfólio
 
@@ -85,5 +83,7 @@ Esse é o backend do projeto Deck, um projeto de uma aplicação que servirá co
 
 ## Requisitos Não Funcionais (RNF's)
 
-- [ ] RNF01 - A senha do usuário deve ser criptografada;
-- [ ] RNF02 - O usuário deve ser autenticado com JWT.
+### Segurança
+
+- [x]  RNF01 - A senha do usuário deve ser criptografada;
+- [x]  RNF02 - O usuário deve ser autenticado com JWT.
