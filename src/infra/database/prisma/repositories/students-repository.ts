@@ -52,6 +52,26 @@ export class PrismaStudentsRepository implements StudentsRepository {
     return PrismaStudentMapper.toEntity(student)
   }
 
+  async findProfileById(id: string): Promise<StudentProfile | null> {
+    const raw = await prisma.user.findFirst({
+      where: { id },
+      include: {
+        trails: {
+          select: { name: true },
+        },
+      },
+    })
+
+    if (!raw) return null
+
+    const student = {
+      ...raw,
+      posts: await this.projectsRepository.findManyPostsByStudentId(raw.id),
+    }
+
+    return PrismaStudentMapper.toEntityProfile(student)
+  }
+
   async findProfileByUsername(
     username: string,
   ): Promise<StudentProfile | null> {

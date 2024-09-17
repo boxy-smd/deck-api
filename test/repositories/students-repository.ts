@@ -15,6 +15,27 @@ export class InMemoryStudentsRepository implements StudentsRepository {
     return await Promise.resolve(student || null)
   }
 
+  async findProfileById(id: string): Promise<StudentProfile | null> {
+    const student = this.items.find(item => item.id.toString() === id)
+
+    if (!student) return null
+
+    return await Promise.resolve(
+      StudentProfile.create({
+        id: student.id,
+        name: student.name,
+        username: student.username,
+        profileUrl: student.profileUrl,
+        createdAt: student.createdAt,
+        updatedAt: student.updatedAt,
+        posts: [],
+        semester: student.semester,
+        trails: [],
+        about: student.about,
+      }),
+    )
+  }
+
   async findProfileByUsername(
     username: string,
   ): Promise<StudentProfile | null> {
