@@ -13,7 +13,7 @@ const uploadProfileImageParamsSchema = z.object({
 
 const uploadProfileImageResponseSchema = z.object(
   {
-    profileUrl: z.string(),
+    url: z.string(),
   },
   {
     description: 'Profile image uploaded successfully.',

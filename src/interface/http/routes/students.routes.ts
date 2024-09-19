@@ -61,7 +61,7 @@ export async function studentsRoutes(app: FastifyInstance) {
   )
 
   app.get(
-    '/students/details',
+    '/students/me',
     {
       preHandler: verifyJWT,
       schema: getStudentDetailsSchemas,

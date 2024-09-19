@@ -66,6 +66,7 @@ const searchPostsResponseSchema = z.object(
 export const searchPostsSchemas = {
   summary: 'Fetch posts',
   tags: ['Projects'],
+  querystring: searchPostsQuerySchema,
   response: {
     200: searchPostsResponseSchema,
     400: zodErrorSchema,

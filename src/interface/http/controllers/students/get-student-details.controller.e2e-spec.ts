@@ -16,7 +16,7 @@ describe('get student details controller (e2e)', () => {
     const { studentId, token } = await createAndAuthenticateStudent()
 
     const response = await request(app.server)
-      .get('/students/details')
+      .get('/students/me')
       .set('Authorization', `Bearer ${token}`)
 
     expect(response.status).toBe(200)

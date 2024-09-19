@@ -54,6 +54,6 @@ export async function editProject(
   }
 
   return reply.status(200).send({
-    message: 'Project updated successfully',
+    message: 'Project updated successfully.',
   })
 }
