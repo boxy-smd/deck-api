@@ -13,7 +13,7 @@ const uploadBannerParamsSchema = z.object({
 
 const uploadBannerResponseSchema = z.object(
   {
-    profileUrl: z.string(),
+    url: z.string(),
   },
   {
     description: 'Banner image uploaded successfully.',

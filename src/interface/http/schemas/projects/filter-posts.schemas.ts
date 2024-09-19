@@ -99,6 +99,7 @@ const filterPostsResponseSchema = z.object(
 export const filterPostsSchemas = {
   summary: 'Filter posts',
   tags: ['Projects'],
+  querystring: filterPostsQuerySchema,
   response: {
     200: filterPostsResponseSchema,
     400: zodErrorSchema,

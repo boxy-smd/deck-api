@@ -19,8 +19,6 @@ export async function getStudentDetails(
     return reply.status(error.statusCode).send({ message: error.message })
   }
 
-  console.log('result', result.value)
-
   return reply.status(200).send({
     details: StudentProfilePresenter.toHTTP(result.value),
   })

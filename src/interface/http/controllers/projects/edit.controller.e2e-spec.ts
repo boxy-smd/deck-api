@@ -63,7 +63,7 @@ describe('edit project (e2e)', () => {
 
     expect(response.status).toBe(200)
     expect(response.body).toEqual({
-      message: 'Project updated successfully',
+      message: 'Project updated successfully.',
     })
   })
 })

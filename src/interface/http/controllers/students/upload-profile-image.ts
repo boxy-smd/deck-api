@@ -28,6 +28,6 @@ export async function uploadProfileImage(
   })
 
   return reply.code(201).send({
-    profileUrl: downloadUrl,
+    url: downloadUrl,
   })
 }
