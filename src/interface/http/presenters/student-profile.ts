@@ -9,7 +9,7 @@ export class StudentProfilePresenter {
       username: student.username,
       about: student.about,
       semester: student.semester,
-      profileUrl: student.profileUrl,
+      profileUrl: student.profileUrl || '',
       trails: student.trails,
       posts: student.posts.map(post => ({
         id: post.authorId.toString(),
