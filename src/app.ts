@@ -27,7 +27,8 @@ async function buildServer() {
   })
 
   app.register(fastifyCors, {
-    origin: '*',
+    origin: true,
+    credentials: true,
   })
 
   app.register(fastifyJWT, {
