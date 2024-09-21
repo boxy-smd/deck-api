@@ -21,7 +21,7 @@ const uploadProfileImageResponseSchema = z.object(
 )
 
 export const uploadProfileImageSchemas = {
-  summary: 'Update profile image',
+  summary: 'Upload profile image',
   tags: ['Students'],
   params: uploadProfileImageParamsSchema,
   response: {

@@ -21,7 +21,7 @@ const uploadBannerResponseSchema = z.object(
 )
 
 export const uploadBannerSchemas = {
-  summary: 'Update banner',
+  summary: 'Upload banner',
   tags: ['Projects'],
   params: uploadBannerParamsSchema,
   response: {
