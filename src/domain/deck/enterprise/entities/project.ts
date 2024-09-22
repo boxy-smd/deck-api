@@ -10,7 +10,7 @@ export type ProjectStatusEnum = 'DRAFT' | 'PUBLISHED'
 export interface ProjectProps {
   title: string
   description: string
-  bannerUrl: string
+  bannerUrl?: string
   content?: string
   publishedYear: number
   status: ProjectStatusEnum
@@ -100,7 +100,7 @@ export class Project extends AggregateRoot<ProjectProps> {
     this.touch()
   }
 
-  set bannerUrl(bannerUrl: string) {
+  set bannerUrl(bannerUrl: string | undefined) {
     this.props.bannerUrl = bannerUrl
     this.touch()
   }

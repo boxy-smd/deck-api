@@ -3,10 +3,14 @@ import type { Student } from '@/domain/deck/enterprise/entities/student.ts'
 import type { StudentProfile } from '@/domain/deck/enterprise/entities/value-objects/student-profile.ts'
 import { prisma } from '../client.ts'
 import { PrismaStudentMapper } from '../mappers/prisma-student-mapper.ts'
+import type { PrismaDraftsRepository } from './drafts-repository.ts'
 import type { PrismaProjectsRepository } from './projects-repository.ts'
 
 export class PrismaStudentsRepository implements StudentsRepository {
-  constructor(private readonly projectsRepository: PrismaProjectsRepository) {}
+  constructor(
+    private readonly projectsRepository: PrismaProjectsRepository,
+    private readonly draftsRepository: PrismaDraftsRepository,
+  ) {}
 
   async findById(id: string): Promise<Student | null> {
     const student = await prisma.user.findUnique({
@@ -67,6 +71,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
     const student = {
       ...raw,
       posts: await this.projectsRepository.findManyPostsByStudentId(raw.id),
+      drafts: await this.draftsRepository.findManyByAuthorId(raw.id),
     }
 
     return PrismaStudentMapper.toEntityProfile(student)
@@ -89,6 +94,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
     const student = {
       ...raw,
       posts: await this.projectsRepository.findManyPostsByStudentId(raw.id),
+      drafts: await this.draftsRepository.findManyByAuthorId(raw.id),
     }
 
     return PrismaStudentMapper.toEntityProfile(student)

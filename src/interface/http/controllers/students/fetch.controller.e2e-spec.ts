@@ -2,6 +2,8 @@ import request from 'supertest'
 
 import { app } from '@/app.ts'
 import { Email } from '@/domain/deck/enterprise/entities/value-objects/email.ts'
+import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
 
@@ -15,7 +17,12 @@ describe('fetch students controller (e2e)', () => {
   })
 
   it('should be able to fetch students', async () => {
-    const studentsRepository = new PrismaStudentsRepository()
+    const projectsRepository = new PrismaProjectsRepository()
+    const draftsRepository = new PrismaDraftsRepository()
+    const studentsRepository = new PrismaStudentsRepository(
+      projectsRepository,
+      draftsRepository,
+    )
 
     const student = await makeStudent()
 
@@ -39,7 +46,12 @@ describe('fetch students controller (e2e)', () => {
   })
 
   it('should be able to fetch students by name', async () => {
-    const studentsRepository = new PrismaStudentsRepository()
+    const projectsRepository = new PrismaProjectsRepository()
+    const draftsRepository = new PrismaDraftsRepository()
+    const studentsRepository = new PrismaStudentsRepository(
+      projectsRepository,
+      draftsRepository,
+    )
 
     const amanda = await makeStudent({
       name: 'Amanda Coelho',

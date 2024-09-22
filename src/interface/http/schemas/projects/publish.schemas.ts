@@ -19,9 +19,9 @@ const publishProjectBodySchema = z.object(
     bannerUrl: z
       .string({
         description: 'Project banner url.',
-        message: 'Banner url is required.',
       })
-      .url(),
+      .url()
+      .optional(),
     content: z
       .string({
         description: 'Project content.',
@@ -74,6 +74,12 @@ const publishProjectBodySchema = z.object(
           .uuid('Invalid professor id.'),
       )
       .optional(),
+    draftId: z
+      .string({
+        description: 'Project draft id.',
+      })
+      .uuid()
+      .optional(),
   },
   {
     description: 'Project publish body.',
@@ -84,7 +90,7 @@ const publishProjectBodySchema = z.object(
 
 const publishProjectResponseSchema = z.object(
   {
-    message: z.string(),
+    project_id: z.string().uuid(),
   },
   {
     description: 'Project published successfully.',

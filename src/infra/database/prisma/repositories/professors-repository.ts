@@ -23,14 +23,42 @@ export class PrismaProfessorsRepository implements ProfessorsRepository {
   async findManyByName(name: string): Promise<Professor[]> {
     const professors = await prisma.professor.findMany({
       where: { name: { contains: name } },
+      orderBy: {
+        name: 'asc',
+      },
     })
 
-    return professors.map(PrismaProfessorMapper.toEntity)
+    const orderedProfessors = professors.sort((a, b) => {
+      const professorA = a.name.replace('Prof. ', '').replace('Profa. ', '')
+      const professorB = b.name.replace('Prof. ', '').replace('Profa. ', '')
+
+      if (professorA < professorB) return -1
+      if (professorA > professorB) return 1
+
+      return 0
+    })
+
+    return orderedProfessors.map(PrismaProfessorMapper.toEntity)
   }
 
   async findAll(): Promise<Professor[]> {
-    const professors = await prisma.professor.findMany()
-    return professors.map(PrismaProfessorMapper.toEntity)
+    const professors = await prisma.professor.findMany({
+      orderBy: {
+        name: 'asc',
+      },
+    })
+
+    const orderedProfessors = professors.sort((a, b) => {
+      const professorA = a.name.replace('Prof. ', '').replace('Profa. ', '')
+      const professorB = b.name.replace('Prof. ', '').replace('Profa. ', '')
+
+      if (professorA < professorB) return -1
+      if (professorA > professorB) return 1
+
+      return 0
+    })
+
+    return orderedProfessors.map(PrismaProfessorMapper.toEntity)
   }
 
   async create(professor: Professor): Promise<void> {

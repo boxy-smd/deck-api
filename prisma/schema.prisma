@@ -20,8 +20,9 @@ model User {
   profileUrl   String?  @map("profile_url")
 
   trails   Trail[]
-  comments Comment[]
+  drafts   Draft[]
   projects Project[]
+  comments Comment[]
   reports  Report[]
 
   @@map("users")
@@ -34,6 +35,7 @@ model Subject {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   projects Project[]
+  drafts   Draft[]
 
   @@map("subjects")
 }
@@ -45,6 +47,7 @@ model Professor {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   projects Project[]
+  drafts   Draft[]
 
   @@map("professors")
 }
@@ -57,8 +60,32 @@ model Trail {
 
   users    User[]
   projects Project[]
+  drafts   Draft[]
 
   @@map("trails")
+}
+
+model Draft {
+  id            String    @id @default(uuid())
+  title         String
+  description   String?
+  content       String?
+  publishedYear Int?      @map("published_year")
+  semester      Int?
+  allowComments Boolean?  @map("allow_comments")
+  bannerUrl     String?   @map("banner_url")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @updatedAt @map("updated_at")
+
+  authorId  String   @map("author_id")
+  author    User     @relation(fields: [authorId], references: [id])
+  subjectId String?  @map("subject_id")
+  subject   Subject? @relation(fields: [subjectId], references: [id])
+
+  trails     Trail[]
+  professors Professor[]
+
+  @@map("drafts")
 }
 
 enum ProjectStatus {
@@ -97,11 +124,12 @@ model Comment {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  authorId  String   @map("author_id")
-  author    User     @relation(fields: [authorId], references: [id])
-  projectId String   @map("project_id")
-  project   Project  @relation(fields: [projectId], references: [id])
-  report    Report[]
+  authorId  String  @map("author_id")
+  author    User    @relation(fields: [authorId], references: [id])
+  projectId String  @map("project_id")
+  project   Project @relation(fields: [projectId], references: [id])
+
+  reports Report[]
 
   @@map("comments")
 }

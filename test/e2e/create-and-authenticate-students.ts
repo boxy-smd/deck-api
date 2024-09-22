@@ -33,5 +33,6 @@ export async function createAndAuthenticateStudent() {
     studentId: registerResponse.body.user_id,
     token: authenticationResponse.body.token,
     trail,
+    cookies: authenticationResponse.get('Set-Cookie'),
   }
 }

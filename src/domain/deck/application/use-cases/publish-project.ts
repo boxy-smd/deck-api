@@ -6,6 +6,7 @@ import {
   type ProjectStatusEnum,
 } from '../../enterprise/entities/project.ts'
 import type { Subject } from '../../enterprise/entities/subject.ts'
+import type { DraftsRepository } from '../repositories/drafts-repository.ts'
 import type { ProfessorsRepository } from '../repositories/professors-repository.ts'
 import type { ProjectsRepository } from '../repositories/projects-repository.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
@@ -15,7 +16,7 @@ import type { TrailsRepository } from '../repositories/trails-repository.ts'
 interface PublishProjectUseCaseRequest {
   title: string
   description: string
-  bannerUrl: string
+  bannerUrl?: string
   content?: string
   publishedYear: number
   status: ProjectStatusEnum
@@ -25,6 +26,7 @@ interface PublishProjectUseCaseRequest {
   subjectId?: string
   trailsIds: string[]
   professorsIds?: string[]
+  draftId?: string
 }
 
 type PublishProjectUseCaseResponse = Either<
@@ -41,6 +43,7 @@ export class PublishProjectUseCase {
     private readonly subjectsRepository: SubjectsRepository,
     private readonly trailsRepository: TrailsRepository,
     private readonly professorsRepository: ProfessorsRepository,
+    private readonly draftsRepository: DraftsRepository,
   ) {}
 
   async execute({
@@ -56,6 +59,7 @@ export class PublishProjectUseCase {
     subjectId,
     trailsIds,
     professorsIds,
+    draftId,
   }: PublishProjectUseCaseRequest): Promise<PublishProjectUseCaseResponse> {
     if (!authorId) {
       return left(
@@ -122,6 +126,10 @@ export class PublishProjectUseCase {
     })
 
     await this.projectsRepository.create(project)
+
+    if (draftId) {
+      await this.draftsRepository.delete(draftId)
+    }
 
     return right({
       projectId: project.id.toString(),

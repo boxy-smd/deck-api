@@ -23,6 +23,7 @@ export async function publishProject(
     subjectId,
     trailsIds,
     professorsIds,
+    draftId,
   } = request.body
 
   const publishProjectUseCase = makePublishProjectUseCase()
@@ -40,6 +41,7 @@ export async function publishProject(
     subjectId,
     trailsIds,
     professorsIds,
+    draftId,
   })
 
   if (result.isLeft()) {
@@ -47,5 +49,7 @@ export async function publishProject(
     return reply.status(error.statusCode).send({ message: error.message })
   }
 
-  return reply.status(201).send({ message: 'Project published successfully.' })
+  return reply.status(201).send({
+    project_id: result.value.projectId,
+  })
 }

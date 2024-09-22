@@ -32,6 +32,7 @@ export class InMemoryStudentsRepository implements StudentsRepository {
         semester: student.semester,
         trails: [],
         about: student.about,
+        drafts: [],
       }),
     )
   }
@@ -55,6 +56,7 @@ export class InMemoryStudentsRepository implements StudentsRepository {
         semester: student.semester,
         trails: [],
         about: student.about,
+        drafts: [],
       }),
     )
   }

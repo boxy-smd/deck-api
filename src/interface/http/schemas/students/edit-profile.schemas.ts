@@ -73,6 +73,21 @@ const editProfileResponseSchema = z.object(
           professors: z.array(z.string()),
         }),
       ),
+      drafts: z.array(
+        z.object({
+          id: z.string(),
+          title: z.string(),
+          bannerUrl: z.string().optional(),
+          content: z.string().optional(),
+          publishedYear: z.number().optional(),
+          semester: z.number().optional(),
+          createdAt: z.date().optional(),
+          updatedAt: z.date().optional(),
+          subjectId: z.string().optional(),
+          trailsIds: z.array(z.string()).optional(),
+          professorsIds: z.array(z.string()).optional(),
+        }),
+      ),
     }),
   },
   {

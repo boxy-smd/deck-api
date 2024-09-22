@@ -32,8 +32,8 @@ describe('fetch professors controller (e2e)', () => {
     expect(response.status).toBe(200)
     expect(response.body).toMatchObject({
       professors: [
-        { id: tici.id.toString(), name: tici.name },
         { id: inga.id.toString(), name: inga.name },
+        { id: tici.id.toString(), name: tici.name },
       ],
     })
   })
