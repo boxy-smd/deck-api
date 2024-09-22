@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 import { errorResponseSchema, zodErrorSchema } from '../common.schemas.ts'
 
-const publishProjectBodySchema = z.object(
+const createDraftBodySchema = z.object(
   {
     title: z
       .string({
@@ -12,10 +12,11 @@ const publishProjectBodySchema = z.object(
       .min(3, {
         message: 'Title must have at least 3 characters.',
       }),
-    description: z.string({
-      description: 'Project description.',
-      message: 'Description is required.',
-    }),
+    description: z
+      .string({
+        description: 'Project description.',
+      })
+      .optional(),
     bannerUrl: z
       .string({
         description: 'Project banner url.',
@@ -33,11 +34,8 @@ const publishProjectBodySchema = z.object(
         message: 'Published year is required.',
       })
       .min(2000)
-      .max(new Date().getFullYear()),
-    status: z.enum(['DRAFT', 'PUBLISHED'], {
-      description: 'Project status.',
-      message: 'Status is required.',
-    }),
+      .max(new Date().getFullYear())
+      .optional(),
     semester: z
       .number({
         description: 'Project semester.',
@@ -48,23 +46,28 @@ const publishProjectBodySchema = z.object(
       })
       .max(12, {
         message: 'Semester must be between 1 and 12.',
-      }),
-    allowComments: z.boolean({
-      description: 'Project allow comments.',
-    }),
+      })
+      .optional(),
+    allowComments: z
+      .boolean({
+        description: 'Project allow comments.',
+      })
+      .optional(),
     subjectId: z
       .string({
         description: 'Project subject id.',
       })
       .optional(),
-    trailsIds: z.array(
-      z
-        .string({
-          description: 'Project trails ids.',
-          message: 'Trail id is required.',
-        })
-        .uuid('Invalid trail id.'),
-    ),
+    trailsIds: z
+      .array(
+        z
+          .string({
+            description: 'Project trails ids.',
+            message: 'Trail id is required.',
+          })
+          .uuid('Invalid trail id.'),
+      )
+      .optional(),
     professorsIds: z
       .array(
         z
@@ -74,39 +77,33 @@ const publishProjectBodySchema = z.object(
           .uuid('Invalid professor id.'),
       )
       .optional(),
-    draftId: z
-      .string({
-        description: 'Project draft id.',
-      })
-      .uuid()
-      .optional(),
   },
   {
-    description: 'Project publish body.',
+    description: 'Create draft body.',
     required_error: 'Body is required.',
     invalid_type_error: 'Body must be an object.',
   },
 )
 
-const publishProjectResponseSchema = z.object(
+const createDraftResponseSchema = z.object(
   {
-    project_id: z.string().uuid(),
+    draft_id: z.string().uuid(),
   },
   {
-    description: 'Project published successfully.',
+    description: 'Draft created successfully.',
   },
 )
 
-export const publishProjectSchemas = {
-  summary: 'Publish a project',
-  tags: ['Projects'],
-  body: publishProjectBodySchema,
+export const createDraftSchemas = {
+  summary: 'Create a draft',
+  tags: ['Drafts'],
+  body: createDraftBodySchema,
   response: {
-    201: publishProjectResponseSchema,
+    201: createDraftResponseSchema,
     400: zodErrorSchema,
     403: errorResponseSchema,
     404: errorResponseSchema,
   },
 }
 
-export type PublishProjectBody = z.infer<typeof publishProjectBodySchema>
+export type CreateDraftBody = z.infer<typeof createDraftBodySchema>

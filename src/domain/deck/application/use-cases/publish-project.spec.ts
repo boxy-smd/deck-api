@@ -3,6 +3,8 @@ import { makeProfessor } from 'test/factories/make-professor.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
 import { makeSubject } from 'test/factories/make-subject.ts'
 import { makeTrail } from 'test/factories/make-trail.ts'
+import { InMemoryCommentsRepository } from 'test/repositories/comments-repository.ts'
+import { InMemoryDraftsRepository } from 'test/repositories/drafts-repository.ts'
 import { InMemoryProfessorsRepository } from 'test/repositories/professors-repository.ts'
 import { InMemoryProjectsRepository } from 'test/repositories/projects-repository.ts'
 import { InMemoryStudentsRepository } from 'test/repositories/students-repository.ts'
@@ -16,7 +18,9 @@ let projectsRepository: InMemoryProjectsRepository
 let studentsRepository: InMemoryStudentsRepository
 let subjectsRepository: InMemorySubjectsRepository
 let trailsRepository: InMemoryTrailsRepository
+let commentsRepository: InMemoryCommentsRepository
 let professorsRepository: InMemoryProfessorsRepository
+let draftsRepository: InMemoryDraftsRepository
 
 let author: Student
 let trail: Trail
@@ -28,11 +32,14 @@ describe('publish project use case', () => {
     studentsRepository = new InMemoryStudentsRepository()
     subjectsRepository = new InMemorySubjectsRepository()
     trailsRepository = new InMemoryTrailsRepository()
+    commentsRepository = new InMemoryCommentsRepository(studentsRepository)
     professorsRepository = new InMemoryProfessorsRepository()
+    draftsRepository = new InMemoryDraftsRepository()
 
     projectsRepository = new InMemoryProjectsRepository(
       studentsRepository,
       subjectsRepository,
+      commentsRepository,
     )
 
     author = await makeStudent()
@@ -44,6 +51,7 @@ describe('publish project use case', () => {
       subjectsRepository,
       trailsRepository,
       professorsRepository,
+      draftsRepository,
     )
   })
 

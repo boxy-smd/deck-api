@@ -25,6 +25,22 @@ export class StudentProfilePresenter {
         trails: post.trails,
         professors: post.professors,
       })),
+      drafts: student.drafts.map(draft => ({
+        id: draft.authorId.toString(),
+        title: draft.title,
+        description: draft.description,
+        bannerUrl: draft.bannerUrl,
+        content: draft.content,
+        publishedYear: draft.publishedYear,
+        semester: draft.semester,
+        createdAt: draft.createdAt,
+        updatedAt: draft.updatedAt,
+        subjectId: draft.subjectId,
+        trailsIds: draft.trails?.map(trail => trail.id.toString()),
+        professorsIds: draft.professors?.map(professor =>
+          professor.id.toString(),
+        ),
+      })),
     }
   }
 }

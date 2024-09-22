@@ -1,6 +1,7 @@
 import type { Prisma, User as UserRaw } from '@prisma/client'
 
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
+import type { Draft } from '@/domain/deck/enterprise/entities/draft.ts'
 import { Student } from '@/domain/deck/enterprise/entities/student.ts'
 import { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
 import { Email } from '@/domain/deck/enterprise/entities/value-objects/email.ts'
@@ -51,6 +52,7 @@ export class PrismaStudentMapper {
         name: string
       }[]
       posts: Post[]
+      drafts: Draft[]
     },
   ): StudentProfile {
     return StudentProfile.create({
@@ -64,6 +66,7 @@ export class PrismaStudentMapper {
       updatedAt: raw.updatedAt,
       trails: raw.trails.map(trail => trail.name),
       posts: raw.posts,
+      drafts: raw.drafts,
     })
   }
 

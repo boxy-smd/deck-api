@@ -1,28 +1,27 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { makeEditProjectUseCase } from '@/interface/factories/projects/make-edit-project-use-case.ts'
+import { makeEditDraftUseCase } from '@/interface/factories/drafts/make-edit-project-use-case.ts'
 import type {
-  EditProjectBody,
-  EditProjectParams,
-} from '../../schemas/projects/edit.schemas.ts'
+  EditDraftBody,
+  EditDraftParams,
+} from '../../schemas/drafts/edit.schemas.ts'
 
-export async function editProject(
+export async function editDraft(
   request: FastifyRequest<{
-    Params: EditProjectParams
-    Body: EditProjectBody
+    Params: EditDraftParams
+    Body: EditDraftBody
   }>,
   reply: FastifyReply,
 ) {
-  const studentId = request.user.sign.sub
+  const authorId = request.user.sign.sub
 
-  const { projectId } = request.params
+  const { draftId } = request.params
   const {
     title,
     description,
     bannerUrl,
     content,
     publishedYear,
-    status,
     semester,
     allowComments,
     subjectId,
@@ -30,17 +29,16 @@ export async function editProject(
     professorsIds,
   } = request.body
 
-  const editProjectUseCase = makeEditProjectUseCase()
+  const editDraftUseCase = makeEditDraftUseCase()
 
-  const result = await editProjectUseCase.execute({
-    studentId,
-    projectId,
+  const result = await editDraftUseCase.execute({
+    authorId,
+    draftId,
     title,
     description,
     bannerUrl,
     content,
     publishedYear,
-    status,
     semester,
     allowComments,
     subjectId,
@@ -54,6 +52,6 @@ export async function editProject(
   }
 
   return reply.status(200).send({
-    message: 'Project updated successfully.',
+    message: 'Draft updated successfully.',
   })
 }
