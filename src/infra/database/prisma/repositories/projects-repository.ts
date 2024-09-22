@@ -105,6 +105,9 @@ export class PrismaProjectsRepository implements ProjectsRepository {
           },
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
 
     return data.map(PrismaProjectMapper.toEntityPost)
@@ -145,6 +148,9 @@ export class PrismaProjectsRepository implements ProjectsRepository {
             name: true,
           },
         },
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     })
 
@@ -220,6 +226,9 @@ export class PrismaProjectsRepository implements ProjectsRepository {
             name: true,
           },
         },
+      },
+      orderBy: {
+        publishedYear: 'desc',
       },
     })
 
@@ -329,6 +338,9 @@ export class PrismaProjectsRepository implements ProjectsRepository {
           },
         },
       },
+      orderBy: {
+        publishedYear: 'desc',
+      },
     })
 
     return data.map(PrismaProjectMapper.toEntityPost)
@@ -362,6 +374,9 @@ export class PrismaProjectsRepository implements ProjectsRepository {
             name: true,
           },
         },
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     })
 
@@ -403,7 +418,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         status: 'PUBLISHED',
       },
       orderBy: {
-        publishedYear: 'desc',
+        createdAt: 'desc',
       },
     })
 

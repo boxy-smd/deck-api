@@ -33,8 +33,8 @@ describe('fetch subjects controller (e2e)', () => {
     expect(response.status).toBe(200)
     expect(response.body).toMatchObject({
       subjects: [
-        { id: ihc.id.toString(), name: ihc.name },
         { id: de.id.toString(), name: de.name },
+        { id: ihc.id.toString(), name: ihc.name },
       ],
     })
   })

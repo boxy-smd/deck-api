@@ -6,6 +6,7 @@ import { fetchStudents } from '../controllers/students/fetch.controller.ts'
 import { getProfile } from '../controllers/students/get-profile.controller.ts'
 import { getStudentDetails } from '../controllers/students/get-student-details.controller.ts'
 import { login } from '../controllers/students/login.controller.ts'
+import { refresh } from '../controllers/students/refresh.controller.ts'
 import { register } from '../controllers/students/register.controller.ts'
 import { uploadProfileImage } from '../controllers/students/upload-profile-image.ts'
 import { type ProtectedRoute, verifyJWT } from '../middlewares/verify-jwt.ts'
@@ -14,6 +15,7 @@ import { fetchStudentsSchemas } from '../schemas/students/fetch.schemas.ts'
 import { getProfileSchemas } from '../schemas/students/get-profile.schemas.ts'
 import { getStudentDetailsSchemas } from '../schemas/students/get-student-details.schemas.ts'
 import { loginSchemas } from '../schemas/students/login.schemas.ts'
+import { refreshSchemas } from '../schemas/students/refresh.schemas.ts'
 import { registerSchemas } from '../schemas/students/register.schemas.ts'
 import { uploadProfileImageSchemas } from '../schemas/students/upload-profile-image.schemas.ts'
 
@@ -35,13 +37,13 @@ export async function studentsRoutes(app: FastifyInstance) {
     .withTypeProvider<ZodTypeProvider>()
     .post('/sessions', { schema: loginSchemas }, login)
 
-  app.withTypeProvider<ZodTypeProvider>().get(
-    '/profiles/:username',
-    {
-      schema: getProfileSchemas,
-    },
-    getProfile,
-  )
+  app
+    .withTypeProvider<ZodTypeProvider>()
+    .patch('/token/refresh', { schema: refreshSchemas }, refresh)
+
+  app
+    .withTypeProvider<ZodTypeProvider>()
+    .get('/profiles/:username', { schema: getProfileSchemas }, getProfile)
 
   app.withTypeProvider<ZodTypeProvider>().put(
     '/profiles/:studentId',
@@ -52,15 +54,11 @@ export async function studentsRoutes(app: FastifyInstance) {
     editProfile as ProtectedRoute,
   )
 
-  app.withTypeProvider<ZodTypeProvider>().get(
-    '/students',
-    {
-      schema: fetchStudentsSchemas,
-    },
-    fetchStudents,
-  )
+  app
+    .withTypeProvider<ZodTypeProvider>()
+    .get('/students', { schema: fetchStudentsSchemas }, fetchStudents)
 
-  app.get(
+  app.withTypeProvider<ZodTypeProvider>().get(
     '/students/me',
     {
       preHandler: verifyJWT,
