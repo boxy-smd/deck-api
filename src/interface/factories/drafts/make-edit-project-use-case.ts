@@ -1,4 +1,4 @@
-import { PublishProjectUseCase } from '@/domain/deck/application/use-cases/publish-project.ts'
+import { EditDraftUseCase } from '@/domain/deck/application/use-cases/edit-draft.ts'
 import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
@@ -6,25 +6,23 @@ import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/s
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
 import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository.ts'
 
-export function makePublishProjectUseCase() {
+export function makeEditDraftUseCase() {
   const projectsRepository = new PrismaProjectsRepository()
   const draftsRepository = new PrismaDraftsRepository()
   const studentsRepository = new PrismaStudentsRepository(
     projectsRepository,
     draftsRepository,
   )
-  const professorsRepository = new PrismaProfessorsRepository()
-  const trailsRepository = new PrismaTrailsRepository()
   const subjectsRepository = new PrismaSubjectsRepository()
-
-  const publishProjectUseCase = new PublishProjectUseCase(
-    projectsRepository,
+  const trailsRepository = new PrismaTrailsRepository()
+  const professorsRepository = new PrismaProfessorsRepository()
+  const editDraftUseCase = new EditDraftUseCase(
+    draftsRepository,
     studentsRepository,
     subjectsRepository,
     trailsRepository,
     professorsRepository,
-    draftsRepository,
   )
 
-  return publishProjectUseCase
+  return editDraftUseCase
 }

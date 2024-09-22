@@ -1,31 +1,26 @@
 import { AggregateRoot } from '@/core/entities/aggregate-root.ts'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import type { Optional } from '@/core/types/optional.ts'
-import type { Comment } from './comment.ts'
 import type { Professor } from './professor.ts'
 import type { Trail } from './trail.ts'
 
-export type ProjectStatusEnum = 'DRAFT' | 'PUBLISHED'
-
-export interface ProjectProps {
+export interface DraftProps {
   title: string
-  description: string
+  description?: string
   bannerUrl?: string
   content?: string
-  publishedYear: number
-  status: ProjectStatusEnum
-  semester: number
-  allowComments: boolean
+  publishedYear?: number | undefined
+  semester?: number | undefined
+  allowComments?: boolean | undefined
   createdAt: Date
   updatedAt?: Date
   authorId: UniqueEntityID
   subjectId?: UniqueEntityID
-  trails: Trail[]
+  trails?: Trail[]
   professors?: Professor[]
-  comments?: Comment[]
 }
 
-export class Project extends AggregateRoot<ProjectProps> {
+export class Draft extends AggregateRoot<DraftProps> {
   get title() {
     return this.props.title
   }
@@ -39,15 +34,11 @@ export class Project extends AggregateRoot<ProjectProps> {
   }
 
   get content() {
-    return this.props.content || ''
+    return this.props.content
   }
 
   get publishedYear() {
     return this.props.publishedYear
-  }
-
-  get status() {
-    return this.props.status
   }
 
   get semester() {
@@ -82,10 +73,6 @@ export class Project extends AggregateRoot<ProjectProps> {
     return this.props.professors
   }
 
-  get comments() {
-    return this.props.comments
-  }
-
   private touch() {
     this.props.updatedAt = new Date()
   }
@@ -95,7 +82,7 @@ export class Project extends AggregateRoot<ProjectProps> {
     this.touch()
   }
 
-  set description(description: string) {
+  set description(description: string | undefined) {
     this.props.description = description
     this.touch()
   }
@@ -105,27 +92,22 @@ export class Project extends AggregateRoot<ProjectProps> {
     this.touch()
   }
 
-  set content(content: string) {
+  set content(content: string | undefined) {
     this.props.content = content
     this.touch()
   }
 
-  set publishedYear(publishedYear: number) {
+  set publishedYear(publishedYear: number | undefined) {
     this.props.publishedYear = publishedYear
     this.touch()
   }
 
-  set status(status: ProjectStatusEnum) {
-    this.props.status = status
-    this.touch()
-  }
-
-  set semester(semester: number) {
+  set semester(semester: number | undefined) {
     this.props.semester = semester
     this.touch()
   }
 
-  set allowComments(allowComments: boolean) {
+  set allowComments(allowComments: boolean | undefined) {
     this.props.allowComments = allowComments
     this.touch()
   }
@@ -140,7 +122,7 @@ export class Project extends AggregateRoot<ProjectProps> {
     this.touch()
   }
 
-  set trails(trails: Trail[]) {
+  set trails(trails: Trail[] | undefined) {
     this.props.trails = trails
     this.touch()
   }
@@ -150,16 +132,11 @@ export class Project extends AggregateRoot<ProjectProps> {
     this.touch()
   }
 
-  set comments(comments: Comment[] | undefined) {
-    this.props.comments = comments
-    this.touch()
-  }
-
   static create(
-    props: Optional<ProjectProps, 'createdAt'>,
+    props: Optional<DraftProps, 'createdAt'>,
     id?: UniqueEntityID,
-  ): Project {
-    return new Project(
+  ): Draft {
+    return new Draft(
       {
         ...props,
         createdAt: props.createdAt ?? new Date(),

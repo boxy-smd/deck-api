@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+
 import { deleteProject } from '../controllers/projects/delete.controller.ts'
-import { editProject } from '../controllers/projects/edit.controller.ts'
 import { fetchPosts } from '../controllers/projects/fetch-posts.controller.ts'
 import { filterPosts } from '../controllers/projects/filter-posts.controller.ts'
 import { getProject } from '../controllers/projects/get.controller.ts'
@@ -10,7 +10,6 @@ import { searchPosts } from '../controllers/projects/search-posts.controller.ts'
 import { uploadBanner } from '../controllers/projects/upload-banner.ts'
 import { type ProtectedRoute, verifyJWT } from '../middlewares/verify-jwt.ts'
 import { deleteProjectSchemas } from '../schemas/projects/delete.schemas.ts'
-import { editProjectSchemas } from '../schemas/projects/edit.schemas.ts'
 import { fetchPostsSchemas } from '../schemas/projects/fetch-posts.ts'
 import { filterPostsSchemas } from '../schemas/projects/filter-posts.schemas.ts'
 import { getProjectSchemas } from '../schemas/projects/get.schemas.ts'
@@ -67,15 +66,6 @@ export async function projectsRoutes(app: FastifyInstance) {
       schema: publishProjectSchemas,
     },
     publishProject as ProtectedRoute,
-  )
-
-  app.withTypeProvider<ZodTypeProvider>().put(
-    '/projects/:projectId',
-    {
-      preHandler: verifyJWT,
-      schema: editProjectSchemas,
-    },
-    editProject as ProtectedRoute,
   )
 
   app.withTypeProvider<ZodTypeProvider>().delete(

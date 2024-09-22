@@ -1,6 +1,7 @@
 import request from 'supertest'
 
 import { app } from '@/app.ts'
+import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
@@ -21,7 +22,11 @@ describe('fetch posts (e2e)', () => {
 
   it('should be able to fetch posts', async () => {
     const projectsRepository = new PrismaProjectsRepository()
-    const studentsRepository = new PrismaStudentsRepository(projectsRepository)
+    const draftsRepository = new PrismaDraftsRepository()
+    const studentsRepository = new PrismaStudentsRepository(
+      projectsRepository,
+      draftsRepository,
+    )
     const trailsRepository = new PrismaTrailsRepository()
     const subjectsRepository = new PrismaSubjectsRepository()
 

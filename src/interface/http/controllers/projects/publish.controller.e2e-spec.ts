@@ -52,7 +52,7 @@ describe('publish project (e2e)', () => {
 
     expect(response.status).toBe(201)
     expect(response.body).toEqual({
-      message: 'Project published successfully.',
+      project_id: expect.any(String),
     })
   })
 })

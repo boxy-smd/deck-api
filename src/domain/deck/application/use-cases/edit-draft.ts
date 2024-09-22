@@ -1,26 +1,22 @@
 import { type Either, left, right } from '@/core/either.ts'
 import { ForbiddenError } from '@/core/errors/forbidden.error.ts'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found.error.ts'
-import type {
-  Project,
-  ProjectStatusEnum,
-} from '../../enterprise/entities/project.ts'
+import type { Draft } from '../../enterprise/entities/draft.ts'
 import type { Trail } from '../../enterprise/entities/trail.ts'
+import type { DraftsRepository } from '../repositories/drafts-repository.ts'
 import type { ProfessorsRepository } from '../repositories/professors-repository.ts'
-import type { ProjectsRepository } from '../repositories/projects-repository.ts'
 import type { StudentsRepository } from '../repositories/students-repository.ts'
 import type { SubjectsRepository } from '../repositories/subjects-repository.ts'
 import type { TrailsRepository } from '../repositories/trails-repository.ts'
 
-interface EditProjectUseCaseRequest {
-  studentId: string
-  projectId: string
+interface EditDraftUseCaseRequest {
+  authorId: string
+  draftId: string
   title?: string
   description?: string
   bannerUrl?: string
   content?: string
   publishedYear?: number
-  status?: ProjectStatusEnum
   semester?: number
   allowComments?: boolean
   subjectId?: string
@@ -28,14 +24,14 @@ interface EditProjectUseCaseRequest {
   professorsIds?: string[]
 }
 
-type EditProjectUseCaseResponse = Either<
+type EditDraftUseCaseResponse = Either<
   ForbiddenError | ResourceNotFoundError,
-  Project
+  Draft
 >
 
-export class EditProjectUseCase {
+export class EditDraftUseCase {
   constructor(
-    private readonly projectsRepository: ProjectsRepository,
+    private readonly draftsRepository: DraftsRepository,
     private readonly studentsRepository: StudentsRepository,
     private readonly subjectsRepository: SubjectsRepository,
     private readonly trailsRepository: TrailsRepository,
@@ -44,44 +40,46 @@ export class EditProjectUseCase {
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: This function is complex by nature
   async execute({
-    studentId,
-    projectId,
+    authorId,
+    draftId,
     title,
     description,
     bannerUrl,
     content,
     publishedYear,
-    status,
     semester,
     allowComments,
     subjectId,
     trailsIds,
     professorsIds,
-  }: EditProjectUseCaseRequest): Promise<EditProjectUseCaseResponse> {
-    const project = await this.projectsRepository.findById(projectId)
-
-    if (!project) {
-      return left(new ResourceNotFoundError('Project not found.'))
+  }: EditDraftUseCaseRequest): Promise<EditDraftUseCaseResponse> {
+    if (!authorId) {
+      return left(new ForbiddenError('You must be logged in to edit a draft.'))
     }
 
-    if (project.status !== 'DRAFT') {
-      return left(new ForbiddenError('Only drafts can be edited.'))
+    const student = await this.studentsRepository.findById(authorId)
+
+    if (!student) {
+      return left(new ResourceNotFoundError('Student not found.'))
     }
 
-    if (project.authorId.toString() !== studentId) {
-      return left(
-        new ForbiddenError('You are not allowed to edit this project.'),
-      )
+    const draft = await this.draftsRepository.findById(draftId)
+
+    if (!draft) {
+      return left(new ResourceNotFoundError('Draft not found.'))
     }
 
-    project.title = title ?? project.title
-    project.description = description ?? project.description
-    project.bannerUrl = bannerUrl ?? project.bannerUrl
-    project.content = content ?? project.content
-    project.publishedYear = publishedYear ?? project.publishedYear
-    project.status = status ?? project.status
-    project.semester = semester ?? project.semester
-    project.allowComments = allowComments ?? project.allowComments
+    if (draft.authorId.toString() !== authorId) {
+      return left(new ForbiddenError('You are not allowed to edit this draft.'))
+    }
+
+    draft.title = title ?? draft.title
+    draft.description = description ?? draft.description
+    draft.bannerUrl = bannerUrl ?? draft.bannerUrl
+    draft.content = content ?? draft.content
+    draft.publishedYear = publishedYear ?? draft.publishedYear
+    draft.semester = semester ?? draft.semester
+    draft.allowComments = allowComments ?? draft.allowComments
 
     if (subjectId) {
       const subject = await this.subjectsRepository.findById(subjectId)
@@ -90,7 +88,7 @@ export class EditProjectUseCase {
         return left(new ResourceNotFoundError('Subject not found.'))
       }
 
-      project.subjectId = subject.id
+      draft.subjectId = subject.id
     }
 
     const trails = await Promise.all(
@@ -107,7 +105,7 @@ export class EditProjectUseCase {
       return left(new ResourceNotFoundError('Some trails were not found.'))
     }
 
-    project.trails = trails.filter(trail => trail !== null) as Trail[]
+    draft.trails = trails.filter(trail => trail !== null) as Trail[]
 
     const professors = await Promise.all(
       professorsIds
@@ -124,10 +122,10 @@ export class EditProjectUseCase {
       return left(new ResourceNotFoundError('Some professors were not found.'))
     }
 
-    project.professors = professors.filter(professor => professor !== null)
+    draft.professors = professors.filter(professor => professor !== null)
 
-    await this.projectsRepository.save(project)
+    await this.draftsRepository.save(draft)
 
-    return right(project)
+    return right(draft)
   }
 }

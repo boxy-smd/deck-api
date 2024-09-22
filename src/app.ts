@@ -16,6 +16,7 @@ import { env } from '@/infra/config/env/env.ts'
 import { errorHandler } from '@/interface/error-handler.ts'
 import { studentsRoutes } from '@/interface/http/routes/students.routes.ts'
 import { commentsRoutes } from './interface/http/routes/comments.routes.ts'
+import { draftsRoutes } from './interface/http/routes/drafts.routes.ts'
 import { professorsRoutes } from './interface/http/routes/professors.routes.ts'
 import { projectsRoutes } from './interface/http/routes/projects.routes.ts'
 import { subjectsRoutes } from './interface/http/routes/subjects.routes.ts'
@@ -75,7 +76,10 @@ async function buildServer() {
         { name: 'Professors', description: 'Operations related to professors' },
         { name: 'Subjects', description: 'Operations related to subjects' },
         { name: 'Trails', description: 'Operations related to trails' },
+        { name: 'Drafts', description: 'Operations related to drafts' },
         { name: 'Projects', description: 'Operations related to projects' },
+        { name: 'Comments', description: 'Operations related to comments' },
+        { name: 'Reports', description: 'Operations related to reports' },
       ],
     },
     transform: jsonSchemaTransform,
@@ -100,6 +104,7 @@ async function buildServer() {
   app.register(subjectsRoutes)
   app.register(professorsRoutes)
   app.register(trailsRoutes)
+  app.register(draftsRoutes)
   app.register(projectsRoutes)
   app.register(commentsRoutes)
 
