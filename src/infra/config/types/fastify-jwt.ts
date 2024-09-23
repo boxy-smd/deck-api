@@ -6,6 +6,8 @@ declare module '@fastify/jwt' {
       sign: {
         sub: string
       }
+      iat: number
+      exp: number
     }
   }
 }
