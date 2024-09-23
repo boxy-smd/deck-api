@@ -28,7 +28,7 @@ async function buildServer() {
   })
 
   app.register(fastifyCors, {
-    origin: true,
+    origin: ['http://localhost:3000'],
     credentials: true,
   })
 
