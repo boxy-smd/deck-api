@@ -2,6 +2,7 @@ import axios from 'axios'
 import { load } from 'cheerio'
 
 import { Email } from '@/domain/deck/enterprise/entities/value-objects/email.ts'
+import { BcryptHasher } from '@/infra/cryptography/bcrypt-hasher.ts'
 import { prisma } from '@/infra/database/prisma/client.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
 
@@ -251,7 +252,7 @@ async function seed() {
       username: amanda.username,
       email: amanda.email.value,
       about: amanda.about,
-      passwordHash: '123456',
+      passwordHash: await new BcryptHasher().hash('123456'),
       semester: 3,
       trails: {
         connect: {
@@ -267,7 +268,7 @@ async function seed() {
       username: levi.username,
       email: levi.email.value,
       about: levi.about,
-      passwordHash: '123456',
+      passwordHash: await new BcryptHasher().hash('123456'),
       semester: 3,
       trails: {
         connect: {
