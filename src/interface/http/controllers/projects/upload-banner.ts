@@ -1,7 +1,5 @@
+import { makeUploadProjectBannerUseCase } from '@/interface/factories/projects/make-upload-project-banner-use-case.ts'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-
-import { bannersRef } from '@/infra/config/services/firebase.ts'
-import { uploadImageToStorage } from '@/infra/database/firebase/upload-image-to-storage.ts'
 import type { UpdateBannerParams } from '../../schemas/projects/upload-banner.schemas.ts'
 
 export async function uploadBanner(
@@ -17,17 +15,19 @@ export async function uploadBanner(
     return reply.code(400).send({ error: 'No image provided.' })
   }
 
+  const uploadProjectBannerUseCase = makeUploadProjectBannerUseCase()
+
   const { mimetype } = bannerImage
 
   const image = await bannerImage.toBuffer()
 
-  const { downloadUrl } = await uploadImageToStorage({
-    reference: bannersRef,
+  await uploadProjectBannerUseCase.execute({
     filename: `${projectId}.${mimetype.split('/')[1]}`,
     image,
+    projectId,
   })
 
   return reply.code(201).send({
-    url: downloadUrl,
+    message: 'Banner uploaded successfully.',
   })
 }
