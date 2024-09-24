@@ -121,8 +121,6 @@ export class CreateDraftUseCase {
       professors: professors.filter(professor => professor !== null),
     })
 
-    console.log(draft.id, draft.authorId)
-
     await this.draftsRepository.create(draft)
 
     return right({
