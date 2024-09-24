@@ -26,7 +26,7 @@ export class StudentProfilePresenter {
         professors: post.professors,
       })),
       drafts: student.drafts.map(draft => ({
-        id: draft.authorId.toString(),
+        id: draft.id.toString(),
         title: draft.title,
         description: draft.description,
         bannerUrl: draft.bannerUrl,
