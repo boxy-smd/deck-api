@@ -38,9 +38,6 @@ async function buildServer() {
       signed: false,
     },
     secret: env.JWT_SECRET,
-    sign: {
-      expiresIn: '10m',
-    },
   })
 
   app.register(fastifyCookie, {
