@@ -1,5 +1,6 @@
-import { makeCreateDraftUseCase } from '@/interface/factories/drafts/make-create-draft-use-case.ts'
 import type { FastifyReply, FastifyRequest } from 'fastify'
+
+import { makeCreateDraftUseCase } from '@/interface/factories/drafts/make-create-draft-use-case.ts'
 import type { CreateDraftBody } from '../../schemas/drafts/create.schemas.ts'
 
 export async function createDraft(
