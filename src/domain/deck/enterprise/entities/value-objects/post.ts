@@ -6,7 +6,7 @@ interface PostProps {
   id: UniqueEntityID
   title: string
   description: string
-  bannerUrl: string
+  bannerUrl?: string
   content?: string
   publishedYear: number
   status: ProjectStatusEnum
