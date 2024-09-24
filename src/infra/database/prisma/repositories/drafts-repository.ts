@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto'
+
 import type { DraftsRepository } from '@/domain/deck/application/repositories/drafts-repository.ts'
 import type { Draft } from '@/domain/deck/enterprise/entities/draft.ts'
 import { prisma } from '../client.ts'
@@ -30,7 +32,10 @@ export class PrismaDraftsRepository implements DraftsRepository {
     const data = PrismaDraftMapper.toPrisma(draft)
 
     await prisma.draft.create({
-      data,
+      data: {
+        id: randomUUID(),
+        ...data,
+      },
     })
   }
 
