@@ -48,6 +48,24 @@ CREATE TABLE "trails" (
 );
 
 -- CreateTable
+CREATE TABLE "drafts" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT,
+    "content" TEXT,
+    "published_year" INTEGER,
+    "semester" INTEGER,
+    "allow_comments" BOOLEAN,
+    "banner_url" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3),
+    "author_id" TEXT NOT NULL,
+    "subject_id" TEXT,
+
+    CONSTRAINT "drafts_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "projects" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -57,7 +75,7 @@ CREATE TABLE "projects" (
     "status" "ProjectStatus" NOT NULL DEFAULT 'DRAFT',
     "semester" INTEGER NOT NULL,
     "allow_comments" BOOLEAN NOT NULL,
-    "banner_url" TEXT NOT NULL,
+    "banner_url" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "author_id" TEXT NOT NULL,
@@ -104,6 +122,18 @@ CREATE TABLE "_TrailToUser" (
 );
 
 -- CreateTable
+CREATE TABLE "_DraftToTrail" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_DraftToProfessor" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "_ProjectToTrail" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
@@ -128,10 +158,28 @@ CREATE UNIQUE INDEX "_TrailToUser_AB_unique" ON "_TrailToUser"("A", "B");
 CREATE INDEX "_TrailToUser_B_index" ON "_TrailToUser"("B");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "_DraftToTrail_AB_unique" ON "_DraftToTrail"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_DraftToTrail_B_index" ON "_DraftToTrail"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_DraftToProfessor_AB_unique" ON "_DraftToProfessor"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_DraftToProfessor_B_index" ON "_DraftToProfessor"("B");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_ProjectToTrail_AB_unique" ON "_ProjectToTrail"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_ProjectToTrail_B_index" ON "_ProjectToTrail"("B");
+
+-- AddForeignKey
+ALTER TABLE "drafts" ADD CONSTRAINT "drafts_author_id_fkey" FOREIGN KEY ("author_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "drafts" ADD CONSTRAINT "drafts_subject_id_fkey" FOREIGN KEY ("subject_id") REFERENCES "subjects"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "projects" ADD CONSTRAINT "projects_author_id_fkey" FOREIGN KEY ("author_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -162,6 +210,18 @@ ALTER TABLE "_TrailToUser" ADD CONSTRAINT "_TrailToUser_A_fkey" FOREIGN KEY ("A"
 
 -- AddForeignKey
 ALTER TABLE "_TrailToUser" ADD CONSTRAINT "_TrailToUser_B_fkey" FOREIGN KEY ("B") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_DraftToTrail" ADD CONSTRAINT "_DraftToTrail_A_fkey" FOREIGN KEY ("A") REFERENCES "drafts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_DraftToTrail" ADD CONSTRAINT "_DraftToTrail_B_fkey" FOREIGN KEY ("B") REFERENCES "trails"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_DraftToProfessor" ADD CONSTRAINT "_DraftToProfessor_A_fkey" FOREIGN KEY ("A") REFERENCES "drafts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_DraftToProfessor" ADD CONSTRAINT "_DraftToProfessor_B_fkey" FOREIGN KEY ("B") REFERENCES "professors"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_ProjectToTrail" ADD CONSTRAINT "_ProjectToTrail_A_fkey" FOREIGN KEY ("A") REFERENCES "projects"("id") ON DELETE CASCADE ON UPDATE CASCADE;
