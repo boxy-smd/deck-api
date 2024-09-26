@@ -4,37 +4,25 @@ import { errorResponseSchema, zodErrorSchema } from '../common.schemas.ts'
 
 const filterPostsQuerySchema = z.object(
   {
-    trailOneId: z
-      .string({
-        description: 'Trail one id to filter posts.',
-        message: 'Invalid trail one id.',
-        invalid_type_error: 'Trail one id must be a string.',
-      })
-      .uuid('Invalid trail one id.')
-      .optional(),
-    trailTwoId: z
-      .string({
-        description: 'Trail two id to filter posts.',
-        message: 'Invalid trail two id.',
-        invalid_type_error: 'Trail two id must be a string.',
-      })
-      .uuid('Invalid trail two id.')
-      .optional(),
-    trailThreeId: z
-      .string({
-        description: 'Trail three id to filter posts.',
-        message: 'Invalid trail three id.',
-        invalid_type_error: 'Trail three id must be a string.',
-      })
-      .uuid('Invalid trail three id.')
-      .optional(),
-    trailFourId: z
-      .string({
-        description: 'Trail four id to filter posts.',
-        message: 'Invalid trail four id.',
-        invalid_type_error: 'Trail four id must be a string.',
-      })
-      .uuid('Invalid trail four id.')
+    trailsIds: z
+      .array(
+        z
+          .string({
+            description: 'Trail ids to filter posts.',
+            message: 'Invalid trail id.',
+            invalid_type_error: 'Trail id must be a string.',
+          })
+          .uuid('Invalid trail id.'),
+      )
+      .or(
+        z
+          .string({
+            description: 'Trail id to filter posts.',
+            message: 'Invalid trail id.',
+            invalid_type_error: 'Trail id must be a string.',
+          })
+          .uuid('Invalid trail id.'),
+      )
       .optional(),
     semester: z.coerce
       .number({
@@ -66,30 +54,32 @@ const filterPostsQuerySchema = z.object(
 
 const filterPostsResponseSchema = z.object(
   {
-    posts: z.array(
-      z.object({
-        id: z.string().uuid(),
-        title: z.string(),
-        description: z.string(),
-        bannerUrl: z.string(),
-        content: z.string().optional(),
-        publishedYear: z.number(),
-        status: z.enum(['DRAFT', 'PUBLISHED']),
-        semester: z.number(),
-        createdAt: z.date(),
-        updatedAt: z.date().optional(),
-        authorId: z.string(),
-        author: z.object({
-          name: z.string(),
-          username: z.string(),
-          profileUrl: z.string().optional(),
+    posts: z
+      .array(
+        z.object({
+          id: z.string().uuid(),
+          title: z.string(),
+          description: z.string(),
+          bannerUrl: z.string().optional(),
+          content: z.string().optional(),
+          publishedYear: z.number(),
+          status: z.enum(['DRAFT', 'PUBLISHED']),
+          semester: z.number(),
+          createdAt: z.date(),
+          updatedAt: z.date().optional(),
+          authorId: z.string(),
+          author: z.object({
+            name: z.string(),
+            username: z.string(),
+            profileUrl: z.string().optional(),
+          }),
+          subjectId: z.string().uuid().optional(),
+          subject: z.string().optional(),
+          trails: z.array(z.string()),
+          professors: z.array(z.string()).optional(),
         }),
-        subjectId: z.string().uuid().optional(),
-        subject: z.string().optional(),
-        trails: z.array(z.string()),
-        professors: z.array(z.string()).optional(),
-      }),
-    ),
+      )
+      .optional(),
   },
   {
     description: 'Posts filtered successfully.',

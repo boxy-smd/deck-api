@@ -87,4 +87,19 @@ export class PrismaStudentMapper {
       },
     }
   }
+
+  static toPrismaUpdate(student: Student): Prisma.UserUncheckedUpdateInput {
+    return {
+      name: student.name,
+      username: student.username,
+      email: student.email.value,
+      passwordHash: student.passwordHash,
+      semester: student.semester,
+      about: student.about ?? undefined,
+      profileUrl: student.profileUrl ?? undefined,
+      trails: {
+        set: student.trails.map(trail => ({ id: trail.id.toString() })),
+      },
+    }
+  }
 }

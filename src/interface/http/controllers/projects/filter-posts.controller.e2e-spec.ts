@@ -6,6 +6,7 @@ import type { Project } from '@/domain/deck/enterprise/entities/project.ts'
 import type { Student } from '@/domain/deck/enterprise/entities/student.ts'
 import type { Subject } from '@/domain/deck/enterprise/entities/subject.ts'
 import type { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
+import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
@@ -28,7 +29,11 @@ describe('filter posts (e2e)', () => {
     await app.ready()
 
     const projectsRepository = new PrismaProjectsRepository()
-    const studentsRepository = new PrismaStudentsRepository(projectsRepository)
+    const draftsRepository = new PrismaDraftsRepository()
+    const studentsRepository = new PrismaStudentsRepository(
+      projectsRepository,
+      draftsRepository,
+    )
     const trailsRepository = new PrismaTrailsRepository()
     const professorsRepository = new PrismaProfessorsRepository()
     const subjectsRepository = new PrismaSubjectsRepository()
@@ -76,7 +81,7 @@ describe('filter posts (e2e)', () => {
 
   it('should be able to filter posts by subject id', async () => {
     const result = await request(app.server).get('/projects/filter').query({
-      subjectId: subject.id,
+      subjectId: subject.id.toString(),
     })
 
     expect(result.status).toBe(200)
@@ -85,7 +90,7 @@ describe('filter posts (e2e)', () => {
 
   it('should be able to filter posts by trail id', async () => {
     const result = await request(app.server).get('/projects/filter').query({
-      trailOneId: trail.id,
+      trailsIds: trail.id.toString(),
     })
 
     expect(result.status).toBe(200)

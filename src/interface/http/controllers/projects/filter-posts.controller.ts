@@ -9,27 +9,17 @@ export async function filterPosts(
   }>,
   reply: FastifyReply,
 ) {
-  const {
-    trailOneId,
-    trailTwoId,
-    trailThreeId,
-    trailFourId,
-    semester,
-    subjectId,
-    publishedYear,
-  } = request.query
-
-  const trailsIds = [trailOneId, trailTwoId, trailThreeId, trailFourId].filter(
-    trailId => trailId !== undefined,
-  )
+  const { trailsIds, semester, subjectId, publishedYear } = request.query
 
   const filterPostsByQueryUseCase = makeFilterPostsByQueryUseCase()
 
+  const isTrailArray = Array.isArray(trailsIds)
+
   const result = await filterPostsByQueryUseCase.execute({
-    trailsIds,
-    semester: Number(semester),
+    trailsIds: trailsIds ? (isTrailArray ? trailsIds : [trailsIds]) : undefined,
+    semester,
     subjectId,
-    publishedYear: Number(publishedYear),
+    publishedYear,
   })
 
   return reply.status(200).send({
