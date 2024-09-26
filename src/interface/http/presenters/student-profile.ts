@@ -12,7 +12,7 @@ export class StudentProfilePresenter {
       profileUrl: student.profileUrl || '',
       trails: student.trails,
       posts: student.posts.map(post => ({
-        id: post.authorId.toString(),
+        id: post.id.toString(),
         title: post.title,
         description: post.description,
         bannerUrl: post.bannerUrl,

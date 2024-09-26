@@ -17,7 +17,7 @@ const getStudentDetailsResponseSchema = z.object(
           id: z.string(),
           title: z.string(),
           description: z.string(),
-          bannerUrl: z.string(),
+          bannerUrl: z.string().optional(),
           content: z.string(),
           publishedYear: z.number(),
           semester: z.number(),

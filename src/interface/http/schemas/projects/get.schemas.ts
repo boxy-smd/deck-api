@@ -23,7 +23,7 @@ const getProjectResponseSchema = z.object(
       id: z.string(),
       title: z.string(),
       description: z.string(),
-      bannerUrl: z.string(),
+      bannerUrl: z.string().optional(),
       content: z.string().optional(),
       publishedYear: z.number(),
       status: z.enum(['DRAFT', 'PUBLISHED']),

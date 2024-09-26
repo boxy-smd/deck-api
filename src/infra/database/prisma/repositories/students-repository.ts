@@ -128,7 +128,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
   }
 
   async save(student: Student): Promise<void> {
-    const data = PrismaStudentMapper.toPrisma(student)
+    const data = PrismaStudentMapper.toPrismaUpdate(student)
 
     await prisma.user.update({
       where: { id: student.id.toString() },
