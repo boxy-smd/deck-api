@@ -53,7 +53,7 @@ export class DeleteCommentUseCase {
     }
 
     if (
-      authorId !== comment.authorId.toString() ||
+      authorId !== comment.authorId.toString() &&
       authorId !== project.authorId.toString()
     ) {
       return left(

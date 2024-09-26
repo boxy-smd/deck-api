@@ -30,6 +30,6 @@ export async function commentOnProject(
   }
 
   return reply.code(201).send({
-    commentId: result.value.commentId,
+    comment_id: result.value.commentId,
   })
 }
