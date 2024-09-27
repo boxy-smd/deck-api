@@ -28,7 +28,7 @@ async function buildServer() {
   })
 
   app.register(fastifyCors, {
-    origin: ['http://localhost:3000', 'https://deck-smd.vercel.app/'],
+    origin: ['http://localhost:3000', 'https://deck-smd.vercel.app'],
     credentials: true,
   })
 
