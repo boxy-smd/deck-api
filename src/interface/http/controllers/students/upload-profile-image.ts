@@ -21,11 +21,16 @@ export async function uploadProfileImage(
 
   const image = await profileImage.toBuffer()
 
-  await uploadStudentProfileUseCase.execute({
+  const result = await uploadStudentProfileUseCase.execute({
     filename: `${username}.${mimetype.split('/')[1]}`,
     image,
     username,
   })
+
+  if (result.isLeft()) {
+    const error = result.value
+    return reply.code(error.statusCode).send({ message: error.message })
+  }
 
   return reply.code(201).send({
     message: 'Profile image uploaded successfully.',

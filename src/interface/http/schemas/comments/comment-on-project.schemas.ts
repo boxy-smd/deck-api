@@ -28,7 +28,7 @@ const commentOnProjectBodySchema = z.object(
 
 const commentOnProjectResponseSchema = z.object(
   {
-    commentId: z.string().uuid(),
+    comment_id: z.string().uuid(),
   },
   {
     description: 'Comment created successfully.',

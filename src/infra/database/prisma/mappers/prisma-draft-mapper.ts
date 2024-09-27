@@ -48,4 +48,27 @@ export class PrismaDraftMapper {
       },
     }
   }
+
+  static toPrismaUpdate(draft: Draft): Prisma.DraftUncheckedUpdateInput {
+    return {
+      title: draft.title,
+      description: draft.description,
+      content: draft.content ?? undefined,
+      semester: draft.semester,
+      publishedYear: draft.publishedYear,
+      allowComments: draft.allowComments,
+      bannerUrl: draft.bannerUrl ?? undefined,
+      updatedAt: draft.updatedAt,
+      authorId: draft.authorId.toString(),
+      trails: {
+        set: draft.trails?.map(trail => ({ id: trail.id.toString() })),
+      },
+      subjectId: draft.subjectId?.toString(),
+      professors: {
+        set: draft.professors?.map(professor => ({
+          id: professor.id.toString(),
+        })),
+      },
+    }
+  }
 }

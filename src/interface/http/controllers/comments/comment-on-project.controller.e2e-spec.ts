@@ -42,7 +42,7 @@ describe('comment on project (e2e)', () => {
 
     expect(result.status).toBe(201)
     expect(result.body).toEqual({
-      commentId: expect.any(String),
+      comment_id: expect.any(String),
     })
   })
 })

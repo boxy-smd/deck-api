@@ -40,11 +40,11 @@ export class PrismaDraftsRepository implements DraftsRepository {
   }
 
   async save(draft: Draft): Promise<void> {
-    const data = PrismaDraftMapper.toPrisma(draft)
+    const data = PrismaDraftMapper.toPrismaUpdate(draft)
 
     await prisma.draft.update({
       where: {
-        id: data.id,
+        id: draft.id.toString(),
       },
       data,
     })
