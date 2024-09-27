@@ -11,6 +11,20 @@ export class PrismaDraftsRepository implements DraftsRepository {
       where: {
         id,
       },
+      include: {
+        trails: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        professors: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     })
 
     if (!data) return null
@@ -22,6 +36,20 @@ export class PrismaDraftsRepository implements DraftsRepository {
     const data = await prisma.draft.findMany({
       where: {
         authorId,
+      },
+      include: {
+        trails: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        professors: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     })
 

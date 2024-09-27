@@ -36,6 +36,7 @@ describe('get draft (e2e)', () => {
         id: draft.id.toString(),
         title: 'Design de Interação',
         trailsIds: [],
+        professorsIds: [],
       },
     })
   })

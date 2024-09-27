@@ -2,10 +2,17 @@ import type { Draft as DraftRaw, Prisma } from '@prisma/client'
 
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { Draft } from '@/domain/deck/enterprise/entities/draft.ts'
+import { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
+import { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaDraftMapper {
-  static toEntity(raw: DraftRaw): Draft {
+  static toEntity(
+    raw: DraftRaw & {
+      trails: { id: string; name: string }[]
+      professors: { id: string; name: string }[]
+    },
+  ): Draft {
     return Draft.create(
       {
         title: raw.title,
@@ -18,7 +25,25 @@ export class PrismaDraftMapper {
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt ?? undefined,
         authorId: new UniqueEntityID(raw.authorId),
-        trails: [],
+        subjectId: raw.subjectId
+          ? new UniqueEntityID(raw.subjectId)
+          : undefined,
+        trails: raw.trails.map(trail =>
+          Trail.create(
+            {
+              name: trail.name,
+            },
+            new UniqueEntityID(trail.id),
+          ),
+        ),
+        professors: raw.professors.map(professor =>
+          Professor.create(
+            {
+              name: professor.name,
+            },
+            new UniqueEntityID(professor.id),
+          ),
+        ),
       },
       new UniqueEntityID(raw.id),
     )
