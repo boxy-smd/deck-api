@@ -15,7 +15,7 @@ export async function editProfile(
   reply: FastifyReply,
 ) {
   const { studentId } = request.params
-  
+
   if (studentId !== request.user.sign.sub) {
     return reply.status(403).send({ message: 'Forbidden.' })
   }
