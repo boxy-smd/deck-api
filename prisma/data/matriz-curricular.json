@@ -1,0 +1,1437 @@
+[
+	{
+		"code": "SMD0088",
+		"name": "AUTORAÇÃO MULTIMÍDIA I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0003"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0089",
+		"name": "DESENHO I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0004"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0091",
+		"name": "HISTÓRIA DO DESIGN",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0002"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0094",
+		"name": "INTRODUÇÃO A SISTEMAS E MÍDIAS DIGITAIS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0005"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0095",
+		"name": "PROGRAMAÇÃO I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0001"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0093",
+		"name": "NARRATIVAS MULTIMÍDIA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0001"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0096",
+		"name": "PROGRAMAÇÃO II",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0005"
+		],
+		"equivalences": [
+			"SMD0010"
+		]
+	},
+	{
+		"code": "SMD0105",
+		"name": "COMUNICAÇÃO VISUAL I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0008"
+		],
+		"equivalences": [
+			"SMD0009"
+		]
+	},
+	{
+		"code": "SMD0106",
+		"name": "MATEMÁTICA APLICADA À MULTIMÍDIA I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0005"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0107",
+		"name": "COGNIÇÃO E TECNOLOGIAS DIGITAIS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0015",
+		"name": "DESIGN DE INTERFACES GRÁFICAS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD00105"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0092",
+		"name": "PROJETO INTEGRADO I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0026"
+		],
+		"equivalences": [
+			"SMD0026"
+		]
+	},
+	{
+		"code": "SMD0097",
+		"name": "AUTORAÇÃO MULTIMÍDIA II",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0008"
+		],
+		"equivalences": [
+			"SMD0007"
+		]
+	},
+	{
+		"code": "SMD0108",
+		"name": "INTERAÇÃO HUMANO-COMPUTADOR I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0012"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0109",
+		"name": "INTRODUÇÃO À CIBERCULTURA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0006"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0030",
+		"name": "ANALISE E PROJETO DE SISTEMAS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0098"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0033",
+		"name": "ESTRUTURA DE DADOS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "48h aula (3cr) | 16h lab. | (1cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0095"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0037",
+		"name": "REDES DE COMPUTADORES",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0095"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0086",
+		"name": "FOTOGRAFIA DIGITAL",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0105"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0090",
+		"name": "SEMIÓTICA APLICADA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0105"
+		],
+		"equivalences": [
+			"SMD0014"
+		]
+	},
+	{
+		"code": "SMD0098",
+		"name": "DESENHO II",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0099"
+		],
+		"equivalences": [
+			"SMD0018"
+		]
+	},
+	{
+		"code": "SMD0102",
+		"name": "METODOLOGIA DE PESQUISA CIENTÍFICA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0032",
+		"name": "DESIGN DE SOM",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0093"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0055",
+		"name": "ENGENHARIA DE SOFTWARE",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0099"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0099",
+		"name": "BANCO DE DADOS I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0099"
+		],
+		"equivalences": [
+			"SMD0043"
+		]
+	},
+	{
+		"code": "SMD0110",
+		"name": "COMUNICAÇÃO VISUAL II",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0105"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0025",
+		"name": "ÉTICA E POLITICA AUTORAL",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0100",
+		"name": "GESTÃO DE PROJETOS MULTIMÍDIA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0092"
+		],
+		"equivalences": [
+			"SMD0060"
+		]
+	},
+	{
+		"code": "SMD0101",
+		"name": "PROJETO INTEGRADO II",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0102"
+		],
+		"equivalences": [
+			"SMD0062"
+		]
+	},
+	{
+		"code": "SMD0111",
+		"name": "PROJETO DE TRABALHO FINAL",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0102"
+		],
+		"equivalences": [
+			"SMD0062"
+		]
+	},
+	{
+		"code": "EDD115",
+		"name": "ADMINISTRAÇÃO MERCADOLÓGICA I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "HLL0077",
+		"name": "LÍNGUA BRASILEIRA DE SINAIS - LIBRAS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"PD0077"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "PRG0002",
+		"name": "RELAÇÕES ÉTNICO-RACIAIS E AFRICANIDADES",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "PRG0003",
+		"name": "EDUCAÇÃO AMBIENTAL",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "PRG0004",
+		"name": "EDUCAÇÃO EM DIREITOS HUMANOS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "PRG0005",
+		"name": "DIFERENÇA E ENFRENTAMENTO PROFISSIONAL NAS DESIGUALDADES SOCIAIS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0006",
+		"name": "SOCIEDADE, CULTURA E TECNOLOGIA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0008",
+		"name": "EDUCAÇÃO, COGNIÇÃO E TECNOLOGIAS DIGITAIS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0013",
+		"name": "FUNDAMENTOS DE MATERIAL DIDÁTICO PARA ELA A DISTANCIA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0016",
+		"name": "LINGUAGEM AUDIOVISUAL",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0017",
+		"name": "PROGRAMAÇÃO ORIENTADA A OBJETOS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0095"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0019",
+		"name": "MITOS E ARQUÉcategoryS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0020",
+		"name": "PROTOTIPAÇÃO DE JOGOS TRIDIMENSIONAIS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0021",
+		"name": "GESTÃO DE NEGÓCIOS EM MULTIMÍDIA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0023",
+		"name": "DESIGN DE JOGOS DIGITAIS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0024",
+		"name": "DESIGN INSTRUCIONAL",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0027",
+		"name": "EDIÇÃO AUDIOVISUAL",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0028",
+		"name": "LABORATÓRIO DE PROGRAMAÇÃO",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0029",
+		"name": "AMBIENTES VIRTUAIS DE APRENDIZAGEM",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0031",
+		"name": "COMUNICAÇÃO EM NOVAS MÍDIAS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "48h aula (3cr) | 16h lab. | (1cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0034",
+		"name": "FERRAMENTAS DE MODELAGEM TRIDIMENSIONAL I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "16h aula (1cr) | 48h lab. | (3cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0035",
+		"name": "MATEMÁTICA E FÍSICA PARA JOGOS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0036",
+		"name": "PRODUÇÃO AUDIOVISUAL",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "16h aula (1cr) | 48h lab. | (3cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0038",
+		"name": "ALGEBRA COMPUTACIONAL PARA PROGRAMAÇÃO",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0039",
+		"name": "CULTURA DE JOGOS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0040",
+		"name": "EXPERIMENTOS EM MULTIMÍDIA I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0041",
+		"name": "FILOSOFIA DA TECNOLOGIA",
+		"workload": "32h (2cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0042",
+		"name": "GERENCIA DE PROJETOS DE SOFTWARE",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "48h aula (3cr) | 16h lab. | (1cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0044",
+		"name": "INTRODUÇÃO À COMPUTAÇÃO MÓVEL E UBÍQUA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "48h aula (3cr) | 16h lab. | (1cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0045",
+		"name": "LINGUAGEM DE PROGRAMAÇÃO SCRIPT",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0046",
+		"name": "MITOLOGIAS UNIVERSAIS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0047",
+		"name": "PROCESSAMENTO DIGITAL DE AUDIO",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0048",
+		"name": "TESTE DE SOFTWARE APLICADO",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0049",
+		"name": "TÉCNICAS DE ANIMAÇÃO ANALÓGICA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0050",
+		"name": "SISTEMAS DISTRIBUÍDOS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0051",
+		"name": "REDAÇÃO PARA MÍDIAS DIGITAIS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0052",
+		"name": "PROGRAMAÇÃO PARA WEB I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0053",
+		"name": "PROGRAMAÇÃO PARA JOGOS I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0054",
+		"name": "INTELIGÊNCIA COMPUTACIONAL APLICADA A JOGOS I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0055",
+		"name": "DIREÇÃO DE ARTE PARA MULTIMÍDIA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0057",
+		"name": "CONCEPÇÃO DE CENÁRIOS E DE PERSONAGENS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0058",
+		"name": "BANCO DE DADOS APLICADO À MULTIMÍDIA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0059",
+		"name": "MÍDIAS DIGITAIS E MATEMÁTICA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0061",
+		"name": "PROGRAMAÇÃO PARA JOGOS II",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0053"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0065",
+		"name": "DESENVOLVIMENTO DE APLICAÇÕES DISTRIBUÍDAS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0050"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0066",
+		"name": "AUTORAÇÃO DE MÍDIA DE ARMAZENAMENTO LOCAL",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0069",
+		"name": "PROGRAMAÇÃO PARA WEB II",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0052"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0070",
+		"name": "SISTEMAS EMBARCADOS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0096"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0071",
+		"name": "VIDEOGRAFISMO",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0027",
+			"SMD0034"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0072",
+		"name": "TÉCNICAS DE ANIMAÇÃO DIGITAL I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0049"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0073",
+		"name": "JOGOS MULTIPLATAFORMA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0053"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0074",
+		"name": "JOGOS DISTRIBUÍDOS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0050",
+			"SMD0053"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0075",
+		"name": "DESENVOLVIMENTO DE MATERIAL DIDÁTICO EXPERIMENTAL E TREINAMENTO DE HABILIDADES",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0076",
+		"name": "CIBERCULTURA E EDUCAÇÃO: NOVAS PRÁTICAS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0078",
+		"name": "DESENVOLVIMENTO DE JOGOS CASUAIS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0096",
+			"SMD0105"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0079",
+		"name": "DESENVOLVIMENTO DE MOTORES GRÁFICOS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0080"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0080",
+		"name": "COMPUTAÇÃO GRÁFICA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0035"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0081",
+		"name": "INTELIGÊNCIA COMPUTACIONAL APLICADA A JOGOS II",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0054"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0082",
+		"name": "JOGOS PARA CONSOLE",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0073"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0083",
+		"name": "EDUCOMUNICAÇÃO",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0084",
+		"name": "EXPERIMENTOS EM categoryGRAFIA DIGITAL",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0105"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0085",
+		"name": "FRAMEWORKS DE SOFTWARE",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0055"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0087",
+		"name": "FILOSOFIA DA TECNOLOGIA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0112",
+		"name": "INSTALAÇÕES MULTIMÍDIA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0106",
+			"SMD0105"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0113",
+		"name": "LABORATÓRIO DE CRIATIVIDADE",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0105"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0114",
+		"name": "COMPUTAÇÃO FÍSICA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0095"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0115",
+		"name": "MÉTODOS E TÉCNICAS NA PESQUISA TRANSDisciplinaR",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0116",
+		"name": "TECNODOCÊNCIA E ANIMAÇÃO",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0117",
+		"name": "INTERAÇÃO HUMANO-COMPUTADOR II",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0108"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0118",
+		"name": "TEORIA E CRÍTICA DO DESIGN",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0091",
+			"SMD0105"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0119",
+		"name": "TÓPICOS AVANÇADOS EM DESIGN DE INTERFACES GRÁFICAS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0015"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0120",
+		"name": "IDENTIDADE SONORA DE MARCAS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0032"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0121",
+		"name": "ANÁLISE DE DESEMPENHO",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0102"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0122",
+		"name": "PROGRAMAÇÃO PARA DISPOSITIVOS MÓVEIS",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0098",
+			"SMD0037"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0123",
+		"name": "COMPUTAÇÃO MÓVEL E UBÍQUA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "48h aula (3cr) | 16h lab. | (1cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0122"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0124",
+		"name": "PRODUÇÃO AUDIOVISUAL PARA CRIANÇAS E ADOLESCENTES",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0125",
+		"name": "PROJETOS PARA EDUCAÇÃO ON-LINE",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0027",
+			"SMD0092"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0126",
+		"name": "TÉCNICAS DE ANIMAÇÃO 3D II",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "16h aula (1cr) | 48h lab. | (3cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0128"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0127",
+		"name": "DESIGN DE IDENTIDADE DE MARCA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0105"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0128",
+		"name": "TÉCNICAS DE ANIMAÇÃO 3D I",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "16h aula (1cr) | 48h lab. | (3cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0049"
+		],
+		"equivalences": [
+			"SMD0072"
+		]
+	},
+	{
+		"code": "SMD0129",
+		"name": "TÉCNICAS DE ANIMAÇÃO 2D",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "16h aula (0cr) | 48h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0098"
+		],
+		"equivalences": [
+			"SMD0049"
+		]
+	},
+	{
+		"code": "SMD0130",
+		"name": "DESIGN EMOCIONAL",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "32h aula (2cr) | 32h lab. | (2cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0108"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0131",
+		"name": "FERRAMENTAS DE MODELAGEM TRIDIMENSIONAL II",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "16h aula (1cr) | 48h lab. | (3cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [
+			"SMD0034"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0077",
+		"name": "TRABALHO DE CONCLUSÃO DE CURSO",
+		"workload": "128h (8cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 64h lab. | (4cr) 0h ead. (0cr)",
+		"category": "Trabalho de Conclusão de Curso",
+		"type": "Obrigatória",
+		"prerequisites": [
+			"SMD0111"
+		],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0103",
+		"name": "SEMINÁRIOS EM MULTIMÍDIA",
+		"workload": "64h (4cr)",
+		"periods": "1 período letivo",
+		"full_workload": "64h aula (4cr) | 0h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [],
+		"equivalences": [
+			"SMD0063"
+		]
+	},
+	{
+		"code": "SMDG0001",
+		"name": "ATIVIDADES COMPLEMENTARES",
+		"workload": "192h (0cr)",
+		"periods": "1 período letivo",
+		"full_workload": "0h aula (0cr) | 192h lab. | (0cr) 0h ead. (0cr)",
+		"category": "Atividades Complementares",
+		"type": "Obrigatória",
+		"prerequisites": [],
+		"equivalences": [
+			"SMDS0001"
+		]
+	}
+]

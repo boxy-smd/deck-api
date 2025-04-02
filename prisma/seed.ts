@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+
 import axios from 'axios'
 import { load } from 'cheerio'
 
@@ -5,6 +7,21 @@ import { Email } from '@/domain/deck/enterprise/entities/value-objects/email.ts'
 import { BcryptHasher } from '@/infra/cryptography/bcrypt-hasher.ts'
 import { prisma } from '@/infra/database/prisma/client.ts'
 import { makeStudent } from 'test/factories/make-student.ts'
+
+interface Subject {
+  code: string
+  name: string
+  workload: string
+  periods: string
+  full_workload: string
+  category:
+    | 'Disciplina'
+    | 'Atividades Complementares'
+    | 'Trabalho de Conclusão de Curso'
+  type: 'Obrigatória' | 'Optativa'
+  prerequisites: string[]
+  equivalences: string[]
+}
 
 async function fetchProfessors() {
   const instance = axios.create()
@@ -40,141 +57,145 @@ async function fetchProfessors() {
   return professors
 }
 
-async function fetchSubjects() {
-  const instance = axios.create()
+function fetchSubjects() {
+  // const instance = axios.create()
 
-  const subjectsUrl =
-    'https://smd.ufc.br/pt/sobre-o-curso/matrizcurriculardiurno/'
+  // const subjectsUrl =
+  //   'https://smd.ufc.br/pt/sobre-o-curso/matrizcurriculardiurno/'
 
-  const subjectsScrap = await instance.get(subjectsUrl)
-  const $ = load(subjectsScrap.data)
+  // const subjectsScrap = await instance.get(subjectsUrl)
+  // const $ = load(subjectsScrap.data)
 
-  function capitalizeName(name: string) {
-    return name
-      .split(' ')
-      .map(word => {
-        return word.charAt(0).toUpperCase() + word.slice(1)
-      })
-      .join(' ')
-  }
+  const jsonPath = 'prisma/data/matriz-curricular.json'
 
-  const subjects = $('main article table tbody tr td:nth-child(2)')
-    .map((_, element) => {
-      return $(element).text().trim()
-    })
-    .get()
-    .filter(subject => subject !== 'COMPONENTE')
-    .filter(subject => !subject.startsWith('ELETIVA'))
-    .map(subject => {
-      return capitalizeName(subject.toLowerCase())
-    })
-    .map(subject => {
-      if (subject.includes('Iii')) {
-        return subject.replaceAll('Iii', 'III')
-      }
+  const jsonFile = readFileSync(jsonPath, 'utf-8')
+  const jsonData: Subject[] = JSON.parse(jsonFile)
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes('Ii')) {
-        return subject.replaceAll('Ii', 'II')
-      }
+  // function capitalizeName(name: string) {
+  //   return name
+  //     .split(' ')
+  //     .map(word => {
+  //       return word.charAt(0).toUpperCase() + word.slice(1)
+  //     })
+  //     .join(' ')
+  // }
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes(' E ')) {
-        return subject.replaceAll(' E ', ' e ')
-      }
+  // const subjects = jsonData
+  //   .map(subject => {
+  //     return subject["Componente Curricular"]
+  //   })
+  //   .filter(subject => subject !== 'COMPONENTE')
+  //   .filter(subject => !subject.startsWith('ELETIVA'))
+  //   .map(subject => {
+  //     return capitalizeName(subject.toLowerCase())
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes('Iii')) {
+  //       return subject.replaceAll('Iii', 'III')
+  //     }
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes(' À ')) {
-        return subject.replaceAll(' À ', ' à ')
-      }
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes('Ii')) {
+  //       return subject.replaceAll('Ii', 'II')
+  //     }
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes(' A ')) {
-        return subject.replaceAll(' A ', ' a ')
-      }
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes(' E ')) {
+  //       return subject.replaceAll(' E ', ' e ')
+  //     }
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes(' De ')) {
-        return subject.replaceAll(' De ', ' de ')
-      }
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes(' À ')) {
+  //       return subject.replaceAll(' À ', ' à ')
+  //     }
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes(' Da ')) {
-        return subject.replaceAll(' Da ', ' da ')
-      }
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes(' A ')) {
+  //       return subject.replaceAll(' A ', ' a ')
+  //     }
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes(' Do ')) {
-        return subject.replaceAll(' Do ', ' do ')
-      }
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes(' De ')) {
+  //       return subject.replaceAll(' De ', ' de ')
+  //     }
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes(' Em ')) {
-        return subject.replaceAll(' Em ', ' em ')
-      }
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes(' Da ')) {
+  //       return subject.replaceAll(' Da ', ' da ')
+  //     }
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes(' No ')) {
-        return subject.replaceAll(' No ', ' no ')
-      }
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes(' Do ')) {
+  //       return subject.replaceAll(' Do ', ' do ')
+  //     }
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes(' Nos ')) {
-        return subject.replaceAll(' Nos ', ' nos ')
-      }
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes(' Em ')) {
+  //       return subject.replaceAll(' Em ', ' em ')
+  //     }
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes(' Na ')) {
-        return subject.replaceAll(' Na ', ' na ')
-      }
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes(' No ')) {
+  //       return subject.replaceAll(' No ', ' no ')
+  //     }
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes(' Nas ')) {
-        return subject.replaceAll(' Nas ', ' nas ')
-      }
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes(' Nos ')) {
+  //       return subject.replaceAll(' Nos ', ' nos ')
+  //     }
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes(' Para ')) {
-        return subject.replaceAll(' Para ', ' para ')
-      }
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes(' Na ')) {
+  //       return subject.replaceAll(' Na ', ' na ')
+  //     }
 
-      return subject
-    })
-    .map(subject => {
-      if (subject.includes('Coginicao')) {
-        return subject.replaceAll('Coginicao', 'Cognição')
-      }
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes(' Nas ')) {
+  //       return subject.replaceAll(' Nas ', ' nas ')
+  //     }
 
-      return subject
-    })
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes(' Para ')) {
+  //       return subject.replaceAll(' Para ', ' para ')
+  //     }
 
-  return subjects
+  //     return subject
+  //   })
+  //   .map(subject => {
+  //     if (subject.includes('Coginicao')) {
+  //       return subject.replaceAll('Coginicao', 'Cognição')
+  //     }
+
+  //     return subject
+  //   })
+
+  return jsonData
 }
 
 async function seed() {
@@ -196,7 +217,7 @@ async function seed() {
     subjects.map(subject =>
       prisma.subject.create({
         data: {
-          name: subject,
+          name: subject.name,
         },
       }),
     ),

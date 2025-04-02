@@ -1,9 +1,44 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3333:3333"
+    env_file:
+      - .production.env
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    networks:
+      - deck-network
+    restart: unless-stopped
+
   postgresql:
     image: bitnami/postgresql:latest
     ports:
       - "5432:5432"
+    env_file:
+      - .production.env
     environment:
-      - POSTGRESQL_USERNAME=docker
-      - POSTGRESQL_PASSWORD=docker
-      - POSTGRESQL_DATABASE=deck
+      POSTGRESQL_USERNAME: ${POSTGRES_USER}
+      POSTGRESQL_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRESQL_DATABASE: ${POSTGRES_DATABASE}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - deck-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DATABASE}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+
+networks:
+  deck-network:
+    driver: bridge
