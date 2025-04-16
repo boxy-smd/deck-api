@@ -1,7 +1,6 @@
 import request from 'supertest'
 
 import { app } from '@/app.ts'
-import { Subject } from '@/domain/deck/enterprise/entities/subject.ts'
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
 import { makeSubject } from 'test/factories/make-subject.ts'
 
@@ -18,10 +17,12 @@ describe('fetch subjects controller (e2e)', () => {
     const subjectRepository = new PrismaSubjectsRepository()
 
     const ihc = makeSubject({
+      code: 'SMD0108',
       name: 'Interação Humano-Computador I',
     })
 
     const de = makeSubject({
+      code: 'SMD0130',
       name: 'Design Emocional',
     })
 
@@ -42,12 +43,14 @@ describe('fetch subjects controller (e2e)', () => {
   it('should be able to fetch subjects by name', async () => {
     const subjectRepository = new PrismaSubjectsRepository()
 
-    const am = Subject.create({
+    const am = makeSubject({
+      code: 'SMD0088',
       name: 'Autoração Multimídia I',
     })
 
-    const pw = Subject.create({
-      name: 'Programação Web',
+    const pw = makeSubject({
+      code: 'SMD0052',
+      name: 'Programação para Web I',
     })
 
     await subjectRepository.create(am)

@@ -1,0 +1,5 @@
+export enum SubjectType {
+  OBLIGATORY = 'OBLIGATORY',
+  ELECTIVE = 'ELECTIVE',
+  OPTIONAL = 'OPTIONAL',
+}

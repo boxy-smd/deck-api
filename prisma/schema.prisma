@@ -28,11 +28,21 @@ model User {
   @@map("users")
 }
 
+enum SubjectType {
+  OBLIGATORY @map("obligatory")
+  ELECTIVE   @map("elective")
+  OPTIONAL   @map("optional")
+}
+
 model Subject {
-  id        String   @id @default(uuid())
+  id        String      @id @default(uuid())
+  code      String      @unique
   name      String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  workload  Int
+  semester  Int
+  type      SubjectType
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
 
   projects Project[]
   drafts   Draft[]
