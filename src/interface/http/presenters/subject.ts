@@ -6,6 +6,10 @@ export class SubjectPresenter {
     return {
       id: subject.id.toString(),
       name: subject.name,
+      code: subject.code,
+      workload: subject.workload,
+      semester: subject.semester,
+      type: subject.type,
     }
   }
 }
