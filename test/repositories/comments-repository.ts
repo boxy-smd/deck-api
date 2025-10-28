@@ -1,8 +1,7 @@
-import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
 import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
-import { Comment } from '@/domain/interaction/enterprise/entities/comment.ts'
+import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
+import type { Comment } from '@/domain/interaction/enterprise/entities/comment.ts'
 import type { CommentWithAuthor } from '@/domain/interaction/enterprise/entities/value-objects/comment-with-author.ts'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import { InMemoryUsersRepository } from './users-repository.ts'
 
 export class InMemoryCommentsRepository implements CommentsRepository {
@@ -44,17 +43,21 @@ export class InMemoryCommentsRepository implements CommentsRepository {
         }
 
         return {
-          id: comment.id.toString(),
+          id: comment.id,
           content: comment.content,
           createdAt: comment.createdAt,
           updatedAt: comment.updatedAt,
-          projectId: comment.projectId.toString(),
-          authorId: comment.authorId.toString(),
+          projectId: comment.projectId,
+          authorId: comment.authorId,
           author: {
             name: author.name,
-            username: author.username,
+            username: author.username.value,
             profileUrl: author.profileUrl || null,
           },
+          authorName: author.name,
+          authorUsername: author.username.value,
+          authorProfileUrl: author.profileUrl || null,
+          commentId: comment.id,
         } as CommentWithAuthor
       }),
     )
@@ -96,8 +99,8 @@ export class InMemoryCommentsRepository implements CommentsRepository {
     this.items.splice(index, 1)
   }
 
-  async deleteById(id: UniqueEntityID): Promise<void> {
-    const index = this.items.findIndex(item => item.id.equals(id))
+  async deleteById(id: string): Promise<void> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
 
     if (index === -1) {
       throw new Error('Comment not found.')
@@ -106,8 +109,8 @@ export class InMemoryCommentsRepository implements CommentsRepository {
     this.items.splice(index, 1)
   }
 
-  async existsById(id: UniqueEntityID): Promise<boolean> {
-    const index = this.items.findIndex(item => item.id.equals(id))
+  async existsById(id: string): Promise<boolean> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
     return await Promise.resolve(index !== -1)
   }
 }

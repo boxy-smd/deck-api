@@ -1,6 +1,5 @@
 import type { ProfessorsRepository } from '@/domain/projects/application/repositories/professors-repository.ts'
 import type { Professor } from '@/domain/projects/enterprise/entities/professor.ts'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 export class InMemoryProfessorsRepository implements ProfessorsRepository {
   public items: Professor[] = []
@@ -47,8 +46,8 @@ export class InMemoryProfessorsRepository implements ProfessorsRepository {
     return await Promise.resolve()
   }
 
-  async deleteById(id: UniqueEntityID): Promise<void> {
-    const index = this.items.findIndex(item => item.id.equals(id))
+  async deleteById(id: string): Promise<void> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
 
     if (index !== -1) {
       this.items.splice(index, 1)
@@ -57,8 +56,8 @@ export class InMemoryProfessorsRepository implements ProfessorsRepository {
     return await Promise.resolve()
   }
 
-  async existsById(id: UniqueEntityID): Promise<boolean> {
-    const index = this.items.findIndex(item => item.id.equals(id))
+  async existsById(id: string): Promise<boolean> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
     return await Promise.resolve(index !== -1)
   }
 }

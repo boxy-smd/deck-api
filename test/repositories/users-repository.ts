@@ -1,6 +1,5 @@
 import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
 import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 export class InMemoryUsersRepository implements UsersRepository {
   private items: User[] = []
@@ -68,8 +67,8 @@ export class InMemoryUsersRepository implements UsersRepository {
     return Promise.resolve()
   }
 
-  deleteById(id: UniqueEntityID): Promise<void> {
-    const index = this.items.findIndex(item => item.id === id)
+  deleteById(id: string): Promise<void> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
 
     if (index !== -1) {
       this.items.splice(index, 1)
@@ -78,7 +77,7 @@ export class InMemoryUsersRepository implements UsersRepository {
     return Promise.resolve()
   }
 
-  existsById(id: UniqueEntityID): Promise<boolean> {
-    return Promise.resolve(this.items.some(item => item.id === id))
+  existsById(id: string): Promise<boolean> {
+    return Promise.resolve(this.items.some(item => item.id.toString() === id))
   }
 }
