@@ -1,7 +1,7 @@
 import type { Prisma, Professor as ProfessorRaw } from '@prisma/client'
 
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
-import { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
+import { Professor } from '@/domain/projects/enterprise/entities/professor.ts'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaProfessorMapper {

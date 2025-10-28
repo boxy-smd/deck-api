@@ -1,8 +1,9 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import {
   Project,
   type ProjectProps,
-} from '@/domain/deck/enterprise/entities/project.ts'
+} from '@/domain/projects/enterprise/entities/project.ts'
+import { ProjectStatus } from '@/domain/projects/enterprise/value-objects/project-status.ts'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 export function makeProject(
   override: Partial<ProjectProps> = {},
@@ -10,15 +11,15 @@ export function makeProject(
 ) {
   const project = Project.create(
     {
-      title: 'Project Title',
-      description: 'Project Description',
+      title: 'Título do Projeto',
+      description: 'Descrição do projeto',
       bannerUrl: 'https://banner-url.com',
       publishedYear: 2021,
-      status: 'DRAFT',
+      status: ProjectStatus.DRAFT,
       semester: 1,
       allowComments: true,
       authorId: new UniqueEntityID(),
-      trails: [],
+      trails: new Set(),
       ...override,
     },
     id,

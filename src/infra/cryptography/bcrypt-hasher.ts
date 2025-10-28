@@ -1,7 +1,7 @@
 import { compare, hash } from 'bcrypt'
 
-import type { HashComparer } from '@/domain/deck/application/cryptography/hash-comparer.ts'
-import type { HashGenerator } from '@/domain/deck/application/cryptography/hash-generator.ts'
+import type { HashComparer } from '@/domain/authentication/application/cryptography/hash-comparer.ts'
+import type { HashGenerator } from '@/domain/authentication/application/cryptography/hash-generator.ts'
 
 export class BcryptHasher implements HashGenerator, HashComparer {
   private HASH_SALT_LENGTH = 8

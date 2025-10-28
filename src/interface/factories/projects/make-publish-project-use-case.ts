@@ -1,4 +1,4 @@
-import { PublishProjectUseCase } from '@/domain/deck/application/use-cases/publish-project.ts'
+import { PublishProjectUseCase } from '@/domain/projects/application/use-cases/publish-project.ts'
 import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'

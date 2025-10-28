@@ -1,5 +1,5 @@
-import type { TrailsRepository } from '@/domain/deck/application/repositories/trails-repository.ts'
-import type { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
+import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository.ts'
+import type { Trail } from '@/domain/projects/enterprise/entities/trail.ts'
 import { prisma } from '../client.ts'
 import { PrismaTrailMapper } from '../mappers/prisma-trail-mapper.ts'
 

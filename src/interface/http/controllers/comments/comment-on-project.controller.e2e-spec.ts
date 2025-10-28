@@ -1,9 +1,9 @@
 import request from 'supertest'
 
 import { app } from '@/app.ts'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students.ts'
 import { makeProject } from 'test/factories/make-project.ts'
 import { makeSubject } from 'test/factories/make-subject.ts'

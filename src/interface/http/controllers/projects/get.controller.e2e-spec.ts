@@ -7,7 +7,7 @@ import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/s
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
 import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository.ts'
 import { makeProject } from 'test/factories/make-project.ts'
-import { makeStudent } from 'test/factories/make-student.ts'
+import { makeUser } from 'test/factories/make-user.ts'
 import { makeSubject } from 'test/factories/make-subject.ts'
 import { makeTrail } from 'test/factories/make-trail.ts'
 
@@ -30,7 +30,7 @@ describe('get project (e2e)', () => {
     const trailsRepository = new PrismaTrailsRepository()
     const subjectsRepository = new PrismaSubjectsRepository()
 
-    const author = await makeStudent()
+    const author = await makeUser()
     const trail = makeTrail()
     const subject = makeSubject()
     const project = makeProject({

@@ -1,4 +1,4 @@
-import { CreateDraftUseCase } from '@/domain/deck/application/use-cases/create-draft.ts'
+import { CreateDraftUseCase } from '@/domain/projects/application/use-cases/create-draft.ts'
 import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'

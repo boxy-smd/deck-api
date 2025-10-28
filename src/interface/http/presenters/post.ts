@@ -1,8 +1,20 @@
-import type { Post } from '@/domain/deck/enterprise/entities/value-objects/post.ts'
+import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
 
+//Este presenter é usado para apresentar projetos na lista (posts)
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class PostPresenter {
-  static toHTTP(post: Post) {
+  static toHTTP(
+    post: Project & {
+      // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
+      author?: any
+      // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
+      subject?: any
+      // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
+      trails?: any
+      // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
+      professors?: any
+    },
+  ) {
     return {
       id: post.id.toString(),
       title: post.title,
@@ -13,15 +25,11 @@ export class PostPresenter {
       status: post.status,
       semester: post.semester,
       authorId: post.authorId.toString(),
-      author: {
-        name: post.author.name,
-        username: post.author.username,
-        profileUrl: post.author.profileUrl,
-      },
+      author: post.author,
       createdAt: post.createdAt,
-      updatedAt: post.updatedAt ?? undefined,
+      updatedAt: post.updatedAt,
       subjectId: post.subjectId?.toString(),
-      subject: post.subject ?? undefined,
+      subject: post.subject,
       trails: post.trails,
       professors: post.professors,
     }

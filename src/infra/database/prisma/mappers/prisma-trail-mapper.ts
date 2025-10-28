@@ -1,7 +1,7 @@
 import type { Prisma, Trail as TrailRaw } from '@prisma/client'
 
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
-import { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
+import { Trail } from '@/domain/projects/enterprise/entities/trail.ts'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaTrailMapper {

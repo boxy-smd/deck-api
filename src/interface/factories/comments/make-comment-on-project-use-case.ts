@@ -1,4 +1,4 @@
-import { CommentOnProjectUseCase } from '@/domain/deck/application/use-cases/comment-on-project.ts'
+import { CommentOnProjectUseCase } from '@/domain/interaction/application/use-cases/comment-on-project.ts'
 import { PrismaCommentsRepository } from '@/infra/database/prisma/repositories/comments-repository.ts'
 import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'

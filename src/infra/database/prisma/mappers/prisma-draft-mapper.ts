@@ -1,9 +1,8 @@
 import type { Draft as DraftRaw, Prisma } from '@prisma/client'
 
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
-import { Draft } from '@/domain/deck/enterprise/entities/draft.ts'
-import { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
-import { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
+import { Project } from '@/domain/projects/enterprise/entities/project.ts'
+import { ProjectStatus } from '@/domain/projects/enterprise/value-objects/project-status.ts'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaDraftMapper {
@@ -12,44 +11,33 @@ export class PrismaDraftMapper {
       trails: { id: string; name: string }[]
       professors: { id: string; name: string }[]
     },
-  ): Draft {
-    return Draft.create(
+  ): Project {
+    return Project.create(
       {
         title: raw.title,
         description: raw.description ?? undefined,
         content: raw.content ?? undefined,
         semester: raw.semester ?? undefined,
         publishedYear: raw.publishedYear ?? undefined,
-        allowComments: raw.allowComments ?? undefined,
+        allowComments: raw.allowComments ?? true,
         bannerUrl: raw.bannerUrl ?? undefined,
-        createdAt: raw.createdAt,
-        updatedAt: raw.updatedAt ?? undefined,
-        authorId: new UniqueEntityID(raw.authorId),
+        status: ProjectStatus.DRAFT,
+        authorId: UniqueEntityID.create(raw.authorId),
         subjectId: raw.subjectId
-          ? new UniqueEntityID(raw.subjectId)
+          ? UniqueEntityID.create(raw.subjectId)
           : undefined,
-        trails: raw.trails.map(trail =>
-          Trail.create(
-            {
-              name: trail.name,
-            },
-            new UniqueEntityID(trail.id),
-          ),
+        trails: new Set(
+          raw.trails.map(trail => UniqueEntityID.create(trail.id)),
         ),
-        professors: raw.professors.map(professor =>
-          Professor.create(
-            {
-              name: professor.name,
-            },
-            new UniqueEntityID(professor.id),
-          ),
+        professors: new Set(
+          raw.professors.map(professor => UniqueEntityID.create(professor.id)),
         ),
       },
-      new UniqueEntityID(raw.id),
+      UniqueEntityID.create(raw.id),
     )
   }
 
-  static toPrisma(draft: Draft): Prisma.DraftUncheckedCreateInput {
+  static toPrisma(draft: Project): Prisma.DraftUncheckedCreateInput {
     return {
       id: draft.id.toString(),
       title: draft.title,
@@ -63,18 +51,20 @@ export class PrismaDraftMapper {
       updatedAt: draft.updatedAt ?? undefined,
       authorId: draft.authorId.toString(),
       trails: {
-        connect: draft.trails?.map(trail => ({ id: trail.id.toString() })),
+        connect: Array.from(draft.trails).map(trailId => ({
+          id: trailId.toString(),
+        })),
       },
       subjectId: draft.subjectId?.toString(),
       professors: {
-        connect: draft.professors?.map(professor => ({
-          id: professor.id.toString(),
+        connect: Array.from(draft.professors).map(professorId => ({
+          id: professorId.toString(),
         })),
       },
     }
   }
 
-  static toPrismaUpdate(draft: Draft): Prisma.DraftUncheckedUpdateInput {
+  static toPrismaUpdate(draft: Project): Prisma.DraftUncheckedUpdateInput {
     return {
       title: draft.title,
       description: draft.description,
@@ -86,12 +76,14 @@ export class PrismaDraftMapper {
       updatedAt: draft.updatedAt,
       authorId: draft.authorId.toString(),
       trails: {
-        set: draft.trails?.map(trail => ({ id: trail.id.toString() })),
+        set: Array.from(draft.trails).map(trailId => ({
+          id: trailId.toString(),
+        })),
       },
       subjectId: draft.subjectId?.toString(),
       professors: {
-        set: draft.professors?.map(professor => ({
-          id: professor.id.toString(),
+        set: Array.from(draft.professors).map(professorId => ({
+          id: professorId.toString(),
         })),
       },
     }

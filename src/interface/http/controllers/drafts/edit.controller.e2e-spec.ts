@@ -1,12 +1,11 @@
 import request from 'supertest'
 
 import { app } from '@/app.ts'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
-import { Draft } from '@/domain/deck/enterprise/entities/draft.ts'
 import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students.ts'
 
-describe('edit draft (e2e)', () => {
+describe('edit Project (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -20,7 +19,7 @@ describe('edit draft (e2e)', () => {
 
     const draftsRepository = new PrismaDraftsRepository()
 
-    const draft = Draft.create({
+    const draft = Project.create({
       title: 'Design de Interação',
       authorId: new UniqueEntityID(studentId),
     })
@@ -40,7 +39,7 @@ describe('edit draft (e2e)', () => {
 
     expect(response.status).toBe(200)
     expect(response.body).toEqual({
-      message: 'Draft updated successfully.',
+      message: 'Project updated successfully.',
     })
   })
 })

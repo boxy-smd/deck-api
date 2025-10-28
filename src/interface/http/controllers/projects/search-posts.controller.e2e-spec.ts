@@ -1,11 +1,11 @@
 import request from 'supertest'
 
 import { app } from '@/app.ts'
+import type { Student } from '@/domain/authentication/enterprise/entities/student.ts'
 import type { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
-import type { Project } from '@/domain/deck/enterprise/entities/project.ts'
-import type { Student } from '@/domain/deck/enterprise/entities/student.ts'
 import type { Subject } from '@/domain/deck/enterprise/entities/subject.ts'
 import type { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
+import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
 import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
@@ -14,7 +14,7 @@ import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/s
 import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository.ts'
 import { makeProfessor } from 'test/factories/make-professor.ts'
 import { makeProject } from 'test/factories/make-project.ts'
-import { makeStudent } from 'test/factories/make-student.ts'
+import { makeUser } from 'test/factories/make-user.ts'
 import { makeSubject } from 'test/factories/make-subject.ts'
 import { makeTrail } from 'test/factories/make-trail.ts'
 
@@ -38,7 +38,7 @@ describe('search posts (e2e)', () => {
     const professorsRepository = new PrismaProfessorsRepository()
     const subjectsRepository = new PrismaSubjectsRepository()
 
-    author = await makeStudent()
+    author = await makeUser()
     trail = makeTrail()
     subject = makeSubject()
     professor = makeProfessor()

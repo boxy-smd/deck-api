@@ -87,7 +87,7 @@ Tecnologias utilizadas no projeto.
 ### Requisitos
 
 - [Node](https://nodejs.org/) e [pnpm](https://pnpm.io/pt/).
-- [Docker](https://www.docker.com/).
+- [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/).
 
 ```sh
 # Caso não tenha o pnpm, execute:
@@ -99,27 +99,25 @@ Recomendo que veja a [documentação de configuração do Fastify](https://fasti
 ```sh
 # Clonando o projeto
 git clone https://github.com/boxy-smd/deck-api.git
+cd deck-api
 
 # Instalando as dependências
 pnpm install
 
-# Criando o container do banco de dados:
-docker compose up
+# Configurando o banco de dados (desenvolvimento)
+# Opção 1: Usando Docker (recomendado)
+docker compose -f docker-compose.dev.yml up -d
 
-# Fazendo as migrações para o banco de dados:
+# Opção 2: Usando PostgreSQL local
+# Certifique-se de ter o PostgreSQL instalado e rodando
+
+# Configurar variáveis de ambiente
+# Copie o arquivo de exemplo e preencha os valores
+cp .env.example .development.env
+# Edite o arquivo .development.env com suas configurações
+
+# Fazendo as migrações para o banco de dados
 pnpm db:migrate
-
-# Criar arquivo .env com base no .env.example e preencher os campos necessários
-NODE_ENV=<env>
-JWT_SECRET=<secret>
-PORT=<port>
-DATABASE_URL=<url>
-FIREBASE_API_KEY=<key>
-FIREBASE_APP_ID=<id>
-FIREBASE_AUTH_DOMAIN=<domain>
-FIREBASE_MESSAGING_SENDER_ID=<id>
-FIREBASE_PROJECT_ID=<id>
-FIREBASE_STORAGE_BUCKET=<bucket>
 
 # Popular o banco de dados com as informações necessárias do sistema
 pnpm db:seed
@@ -127,20 +125,64 @@ pnpm db:seed
 # Rodar o servidor em desenvolvimento
 pnpm start:dev
 
+# Acessar a documentação da API
+# Abra http://localhost:3333/docs no navegador
+```
+
+### Variáveis de Ambiente
+
+Configure as seguintes variáveis no arquivo `.development.env`:
+
+```env
+# Ambiente
+NODE_ENV=development
+
+# JWT (gere uma chave secreta forte)
+JWT_SECRET=sua-chave-secreta-aqui
+
+# Servidor
+PORT=3333
+
+# Banco de Dados PostgreSQL
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DATABASE=deck_dev
+POSTGRES_HOST=localhost
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/deck_dev
+
+# Firebase (obtenha no Console do Firebase)
+FIREBASE_API_KEY=sua-api-key
+FIREBASE_APP_ID=seu-app-id
+FIREBASE_AUTH_DOMAIN=seu-projeto.firebaseapp.com
+FIREBASE_MESSAGING_SENDER_ID=seu-sender-id
+FIREBASE_PROJECT_ID=seu-projeto-id
+FIREBASE_STORAGE_BUCKET=seu-projeto.appspot.com
+```
+
+### Testes
+
+```sh
 # Iniciar testes gerais
 pnpm test
 
-# Iniciar testes unitários
-pnpm test:unit
-
-# Iniciar testes E2E
+# Iniciar testes E2E (requer banco de dados rodando)
 pnpm test:e2e
 
+# Testes com cobertura
+pnpm test:coverage
+```
+
+### Build e Produção
+
+```sh
 # Compilar e minificar para produção
 pnpm build
 
-# Rodar o servidor em produção
+# Rodar em produção (após build)
 pnpm start
+
+# Ou usando Docker Compose
+docker compose up -d
 ```
 
 ---

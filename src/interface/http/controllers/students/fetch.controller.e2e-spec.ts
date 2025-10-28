@@ -1,11 +1,11 @@
 import request from 'supertest'
 
 import { app } from '@/app.ts'
-import { Email } from '@/domain/deck/enterprise/entities/value-objects/email.ts'
+import { Email } from '@/domain/authentication/enterprise/value-objects/email.ts'
 import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
-import { makeStudent } from 'test/factories/make-student.ts'
+import { makeUser } from 'test/factories/make-user.ts'
 
 describe('fetch students controller (e2e)', () => {
   beforeAll(async () => {
@@ -24,7 +24,7 @@ describe('fetch students controller (e2e)', () => {
       draftsRepository,
     )
 
-    const student = await makeStudent()
+    const student = await makeUser()
 
     await studentsRepository.create(student)
 
@@ -53,13 +53,13 @@ describe('fetch students controller (e2e)', () => {
       draftsRepository,
     )
 
-    const amanda = await makeStudent({
+    const amanda = await makeUser({
       name: 'Amanda Coelho',
       username: 'amanda.coelho',
       email: Email.create('amanda@alu.ufc.br'),
     })
 
-    const levi = await makeStudent({
+    const levi = await makeUser({
       name: 'Levi de Brito',
       username: 'levi.brito',
       email: Email.create('levi@alu.ufc.br'),

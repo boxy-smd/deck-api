@@ -1,4 +1,4 @@
-import { UploadProjectBannerUseCase } from '@/domain/deck/application/use-cases/upload-project-banner.ts'
+import { UploadProjectBannerUseCase } from '@/domain/projects/application/use-cases/upload-project-banner.ts'
 import { FirebaseBannerUploader } from '@/infra/database/firebase/banner-uploader.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 

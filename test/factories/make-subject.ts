@@ -1,9 +1,9 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
-import { SubjectType } from '@/domain/deck/enterprise/entities/enums/subject-type.ts'
 import {
   Subject,
   type SubjectProps,
-} from '@/domain/deck/enterprise/entities/subject.ts'
+} from '@/domain/projects/enterprise/entities/subject.ts'
+import { SubjectType } from '@/domain/projects/enterprise/value-objects/subject-type.ts'
+import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 export function makeSubject(
   override: Partial<SubjectProps> = {},

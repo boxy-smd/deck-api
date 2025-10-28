@@ -1,4 +1,4 @@
-import type { Project } from '@/domain/deck/enterprise/entities/project.ts'
+import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class ProjectPresenter {

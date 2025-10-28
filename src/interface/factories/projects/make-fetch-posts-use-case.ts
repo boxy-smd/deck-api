@@ -1,4 +1,4 @@
-import { FetchPostsUseCase } from '@/domain/deck/application/use-cases/fetch-posts.ts'
+import { FetchPostsUseCase } from '@/domain/projects/application/use-cases/fetch-posts.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 
 export function makeFetchPostsUseCase() {

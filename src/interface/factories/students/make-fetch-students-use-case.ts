@@ -1,4 +1,4 @@
-import { FetchStudentsUseCase } from '@/domain/deck/application/use-cases/fetch-students.ts'
+import { FetchStudentsUseCase } from '@/domain/authentication/application/use-cases/fetch-students.ts'
 import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'

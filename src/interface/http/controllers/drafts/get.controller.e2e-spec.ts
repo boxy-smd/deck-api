@@ -1,11 +1,10 @@
 import request from 'supertest'
 
 import { app } from '@/app.ts'
-import { Draft } from '@/domain/deck/enterprise/entities/draft.ts'
 import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students.ts'
 
-describe('get draft (e2e)', () => {
+describe('get Project (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -14,12 +13,12 @@ describe('get draft (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to get a draft', async () => {
+  it('should be able to get a Project', async () => {
     const { studentId, token } = await createAndAuthenticateStudent()
 
     const draftsRepository = new PrismaDraftsRepository()
 
-    const draft = Draft.create({
+    const draft = Project.create({
       title: 'Design de Interação',
       authorId: studentId,
     })
@@ -32,8 +31,8 @@ describe('get draft (e2e)', () => {
 
     expect(response.status).toBe(200)
     expect(response.body).toEqual({
-      draft: {
-        id: draft.id.toString(),
+      Project: {
+        id: Project.id.toString(),
         title: 'Design de Interação',
         trailsIds: [],
         professorsIds: [],

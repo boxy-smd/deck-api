@@ -1,4 +1,4 @@
-import { DeleteCommentUseCase } from '@/domain/deck/application/use-cases/delete-comment.ts'
+import { DeleteCommentUseCase } from '@/domain/interaction/application/use-cases/delete-comment.ts'
 import { PrismaCommentsRepository } from '@/infra/database/prisma/repositories/comments-repository.ts'
 import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
