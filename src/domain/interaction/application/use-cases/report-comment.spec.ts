@@ -1,17 +1,17 @@
 import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
 import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
-import type { ProjectsRepository } from '@/domain/projects/application/repositories/projects-repository.ts'
 import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
 import type { ReportsRepository } from '@/domain/interaction/application/repositories/reports-repository.ts'
+import type { ProjectsRepository } from '@/domain/projects/application/repositories/projects-repository.ts'
 import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
 import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
 import { makeProject } from 'test/factories/make-project.ts'
 import { makeUser } from 'test/factories/make-user.ts'
-import { InMemoryProjectsRepository } from 'test/repositories/projects-repository.ts'
-import { InMemoryUsersRepository } from 'test/repositories/users-repository.ts'
 import { InMemoryCommentsRepository } from 'test/repositories/comments-repository.ts'
+import { InMemoryProjectsRepository } from 'test/repositories/projects-repository.ts'
 import { InMemoryReportsRepository } from 'test/repositories/reports-repository.ts'
+import { InMemoryUsersRepository } from 'test/repositories/users-repository.ts'
 import type { Comment } from '../../enterprise/entities/comment.ts'
 import { ReportCommentUseCase } from './report-comment.ts'
 
@@ -51,9 +51,7 @@ describe('report comment use case', () => {
       projectId: project.id.toString(),
       commentId: comment.id.toString(),
     })
-
-    console.log(result)
-
+    
     expect(result.isRight()).toBe(true)
   })
 

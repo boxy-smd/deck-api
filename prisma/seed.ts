@@ -110,6 +110,7 @@ async function seed() {
             code: subject.code,
             semester: subject.semester,
             type: subject.type,
+            workload: subject.workload,
           },
         }),
       ),

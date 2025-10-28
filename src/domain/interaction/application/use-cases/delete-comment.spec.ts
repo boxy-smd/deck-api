@@ -1,17 +1,17 @@
 import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
 import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
+import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
 import type { ProjectsRepository } from '@/domain/projects/application/repositories/projects-repository.ts'
 import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository.ts'
-import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
 import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
 import { makeProject } from 'test/factories/make-project.ts'
 import { makeTrail } from 'test/factories/make-trail.ts'
 import { makeUser } from 'test/factories/make-user.ts'
+import { InMemoryCommentsRepository } from 'test/repositories/comments-repository.ts'
 import { InMemoryProjectsRepository } from 'test/repositories/projects-repository.ts'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository.ts'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository.ts'
-import { InMemoryCommentsRepository } from 'test/repositories/comments-repository.ts'
 import type { Comment } from '../../../interaction/enterprise/entities/comment.ts'
 import type { Project } from '../../../projects/enterprise/entities/project.ts'
 import { DeleteCommentUseCase } from './delete-comment.ts'
@@ -95,7 +95,7 @@ describe('delete comment use case', () => {
   })
 
   it('should not be able to delete a comment if the project does not exist', async () => {
-    await projectsRepository.deleteById(project.id)
+    await projectsRepository.deleteById(project.id.toString())
 
     const response = await sut.execute({
       projectId: 'invalid-project-id',

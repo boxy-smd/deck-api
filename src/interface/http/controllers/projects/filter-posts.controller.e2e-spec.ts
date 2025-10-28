@@ -29,9 +29,7 @@ describe('filter posts (e2e)', () => {
     await app.ready()
 
     const projectsRepository = new PrismaProjectsRepository()
-    const studentsRepository = new PrismaStudentsRepository(
-      projectsRepository,
-    )
+    const studentsRepository = new PrismaStudentsRepository()
     const trailsRepository = new PrismaTrailsRepository()
     const professorsRepository = new PrismaProfessorsRepository()
     const subjectsRepository = new PrismaSubjectsRepository()

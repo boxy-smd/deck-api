@@ -1,6 +1,5 @@
 import type { SubjectsRepository } from '@/domain/projects/application/repositories/subjects-repository.ts'
 import type { Subject } from '@/domain/projects/enterprise/entities/subject.ts'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 export class InMemorySubjectsRepository implements SubjectsRepository {
   public items: Subject[] = []
@@ -49,8 +48,8 @@ export class InMemorySubjectsRepository implements SubjectsRepository {
     return await Promise.resolve()
   }
 
-  async deleteById(id: UniqueEntityID): Promise<void> {
-    const index = this.items.findIndex(item => item.id.equals(id))
+  async deleteById(id: string): Promise<void> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
 
     if (index !== -1) {
       this.items.splice(index, 1)
@@ -59,8 +58,8 @@ export class InMemorySubjectsRepository implements SubjectsRepository {
     return await Promise.resolve()
   }
 
-  async existsById(id: UniqueEntityID): Promise<boolean> {
-    const index = this.items.findIndex(item => item.id.equals(id))
+  async existsById(id: string): Promise<boolean> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
     return await Promise.resolve(index !== -1)
   }
 }

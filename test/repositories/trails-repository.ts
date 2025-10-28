@@ -1,6 +1,5 @@
 import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository.ts'
 import type { Trail } from '@/domain/projects/enterprise/entities/trail.ts'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 export class InMemoryTrailsRepository implements TrailsRepository {
   public items: Trail[] = []
@@ -51,16 +50,16 @@ export class InMemoryTrailsRepository implements TrailsRepository {
     return await Promise.resolve()
   }
 
-  async deleteById(id: UniqueEntityID): Promise<void> {
+  async deleteById(id: string): Promise<void> {
     await Promise.resolve(
       this.items.splice(
-        this.items.findIndex(item => item.id.equals(id)),
+        this.items.findIndex(item => item.id.toString() === id),
         1,
       ),
     )
   }
 
-  async existsById(id: UniqueEntityID): Promise<boolean> {
-    return await Promise.resolve(this.items.some(item => item.id.equals(id)))
+  async existsById(id: string): Promise<boolean> {
+    return await Promise.resolve(this.items.some(item => item.id.toString() === id))
   }
 }

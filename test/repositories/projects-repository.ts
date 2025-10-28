@@ -8,7 +8,6 @@ import type { SubjectsRepository } from '@/domain/projects/application/repositor
 import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository.ts'
 import { Project } from '@/domain/projects/enterprise/entities/project.ts'
 import { Post } from '@/domain/projects/enterprise/value-objects/post.ts'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import { InMemoryProfessorsRepository } from './professors-repository.ts'
 import { InMemorySubjectsRepository } from './subjects-repository.ts'
 import { InMemoryTrailsRepository } from './trails-repository.ts'
@@ -168,18 +167,18 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
         return new Post({
           id: project.id.toString(),
           title: project.title,
-          description: project.description,
+          description: project.description || '',
           bannerUrl: project.bannerUrl || null,
           content: project.content,
-          publishedYear: project.publishedYear,
+          publishedYear: project.publishedYear || null,
           status: project.status,
-          semester: project.semester,
+          semester: project.semester || null,
           createdAt: project.createdAt,
           updatedAt: project.updatedAt,
           authorId: project.authorId.toString(),
           author: {
             name: author.name,
-            username: author.username,
+            username: author.username.value,
             profileUrl: author.profileUrl || null,
           },
           subjectId: project.subjectId?.toString() || null,
@@ -518,18 +517,18 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
         return new Post({
           id: project.id.toString(),
           title: project.title,
-          description: project.description,
+          description: project.description || '',
           bannerUrl: project.bannerUrl || null,
           content: project.content,
-          publishedYear: project.publishedYear,
+          publishedYear: project.publishedYear || null,
           status: project.status,
-          semester: project.semester,
+          semester: project.semester || null,
           createdAt: project.createdAt,
           updatedAt: project.updatedAt,
           authorId: project.authorId.toString(),
           author: {
             name: author.name,
-            username: author.username,
+            username: author.username.value,
             profileUrl: author.profileUrl || null,
           },
           subjectId: project.subjectId?.toString() || null,
@@ -561,8 +560,8 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     this.items.splice(index, 1)
   }
 
-  async deleteById(id: UniqueEntityID): Promise<void> {
-    const index = this.items.findIndex(item => item.id.equals(id))
+  async deleteById(id: string): Promise<void> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
 
     if (index === -1) {
       throw new Error('Project not found.')
@@ -571,8 +570,8 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     this.items.splice(index, 1)
   }
 
-  async existsById(id: UniqueEntityID): Promise<boolean> {
-    const index = this.items.findIndex(item => item.id.equals(id))
+  async existsById(id: string): Promise<boolean> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
     return await Promise.resolve(index !== -1)
   }
 }
