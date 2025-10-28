@@ -1,5 +1,5 @@
-import type { ReportsRepository } from '@/domain/deck/application/repositories/reports-repository.ts'
-import type { Report } from '@/domain/deck/enterprise/entities/report.ts'
+import type { ReportsRepository } from '@/domain/interaction/application/repositories/reports-repository.ts'
+import type { Report } from '@/domain/interaction/enterprise/entities/report.ts'
 import { prisma } from '../client.ts'
 import { PrismaReportMapper } from '../mappers/prisma-report-mapper.ts'
 

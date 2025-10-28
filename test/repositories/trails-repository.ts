@@ -1,5 +1,6 @@
-import type { TrailsRepository } from '@/domain/deck/application/repositories/trails-repository.ts'
-import type { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
+import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository.ts'
+import type { Trail } from '@/domain/projects/enterprise/entities/trail.ts'
+import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 export class InMemoryTrailsRepository implements TrailsRepository {
   public items: Trail[] = []
@@ -8,10 +9,8 @@ export class InMemoryTrailsRepository implements TrailsRepository {
     await Promise.resolve(this.items.push(trail))
   }
 
-  async findById(id: string): Promise<Trail | null> {
-    return Promise.resolve(
-      this.items.find(item => item.id.toString() === id) || null,
-    )
+  async findById(id: UniqueEntityID): Promise<Trail | null> {
+    return Promise.resolve(this.items.find(item => item.id.equals(id)) || null)
   }
 
   async findByName(name: string): Promise<Trail | null> {
@@ -48,5 +47,18 @@ export class InMemoryTrailsRepository implements TrailsRepository {
     }
 
     return await Promise.resolve()
+  }
+
+  async deleteById(id: UniqueEntityID): Promise<void> {
+    await Promise.resolve(
+      this.items.splice(
+        this.items.findIndex(item => item.id.equals(id)),
+        1,
+      ),
+    )
+  }
+
+  async existsById(id: UniqueEntityID): Promise<boolean> {
+    return await Promise.resolve(this.items.some(item => item.id.equals(id)))
   }
 }

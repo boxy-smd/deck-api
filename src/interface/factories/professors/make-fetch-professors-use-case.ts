@@ -1,4 +1,4 @@
-import { FetchProfessorsUseCase } from '@/domain/deck/application/use-cases/fetch-professors.ts'
+import { FetchProfessorsUseCase } from '@/domain/projects/application/use-cases/fetch-professors.ts'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
 
 export function makeFetchProfessorsUseCase() {

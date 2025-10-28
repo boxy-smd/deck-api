@@ -8,58 +8,60 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
+  id           String     @id @default(uuid())
   name         String
-  username     String   @unique
-  email        String   @unique
-  passwordHash String   @map("password_hash")
+  username     String     @unique
+  email        String     @unique
+  passwordHash String     @map("password_hash")
   about        String?
-  semester     Int
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
-  profileUrl   String?  @map("profile_url")
+  profileUrl   String?    @map("profile_url")
+  role         UserRole   @default(STUDENT)
+  status       UserStatus @default(ACTIVE)
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
 
-  trails   Trail[]
-  drafts   Draft[]
-  projects Project[]
-  comments Comment[]
-  reports  Report[]
+  projects        Project[]
+  comments        Comment[]
+  reports         Report[]  @relation("ReportAuthor")
+  resolvedReports Report[]  @relation("ReportResolver")
+
+  studentProfile StudentProfile?
+  trail          StudentHasTrail[]
 
   @@map("users")
 }
 
-enum SubjectType {
-  OBLIGATORY @map("obligatory")
-  ELECTIVE   @map("elective")
-  OPTIONAL   @map("optional")
+enum UserRole {
+  STUDENT
+  CURATOR
+  MODERATOR
+  ADMIN
 }
 
-model Subject {
-  id        String      @id @default(uuid())
-  code      String      @unique
-  name      String
-  workload  Int
-  semester  Int
-  type      SubjectType
-  createdAt DateTime    @default(now()) @map("created_at")
-  updatedAt DateTime    @updatedAt @map("updated_at")
-
-  projects Project[]
-  drafts   Draft[]
-
-  @@map("subjects")
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BANNED
 }
 
-model Professor {
-  id        String   @id @default(uuid())
-  name      String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+model StudentProfile {
+  studentId String @id @map("student_id")
+  semester  Int    @default(1)
 
-  projects Project[]
-  drafts   Draft[]
+  user User @relation(fields: [studentId], references: [id])
 
-  @@map("professors")
+  @@map("student_profiles")
+}
+
+model StudentHasTrail {
+  studentId String @map("student_id")
+  trailId   String @map("trail_id")
+
+  user  User  @relation(fields: [studentId], references: [id])
+  trail Trail @relation(fields: [trailId], references: [id])
+
+  @@id([studentId, trailId])
+  @@map("student_has_trail")
 }
 
 model Trail {
@@ -68,64 +70,95 @@ model Trail {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  users    User[]
-  projects Project[]
-  drafts   Draft[]
+  students StudentHasTrail[]
+  projects ProjectTrail[]
 
   @@map("trails")
 }
 
-model Draft {
-  id            String    @id @default(uuid())
-  title         String
-  description   String?
-  content       String?
-  publishedYear Int?      @map("published_year")
-  semester      Int?
-  allowComments Boolean?  @map("allow_comments")
-  bannerUrl     String?   @map("banner_url")
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime? @updatedAt @map("updated_at")
+model Subject {
+  id        String      @id @default(uuid())
+  code      String      @unique
+  name      String
+  semester  Int
+  type      SubjectType
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
 
-  authorId  String   @map("author_id")
-  author    User     @relation(fields: [authorId], references: [id])
-  subjectId String?  @map("subject_id")
-  subject   Subject? @relation(fields: [subjectId], references: [id])
+  projects Project[]
 
-  trails     Trail[]
-  professors Professor[]
+  @@map("subjects")
+}
 
-  @@map("drafts")
+enum SubjectType {
+  OBLIGATORY
+  ELECTIVE
+  OPTIONAL
+}
+
+model Professor {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  projects ProjectProfessor[]
+
+  @@map("professors")
 }
 
 enum ProjectStatus {
   DRAFT
   PUBLISHED
+  ARCHIVED
 }
 
 model Project {
   id            String        @id @default(uuid())
   title         String
-  description   String
+  description   String?
   content       String?
-  publishedYear Int           @map("published_year")
+  semester      Int?
+  publishedYear Int?          @map("published_year")
   status        ProjectStatus @default(DRAFT)
-  semester      Int
-  allowComments Boolean       @map("allow_comments")
+  allowComments Boolean       @default(false) @map("allow_comments")
   bannerUrl     String?       @map("banner_url")
   createdAt     DateTime      @default(now()) @map("created_at")
-  updatedAt     DateTime      @updatedAt @map("updated_at")
+  updatedAt     DateTime?     @updatedAt @map("updated_at")
 
-  authorId  String   @map("author_id")
-  author    User     @relation(fields: [authorId], references: [id])
-  subjectId String?  @map("subject_id")
-  subject   Subject? @relation(fields: [subjectId], references: [id])
+  authorId String @map("author_id")
+  author   User   @relation(fields: [authorId], references: [id])
 
-  trails     Trail[]
-  professors Professor[]
-  comments   Comment[]
+  subjectId  String?            @map("subject_id")
+  subject    Subject?           @relation(fields: [subjectId], references: [id])
+  professors ProjectProfessor[]
+  trails     ProjectTrail[]
+
+  comments Comment[]
 
   @@map("projects")
+}
+
+model ProjectProfessor {
+  projectId   String @map("project_id")
+  professorId String @map("professor_id")
+
+  project   Project   @relation(fields: [projectId], references: [id])
+  professor Professor @relation(fields: [professorId], references: [id])
+
+  @@id([projectId, professorId])
+  @@map("project_professors")
+}
+
+model ProjectTrail {
+  projectId String @map("project_id")
+  trailId   String @map("trail_id")
+
+  project Project @relation(fields: [projectId], references: [id])
+  trail   Trail   @relation(fields: [trailId], references: [id])
+
+  @@id([projectId, trailId])
+  @@map("project_trails")
 }
 
 model Comment {
@@ -145,16 +178,19 @@ model Comment {
 }
 
 model Report {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   content    String
-  isResolved Boolean  @map("is_resolved")
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  isResolved Boolean   @map("is_resolved")
+  resolvedAt DateTime? @map("resolved_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
 
-  authorId  String  @map("author_id")
-  author    User    @relation(fields: [authorId], references: [id])
-  commentId String  @map("comment_id")
-  comment   Comment @relation(fields: [commentId], references: [id])
+  authorId   String  @map("author_id")
+  author     User    @relation(fields: [authorId], references: [id], name: "ReportAuthor")
+  commentId  String  @map("comment_id")
+  comment    Comment @relation(fields: [commentId], references: [id])
+  resolvedBy String? @map("resolved_by")
+  resolver   User?   @relation(fields: [resolvedBy], references: [id], name: "ReportResolver")
 
   @@map("reports")
 }

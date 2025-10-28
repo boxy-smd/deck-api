@@ -1,4 +1,4 @@
-import { RegisterUseCase } from '@/domain/deck/application/use-cases/register.ts'
+import { RegisterUseCase } from '@/domain/authentication/application/use-cases/register.ts'
 import { BcryptHasher } from '@/infra/cryptography/bcrypt-hasher.ts'
 import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'

@@ -1,7 +1,7 @@
 import request from 'supertest'
 
 import { app } from '@/app.ts'
-import { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
+import { Trail } from '@/domain/projects/enterprise/entities/trail.ts'
 import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository.ts'
 
 describe('fetch trails controller (e2e)', () => {

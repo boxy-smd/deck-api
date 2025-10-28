@@ -1,8 +1,8 @@
 import type { Prisma, Subject as SubjectRaw } from '@prisma/client'
 
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
-import { SubjectType } from '@/domain/deck/enterprise/entities/enums/subject-type.ts'
-import { Subject } from '@/domain/deck/enterprise/entities/subject.ts'
+import { Subject } from '@/domain/projects/enterprise/entities/subject.ts'
+import { SubjectType } from '@/domain/projects/enterprise/value-objects/subject-type.ts'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaSubjectMapper {

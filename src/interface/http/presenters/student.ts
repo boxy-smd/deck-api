@@ -1,15 +1,17 @@
-import type { Student } from '@/domain/deck/enterprise/entities/student.ts'
+import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class StudentPresenter {
-  static toHTTP(student: Student) {
+  static toHTTP(student: User) {
     return {
       id: student.id.toString(),
       name: student.name,
-      username: student.username,
-      semester: student.semester,
+      username: student.username.value,
+      semester: student.profile?.semester.value || 1,
       profileUrl: student.profileUrl || '',
-      trails: student.trails.map(trail => trail.name),
+      trails: student.profile?.trailsIds 
+        ? Array.from(student.profile.trailsIds).map(id => id.toString())
+        : [],
     }
   }
 }

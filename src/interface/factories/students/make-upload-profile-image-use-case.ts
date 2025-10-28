@@ -1,4 +1,4 @@
-import { UploadStudentProfileUseCase } from '@/domain/deck/application/use-cases/upload-student-profile.ts'
+import { UploadStudentProfileUseCase } from '@/domain/authentication/application/use-cases/upload-student-profile.ts'
 import { FirebaseProfileUploader } from '@/infra/database/firebase/profile-uploader.ts'
 import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'

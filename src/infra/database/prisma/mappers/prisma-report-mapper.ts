@@ -1,7 +1,7 @@
 import type { Prisma, Report as ReportRaw } from '@prisma/client'
 
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
-import { Report } from '@/domain/deck/enterprise/entities/report.ts'
+import { Report } from '@/domain/interaction/enterprise/entities/report.ts'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaReportMapper {
@@ -10,12 +10,10 @@ export class PrismaReportMapper {
       {
         content: raw.content,
         isResolved: raw.isResolved,
-        createdAt: raw.createdAt,
-        updatedAt: raw.updatedAt,
-        authorId: new UniqueEntityID(raw.authorId),
-        commentId: new UniqueEntityID(raw.commentId),
+        authorId: UniqueEntityID.create(raw.authorId),
+        commentId: UniqueEntityID.create(raw.commentId),
       },
-      new UniqueEntityID(raw.id),
+      UniqueEntityID.create(raw.id),
     )
   }
 

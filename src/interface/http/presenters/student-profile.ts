@@ -1,17 +1,27 @@
-import type { StudentProfile } from '@/domain/deck/enterprise/entities/value-objects/student-profile.ts'
+import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class StudentProfilePresenter {
-  static toHTTP(student: StudentProfile) {
+  static toHTTP(
+    student: User & {
+      // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
+      trails?: any
+      // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
+      posts?: any
+      // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
+      drafts?: any
+    },
+  ) {
     return {
       id: student.id.toString(),
       name: student.name,
-      username: student.username,
+      username: student.username.value,
       about: student.about,
-      semester: student.semester,
+      semester: student.profile?.semester.value,
       profileUrl: student.profileUrl || '',
-      trails: student.trails,
-      posts: student.posts.map(post => ({
+      trails: student.trails || [],
+      // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
+      posts: (student.posts || []).map((post: any) => ({
         id: post.id.toString(),
         title: post.title,
         description: post.description,
@@ -20,12 +30,13 @@ export class StudentProfilePresenter {
         publishedYear: post.publishedYear,
         semester: post.semester,
         createdAt: post.createdAt,
-        updatedAt: post.updatedAt ?? undefined,
-        subject: post.subject ?? undefined,
+        updatedAt: post.updatedAt,
+        subject: post.subject,
         trails: post.trails,
         professors: post.professors,
       })),
-      drafts: student.drafts.map(draft => ({
+      // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
+      drafts: (student.drafts || []).map((draft: any) => ({
         id: draft.id.toString(),
         title: draft.title,
         description: draft.description,
@@ -36,9 +47,13 @@ export class StudentProfilePresenter {
         createdAt: draft.createdAt,
         updatedAt: draft.updatedAt,
         subjectId: draft.subjectId?.toString(),
-        trailsIds: draft.trails?.map(trail => trail.id.toString()),
-        professorsIds: draft.professors?.map(professor =>
-          professor.id.toString(),
+        // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
+        trailsIds: Array.from(draft.trails || []).map((trailId: any) =>
+          trailId.toString(),
+        ),
+        professorsIds: Array.from(draft.professors || []).map(
+          // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
+          (professorId: any) => professorId.toString(),
         ),
       })),
     }

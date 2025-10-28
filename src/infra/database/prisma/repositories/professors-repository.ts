@@ -1,5 +1,5 @@
-import type { ProfessorsRepository } from '@/domain/deck/application/repositories/professors-repository.ts'
 import type { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
+import type { ProfessorsRepository } from '@/domain/projects/application/repositories/professors-repository.ts'
 import { prisma } from '../client.ts'
 import { PrismaProfessorMapper } from '../mappers/prisma-professor-mapper.ts'
 

@@ -1,4 +1,4 @@
-import { GetProjectUseCase } from '@/domain/deck/application/use-cases/get-project.ts'
+import { GetProjectUseCase } from '@/domain/projects/application/use-cases/get-project.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 
 export function makeGetProjectUseCase() {

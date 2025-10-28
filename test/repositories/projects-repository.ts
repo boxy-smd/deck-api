@@ -1,234 +1,88 @@
+import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
+import type { ProfessorsRepository } from '@/domain/projects/application/repositories/professors-repository.ts'
 import type {
   ProjectQuery,
   ProjectsRepository,
-} from '@/domain/deck/application/repositories/projects-repository.ts'
-import type { Project } from '@/domain/deck/enterprise/entities/project.ts'
-import type { Subject } from '@/domain/deck/enterprise/entities/subject.ts'
-import { Post } from '@/domain/deck/enterprise/entities/value-objects/post.ts'
-import { ProjectDetails } from '@/domain/deck/enterprise/entities/value-objects/project-details.ts'
-import type { InMemoryCommentsRepository } from './comments-repository.ts'
-import type { InMemoryStudentsRepository } from './students-repository.ts'
-import type { InMemorySubjectsRepository } from './subjects-repository.ts'
+} from '@/domain/projects/application/repositories/projects-repository.ts'
+import type { SubjectsRepository } from '@/domain/projects/application/repositories/subjects-repository.ts'
+import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository.ts'
+import { Project } from '@/domain/projects/enterprise/entities/project.ts'
+import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
+import { InMemoryProfessorsRepository } from './professors-repository.ts'
+import { InMemorySubjectsRepository } from './subjects-repository.ts'
+import { InMemoryTrailsRepository } from './trails-repository.ts'
+import { InMemoryUsersRepository } from './users-repository.ts'
 
 export class InMemoryProjectsRepository implements ProjectsRepository {
   public items: Project[] = []
 
+  private studentsRepository: UsersRepository
+  private subjectsRepository: SubjectsRepository
+  private trailsRepository: TrailsRepository
+  private professorsRepository: ProfessorsRepository
+
   constructor(
-    private studentsRepository: InMemoryStudentsRepository,
-    private subjectsRepository: InMemorySubjectsRepository,
-    private commentsRepository: InMemoryCommentsRepository,
-  ) {}
-
-  async findById(id: string): Promise<Project | null> {
-    return Promise.resolve(
-      this.items.find(item => item.id.toString() === id) || null,
-    )
+    studentsRepository?: UsersRepository,
+    subjectsRepository?: SubjectsRepository,
+    trailsRepository?: TrailsRepository,
+    professorsRepository?: ProfessorsRepository,
+  ) {
+    this.studentsRepository =
+      studentsRepository || new InMemoryUsersRepository()
+    this.subjectsRepository =
+      subjectsRepository || new InMemorySubjectsRepository()
+    this.trailsRepository = trailsRepository || new InMemoryTrailsRepository()
+    this.professorsRepository =
+      professorsRepository || new InMemoryProfessorsRepository()
   }
 
-  async findDetailsById(id: string): Promise<ProjectDetails | null> {
-    const project = await this.findById(id)
-
-    if (!project) {
-      return null
-    }
-
-    const author = await this.studentsRepository.findById(
-      project.authorId.toString(),
-    )
-
-    if (!author) {
-      throw new Error('Author not found.')
-    }
-
-    let subject: Subject | null = null
-
-    if (project.subjectId) {
-      subject = await this.subjectsRepository.findById(
-        project.subjectId?.toString(),
-      )
-
-      if (!subject) {
-        throw new Error('Subject not found.')
-      }
-    }
-
-    const comments =
-      await this.commentsRepository.findManyByProjectIdWithAuthors(id)
-
-    return ProjectDetails.create({
-      id: project.id,
-      title: project.title,
-      description: project.description,
-      bannerUrl: project.bannerUrl,
-      content: project.content,
-      publishedYear: project.publishedYear,
-      status: project.status,
-      semester: project.semester,
-      allowComments: project.allowComments,
-      createdAt: project.createdAt,
-      updatedAt: project.updatedAt,
-      author: {
-        name: author.name,
-        username: author.username,
-        profileUrl: author.profileUrl,
-      },
-      authorId: project.authorId,
-      subject: subject?.name,
-      subjectId: project.subjectId,
-      trails: project.trails.map(trail => trail.name),
-      professors: project.professors?.map(professor => professor.name),
-      comments,
-    })
+  async findById(id: UniqueEntityID): Promise<Project | null> {
+    return Promise.resolve(this.items.find(item => item.id.equals(id)) || null)
   }
 
-  async findManyPostsByTitle(title: string): Promise<Post[]> {
+  async findManyByTitle(title: string): Promise<Project[]> {
     const projects = this.items.filter(item =>
       item.title.toLowerCase().includes(title.toLowerCase()),
     )
 
-    const posts = projects.map(async post => {
-      const author = await this.studentsRepository.findById(
-        post.authorId.toString(),
-      )
-
-      if (!author) {
-        throw new Error('Author not found.')
-      }
-
-      const subject = post.subjectId
-        ? await this.subjectsRepository.findById(post.subjectId.toString())
-        : null
-
-      return Post.create({
-        id: post.id,
-        title: post.title,
-        description: post.description,
-        bannerUrl: post.bannerUrl,
-        content: post.content,
-        publishedYear: post.publishedYear,
-        status: post.status,
-        semester: post.semester,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
-        author: {
-          name: author.name,
-          username: author.username,
-          profileUrl: author.profileUrl,
-        },
-        authorId: post.authorId,
-        subject: subject?.name,
-        subjectId: post.subjectId,
-        trails: post.trails.map(trail => trail.name),
-        professors: post.professors?.map(professor => professor.name),
-      })
-    })
-
-    return await Promise.all(posts)
+    return await Promise.all(projects)
   }
 
-  async findManyPostsByProfessorName(name: string): Promise<Post[]> {
+  async findManyByProfessorName(name: string): Promise<Project[]> {
+    const professors = await this.professorsRepository.findManyByName(name)
+
+    if (professors.length === 0) {
+      return []
+    }
+
     const projects = this.items.filter(item =>
       item.professors?.some(professor =>
-        professor.name.toLowerCase().includes(name.toLowerCase()),
+        professors.some(p => p.id.equals(professor)),
       ),
     )
 
-    const posts = projects.map(async post => {
-      const author = await this.studentsRepository.findById(
-        post.authorId.toString(),
-      )
-
-      if (!author) {
-        throw new Error('Author not found.')
-      }
-
-      const subject = post.subjectId
-        ? await this.subjectsRepository.findById(post.subjectId.toString())
-        : null
-
-      return Post.create({
-        id: post.id,
-        title: post.title,
-        description: post.description,
-        bannerUrl: post.bannerUrl,
-        content: post.content,
-        publishedYear: post.publishedYear,
-        status: post.status,
-        semester: post.semester,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
-        author: {
-          name: author.name,
-          username: author.username,
-          profileUrl: author.profileUrl,
-        },
-        authorId: post.authorId,
-        subject: subject?.name,
-        subjectId: post.subjectId,
-        trails: post.trails.map(trail => trail.name),
-        professors: post.professors?.map(professor => professor.name),
-      })
-    })
-
-    return await Promise.all(posts)
+    return await Promise.all(projects)
   }
 
-  async findManyPostsByQuery({
+  async findManyByQuery({
     semester,
     publishedYear,
     subjectId,
     trailsIds,
-  }: ProjectQuery): Promise<Post[]> {
+  }: ProjectQuery): Promise<Project[]> {
     const projects = this.items.filter(
       item =>
         (!semester || item.semester === semester) &&
         (!publishedYear || item.publishedYear === publishedYear) &&
         (!subjectId || item.subjectId?.toString() === subjectId) &&
         (!trailsIds ||
-          item.trails.some(trail => trailsIds.includes(trail.id.toString()))),
+          item.trails.some(trail => trailsIds.includes(trail.toValue()))),
     )
 
-    const posts = projects.map(async post => {
-      const author = await this.studentsRepository.findById(
-        post.authorId.toString(),
-      )
-
-      if (!author) {
-        throw new Error('Author not found.')
-      }
-
-      const subject = post.subjectId
-        ? await this.subjectsRepository.findById(post.subjectId.toString())
-        : null
-
-      return Post.create({
-        id: post.id,
-        title: post.title,
-        description: post.description,
-        bannerUrl: post.bannerUrl,
-        content: post.content,
-        publishedYear: post.publishedYear,
-        status: post.status,
-        semester: post.semester,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
-        author: {
-          name: author.name,
-          username: author.username,
-          profileUrl: author.profileUrl,
-        },
-        authorId: post.authorId,
-        subject: subject?.name,
-        subjectId: post.subjectId,
-        trails: post.trails.map(trail => trail.name),
-        professors: post.professors?.map(professor => professor.name),
-      })
-    })
-
-    return await Promise.all(posts)
+    return await Promise.all(projects)
   }
 
-  async findManyPostsByTag(tag: string): Promise<Post[]> {
+  async findManyByTag(tag: string): Promise<Project[]> {
     const semesterVariants: Record<number, string[]> = {
       1: ['1', 'primeiro', '1º'],
       2: ['2', 'segundo', '2º'],
@@ -272,14 +126,13 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
 
     const subjects = await this.subjectsRepository.findManyByName(tag)
 
+    const trails = await this.trailsRepository.findManyByName(tag)
+
     const filteredProjects: Project[] = []
 
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: This is fine for now.
     async function filterProjectByTag(item: Project) {
-      if (
-        item.trails.some(trail =>
-          trail.name.toLowerCase().includes(tag.toLowerCase()),
-        )
-      ) {
+      if (item.title.toLowerCase().includes(tag.toLowerCase())) {
         return filteredProjects.push(item)
       }
 
@@ -301,91 +154,56 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
         return filteredProjects.push(item)
       }
 
+      if (trails.length > 0) {
+        const hasTrail = item.trails.some(trailId =>
+          trails.some(trail => trail.id.equals(trailId)),
+        )
+
+        if (hasTrail) {
+          return filteredProjects.push(item)
+        }
+      }
+
       return
     }
 
     this.items.forEach(filterProjectByTag)
 
-    const posts = filteredProjects.map(async post => {
-      const author = await this.studentsRepository.findById(
-        post.authorId.toString(),
-      )
-
-      if (!author) {
-        throw new Error('Author not found.')
-      }
-
-      const subject = post.subjectId
-        ? await this.subjectsRepository.findById(post.subjectId.toString())
-        : null
-
-      return Post.create({
-        id: post.id,
-        title: post.title,
-        description: post.description,
-        bannerUrl: post.bannerUrl,
-        content: post.content,
-        publishedYear: post.publishedYear,
-        status: post.status,
-        semester: post.semester,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
-        author: {
-          name: author.name,
-          username: author.username,
-          profileUrl: author.profileUrl,
-        },
-        authorId: post.authorId,
-        subject: subject?.name,
-        subjectId: post.subjectId,
-        trails: post.trails.map(trail => trail.name),
-        professors: post.professors?.map(professor => professor.name),
-      })
-    })
-
-    return await Promise.all(posts)
+    return await Promise.all(filteredProjects)
   }
 
-  async findManyPostsByStudentId(studentId: string): Promise<Post[]> {
+  async findManyByStudentId(studentId: string): Promise<Project[]> {
     const projects = this.items.filter(
       item => item.authorId.toString() === studentId,
     )
 
     const posts = projects.map(async post => {
-      const author = await this.studentsRepository.findById(
-        post.authorId.toString(),
-      )
+      const author = await this.studentsRepository.findById(post.authorId)
 
       if (!author) {
         throw new Error('Author not found.')
       }
 
-      const subject = post.subjectId
-        ? await this.subjectsRepository.findById(post.subjectId.toString())
-        : null
-
-      return Post.create({
-        id: post.id,
-        title: post.title,
-        description: post.description,
-        bannerUrl: post.bannerUrl,
-        content: post.content,
-        publishedYear: post.publishedYear,
-        status: post.status,
-        semester: post.semester,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
-        author: {
-          name: author.name,
-          username: author.username,
-          profileUrl: author.profileUrl,
+      return Project.reconstitute(
+        {
+          title: post.title,
+          description: post.description,
+          bannerUrl: post.bannerUrl,
+          content: post.content,
+          publishedYear: post.publishedYear,
+          status: post.status,
+          semester: post.semester,
+          allowComments: post.allowComments,
+          authorId: post.authorId,
+          subjectId: post.subjectId,
+          trails: new Set(post.trails),
+          professors: new Set(post.professors),
+          comments: new Set(post.comments),
         },
-        authorId: post.authorId,
-        subject: subject?.name,
-        subjectId: post.subjectId,
-        trails: post.trails.map(trail => trail.name),
-        professors: post.professors?.map(professor => professor.name),
-      })
+        post.id,
+        post.createdAt,
+        post.updatedAt,
+      )
     })
 
     return await Promise.all(posts)
@@ -393,47 +211,6 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
 
   async findAll(): Promise<Project[]> {
     return await Promise.resolve(this.items)
-  }
-
-  async findAllPosts(): Promise<Post[]> {
-    const posts = this.items.map(async post => {
-      const author = await this.studentsRepository.findById(
-        post.authorId.toString(),
-      )
-
-      if (!author) {
-        throw new Error('Author not found.')
-      }
-
-      const subject = post.subjectId
-        ? await this.subjectsRepository.findById(post.subjectId.toString())
-        : null
-
-      return Post.create({
-        id: post.id,
-        title: post.title,
-        description: post.description,
-        bannerUrl: post.bannerUrl,
-        content: post.content,
-        publishedYear: post.publishedYear,
-        status: post.status,
-        semester: post.semester,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
-        author: {
-          name: author.name,
-          username: author.username,
-          profileUrl: author.profileUrl,
-        },
-        authorId: post.authorId,
-        subject: subject?.name,
-        subjectId: post.subjectId,
-        trails: post.trails.map(trail => trail.name),
-        professors: post.professors?.map(professor => professor.name),
-      })
-    })
-
-    return await Promise.all(posts)
   }
 
   async create(project: Project): Promise<void> {
@@ -444,13 +221,28 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     await Promise.resolve(this.items.push(project))
   }
 
-  async delete(id: string): Promise<void> {
-    const index = this.items.findIndex(item => item.id.toString() === id)
+  async delete(project: Project): Promise<void> {
+    const index = this.items.findIndex(item => item.id.equals(project.id))
 
     if (index === -1) {
       throw new Error('Project not found.')
     }
 
     this.items.splice(index, 1)
+  }
+
+  async deleteById(id: UniqueEntityID): Promise<void> {
+    const index = this.items.findIndex(item => item.id.equals(id))
+
+    if (index === -1) {
+      throw new Error('Project not found.')
+    }
+
+    this.items.splice(index, 1)
+  }
+
+  async existsById(id: UniqueEntityID): Promise<boolean> {
+    const index = this.items.findIndex(item => item.id.equals(id))
+    return await Promise.resolve(index !== -1)
   }
 }

@@ -1,11 +1,11 @@
 import request from 'supertest'
 
 import { app } from '@/app.ts'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import { PrismaCommentsRepository } from '@/infra/database/prisma/repositories/comments-repository.ts'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students.ts'
 import { makeComment } from 'test/factories/make-comment.ts'
 import { makeProfessor } from 'test/factories/make-professor.ts'

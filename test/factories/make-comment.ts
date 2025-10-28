@@ -1,8 +1,8 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import {
   Comment,
   type CommentProps,
-} from '@/domain/deck/enterprise/entities/comment.ts'
+} from '@/domain/interaction/enterprise/entities/comment.ts'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 export function makeComment(
   override: Partial<CommentProps> = {},
@@ -10,7 +10,7 @@ export function makeComment(
 ) {
   const comment = Comment.create(
     {
-      content: 'Great project!',
+      content: 'Ótimo projeto!',
       authorId: new UniqueEntityID(),
       projectId: new UniqueEntityID(),
       ...override,

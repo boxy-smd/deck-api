@@ -1,6 +1,6 @@
-import type { CommentsRepository } from '@/domain/deck/application/repositories/comments-repository.ts'
-import type { Comment } from '@/domain/deck/enterprise/entities/comment.ts'
 import type { CommentWithAuthor } from '@/domain/deck/enterprise/entities/value-objects/comment-with-author.ts'
+import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
+import type { Comment } from '@/domain/interaction/enterprise/entities/comment.ts'
 import { prisma } from '../client.ts'
 import { PrismaCommentMapper } from '../mappers/prisma-comment-mapper.ts'
 import type { PrismaReportsRepository } from './reports-repository.ts'

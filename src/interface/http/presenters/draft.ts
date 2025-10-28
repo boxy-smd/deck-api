@@ -1,8 +1,8 @@
-import type { Draft } from '@/domain/deck/enterprise/entities/draft.ts'
+import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class DraftPresenter {
-  static toHTTP(draft: Draft) {
+  static toHTTP(draft: Project) {
     return {
       id: draft.id.toString(),
       title: draft.title,
@@ -12,11 +12,12 @@ export class DraftPresenter {
       publishedYear: draft.publishedYear,
       semester: draft.semester,
       allowComments: draft.allowComments,
+      status: draft.status,
       authorId: draft.authorId.toString(),
       subjectId: draft.subjectId?.toString(),
-      trailsIds: draft.trails?.map(trail => trail.id.toString()),
-      professorsIds: draft.professors?.map(professor =>
-        professor.id.toString(),
+      trailsIds: Array.from(draft.trails).map(trailId => trailId.toString()),
+      professorsIds: Array.from(draft.professors).map(professorId =>
+        professorId.toString(),
       ),
     }
   }

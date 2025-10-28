@@ -4,7 +4,7 @@ import { app } from '@/app.ts'
 import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
-import { makeStudent } from 'test/factories/make-student.ts'
+import { makeUser } from 'test/factories/make-user.ts'
 
 describe('get profile controller (e2e)', () => {
   beforeAll(async () => {
@@ -23,7 +23,7 @@ describe('get profile controller (e2e)', () => {
       draftsRepository,
     )
 
-    const student = await makeStudent()
+    const student = await makeUser()
 
     await studentsRepository.create(student)
 

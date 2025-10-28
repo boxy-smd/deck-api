@@ -1,8 +1,8 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import {
   Trail,
   type TrailProps,
-} from '@/domain/deck/enterprise/entities/trail.ts'
+} from '@/domain/projects/enterprise/entities/trail.ts'
+import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 export function makeTrail(
   override: Partial<TrailProps> = {},

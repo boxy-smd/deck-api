@@ -1,5 +1,5 @@
-import type { StudentsRepository } from '@/domain/deck/application/repositories/students-repository.ts'
-import type { Student } from '@/domain/deck/enterprise/entities/student.ts'
+import type { StudentsRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
+import type { Student } from '@/domain/authentication/enterprise/entities/student.ts'
 import type { StudentProfile } from '@/domain/deck/enterprise/entities/value-objects/student-profile.ts'
 import { prisma } from '../client.ts'
 import { PrismaStudentMapper } from '../mappers/prisma-student-mapper.ts'
