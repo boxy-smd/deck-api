@@ -87,7 +87,41 @@ Tecnologias utilizadas no projeto.
 ### Requisitos
 
 - [Node](https://nodejs.org/) e [pnpm](https://pnpm.io/pt/)
-- [Docker](https://www.docker.com/) para PostgreSQL
+- [Docker](https://www.docker.com/) e Docker Compose
+
+## 🐳 Rodar com Docker
+
+A forma mais fácil de rodar o projeto completo:
+
+```sh
+# 1. Clonar o projeto
+git clone https://github.com/boxy-smd/deck-api.git
+cd deck-api
+
+# 2. Configurar variáveis de ambiente (opcional)
+cp .env.example .env
+# Edite .env se necessário (JWT_SECRET, etc)
+
+# 3. Build e iniciar containers (app + postgres)
+docker compose up --build
+
+# A aplicação estará rodando em http://localhost:3333
+```
+
+**Comandos úteis:**
+```sh
+# Parar containers
+docker compose down
+
+# Ver logs
+docker compose logs -f
+
+# Rebuild
+docker compose up --build
+
+# Limpar tudo (incluindo dados do banco)
+docker compose down -v
+```
 
 ```sh
 # Caso não tenha o pnpm:
