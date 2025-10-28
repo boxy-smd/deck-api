@@ -1,37 +1,46 @@
-## 🐳 Docker Setup Completo
+# ✅ Docker Setup - FUNCIONANDO!
 
-Arquivos criados:
-- ✅ Dockerfile (aplicação Node.js)
-- ✅ docker-compose.yml (app + PostgreSQL)
-- ✅ .dockerignore (otimizado)
-- ✅ tsup.config.ts (build configurado)
+## Status Final
+- ✅ Dockerfile com Node 20 Alpine + OpenSSL
+- ✅ docker-compose.yml com App + PostgreSQL
+- ✅ Migrações rodando automaticamente
+- ✅ Variáveis Firebase opcionais
+- ✅ Aplicação acessível em http://localhost:3333
+- ✅ API Docs em http://localhost:3333/docs
 
-### Como usar:
+## Comandos
 
-1️⃣ **Iniciar aplicação e banco:**
+### Iniciar:
 ```bash
-docker compose up --build
+docker compose up --build -d
 ```
 
-2️⃣ **Acessar aplicação:**
-- API: http://localhost:3333
-- Postgres: localhost:5432
+### Ver logs:
+```bash
+docker logs deck-api -f
+```
 
-3️⃣ **Parar:**
+### Parar:
 ```bash
 docker compose down
 ```
 
-4️⃣ **Limpar dados:**
+### Limpar tudo:
 ```bash
 docker compose down -v
 ```
 
-### Variáveis de ambiente (opcional):
+## Arquivos
 
-Edite as variáveis no docker-compose.yml ou use arquivo .env:
-- JWT_SECRET
-- DATABASE_URL
-- Configurações Firebase
+- Dockerfile - Imagem da aplicação
+- docker-compose.yml - Orquestração (app + postgres)
+- tsup.config.ts - Build config (Prisma como external)
+- src/infra/config/env/env.ts - Firebase opcional
 
-**Status:** ✅ Build testado e funcionando!
+## Commits
+
+1. feat: adicionar Docker para desenvolvimento local
+2. fix: tornar variáveis Firebase opcionais e adicionar OpenSSL
+3. fix: configurar tsup - bundle true com Prisma external
+
+**Aplicação dockerizada e funcionando! 🚀**
