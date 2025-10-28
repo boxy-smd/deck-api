@@ -26,5 +26,5 @@ RUN pnpm build
 # Expor porta
 EXPOSE 3333
 
-# Iniciar aplicação
-CMD ["sh", "-c", "pnpm db:deploy && node build/server.js"]
+# Iniciar com migrações e seed
+CMD ["sh", "-c", "pnpm db:deploy && npx tsx prisma/seed.ts && node build/server.js"]
