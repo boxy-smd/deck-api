@@ -8,13 +8,10 @@ export default defineConfig({
   sourcemap: false,
   minify: false,
   external: [
-    'test',
-    '@vitest',
-    'vitest',
-    'supertest',
-  ],
-  noExternal: [
     '@prisma/client',
+    '.prisma/client',
   ],
-  skipNodeModulesBundle: true,
+  noExternal: [],
+  bundle: false,
+  splitting: false,
 })
