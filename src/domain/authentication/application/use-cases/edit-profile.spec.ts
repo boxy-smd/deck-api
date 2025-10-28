@@ -1,3 +1,4 @@
+import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository.ts'
 import type { Trail } from '@/domain/projects/enterprise/entities/trail.ts'
 import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import { makeTrail } from 'test/factories/make-trail.ts'
@@ -11,7 +12,7 @@ import type { UsersRepository } from '../repositories/users-repository.ts'
 import { EditProfileUseCase } from './edit-profile.ts'
 
 let usersRepository: UsersRepository
-let trailsRepository: InMemoryTrailsRepository
+let trailsRepository: TrailsRepository
 
 let student: User
 let trail: Trail
@@ -20,8 +21,8 @@ let sut: EditProfileUseCase
 
 describe('edit profile use case', () => {
   beforeEach(async () => {
-    trailsRepository = new InMemoryTrailsRepository()
     usersRepository = new InMemoryUsersRepository()
+    trailsRepository = new InMemoryTrailsRepository()
 
     const id = UniqueEntityID.create()
 

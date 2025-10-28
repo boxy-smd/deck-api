@@ -1,9 +1,9 @@
 import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
-import type { ProjectsRepository } from '@/domain/projects/application/repositories/projects-repository.ts'
+import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
+import type { ReportsRepository } from '@/domain/interaction/application/repositories/reports-repository.ts'
 import { type Either, left, right } from '@/shared/either.ts'
 import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import { Report } from '../../enterprise/entities/report.ts'
 
 interface ReportCommentUseCaseRequest {
@@ -21,7 +21,8 @@ type ReportCommentUseCaseResponse = Either<
 export class ReportCommentUseCase {
   constructor(
     private studentsRepository: UsersRepository,
-    private projectsRepository: ProjectsRepository,
+    private commentsRepository: CommentsRepository,
+    private reportsRepository: ReportsRepository,
   ) {}
 
   async execute({
@@ -36,25 +37,17 @@ export class ReportCommentUseCase {
       )
     }
 
-    const project = await this.projectsRepository.findById(
-      UniqueEntityID.create(projectId),
-    )
-
-    if (!project) {
-      return left(new ResourceNotFoundError('Project not found.'))
-    }
-
-    const comment = project.comments.find(comment =>
-      comment.id.equals(UniqueEntityID.create(commentId)),
-    )
+    const comment = await this.commentsRepository.findById(commentId)
 
     if (!comment) {
       return left(new ResourceNotFoundError('Comment not found.'))
     }
 
-    const student = await this.studentsRepository.findById(
-      UniqueEntityID.create(authorId),
-    )
+    if (comment.projectId.toString() !== projectId) {
+      return left(new ResourceNotFoundError('Comment not found in this project.'))
+    }
+
+    const student = await this.studentsRepository.findById(authorId)
 
     if (!student) {
       return left(new ResourceNotFoundError('Student not found.'))
@@ -67,9 +60,7 @@ export class ReportCommentUseCase {
       isResolved: false,
     })
 
-    comment.reports.push(report)
-
-    await this.projectsRepository.save(project)
+    await this.reportsRepository.create(report)
 
     return right(undefined)
   }

@@ -1,5 +1,6 @@
 import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
 import type { StudentProfile } from '@/domain/authentication/enterprise/entities/student-profile.ts'
+import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
 import { type Either, left, right } from '@/shared/either.ts'
 import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
@@ -23,6 +24,7 @@ export class CommentOnProjectUseCase {
   constructor(
     private readonly projectsRepository: ProjectsRepository,
     private readonly usersRepository: UsersRepository,
+    private readonly commentsRepository: CommentsRepository,
   ) {}
 
   async execute({
@@ -38,17 +40,13 @@ export class CommentOnProjectUseCase {
       )
     }
 
-    const author = await this.usersRepository.findById(
-      new UniqueEntityID(authorId),
-    )
+    const author = await this.usersRepository.findById(authorId)
 
     if (!author) {
       return left(new ResourceNotFoundError('Autor não encontrado.'))
     }
 
-    const project = await this.projectsRepository.findById(
-      new UniqueEntityID(projectId),
-    )
+    const project = await this.projectsRepository.findById(projectId)
 
     if (!project) {
       return left(new ResourceNotFoundError('Projeto não encontrado.'))
@@ -59,7 +57,7 @@ export class CommentOnProjectUseCase {
       new UniqueEntityID<StudentProfile>(authorId),
     )
 
-    await this.projectsRepository.create(project)
+    await this.commentsRepository.create(comment)
 
     return right({
       commentId: comment.id.toString(),

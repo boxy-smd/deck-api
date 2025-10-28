@@ -27,7 +27,7 @@ describe('comment on project (e2e)', () => {
     const project = makeProject({
       authorId: new UniqueEntityID(studentId),
       subjectId: subject.id,
-      trails: [trail],
+      trails: new Set([trail.id]),
     })
 
     await subjectsRepository.create(subject)

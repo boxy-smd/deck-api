@@ -10,7 +10,7 @@ export function makeTrail(
 ) {
   const trail = Trail.create(
     {
-      name: 'Sistemas',
+      name: `Trail_${Math.random().toString(36).substring(7)}`,
       ...override,
     },
     id,

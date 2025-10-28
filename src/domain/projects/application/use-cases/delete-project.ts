@@ -1,7 +1,6 @@
 import { type Either, left, right } from '@/shared/either.ts'
 import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import type { ProjectsRepository } from '../repositories/projects-repository.ts'
 
 interface DeleteProjectUseCaseRequest {
@@ -21,9 +20,7 @@ export class DeleteProjectUseCase {
     studentId,
     projectId,
   }: DeleteProjectUseCaseRequest): Promise<DeleteProjectUseCaseResponse> {
-    const project = await this.projectRepository.findById(
-      new UniqueEntityID(projectId),
-    )
+    const project = await this.projectRepository.findById(projectId)
 
     if (!project) {
       return left(new ResourceNotFoundError('Projeto não encontrado.'))

@@ -12,7 +12,7 @@ export function makeSubject(
   const subject = Subject.create(
     {
       name: 'Introdução à Sistemas e Mídias Digitais',
-      code: 'SMD0094',
+      code: `SMD${Math.floor(Math.random() * 10000)}`,
       workload: 64,
       semester: 1,
       type: SubjectType.OBLIGATORY,

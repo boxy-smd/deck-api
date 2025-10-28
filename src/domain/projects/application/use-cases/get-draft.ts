@@ -4,7 +4,6 @@ import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
 import { type Either, left, right } from '@/shared/either.ts'
 import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 
 interface GetDraftUseCaseRequest {
   draftId: string
@@ -32,17 +31,13 @@ export class GetDraftUseCase {
       )
     }
 
-    const student = await this.studentsRepository.findById(
-      UniqueEntityID.create(authorId),
-    )
+    const student = await this.studentsRepository.findById(authorId)
 
     if (!student) {
       return left(new ResourceNotFoundError('Student not found.'))
     }
 
-    const draft = await this.projectsRepository.findById(
-      UniqueEntityID.create(draftId),
-    )
+    const draft = await this.projectsRepository.findById(draftId)
 
     if (!draft) {
       return left(new ResourceNotFoundError('Draft not found.'))

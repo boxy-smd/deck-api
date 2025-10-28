@@ -1,4 +1,4 @@
-import type { Project } from '../../enterprise/entities/project.ts'
+import type { Post } from '../../enterprise/value-objects/post.ts'
 import type { ProjectsRepository } from '../repositories/projects-repository.ts'
 
 interface FilterPostsByQueryUseCaseRequest {
@@ -8,7 +8,7 @@ interface FilterPostsByQueryUseCaseRequest {
   publishedYear?: number
 }
 
-type FilterPostsByQueryUseCaseResponse = Project[]
+type FilterPostsByQueryUseCaseResponse = Post[]
 
 export class FilterPostsByQueryUseCase {
   constructor(private readonly projectsRepository: ProjectsRepository) {}
@@ -19,7 +19,7 @@ export class FilterPostsByQueryUseCase {
     subjectId,
     publishedYear,
   }: FilterPostsByQueryUseCaseRequest): Promise<FilterPostsByQueryUseCaseResponse> {
-    return await this.projectsRepository.findManyByQuery({
+    return await this.projectsRepository.findManyPostsByQuery({
       trailsIds,
       semester,
       subjectId,

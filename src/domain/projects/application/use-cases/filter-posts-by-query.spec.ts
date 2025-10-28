@@ -70,7 +70,7 @@ describe('filter posts by query use case', () => {
     })
 
     expect(result).length(1)
-    expect(result[0].id).toBe(project.id)
+    expect(result[0].id).toBe(project.id.toString())
   })
 
   it('should be able to filter posts by semester', async () => {
@@ -79,7 +79,7 @@ describe('filter posts by query use case', () => {
     })
 
     expect(result).length(1)
-    expect(result[0].id).toBe(project.id)
+    expect(result[0].id).toBe(project.id.toString())
   })
 
   it('should be able to filter posts by subject id', async () => {
@@ -88,7 +88,7 @@ describe('filter posts by query use case', () => {
     })
 
     expect(result).length(1)
-    expect(result[0].id).toBe(project.id)
+    expect(result[0].id).toBe(project.id.toString())
   })
 
   it('should be able to filter posts by published year', async () => {
@@ -97,7 +97,7 @@ describe('filter posts by query use case', () => {
     })
 
     expect(result).length(1)
-    expect(result[0].id).toBe(project.id)
+    expect(result[0].id).toBe(project.id.toString())
   })
 
   it('should be able to filter posts by all queries', async () => {
@@ -109,7 +109,7 @@ describe('filter posts by query use case', () => {
     })
 
     expect(result).length(1)
-    expect(result[0].id).toBe(project.id)
+    expect(result[0].id).toBe(project.id.toString())
   })
 
   it('should return an empty array if no posts are found', async () => {

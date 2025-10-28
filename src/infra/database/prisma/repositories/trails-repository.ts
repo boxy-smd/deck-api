@@ -33,6 +33,14 @@ export class PrismaTrailsRepository implements TrailsRepository {
     return trails.map(PrismaTrailMapper.toEntity)
   }
 
+  async existsById(id: string): Promise<boolean> {
+    const count = await prisma.trail.count({
+      where: { id },
+    })
+
+    return count > 0
+  }
+
   async create(trail: Trail): Promise<void> {
     const data = PrismaTrailMapper.toPrisma(trail)
     await prisma.trail.create({ data })
@@ -50,6 +58,12 @@ export class PrismaTrailsRepository implements TrailsRepository {
   async delete(trail: Trail): Promise<void> {
     await prisma.trail.delete({
       where: { id: trail.id.toString() },
+    })
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await prisma.trail.delete({
+      where: { id },
     })
   }
 }

@@ -1,9 +1,8 @@
 import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
+import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
 import { type Either, left, right } from '@/shared/either.ts'
 import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
-import type { ProjectsRepository } from '../../../projects/application/repositories/projects-repository.ts'
 
 interface DeleteCommentUseCaseRequest {
   authorId: string
@@ -18,7 +17,7 @@ type DeleteCommentUseCaseResponse = Either<
 
 export class DeleteCommentUseCase {
   constructor(
-    private readonly projectsRepository: ProjectsRepository,
+    private readonly commentsRepository: CommentsRepository,
     private readonly usersRepository: UsersRepository,
   ) {}
 
@@ -35,32 +34,23 @@ export class DeleteCommentUseCase {
       )
     }
 
-    const author = await this.usersRepository.findById(
-      new UniqueEntityID(authorId),
-    )
+    const author = await this.usersRepository.findById(authorId)
 
     if (!author) {
       return left(new ResourceNotFoundError('Autor não encontrado.'))
     }
 
-    const project = await this.projectsRepository.findById(
-      new UniqueEntityID(projectId),
-    )
-
-    if (!project) {
-      return left(new ResourceNotFoundError('Projeto não encontrado.'))
-    }
-
-    const comment = project.comments.find(c => c.id.toString() === commentId)
+    const comment = await this.commentsRepository.findById(commentId)
 
     if (!comment) {
       return left(new ResourceNotFoundError('Comentário não encontrado.'))
     }
 
-    if (
-      authorId !== comment.authorId.toString() &&
-      authorId !== project.authorId.toString()
-    ) {
+    if (comment.projectId.toString() !== projectId) {
+      return left(new ResourceNotFoundError('Comentário não encontrado neste projeto.'))
+    }
+
+    if (comment.authorId.toString() !== authorId) {
       return left(
         new ForbiddenError(
           'Você não tem permissão para deletar este comentário.',
@@ -68,9 +58,7 @@ export class DeleteCommentUseCase {
       )
     }
 
-    project.removeComment(comment)
-
-    await this.projectsRepository.save(project)
+    await this.commentsRepository.delete(comment)
 
     return right(undefined)
   }

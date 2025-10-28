@@ -42,7 +42,6 @@ describe('publish project (e2e)', () => {
         bannerUrl: 'https://example.com/banner.jpg',
         content: 'Conteúdo do projeto',
         publishedYear: 2021,
-        status: 'PUBLISHED',
         semester: 3,
         allowComments: true,
         subjectId: subject.id.toString(),

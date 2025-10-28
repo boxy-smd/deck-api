@@ -1,21 +1,20 @@
-import type { StudentsRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
-import type { Student } from '@/domain/authentication/enterprise/entities/student.ts'
-import type { StudentProfile } from '@/domain/deck/enterprise/entities/value-objects/student-profile.ts'
+import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
+import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
 import { prisma } from '../client.ts'
 import { PrismaStudentMapper } from '../mappers/prisma-student-mapper.ts'
-import type { PrismaDraftsRepository } from './drafts-repository.ts'
-import type { PrismaProjectsRepository } from './projects-repository.ts'
 
-export class PrismaStudentsRepository implements StudentsRepository {
-  constructor(
-    private readonly projectsRepository: PrismaProjectsRepository,
-    private readonly draftsRepository: PrismaDraftsRepository,
-  ) {}
-
-  async findById(id: string): Promise<Student | null> {
+export class PrismaStudentsRepository implements UsersRepository {
+  async findById(id: string): Promise<User | null> {
     const student = await prisma.user.findUnique({
       where: { id },
-      include: { trails: true },
+      include: { 
+        trail: {
+          include: {
+            trail: true
+          }
+        },
+        studentProfile: true
+      },
     })
 
     if (!student) return null
@@ -23,10 +22,17 @@ export class PrismaStudentsRepository implements StudentsRepository {
     return PrismaStudentMapper.toEntity(student)
   }
 
-  async findByName(name: string): Promise<Student | null> {
+  async findByName(name: string): Promise<User | null> {
     const student = await prisma.user.findFirst({
       where: { name },
-      include: { trails: true },
+      include: { 
+        trail: {
+          include: {
+            trail: true
+          }
+        },
+        studentProfile: true
+      },
     })
 
     if (!student) return null
@@ -34,10 +40,17 @@ export class PrismaStudentsRepository implements StudentsRepository {
     return PrismaStudentMapper.toEntity(student)
   }
 
-  async findByEmail(email: string): Promise<Student | null> {
+  async findByEmail(email: string): Promise<User | null> {
     const student = await prisma.user.findFirst({
       where: { email },
-      include: { trails: true },
+      include: { 
+        trail: {
+          include: {
+            trail: true
+          }
+        },
+        studentProfile: true
+      },
     })
 
     if (!student) return null
@@ -45,62 +58,25 @@ export class PrismaStudentsRepository implements StudentsRepository {
     return PrismaStudentMapper.toEntity(student)
   }
 
-  async findByUsername(username: string): Promise<Student | null> {
+  async findByUsername(username: string): Promise<User | null> {
     const student = await prisma.user.findFirst({
       where: { username },
-      include: { trails: true },
+      include: { 
+        trail: {
+          include: {
+            trail: true
+          }
+        },
+        studentProfile: true
+      },
     })
 
     if (!student) return null
 
-    return PrismaStudentMapper.toEntity(student)
+   return PrismaStudentMapper.toEntity(student)
   }
 
-  async findProfileById(id: string): Promise<StudentProfile | null> {
-    const raw = await prisma.user.findFirst({
-      where: { id },
-      include: {
-        trails: {
-          select: { name: true },
-        },
-      },
-    })
-
-    if (!raw) return null
-
-    const student = {
-      ...raw,
-      posts: await this.projectsRepository.findManyPostsByStudentId(raw.id),
-      drafts: await this.draftsRepository.findManyByAuthorId(raw.id),
-    }
-
-    return PrismaStudentMapper.toEntityProfile(student)
-  }
-
-  async findProfileByUsername(
-    username: string,
-  ): Promise<StudentProfile | null> {
-    const raw = await prisma.user.findFirst({
-      where: { username },
-      include: {
-        trails: {
-          select: { name: true },
-        },
-      },
-    })
-
-    if (!raw) return null
-
-    const student = {
-      ...raw,
-      posts: await this.projectsRepository.findManyPostsByStudentId(raw.id),
-      drafts: await this.draftsRepository.findManyByAuthorId(raw.id),
-    }
-
-    return PrismaStudentMapper.toEntityProfile(student)
-  }
-
-  async findManyByName(name: string): Promise<Student[]> {
+  async findManyByName(name: string): Promise<User[]> {
     const students = await prisma.user.findMany({
       where: {
         name: { contains: name, mode: 'insensitive' },
@@ -108,26 +84,52 @@ export class PrismaStudentsRepository implements StudentsRepository {
           ? { contains: name.slice(1), mode: 'insensitive' }
           : undefined,
       },
-      include: { trails: true },
+      include: { 
+        trail: {
+          include: {
+            trail: true
+          }
+        },
+        studentProfile: true
+      },
     })
 
-    return students.map(PrismaStudentMapper.toEntity)
+    return students.map(s => 
+      PrismaStudentMapper.toEntity(s)
+    )
   }
 
-  async findAll(): Promise<Student[]> {
+  async findAll(): Promise<User[]> {
     const students = await prisma.user.findMany({
-      include: { trails: true },
+      include: { 
+        trail: {
+          include: {
+            trail: true
+          }
+        },
+        studentProfile: true
+      },
     })
 
-    return students.map(PrismaStudentMapper.toEntity)
+    return students.map(s => 
+      PrismaStudentMapper.toEntity(s)
+    )
   }
 
-  async create(student: Student): Promise<void> {
+  async existsById(id: string): Promise<boolean> {
+    const count = await prisma.user.count({
+      where: { id },
+    })
+
+    return count > 0
+  }
+
+  async create(student: User): Promise<void> {
     const data = PrismaStudentMapper.toPrisma(student)
     await prisma.user.create({ data })
   }
 
-  async save(student: Student): Promise<void> {
+  async save(student: User): Promise<void> {
     const data = PrismaStudentMapper.toPrismaUpdate(student)
 
     await prisma.user.update({
@@ -136,9 +138,15 @@ export class PrismaStudentsRepository implements StudentsRepository {
     })
   }
 
-  async delete(student: Student): Promise<void> {
+  async delete(student: User): Promise<void> {
     await prisma.user.delete({
       where: { id: student.id.toString() },
+    })
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await prisma.user.delete({
+      where: { id },
     })
   }
 }

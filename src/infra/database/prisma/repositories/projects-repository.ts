@@ -1,30 +1,94 @@
-import type { ProjectDetails } from '@/domain/deck/enterprise/entities/value-objects/project-details.ts'
 import type {
   ProjectQuery,
   ProjectsRepository,
 } from '@/domain/projects/application/repositories/projects-repository.ts'
-import type { Post } from '@/domain/projects/enterprise/entities/project.ts'
 import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
+import type { Post } from '@/domain/projects/enterprise/value-objects/post.ts'
 import { prisma } from '../client.ts'
 import { PrismaProjectMapper } from '../mappers/prisma-project-mapper.ts'
 
 export class PrismaProjectsRepository implements ProjectsRepository {
-  async findById(id: string): Promise<Project | null> {
-    const data = await prisma.project.findUnique({
+  async findManyByTitle(title: string): Promise<Project[]> {
+    const data = await prisma.project.findMany({
       where: {
-        id,
+        title: {
+          contains: title,
+          mode: 'insensitive',
+        },
       },
     })
 
-    if (!data) return null
-
-    return PrismaProjectMapper.toEntity(data)
+    return data.map(PrismaProjectMapper.toEntity)
   }
 
-  async findDetailsById(id: string): Promise<ProjectDetails | null> {
+  async findManyByProfessorName(name: string): Promise<Project[]> {
+    const data = await prisma.project.findMany({
+      where: {
+        professors: {
+          some: {
+            professor: {
+              name: {
+                contains: name,
+                mode: 'insensitive',
+              },
+            },
+          },
+        },
+      },
+    })
+
+    return data.map(PrismaProjectMapper.toEntity)
+  }
+
+  async findManyByQuery(_query: ProjectQuery): Promise<Project[]> {
+    return new Promise<Project[]>((_resolve, _reject) => {
+      throw new Error('Method not implemented.')
+    })
+  }
+
+  async findManyByAuthorId(authorId: string): Promise<Project[]> {
+    const data = await prisma.project.findMany({
+      where: {
+        authorId: authorId.toString(),
+      },
+    })
+
+    return data.map(PrismaProjectMapper.toEntity)
+  }
+
+  async findManyByStudentId(studentId: string): Promise<Project[]> {
+    const data = await prisma.project.findMany({
+      where: {
+        authorId: studentId.toString(),
+      },
+    })
+
+    return data.map(PrismaProjectMapper.toEntity)
+  }
+
+  async findManyByTag(tag: string): Promise<Project[]> {
+    const data = await prisma.project.findMany({
+      where: {
+        trails: {
+          some: {
+            trail: {
+              name: {
+                contains: tag,
+                mode: 'insensitive',
+              },
+            },
+          },
+        },
+      },
+    })
+
+    return data.map(PrismaProjectMapper.toEntity)
+  }
+
+  async findById(id: string): Promise<Project | null> {
     const data = await prisma.project.findUnique({
       where: {
-        id,
+        id: id.toString(),
       },
       include: {
         author: {
@@ -36,7 +100,12 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         professors: {
           select: {
-            name: true,
+            professor: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
           },
         },
         subject: {
@@ -46,7 +115,12 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         trails: {
           select: {
-            name: true,
+            trail: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
           },
         },
         comments: {
@@ -70,7 +144,20 @@ export class PrismaProjectsRepository implements ProjectsRepository {
 
     if (!data) return null
 
-    return PrismaProjectMapper.toEntityDetails(data)
+    const project = PrismaProjectMapper.toEntity({
+      ...data,
+      trails: data.trails.map(t => ({ id: t.trail.id })),
+      professors: data.professors.map(p => ({ id: p.professor.id })),
+    })
+
+    // Attach related data for presenters
+    ;(project as any).__author = data.author
+    ;(project as any).__subject = data.subject?.name
+    ;(project as any).__trails = data.trails.map(t => t.trail.name)
+    ;(project as any).__professors = data.professors.map(p => p.professor.name)
+    ;(project as any).__comments = data.comments
+
+    return project
   }
 
   async findManyPostsByTitle(title: string): Promise<Post[]> {
@@ -91,7 +178,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         professors: {
           select: {
-            name: true,
+            professor: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
         subject: {
@@ -101,7 +192,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         trails: {
           select: {
-            name: true,
+            trail: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
       },
@@ -110,7 +205,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return data.map(PrismaProjectMapper.toEntityPost)
+    return data.map(d => PrismaProjectMapper.toEntityPost(d))
   }
 
   async findManyPostsByProfessorName(name: string): Promise<Post[]> {
@@ -118,9 +213,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       where: {
         professors: {
           some: {
-            name: {
-              contains: name,
-              mode: 'insensitive',
+            professor: {
+              name: {
+                contains: name,
+                mode: 'insensitive',
+              },
             },
           },
         },
@@ -135,7 +232,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         professors: {
           select: {
-            name: true,
+            professor: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
         subject: {
@@ -145,7 +246,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         trails: {
           select: {
-            name: true,
+            trail: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
       },
@@ -154,7 +259,53 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return data.map(PrismaProjectMapper.toEntityPost)
+    return data.map(d => PrismaProjectMapper.toEntityPost(d))
+  }
+
+  async findManyDraftsByStudentId(studentId: string): Promise<Post[]> {
+    const data = await prisma.project.findMany({
+      where: {
+        authorId: studentId,
+        status: 'DRAFT',
+      },
+      include: {
+        author: {
+          select: {
+            name: true,
+            username: true,
+            profileUrl: true,
+          },
+        },
+        professors: {
+          select: {
+            professor: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        subject: {
+          select: {
+            name: true,
+          },
+        },
+        trails: {
+          select: {
+            trail: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+
+    return data.map(d => PrismaProjectMapper.toEntityPost(d))
   }
 
   async findManyPostsByQuery({
@@ -194,7 +345,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
             ? {
                 trails: {
                   some: {
-                    id: {
+                    trailId: {
                       in: trailsIds,
                     },
                   },
@@ -213,7 +364,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         professors: {
           select: {
-            name: true,
+            professor: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
         subject: {
@@ -223,7 +378,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         trails: {
           select: {
-            name: true,
+            trail: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
       },
@@ -232,7 +391,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return data.map(PrismaProjectMapper.toEntityPost)
+    return data.map(d => PrismaProjectMapper.toEntityPost(d))
   }
 
   async findManyPostsByTag(tag: string): Promise<Post[]> {
@@ -283,9 +442,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
           {
             trails: {
               some: {
-                name: {
-                  contains: tag,
-                  mode: 'insensitive',
+                trail: {
+                  name: {
+                    contains: tag,
+                    mode: 'insensitive',
+                  },
                 },
               },
             },
@@ -324,7 +485,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         professors: {
           select: {
-            name: true,
+            professor: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
         subject: {
@@ -334,7 +499,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         trails: {
           select: {
-            name: true,
+            trail: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
       },
@@ -343,7 +512,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return data.map(PrismaProjectMapper.toEntityPost)
+    return data.map(d => PrismaProjectMapper.toEntityPost(d))
   }
 
   async findManyPostsByStudentId(studentId: string): Promise<Post[]> {
@@ -361,7 +530,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         professors: {
           select: {
-            name: true,
+            professor: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
         subject: {
@@ -371,7 +544,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         trails: {
           select: {
-            name: true,
+            trail: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
       },
@@ -380,7 +557,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return data.map(PrismaProjectMapper.toEntityPost)
+    return data.map(d => PrismaProjectMapper.toEntityPost(d))
   }
 
   async findAll(): Promise<Project[]> {
@@ -400,7 +577,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         professors: {
           select: {
-            name: true,
+            professor: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
         subject: {
@@ -410,7 +591,11 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         trails: {
           select: {
-            name: true,
+            trail: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
       },
@@ -422,7 +607,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return data.map(PrismaProjectMapper.toEntityPost)
+    return data.map(d => PrismaProjectMapper.toEntityPost(d))
   }
 
   async create(project: Project): Promise<void> {
@@ -444,11 +629,32 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     })
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(project: Project): Promise<void> {
     await prisma.project.delete({
       where: {
-        id,
+        id: project.id.toString(),
       },
     })
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await prisma.project.delete({
+      where: {
+        id: id.toString(),
+      },
+    })
+  }
+
+  async existsById(id: string): Promise<boolean> {
+    const data = await prisma.project.findUnique({
+      where: {
+        id: id.toString(),
+      },
+      select: {
+        id: true,
+      },
+    })
+
+    return !!data
   }
 }

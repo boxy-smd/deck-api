@@ -86,103 +86,92 @@ Tecnologias utilizadas no projeto.
 
 ### Requisitos
 
-- [Node](https://nodejs.org/) e [pnpm](https://pnpm.io/pt/).
-- [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/).
+- [Node](https://nodejs.org/) e [pnpm](https://pnpm.io/pt/)
+- [Docker](https://www.docker.com/) para PostgreSQL
 
 ```sh
-# Caso não tenha o pnpm, execute:
+# Caso não tenha o pnpm:
 npm install -g pnpm
 ```
 
-Recomendo que veja a [documentação de configuração do Fastify](https://fastify.dev/docs/latest/Reference/).
+### Setup do Projeto
 
 ```sh
-# Clonando o projeto
+# 1. Clonar o projeto
 git clone https://github.com/boxy-smd/deck-api.git
 cd deck-api
 
-# Instalando as dependências
+# 2. Instalar dependências
 pnpm install
 
-# Configurando o banco de dados (desenvolvimento)
-# Opção 1: Usando Docker (recomendado)
-docker compose -f docker-compose.dev.yml up -d
+# 3. Subir PostgreSQL com Docker
+docker compose up -d
 
-# Opção 2: Usando PostgreSQL local
-# Certifique-se de ter o PostgreSQL instalado e rodando
+# 4. Configurar variáveis de ambiente
+cp .env.example .env
+# O .env já vem configurado para o Docker
 
-# Configurar variáveis de ambiente
-# Copie o arquivo de exemplo e preencha os valores
-cp .env.example .development.env
-# Edite o arquivo .development.env com suas configurações
-
-# Fazendo as migrações para o banco de dados
+# 5. Rodar migrações do banco
 pnpm db:migrate
 
-# Popular o banco de dados com as informações necessárias do sistema
+# 6. Popular o banco com dados iniciais
 pnpm db:seed
 
-# Rodar o servidor em desenvolvimento
+# 7. Iniciar servidor de desenvolvimento
 pnpm start:dev
-
-# Acessar a documentação da API
-# Abra http://localhost:3333/docs no navegador
 ```
 
 ### Variáveis de Ambiente
 
-Configure as seguintes variáveis no arquivo `.development.env`:
+O arquivo `.env` já vem configurado para usar o PostgreSQL do Docker:
 
 ```env
-# Ambiente
 NODE_ENV=development
-
-# JWT (gere uma chave secreta forte)
-JWT_SECRET=sua-chave-secreta-aqui
-
-# Servidor
+JWT_SECRET=deck-secret-key
 PORT=3333
-
-# Banco de Dados PostgreSQL
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DATABASE=deck_dev
-POSTGRES_HOST=localhost
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/deck_dev
-
-# Firebase (obtenha no Console do Firebase)
-FIREBASE_API_KEY=sua-api-key
-FIREBASE_APP_ID=seu-app-id
-FIREBASE_AUTH_DOMAIN=seu-projeto.firebaseapp.com
-FIREBASE_MESSAGING_SENDER_ID=seu-sender-id
-FIREBASE_PROJECT_ID=seu-projeto-id
-FIREBASE_STORAGE_BUCKET=seu-projeto.appspot.com
 ```
 
-### Testes
+### Comandos Docker
 
 ```sh
-# Iniciar testes gerais
-pnpm test
-
-# Iniciar testes E2E (requer banco de dados rodando)
-pnpm test:e2e
-
-# Testes com cobertura
-pnpm test:coverage
-```
-
-### Build e Produção
-
-```sh
-# Compilar e minificar para produção
-pnpm build
-
-# Rodar em produção (após build)
-pnpm start
-
-# Ou usando Docker Compose
+# Subir PostgreSQL
 docker compose up -d
+
+# Ver logs
+docker compose logs -f
+
+# Parar PostgreSQL
+docker compose down
+
+# Parar e remover volumes (apaga dados)
+docker compose down -v
+```
+
+### Comandos Disponíveis
+
+```sh
+# Desenvolvimento
+pnpm start:dev          # Inicia servidor em modo watch
+
+# Build
+pnpm build              # Compila o projeto
+pnpm start              # Roda versão compilada
+
+# Testes
+pnpm test               # Testes unitários
+pnpm test:e2e           # Testes E2E
+pnpm test:coverage      # Cobertura de testes
+
+# Banco de Dados
+pnpm db:migrate         # Roda migrações
+pnpm db:seed            # Popula banco
+pnpm db:studio          # Abre Prisma Studio
+
+# Qualidade de Código
+pnpm check              # Lint e formatação
+pnpm lint               # Apenas lint
+pnpm fix                # Auto-fix formatação
 ```
 
 ---

@@ -34,15 +34,7 @@ export class StudentProfile extends Entity<StudentProfileProps> {
   }
 
   public updateSemester(semester: Semester) {
-    try {
-      this.props.semester.update(semester.value)
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw new Error(error.message)
-      }
-
-      throw new Error('Ocorreu um erro ao atualizar o semestre.')
-    }
+    this.props.semester = semester
   }
 
   public addTrail(trailId: UniqueEntityID<Trail>) {

@@ -2,7 +2,6 @@ import type { TrailsRepository } from '@/domain/projects/application/repositorie
 import { type Either, left, right } from '@/shared/either.ts'
 import { ResourceAlreadyExistsError } from '@/shared/errors/resource-already-exists.error.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import { User } from '../../enterprise/entities/user.ts'
 import { Email } from '../../enterprise/value-objects/email.ts'
 import { UserRole } from '../../enterprise/value-objects/user-role.ts'
@@ -33,7 +32,7 @@ type RegisterUseCaseResponse = Either<
   | UsernameBadFormattedError
   | UsernameInvalidSizeError
   | SemesterOutOfBoundsError,
-  string
+  User
 >
 
 export class RegisterUseCase {
@@ -98,9 +97,7 @@ export class RegisterUseCase {
     user.createProfile(request.semester)
 
     for (const trailId of request.trailsIds) {
-      const trail = await this.trailsRepository.findById(
-        UniqueEntityID.create(trailId),
-      )
+      const trail = await this.trailsRepository.findById(trailId)
 
       if (!trail) {
         return left(new ResourceNotFoundError('Trilha não encontrada'))
@@ -111,6 +108,6 @@ export class RegisterUseCase {
 
     await this.usersRepository.create(user)
 
-    return right('Estudante cadastrado com sucesso')
+    return right(user)
   }
 }

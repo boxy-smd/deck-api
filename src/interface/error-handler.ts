@@ -1,5 +1,5 @@
 import type { FastifyInstance } from 'fastify'
-import { ZodError } from 'zod'
+import { ResponseValidationError } from 'fastify-type-provider-zod'
 
 type FastifyErrorHandler = FastifyInstance['errorHandler']
 
@@ -10,16 +10,10 @@ export const errorHandler: FastifyErrorHandler = (error, request, reply) => {
     return reply.status(422).send(new Error('Validation failed.'))
   }
 
-  if (error instanceof ZodError) {
-    const errors = {
-      fields: error.flatten().fieldErrors,
-      form: error.flatten().formErrors,
-    }
-
-    return reply.status(400).send({
-      message: 'Error during validation.',
-      errors,
-    })
+  if (error instanceof ResponseValidationError) {
+    return reply
+      .status(400)
+      .send({ message: 'Response validation failed.', details: error.details })
   }
 
   if (error instanceof Error) {

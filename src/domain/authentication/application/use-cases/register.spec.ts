@@ -3,7 +3,7 @@ import { FakeHasher } from 'test/cryptography/fake-hasher.ts'
 import { makeUser } from 'test/factories/make-user.ts'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository.ts'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository.ts'
-import type { User } from '../../enterprise/entities/user.ts'
+import { User } from '../../enterprise/entities/user.ts'
 import { RegisterUseCase } from './register.ts'
 
 let usersRepository: InMemoryUsersRepository
@@ -36,7 +36,7 @@ describe('register use case', () => {
     })
 
     expect(result.isRight()).toBe(true)
-    expect(result.value).toBe('Estudante cadastrado com sucesso')
+    expect(result.value).toBeInstanceOf(User)
   })
 
   it('should not be able to register a user with an existing email', async () => {

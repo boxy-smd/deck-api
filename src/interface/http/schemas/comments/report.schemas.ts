@@ -18,6 +18,12 @@ const reportCommentBodySchema = z.object(
       description: 'The report content.',
       required_error: 'Content is required.',
     }),
+    projectId: z
+      .string({
+        description: 'The project id.',
+        required_error: 'Project id is required.',
+      })
+      .uuid('Invalid project id.'),
   },
   {
     description: 'Report comment body.',

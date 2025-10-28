@@ -1,11 +1,11 @@
 import type { ProjectsRepository } from '../../../projects/application/repositories/projects-repository.ts'
-import type { Project } from '../../enterprise/entities/project.ts'
+import type { Post } from '../../enterprise/value-objects/post.ts'
 
 interface SearchPostsByTagUseCaseRequest {
   tag: string
 }
 
-type SearchPostsByTagUseCaseResponse = Project[]
+type SearchPostsByTagUseCaseResponse = Post[]
 
 export class SearchPostsByTagUseCase {
   constructor(private readonly projectsRepository: ProjectsRepository) {}
@@ -13,6 +13,6 @@ export class SearchPostsByTagUseCase {
   async execute({
     tag,
   }: SearchPostsByTagUseCaseRequest): Promise<SearchPostsByTagUseCaseResponse> {
-    return await this.projectsRepository.findManyByTag(tag)
+    return await this.projectsRepository.findManyPostsByTag(tag)
   }
 }

@@ -1,5 +1,5 @@
 export enum ProjectStatus {
   DRAFT = 'DRAFT',
-  POSTED = 'POSTED',
+  PUBLISHED = 'PUBLISHED',
   ARCHIVED = 'ARCHIVED',
 }

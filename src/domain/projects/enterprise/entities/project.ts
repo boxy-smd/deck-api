@@ -58,7 +58,7 @@ export class Project extends AggregateRoot<ProjectProps> {
   }
 
   public post() {
-    this.props.status = ProjectStatus.POSTED
+    this.props.status = ProjectStatus.PUBLISHED
     this.touch()
   }
 
@@ -68,7 +68,7 @@ export class Project extends AggregateRoot<ProjectProps> {
   }
 
   public unarchive() {
-    this.props.status = ProjectStatus.POSTED
+    this.props.status = ProjectStatus.PUBLISHED
     this.touch()
   }
 
