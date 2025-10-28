@@ -30,6 +30,12 @@ services:
       NODE_ENV: production
       PORT: 3333
       JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-me}
+      FIREBASE_API_KEY: ${FIREBASE_API_KEY:-}
+      FIREBASE_APP_ID: ${FIREBASE_APP_ID:-}
+      FIREBASE_AUTH_DOMAIN: ${FIREBASE_AUTH_DOMAIN:-}
+      FIREBASE_MESSAGING_SENDER_ID: ${FIREBASE_MESSAGING_SENDER_ID:-}
+      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID:-}
+      FIREBASE_STORAGE_BUCKET: ${FIREBASE_STORAGE_BUCKET:-}
     depends_on:
       postgres:
         condition: service_healthy

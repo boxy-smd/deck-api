@@ -1,5 +1,8 @@
 FROM node:20-alpine
 
+# Instalar dependências necessárias para Prisma
+RUN apk add --no-cache openssl libc6-compat
+
 # Instalar pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 

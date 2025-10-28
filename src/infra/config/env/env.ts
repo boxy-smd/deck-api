@@ -5,12 +5,12 @@ const envSchema = z.object({
   JWT_SECRET: z.string(),
   DATABASE_URL: z.string(),
   PORT: z.coerce.number().default(3333),
-  FIREBASE_API_KEY: z.string(),
-  FIREBASE_APP_ID: z.string(),
-  FIREBASE_AUTH_DOMAIN: z.string(),
-  FIREBASE_MESSAGING_SENDER_ID: z.string(),
-  FIREBASE_PROJECT_ID: z.string(),
-  FIREBASE_STORAGE_BUCKET: z.string(),
+  FIREBASE_API_KEY: z.string().optional(),
+  FIREBASE_APP_ID: z.string().optional(),
+  FIREBASE_AUTH_DOMAIN: z.string().optional(),
+  FIREBASE_MESSAGING_SENDER_ID: z.string().optional(),
+  FIREBASE_PROJECT_ID: z.string().optional(),
+  FIREBASE_STORAGE_BUCKET: z.string().optional(),
 })
 
 const _env = envSchema.safeParse(process.env)
