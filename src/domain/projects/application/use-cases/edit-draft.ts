@@ -4,7 +4,6 @@ import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
 import { type Either, left, right } from '@/shared/either.ts'
 import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import type { ProfessorsRepository } from '../../../projects/application/repositories/professors-repository.ts'
 import type { SubjectsRepository } from '../../../projects/application/repositories/subjects-repository.ts'
 import type { TrailsRepository } from '../../../projects/application/repositories/trails-repository.ts'
@@ -56,17 +55,13 @@ export class EditDraftUseCase {
       return left(new ForbiddenError('You must be logged in to edit a draft.'))
     }
 
-    const student = await this.studentsRepository.findById(
-      UniqueEntityID.create(authorId),
-    )
+    const student = await this.studentsRepository.findById(authorId)
 
     if (!student) {
       return left(new ResourceNotFoundError('Student not found.'))
     }
 
-    const draft = await this.projectsRepository.findById(
-      new UniqueEntityID(draftId),
-    )
+    const draft = await this.projectsRepository.findById(draftId)
 
     if (!draft) {
       return left(new ResourceNotFoundError('Draft not found.'))
@@ -87,9 +82,7 @@ export class EditDraftUseCase {
     })
 
     if (subjectId) {
-      const subject = await this.subjectsRepository.findById(
-        UniqueEntityID.create(subjectId),
-      )
+      const subject = await this.subjectsRepository.findById(subjectId)
 
       if (!subject) {
         return left(new ResourceNotFoundError('Subject not found.'))
@@ -101,9 +94,7 @@ export class EditDraftUseCase {
     const trails = await Promise.all(
       trailsIds
         ? trailsIds.map(async trailId => {
-            const trail = await this.trailsRepository.findById(
-              UniqueEntityID.create(trailId),
-            )
+            const trail = await this.trailsRepository.findById(trailId)
 
             return trail
           })
@@ -121,9 +112,8 @@ export class EditDraftUseCase {
     const professors = await Promise.all(
       professorsIds
         ? professorsIds.map(async professorId => {
-            const professor = await this.professorsRepository.findById(
-              UniqueEntityID.create(professorId),
-            )
+            const professor =
+              await this.professorsRepository.findById(professorId)
 
             return professor
           })

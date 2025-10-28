@@ -1,5 +1,4 @@
 import { PublishProjectUseCase } from '@/domain/projects/application/use-cases/publish-project.ts'
-import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
@@ -8,10 +7,8 @@ import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/tra
 
 export function makePublishProjectUseCase() {
   const projectsRepository = new PrismaProjectsRepository()
-  const draftsRepository = new PrismaDraftsRepository()
   const studentsRepository = new PrismaStudentsRepository(
     projectsRepository,
-    draftsRepository,
   )
   const professorsRepository = new PrismaProfessorsRepository()
   const trailsRepository = new PrismaTrailsRepository()
@@ -23,7 +20,6 @@ export function makePublishProjectUseCase() {
     subjectsRepository,
     trailsRepository,
     professorsRepository,
-    draftsRepository,
   )
 
   return publishProjectUseCase

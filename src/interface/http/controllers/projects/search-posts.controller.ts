@@ -1,6 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import type { Post } from '@/domain/projects/enterprise/entities/project.ts'
 import { makeSearchPostsByProfessorNameUseCase } from '@/interface/factories/projects/make-search-posts-by-professor-name-use-case.ts'
 import { makeSearchPostsByTagUseCase } from '@/interface/factories/projects/make-search-posts-by-tag-use-case.ts'
 import { makeSearchPostsByTitleUseCase } from '@/interface/factories/projects/make-search-posts-by-title-use-case.ts'

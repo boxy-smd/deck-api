@@ -13,7 +13,7 @@ const fetchPostsResponseSchema = z.object(
           bannerUrl: z.string().optional(),
           content: z.string().optional(),
           publishedYear: z.number(),
-          status: z.enum(['DRAFT', 'PUBLISHED']),
+          status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
           semester: z.number(),
           createdAt: z.date(),
           updatedAt: z.date().optional(),
@@ -24,9 +24,15 @@ const fetchPostsResponseSchema = z.object(
             profileUrl: z.string().optional(),
           }),
           subjectId: z.string().uuid().optional(),
-          subject: z.string().optional(),
-          trails: z.array(z.string()),
-          professors: z.array(z.string()).optional(),
+          subject: z.object({
+            name: z.string(),
+          }).optional(),
+          trails: z.array(z.object({
+            name: z.string(),
+          })),
+          professors: z.array(z.object({
+            name: z.string(),
+          })).optional(),
         }),
       )
       .optional(),

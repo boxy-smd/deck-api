@@ -5,7 +5,6 @@ import { ProjectStatus } from '@/domain/projects/enterprise/value-objects/projec
 import { type Either, left, right } from '@/shared/either.ts'
 import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import type { ProfessorsRepository } from '../repositories/professors-repository.ts'
 import type { ProjectsRepository } from '../repositories/projects-repository.ts'
 import type { SubjectsRepository } from '../repositories/subjects-repository.ts'
@@ -63,9 +62,7 @@ export class PublishProjectUseCase {
       )
     }
 
-    const student = await this.studentsRepository.findById(
-      UniqueEntityID.create(authorId),
-    )
+    const student = await this.studentsRepository.findById(authorId)
 
     if (!student) {
       return left(new ResourceNotFoundError('Student not found.'))
@@ -74,9 +71,7 @@ export class PublishProjectUseCase {
     let subject: Subject | null = null
 
     if (subjectId) {
-      subject = await this.subjectsRepository.findById(
-        UniqueEntityID.create(subjectId),
-      )
+      subject = await this.subjectsRepository.findById(subjectId)
 
       if (!subject) {
         return left(new ResourceNotFoundError('Subject not found.'))
@@ -85,9 +80,7 @@ export class PublishProjectUseCase {
 
     const trails = await Promise.all(
       trailsIds.map(async trailId => {
-        const trail = await this.trailsRepository.findById(
-          UniqueEntityID.create(trailId),
-        )
+        const trail = await this.trailsRepository.findById(trailId)
 
         return trail
       }),
@@ -100,9 +93,8 @@ export class PublishProjectUseCase {
     const professors = await Promise.all(
       professorsIds
         ? professorsIds.map(async professorId => {
-            const professor = await this.professorsRepository.findById(
-              UniqueEntityID.create(professorId),
-            )
+            const professor =
+              await this.professorsRepository.findById(professorId)
 
             return professor
           })
@@ -116,9 +108,7 @@ export class PublishProjectUseCase {
     let createdProjectId = ''
 
     if (draftId) {
-      const draft = await this.projectsRepository.findById(
-        new UniqueEntityID(draftId),
-      )
+      const draft = await this.projectsRepository.findById(draftId)
 
       if (!draft) {
         return left(new ResourceNotFoundError('Draft not found.'))
@@ -169,7 +159,7 @@ export class PublishProjectUseCase {
         publishedYear,
         semester,
         allowComments,
-        status: ProjectStatus.POSTED,
+        status: ProjectStatus.PUBLISHED,
         authorId: student.id,
         subjectId: subject ? subject.id : undefined,
         trails: new Set(

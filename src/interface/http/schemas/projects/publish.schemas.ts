@@ -34,10 +34,6 @@ const publishProjectBodySchema = z.object(
       })
       .min(2000)
       .max(new Date().getFullYear()),
-    status: z.enum(['DRAFT', 'PUBLISHED'], {
-      description: 'Project status.',
-      message: 'Status is required.',
-    }),
     semester: z
       .number({
         description: 'Project semester.',

@@ -3,11 +3,9 @@ import { readFileSync } from 'node:fs'
 import axios from 'axios'
 import { load } from 'cheerio'
 
-import { Email } from '@/domain/authentication/enterprise/value-objects/email.ts'
 import { BcryptHasher } from '@/infra/cryptography/bcrypt-hasher.ts'
 import { prisma } from '@/infra/database/prisma/client.ts'
 import { SubjectType } from '@prisma/client'
-import { makeStudent } from 'test/factories/make-student.ts'
 
 interface Subject {
   code: string
@@ -110,7 +108,6 @@ async function seed() {
           data: {
             name: subject.name,
             code: subject.code,
-            workload: subject.workload,
             semester: subject.semester,
             type: subject.type,
           },
@@ -148,51 +145,64 @@ async function seed() {
     ),
   )
 
-  const amanda = await makeStudent({
-    name: 'Amanda Coelho',
-    username: 'amandafnsc',
-    email: Email.create('amanda@alu.ufc.br'),
-    about: 'Estudante de Sistemas e Mídias',
-  })
-
-  const levi = await makeStudent({
-    name: 'Levi de Brito',
-    username: 'levikbrito',
-    email: Email.create('levi@alu.ufc.br'),
-    about: 'Estudante de Sistemas e Mídias',
-  })
-
-  await prisma.user.create({
+  // Create users directly with Prisma
+  const amandaUser = await prisma.user.create({
     data: {
-      name: amanda.name,
-      username: amanda.username,
-      email: amanda.email.value,
-      about: amanda.about,
+      name: 'Amanda Coelho',
+      username: 'amandafnsc',
+      email: 'amanda@alu.ufc.br',
+      about: 'Estudante de Sistemas e Mídias',
       passwordHash: await new BcryptHasher().hash('123456'),
-      semester: 3,
-      trails: {
-        connect: {
-          id: designTrail.id,
-        },
-      },
+      role: 'STUDENT',
+      status: 'ACTIVE',
     },
   })
 
-  await prisma.user.create({
+  // Create student profile for Amanda
+  await prisma.studentProfile.create({
     data: {
-      name: levi.name,
-      username: levi.username,
-      email: levi.email.value,
-      about: levi.about,
-      passwordHash: await new BcryptHasher().hash('123456'),
+      studentId: amandaUser.id,
       semester: 3,
-      trails: {
-        connect: {
-          id: systemsTrail.id,
-        },
-      },
     },
   })
+
+  // Associate Amanda with Design trail
+  await prisma.studentHasTrail.create({
+    data: {
+      studentId: amandaUser.id,
+      trailId: designTrail.id,
+    },
+  })
+
+  const leviUser = await prisma.user.create({
+    data: {
+      name: 'Levi de Brito',
+      username: 'levikbrito',
+      email: 'levi@alu.ufc.br',
+      about: 'Estudante de Sistemas e Mídias',
+      passwordHash: await new BcryptHasher().hash('123456'),
+      role: 'STUDENT',
+      status: 'ACTIVE',
+    },
+  })
+
+  // Create student profile for Levi
+  await prisma.studentProfile.create({
+    data: {
+      studentId: leviUser.id,
+      semester: 3,
+    },
+  })
+
+  // Associate Levi with Systems trail
+  await prisma.studentHasTrail.create({
+    data: {
+      studentId: leviUser.id,
+      trailId: systemsTrail.id,
+    },
+  })
+
+  console.log('✅ Users created successfully!')
 }
 
 seed().then(() => {

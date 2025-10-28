@@ -51,7 +51,7 @@ describe('delete project use case', () => {
     })
 
     expect(response.isRight()).toBe(true)
-    expect(await projectsRepository.findById(project.id)).toBe(null)
+    expect(await projectsRepository.findById(project.id.toString())).toBe(null)
   })
 
   it('should not be able to delete a project that does not exist', async () => {

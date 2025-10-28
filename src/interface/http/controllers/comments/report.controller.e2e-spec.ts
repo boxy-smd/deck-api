@@ -3,6 +3,7 @@ import request from 'supertest'
 import { app } from '@/app.ts'
 import { PrismaCommentsRepository } from '@/infra/database/prisma/repositories/comments-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
+import { PrismaReportsRepository } from '@/infra/database/prisma/repositories/reports-repository.ts'
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
 import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students.ts'
@@ -24,13 +25,14 @@ describe('report comment (e2e)', () => {
 
     const subjectsRepository = new PrismaSubjectsRepository()
     const projectsRepository = new PrismaProjectsRepository()
-    const commentsRepository = new PrismaCommentsRepository()
+    const reportsRepository = new PrismaReportsRepository()
+    const commentsRepository = new PrismaCommentsRepository(reportsRepository)
 
     const subject = makeSubject()
     const project = makeProject({
       authorId: new UniqueEntityID(studentId),
       subjectId: subject.id,
-      trails: [trail],
+      trails: new Set([trail.id]),
     })
     const comment = makeComment({
       authorId: new UniqueEntityID(studentId),
@@ -46,6 +48,7 @@ describe('report comment (e2e)', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         content: 'This comment is offensive',
+        projectId: project.id.toString(),
       })
 
     expect(result.status).toBe(201)

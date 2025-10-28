@@ -19,6 +19,8 @@ describe('get student details controller (e2e)', () => {
       .get('/students/me')
       .set('Authorization', `Bearer ${token}`)
 
+    console.log(response.body)
+
     expect(response.status).toBe(200)
     expect(response.body.details.id).toBe(studentId)
   })

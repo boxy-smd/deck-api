@@ -1,6 +1,8 @@
 import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
 import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
 import type { ProjectsRepository } from '@/domain/projects/application/repositories/projects-repository.ts'
+import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
+import type { ReportsRepository } from '@/domain/interaction/application/repositories/reports-repository.ts'
 import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
 import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
@@ -8,11 +10,15 @@ import { makeProject } from 'test/factories/make-project.ts'
 import { makeUser } from 'test/factories/make-user.ts'
 import { InMemoryProjectsRepository } from 'test/repositories/projects-repository.ts'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository.ts'
+import { InMemoryCommentsRepository } from 'test/repositories/comments-repository.ts'
+import { InMemoryReportsRepository } from 'test/repositories/reports-repository.ts'
 import type { Comment } from '../../enterprise/entities/comment.ts'
 import { ReportCommentUseCase } from './report-comment.ts'
 
 let studentsRepository: UsersRepository
 let projectsRepository: ProjectsRepository
+let commentsRepository: CommentsRepository
+let reportsRepository: ReportsRepository
 
 let author: User
 let project: Project
@@ -24,6 +30,8 @@ describe('report comment use case', () => {
   beforeEach(async () => {
     studentsRepository = new InMemoryUsersRepository()
     projectsRepository = new InMemoryProjectsRepository()
+    commentsRepository = new InMemoryCommentsRepository(studentsRepository)
+    reportsRepository = new InMemoryReportsRepository()
 
     author = await makeUser()
     project = makeProject()
@@ -31,8 +39,9 @@ describe('report comment use case', () => {
 
     await studentsRepository.create(author)
     await projectsRepository.create(project)
+    await commentsRepository.create(comment)
 
-    sut = new ReportCommentUseCase(studentsRepository, projectsRepository)
+    sut = new ReportCommentUseCase(studentsRepository, commentsRepository, reportsRepository)
   })
 
   it('should be able to report a comment', async () => {

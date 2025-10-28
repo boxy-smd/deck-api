@@ -37,7 +37,42 @@ export class PrismaProjectMapper {
     )
   }
 
-  static toPrisma(project: Project): Prisma.ProjectUncheckedCreateInput {
+  static toPrisma(project: Project): Prisma.ProjectCreateInput {
+    return {
+      id: project.id.toString(),
+      title: project.title,
+      description: project.description,
+      content: project.content,
+      semester: project.semester,
+      publishedYear: project.publishedYear,
+      status: project.status,
+      allowComments: project.allowComments,
+      bannerUrl: project.bannerUrl,
+      author: {
+        connect: { id: project.authorId.toString() }
+      },
+      subject: project.subjectId ? {
+        connect: { id: project.subjectId.toString() }
+      } : undefined,
+      trails: {
+        create: Array.from(project.trails).map(trailId => ({
+          trail: {
+            connect: { id: trailId.toString() }
+          }
+        })),
+      },
+      professors: {
+        create: Array.from(project.professors).map(professorId => ({
+          professor: {
+            connect: { id: professorId.toString() }
+          }
+        })),
+      },
+    }
+  }
+
+  static toEntityPost(raw: any): any {
+    const project = this.toEntity(raw)
     return {
       id: project.id.toString(),
       title: project.title,
@@ -50,16 +85,36 @@ export class PrismaProjectMapper {
       bannerUrl: project.bannerUrl,
       authorId: project.authorId.toString(),
       subjectId: project.subjectId?.toString(),
-      trails: {
-        connect: Array.from(project.trails).map(trailId => ({
-          id: trailId.toString(),
-        })),
-      },
-      professors: {
-        connect: Array.from(project.professors).map(professorId => ({
-          id: professorId.toString(),
-        })),
-      },
+      createdAt: project.createdAt,
+      updatedAt: project.updatedAt,
+      author: raw.author,
+      subject: raw.subject,
+      trails: raw.trails?.map((t: any) => t.trail) || [],
+      professors: raw.professors?.map((p: any) => p.professor) || [],
+    }
+  }
+
+  static toEntityDetails(raw: any): any {
+    const project = this.toEntity(raw)
+    return {
+      id: project.id.toString(),
+      title: project.title,
+      description: project.description,
+      content: project.content,
+      semester: project.semester,
+      publishedYear: project.publishedYear,
+      status: project.status,
+      allowComments: project.allowComments,
+      bannerUrl: project.bannerUrl,
+      authorId: project.authorId.toString(),
+      subjectId: project.subjectId?.toString(),
+      createdAt: project.createdAt,
+      updatedAt: project.updatedAt,
+      author: raw.author,
+      subject: raw.subject,
+      trails: raw.trails?.map((t: any) => t.trail) || [],
+      professors: raw.professors?.map((p: any) => p.professor) || [],
+      comments: raw.comments || [],
     }
   }
 }

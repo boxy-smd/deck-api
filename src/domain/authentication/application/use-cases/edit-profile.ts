@@ -3,7 +3,6 @@ import { type Either, left, right } from '@/shared/either.ts'
 import type { InvalidCredentialsError } from '@/shared/errors/invalid-credentials.error.ts'
 import type { ResourceAlreadyExistsError } from '@/shared/errors/resource-already-exists.error.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import type { User } from '../../enterprise/entities/user.ts'
 import { Semester } from '../../enterprise/value-objects/semester.ts'
 import type { SemesterOutOfBoundsError } from '../errors/semester-out-of-bounds.error.ts'
@@ -38,9 +37,7 @@ export class EditProfileUseCase {
     profileUrl,
     trailsIds,
   }: EditProfileUseCaseRequest): Promise<EditProfileUseCaseResponse> {
-    const student = await this.usersRepository.findById(
-      UniqueEntityID.create(studentId),
-    )
+    const student = await this.usersRepository.findById(studentId)
 
     if (!student?.profile) {
       return left(new ResourceNotFoundError('Student not found.'))
@@ -59,9 +56,7 @@ export class EditProfileUseCase {
     student.changeProfilePicture(profileUrl ?? student.profileUrl)
 
     for (const trailId of trailsIds ?? []) {
-      const trail = await this.trailsRepository.findById(
-        UniqueEntityID.create(trailId),
-      )
+      const trail = await this.trailsRepository.findById(trailId)
 
       if (!trail) {
         return left(

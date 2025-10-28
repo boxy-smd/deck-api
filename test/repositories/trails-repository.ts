@@ -9,8 +9,10 @@ export class InMemoryTrailsRepository implements TrailsRepository {
     await Promise.resolve(this.items.push(trail))
   }
 
-  async findById(id: UniqueEntityID): Promise<Trail | null> {
-    return Promise.resolve(this.items.find(item => item.id.equals(id)) || null)
+  async findById(id: string): Promise<Trail | null> {
+    return Promise.resolve(
+      this.items.find(item => item.id.toString() === id) || null,
+    )
   }
 
   async findByName(name: string): Promise<Trail | null> {

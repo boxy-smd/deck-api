@@ -4,6 +4,7 @@ import { app } from '@/app.ts'
 import { PrismaCommentsRepository } from '@/infra/database/prisma/repositories/comments-repository.ts'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
+import { PrismaReportsRepository } from '@/infra/database/prisma/repositories/reports-repository.ts'
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
 import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students.ts'
@@ -27,7 +28,8 @@ describe('delete comment (e2e)', () => {
     const professorsRepository = new PrismaProfessorsRepository()
     const subjectsRepository = new PrismaSubjectsRepository()
     const projectsRepository = new PrismaProjectsRepository()
-    const commentsRepository = new PrismaCommentsRepository()
+    const reportsRepository = new PrismaReportsRepository()
+    const commentsRepository = new PrismaCommentsRepository(reportsRepository)
 
     const professor = makeProfessor({
       name: 'Ticianne de Gois Ribeiro Darin',
@@ -39,7 +41,7 @@ describe('delete comment (e2e)', () => {
 
     const project = makeProject({
       authorId: new UniqueEntityID(studentId),
-      trails: [trail],
+      trails: new Set([trail.id]),
     })
 
     await professorsRepository.create(professor)

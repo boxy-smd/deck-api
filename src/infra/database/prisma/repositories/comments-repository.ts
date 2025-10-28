@@ -1,6 +1,6 @@
-import type { CommentWithAuthor } from '@/domain/deck/enterprise/entities/value-objects/comment-with-author.ts'
 import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
 import type { Comment } from '@/domain/interaction/enterprise/entities/comment.ts'
+import type { CommentWithAuthor } from '@/domain/interaction/enterprise/entities/value-objects/comment-with-author.ts'
 import { prisma } from '../client.ts'
 import { PrismaCommentMapper } from '../mappers/prisma-comment-mapper.ts'
 import type { PrismaReportsRepository } from './reports-repository.ts'
@@ -51,6 +51,22 @@ export class PrismaCommentsRepository implements CommentsRepository {
     return data.map(PrismaCommentMapper.toEntityWithAuthor)
   }
 
+  async findAll(): Promise<Comment[]> {
+    const data = await prisma.comment.findMany()
+
+    return data.map(PrismaCommentMapper.toEntity)
+  }
+
+  async existsById(id: string): Promise<boolean> {
+    const count = await prisma.comment.count({
+      where: {
+        id,
+      },
+    })
+
+    return count > 0
+  }
+
   async create(comment: Comment): Promise<void> {
     const data = PrismaCommentMapper.toPrisma(comment)
 
@@ -70,9 +86,17 @@ export class PrismaCommentsRepository implements CommentsRepository {
     })
   }
 
-  async delete(id: string): Promise<void> {
-    this.reportsRepository.deleteManyByCommentId(id)
+  async delete(comment: Comment): Promise<void> {
+    await this.reportsRepository.deleteManyByCommentId(comment.id.toString())
 
+    await prisma.comment.delete({
+      where: {
+        id: comment.id.toString(),
+      },
+    })
+  }
+
+  async deleteById(id: string): Promise<void> {
     await prisma.comment.delete({
       where: {
         id,

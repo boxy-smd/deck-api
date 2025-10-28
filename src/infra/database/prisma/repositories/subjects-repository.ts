@@ -1,11 +1,13 @@
-import type { Subject } from '@/domain/deck/enterprise/entities/subject.ts'
 import type { SubjectsRepository } from '@/domain/projects/application/repositories/subjects-repository.ts'
+import type { Subject } from '@/domain/projects/enterprise/entities/subject.ts'
 import { prisma } from '../client.ts'
 import { PrismaSubjectMapper } from '../mappers/prisma-subject-mapper.ts'
 
 export class PrismaSubjectsRepository implements SubjectsRepository {
   async findById(id: string): Promise<Subject | null> {
-    const subject = await prisma.subject.findUnique({ where: { id } })
+    const subject = await prisma.subject.findUnique({
+      where: { id: id.toString() },
+    })
 
     if (!subject) return null
 
@@ -40,6 +42,13 @@ export class PrismaSubjectsRepository implements SubjectsRepository {
     return subjects.map(PrismaSubjectMapper.toEntity)
   }
 
+  async existsById(id: string): Promise<boolean> {
+    const count = await prisma.subject.count({
+      where: { id: id.toString() },
+    })
+    return count > 0
+  }
+
   async create(subject: Subject): Promise<void> {
     const data = PrismaSubjectMapper.toPrisma(subject)
     await prisma.subject.create({ data })
@@ -57,6 +66,12 @@ export class PrismaSubjectsRepository implements SubjectsRepository {
   async delete(subject: Subject): Promise<void> {
     await prisma.subject.delete({
       where: { id: subject.id.toString() },
+    })
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await prisma.subject.delete({
+      where: { id: id.toString() },
     })
   }
 }

@@ -2,8 +2,7 @@ import request from 'supertest'
 
 import { app } from '@/app.ts'
 import { Email } from '@/domain/authentication/enterprise/value-objects/email.ts'
-import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
+import { Username } from '@/domain/authentication/enterprise/value-objects/username.ts'
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
 import { makeUser } from 'test/factories/make-user.ts'
 
@@ -17,12 +16,7 @@ describe('fetch students controller (e2e)', () => {
   })
 
   it('should be able to fetch students', async () => {
-    const projectsRepository = new PrismaProjectsRepository()
-    const draftsRepository = new PrismaDraftsRepository()
-    const studentsRepository = new PrismaStudentsRepository(
-      projectsRepository,
-      draftsRepository,
-    )
+    const studentsRepository = new PrismaStudentsRepository()
 
     const student = await makeUser()
 
@@ -36,32 +30,31 @@ describe('fetch students controller (e2e)', () => {
         {
           id: student.id.toString(),
           name: student.name,
-          username: student.username,
-          semester: student.semester,
+          username: student.username.value,
+          semester: student.profile?.semester.value,
           profileUrl: student.profileUrl,
-          trails: student.trails.map(trail => trail.name),
+          trails: [],
         },
       ],
     })
   })
 
   it('should be able to fetch students by name', async () => {
-    const projectsRepository = new PrismaProjectsRepository()
-    const draftsRepository = new PrismaDraftsRepository()
-    const studentsRepository = new PrismaStudentsRepository(
-      projectsRepository,
-      draftsRepository,
-    )
+    const studentsRepository = new PrismaStudentsRepository()
 
+    const amandaUsername = Username.create('amanda.coelho')
+    if (amandaUsername.isLeft()) throw amandaUsername.value
     const amanda = await makeUser({
       name: 'Amanda Coelho',
-      username: 'amanda.coelho',
+      username: amandaUsername.value,
       email: Email.create('amanda@alu.ufc.br'),
     })
 
+    const leviUsername = Username.create('levi.brito')
+    if (leviUsername.isLeft()) throw leviUsername.value
     const levi = await makeUser({
       name: 'Levi de Brito',
-      username: 'levi.brito',
+      username: leviUsername.value,
       email: Email.create('levi@alu.ufc.br'),
     })
 
@@ -78,10 +71,10 @@ describe('fetch students controller (e2e)', () => {
         {
           id: amanda.id.toString(),
           name: amanda.name,
-          username: amanda.username,
-          semester: amanda.semester,
+          username: amanda.username.value,
+          semester: amanda.profile?.semester.value,
           profileUrl: amanda.profileUrl,
-          trails: amanda.trails.map(trail => trail.name),
+          trails: [],
         },
       ],
     })

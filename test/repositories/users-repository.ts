@@ -33,8 +33,10 @@ export class InMemoryUsersRepository implements UsersRepository {
     )
   }
 
-  findById(id: UniqueEntityID): Promise<User | null> {
-    return Promise.resolve(this.items.find(item => item.id.equals(id)) || null)
+  findById(id: string): Promise<User | null> {
+    return Promise.resolve(
+      this.items.find(item => item.id.toString() === id) || null,
+    )
   }
 
   findAll(): Promise<User[]> {

@@ -1,12 +1,12 @@
 import request from 'supertest'
 
 import { app } from '@/app.ts'
-import type { Student } from '@/domain/authentication/enterprise/entities/student.ts'
-import type { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
-import type { Subject } from '@/domain/deck/enterprise/entities/subject.ts'
-import type { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
+import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
+import type { Professor } from '@/domain/projects/enterprise/entities/professor.ts'
 import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
-import { PrismaDraftsRepository } from '@/infra/database/prisma/repositories/drafts-repository.ts'
+import type { Subject } from '@/domain/projects/enterprise/entities/subject.ts'
+import type { Trail } from '@/domain/projects/enterprise/entities/trail.ts'
+import { ProjectStatus } from '@/domain/projects/enterprise/value-objects/project-status.ts'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
@@ -14,11 +14,11 @@ import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/s
 import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository.ts'
 import { makeProfessor } from 'test/factories/make-professor.ts'
 import { makeProject } from 'test/factories/make-project.ts'
-import { makeUser } from 'test/factories/make-user.ts'
 import { makeSubject } from 'test/factories/make-subject.ts'
 import { makeTrail } from 'test/factories/make-trail.ts'
+import { makeUser } from 'test/factories/make-user.ts'
 
-let author: Student
+let author: User
 let subject: Subject
 let trail: Trail
 let professor: Professor
@@ -29,10 +29,8 @@ describe('filter posts (e2e)', () => {
     await app.ready()
 
     const projectsRepository = new PrismaProjectsRepository()
-    const draftsRepository = new PrismaDraftsRepository()
     const studentsRepository = new PrismaStudentsRepository(
       projectsRepository,
-      draftsRepository,
     )
     const trailsRepository = new PrismaTrailsRepository()
     const professorsRepository = new PrismaProfessorsRepository()
@@ -43,11 +41,11 @@ describe('filter posts (e2e)', () => {
     subject = makeSubject()
     professor = makeProfessor()
     project = makeProject({
-      status: 'PUBLISHED',
+      status: ProjectStatus.PUBLISHED,
       authorId: author.id,
       subjectId: subject.id,
-      professors: [professor],
-      trails: [trail],
+      professors: new Set([professor.id]),
+      trails: new Set([trail.id]),
     })
 
     await studentsRepository.create(author)

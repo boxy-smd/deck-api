@@ -5,8 +5,10 @@ import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 export class InMemoryProfessorsRepository implements ProfessorsRepository {
   public items: Professor[] = []
 
-  async findById(id: UniqueEntityID): Promise<Professor | null> {
-    return Promise.resolve(this.items.find(item => item.id.equals(id)) || null)
+  async findById(id: string): Promise<Professor | null> {
+    return Promise.resolve(
+      this.items.find(item => item.id.toString() === id) || null,
+    )
   }
 
   async findAll(): Promise<Professor[]> {

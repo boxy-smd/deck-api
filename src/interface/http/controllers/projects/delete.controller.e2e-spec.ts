@@ -36,7 +36,8 @@ describe('delete project (e2e)', () => {
 
     const project = makeProject({
       authorId: new UniqueEntityID(studentId),
-      trails: [trail],
+      subjectId: subject.id,
+      trails: new Set([trail.id]),
     })
 
     await professorsRepository.create(professor)

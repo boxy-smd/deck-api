@@ -1,7 +1,7 @@
 import type { UniqueEntityID } from './unique-entity-id.ts'
 
 export interface DomainRepository<T> {
-  findById(id: UniqueEntityID): Promise<T | null>
+  findById(id: string): Promise<T | null>
 
   findAll(): Promise<T[]>
 
@@ -11,7 +11,7 @@ export interface DomainRepository<T> {
 
   delete(entity: T): Promise<void>
 
-  deleteById(id: UniqueEntityID): Promise<void>
+  deleteById(id: string): Promise<void>
 
-  existsById(id: UniqueEntityID): Promise<boolean>
+  existsById(id: string): Promise<boolean>
 }

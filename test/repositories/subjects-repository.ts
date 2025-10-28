@@ -9,8 +9,8 @@ export class InMemorySubjectsRepository implements SubjectsRepository {
     await Promise.resolve(this.items.push(subject))
   }
 
-  async findById(id: UniqueEntityID): Promise<Subject | null> {
-    return Promise.resolve(this.items.find(item => item.id.equals(id)) || null)
+  async findById(id: string): Promise<Subject | null> {
+    return Promise.resolve(this.items.find(item => item.id.toString() === id) || null)
   }
 
   async findByName(name: string): Promise<Subject | null> {

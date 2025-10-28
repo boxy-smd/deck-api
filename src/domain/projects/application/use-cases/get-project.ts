@@ -1,6 +1,5 @@
 import { type Either, left, right } from '@/shared/either.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
 import type { Project } from '../../enterprise/entities/project.ts'
 import type { ProjectsRepository } from '../repositories/projects-repository.ts'
 
@@ -16,9 +15,7 @@ export class GetProjectUseCase {
   async execute({
     projectId,
   }: GetProjectUseCaseRequest): Promise<GetProjectUseCaseResponse> {
-    const project = await this.projectsRepository.findById(
-      UniqueEntityID.create(projectId),
-    )
+    const project = await this.projectsRepository.findById(projectId)
 
     if (!project) {
       return left(new ResourceNotFoundError('Project not found.'))

@@ -66,9 +66,7 @@ export class CreateDraftUseCase {
       )
     }
 
-    const student = await this.usersRepository.findById(
-      new UniqueEntityID(authorId),
-    )
+    const student = await this.usersRepository.findById(authorId)
 
     if (!student) {
       return left(new ResourceNotFoundError('Estudante não encontrado.'))

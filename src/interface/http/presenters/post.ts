@@ -1,19 +1,9 @@
-import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
+import { Post } from '@/domain/projects/enterprise/value-objects/post.ts'
 
-//Este presenter é usado para apresentar projetos na lista (posts)
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class PostPresenter {
   static toHTTP(
-    post: Project & {
-      // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
-      author?: any
-      // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
-      subject?: any
-      // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
-      trails?: any
-      // biome-ignore lint/suspicious/noExplicitAny: Temporary until presenters are refactored
-      professors?: any
-    },
+    post: Post
   ) {
     return {
       id: post.id.toString(),

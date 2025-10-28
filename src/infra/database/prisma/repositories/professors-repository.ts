@@ -1,5 +1,5 @@
-import type { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
 import type { ProfessorsRepository } from '@/domain/projects/application/repositories/professors-repository.ts'
+import type { Professor } from '@/domain/projects/enterprise/entities/professor.ts'
 import { prisma } from '../client.ts'
 import { PrismaProfessorMapper } from '../mappers/prisma-professor-mapper.ts'
 
@@ -61,6 +61,16 @@ export class PrismaProfessorsRepository implements ProfessorsRepository {
     return orderedProfessors.map(PrismaProfessorMapper.toEntity)
   }
 
+  async existsById(id: string): Promise<boolean> {
+    const count = await prisma.professor.count({
+      where: {
+        id,
+      },
+    })
+
+    return count > 0
+  }
+
   async create(professor: Professor): Promise<void> {
     const data = PrismaProfessorMapper.toPrisma(professor)
     await prisma.professor.create({ data })
@@ -78,6 +88,12 @@ export class PrismaProfessorsRepository implements ProfessorsRepository {
   async delete(professor: Professor): Promise<void> {
     await prisma.professor.delete({
       where: { id: professor.id.toString() },
+    })
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await prisma.professor.delete({
+      where: { id },
     })
   }
 }

@@ -13,7 +13,7 @@ export async function reportComment(
   reply: FastifyReply,
 ): Promise<void> {
   const { commentId } = request.params
-  const { content } = request.body
+  const { content, projectId } = request.body
 
   const authorId = request.user.sign.sub
 
@@ -22,6 +22,7 @@ export async function reportComment(
   const result = await reportCommentUseCase.execute({
     authorId,
     commentId,
+    projectId,
     content,
   })
 

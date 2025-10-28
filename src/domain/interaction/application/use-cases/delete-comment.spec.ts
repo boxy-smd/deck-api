@@ -2,6 +2,7 @@ import type { UsersRepository } from '@/domain/authentication/application/reposi
 import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
 import type { ProjectsRepository } from '@/domain/projects/application/repositories/projects-repository.ts'
 import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository.ts'
+import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
 import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
 import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
 import { makeProject } from 'test/factories/make-project.ts'
@@ -10,6 +11,7 @@ import { makeUser } from 'test/factories/make-user.ts'
 import { InMemoryProjectsRepository } from 'test/repositories/projects-repository.ts'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository.ts'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository.ts'
+import { InMemoryCommentsRepository } from 'test/repositories/comments-repository.ts'
 import type { Comment } from '../../../interaction/enterprise/entities/comment.ts'
 import type { Project } from '../../../projects/enterprise/entities/project.ts'
 import { DeleteCommentUseCase } from './delete-comment.ts'
@@ -17,6 +19,7 @@ import { DeleteCommentUseCase } from './delete-comment.ts'
 let usersRepository: UsersRepository
 let projectsRepository: ProjectsRepository
 let trailsRepository: TrailsRepository
+let commentsRepository: CommentsRepository
 
 let author: User
 let project: Project
@@ -29,6 +32,7 @@ describe('delete comment use case', () => {
     usersRepository = new InMemoryUsersRepository()
     trailsRepository = new InMemoryTrailsRepository()
     projectsRepository = new InMemoryProjectsRepository()
+    commentsRepository = new InMemoryCommentsRepository(usersRepository)
 
     author = await makeUser()
     const trail = makeTrail()
@@ -41,8 +45,9 @@ describe('delete comment use case', () => {
     await usersRepository.create(author)
     await trailsRepository.create(trail)
     await projectsRepository.create(project)
+    await commentsRepository.create(comment)
 
-    sut = new DeleteCommentUseCase(projectsRepository, usersRepository)
+    sut = new DeleteCommentUseCase(commentsRepository, usersRepository)
   })
 
   it('should be able to delete a comment', async () => {
