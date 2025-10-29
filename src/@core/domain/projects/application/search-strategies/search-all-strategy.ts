@@ -7,7 +7,7 @@ export class SearchAllStrategy implements SearchStrategy {
     return true
   }
 
-  async search(
+  search(
     _criteria: SearchCriteria,
     repository: ProjectsRepository,
   ): Promise<ProjectDTO[]> {

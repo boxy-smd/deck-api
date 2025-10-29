@@ -7,11 +7,11 @@ export class SearchByProfessorStrategy implements SearchStrategy {
     return Boolean(criteria.professorName)
   }
 
-  async search(
+  search(
     criteria: SearchCriteria,
     repository: ProjectsRepository,
   ): Promise<ProjectDTO[]> {
-    if (!criteria.professorName) return []
+    if (!criteria.professorName) return Promise.resolve([])
     return repository.findManyProjectDTOsByProfessorName(criteria.professorName)
   }
 }
