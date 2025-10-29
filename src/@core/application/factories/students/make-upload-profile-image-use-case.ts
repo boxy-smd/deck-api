@@ -6,9 +6,7 @@ import { PrismaStudentsRepository } from '@/@infra/database/prisma/repositories/
 export function makeUploadProfileImageUseCase() {
   const firebaseBannerUploader = new FirebaseProfileUploader()
   const projectsRepository = new PrismaProjectsRepository()
-  const studentsRepository = new PrismaStudentsRepository(
-    projectsRepository,
-  )
+  const studentsRepository = new PrismaStudentsRepository()
   const uploadStudentProfileUseCase = new UploadStudentProfileUseCase(
     studentsRepository,
     firebaseBannerUploader,
@@ -16,3 +14,4 @@ export function makeUploadProfileImageUseCase() {
 
   return uploadStudentProfileUseCase
 }
+

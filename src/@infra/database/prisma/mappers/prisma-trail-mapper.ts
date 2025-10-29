@@ -6,13 +6,13 @@ import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaTrailMapper {
   static toEntity(raw: TrailRaw): Trail {
-    return Trail.create(
+    return Trail.reconstitute(
       {
         name: raw.name,
-        createdAt: raw.createdAt,
-        updatedAt: raw.updatedAt,
       },
       new UniqueEntityID(raw.id),
+      raw.createdAt,
+      raw.updatedAt,
     )
   }
 

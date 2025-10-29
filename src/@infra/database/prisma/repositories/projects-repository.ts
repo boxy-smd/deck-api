@@ -207,7 +207,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return data.map(d => PrismaProjectMapper.toEntityPost(d))
+    return data.map(d => PrismaProjectMapper.toProjectDTO(d))
   }
 
   async findAllProjectDTOs(): Promise<ProjectDTO[]> {

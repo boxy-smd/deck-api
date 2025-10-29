@@ -1,13 +1,8 @@
 import { makeDeleteProjectUseCase } from '@/@core/application/factories/projects/make-delete-project-use-case'
-import { makeFetchPostsUseCase } from '@/@core/application/factories/projects/make-fetch-posts-use-case'
-import { makeFilterPostsByQueryUseCase } from '@/@core/application/factories/projects/make-filter-posts-by-query-use-case'
 import { makeGetProjectUseCase } from '@/@core/application/factories/projects/make-get-project-use-case'
 import { makePublishProjectUseCase } from '@/@core/application/factories/projects/make-publish-project-use-case'
-import { makeSearchPostsByProfessorNameUseCase } from '@/@core/application/factories/projects/make-search-posts-by-professor-name-use-case'
-import { makeSearchPostsByTagUseCase } from '@/@core/application/factories/projects/make-search-posts-by-tag-use-case'
-import { makeSearchPostsByTitleUseCase } from '@/@core/application/factories/projects/make-search-posts-by-title-use-case'
+import { makeSearchProjectsUseCase } from '@/@core/application/factories/projects/make-search-projects-use-case'
 import { makeUploadProjectBannerUseCase } from '@/@core/application/factories/projects/make-upload-project-banner-use-case'
-import { PostPresenter } from '@/@presentation/presenters/post'
 import { ProjectDetailsPresenter } from '@/@presentation/presenters/project-details'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import {
@@ -89,12 +84,22 @@ export class ProjectsController {
   @ApiOperation({ summary: 'Fetch posts' })
   @ApiResponse({ status: 200, description: 'Posts retrieved successfully' })
   async fetchPosts(@Query() query: FetchPostsDto) {
-    const fetchPostsUseCase = makeFetchPostsUseCase()
+    const searchProjectsUseCase = makeSearchProjectsUseCase()
 
-    const result = await fetchPostsUseCase.execute()
+    const result = await searchProjectsUseCase.execute({})
+
+    if (result.isLeft()) {
+      throw new BadRequestException(result.value.message)
+    }
 
     return {
-      posts: result.map(PostPresenter.toHTTP),
+      posts: result.value.items,
+      pagination: {
+        page: result.value.page,
+        perPage: result.value.perPage,
+        total: result.value.total,
+        totalPages: result.value.totalPages,
+      },
     }
   }
 
@@ -102,40 +107,32 @@ export class ProjectsController {
   @ApiOperation({ summary: 'Search/Filter posts' })
   @ApiResponse({ status: 200, description: 'Posts retrieved successfully' })
   async filterPosts(@Query() filter: FilterPostsDto) {
-    let posts: any[] = []
+    const searchProjectsUseCase = makeSearchProjectsUseCase()
 
-    if (filter.query) {
-      const filterPostsUseCase = makeFilterPostsByQueryUseCase()
+    const result = await searchProjectsUseCase.execute({
+      title: filter.title,
+      professorName: filter.professor,
+      tag: filter.tag,
+      metadata: filter.semester || filter.publishedYear || filter.subjectId || filter.trailsIds ? {
+        semester: filter.semester,
+        publishedYear: filter.publishedYear,
+        subjectId: filter.subjectId,
+        trailsIds: filter.trailsIds,
+      } : undefined,
+    })
 
-      const result = await filterPostsUseCase.execute({ query: filter.query })
-
-      if (result.isRight()) {
-        posts = result.value
-      }
-    } else if (filter.title) {
-      const searchUseCase = makeSearchPostsByTitleUseCase()
-      const result = await searchUseCase.execute({ title: filter.title })
-      posts = result
-    } else if (filter.professor) {
-      const searchUseCase = makeSearchPostsByProfessorNameUseCase()
-      const result = await searchUseCase.execute({
-        professorName: filter.professor,
-      })
-      posts = result
-    } else if (filter.tag) {
-      const searchUseCase = makeSearchPostsByTagUseCase()
-      const result = await searchUseCase.execute({ tag: filter.tag })
-      posts = result
-    } else {
-      const fetchPostsUseCase = makeFetchPostsUseCase()
-      const result = await fetchPostsUseCase.execute()
-      if (result.isRight()) {
-        posts = result.value
-      }
+    if (result.isLeft()) {
+      throw new BadRequestException(result.value.message)
     }
 
     return {
-      posts: posts.map(PostPresenter.toHTTP),
+      posts: result.value.items,
+      pagination: {
+        page: result.value.page,
+        perPage: result.value.perPage,
+        total: result.value.total,
+        totalPages: result.value.totalPages,
+      },
     }
   }
 

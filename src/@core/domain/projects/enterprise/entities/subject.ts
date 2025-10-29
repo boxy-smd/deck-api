@@ -16,13 +16,20 @@ export class Subject extends Entity<SubjectProps> {
     return new Subject(props, id)
   }
 
-  public reconstitute(
+  static reconstitute(
     props: SubjectProps,
     id: UniqueEntityID,
     createdAt: Date,
     updatedAt: Date,
   ): Subject {
-    return new Subject(props, id, createdAt, updatedAt)
+    const subject = Object.create(Subject.prototype)
+    Object.assign(subject, {
+      props,
+      _id: id,
+      _createdAt: createdAt,
+      _updatedAt: updatedAt,
+    })
+    return subject
   }
 
   // --- 3. Getters ---

@@ -28,7 +28,12 @@ export class PrismaStudentMapper {
       throw usernameResult.value
     }
 
-    const email = Email.create(raw.email)
+    const emailResult = Email.create(raw.email)
+    if (emailResult.isLeft()) {
+      throw emailResult.value
+    }
+
+    const email = emailResult.value
 
     let profile: StudentProfile | undefined
     if (raw.studentProfile) {

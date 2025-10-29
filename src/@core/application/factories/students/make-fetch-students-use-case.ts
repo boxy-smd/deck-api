@@ -4,10 +4,9 @@ import { PrismaStudentsRepository } from '@/@infra/database/prisma/repositories/
 
 export function makeFetchStudentsUseCase() {
   const projectsRepository = new PrismaProjectsRepository()
-  const studentsRepository = new PrismaStudentsRepository(
-    projectsRepository,
-  )
+  const studentsRepository = new PrismaStudentsRepository()
   const fetchStudentsUseCase = new FetchStudentsUseCase(studentsRepository)
 
   return fetchStudentsUseCase
 }
+

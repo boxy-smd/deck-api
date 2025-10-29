@@ -7,9 +7,7 @@ import { PrismaTrailsRepository } from '@/@infra/database/prisma/repositories/tr
 
 export function makePublishProjectUseCase() {
   const projectsRepository = new PrismaProjectsRepository()
-  const studentsRepository = new PrismaStudentsRepository(
-    projectsRepository,
-  )
+  const studentsRepository = new PrismaStudentsRepository()
   const professorsRepository = new PrismaProfessorsRepository()
   const trailsRepository = new PrismaTrailsRepository()
   const subjectsRepository = new PrismaSubjectsRepository()
