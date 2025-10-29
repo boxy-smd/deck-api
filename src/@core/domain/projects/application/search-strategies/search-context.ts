@@ -1,5 +1,5 @@
-import type { ProjectDTO } from '../../dtos/project.dto'
-import type { ProjectsRepository } from '../../repositories/projects-repository'
+import type { ProjectDTO } from '../dtos/project.dto'
+import type { ProjectsRepository } from '../repositories/projects-repository'
 import { SearchAllStrategy } from './search-all-strategy'
 import { SearchByMetadataStrategy } from './search-by-metadata-strategy'
 import { SearchByProfessorStrategy } from './search-by-professor-strategy'
