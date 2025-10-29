@@ -4,46 +4,54 @@ import { InMemoryProjectsRepository } from 'test/repositories/projects-repositor
 import { InMemorySubjectsRepository } from 'test/repositories/subjects-repository'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
+import type { ProjectsRepository } from '../repositories/projects-repository'
+import type { UsersRepository } from '@/@core/domain/authentication/application/repositories/users-repository'
+import type { SubjectsRepository } from '../repositories/subjects-repository'
+import type { TrailsRepository } from '../repositories/trails-repository'
+import type { User } from '@/@core/domain/authentication/enterprise/entities/user'
 import { SearchProjectsUseCase } from './search-projects'
 
-let studentsRepository: InMemoryUsersRepository
-let subjectsRepository: InMemorySubjectsRepository
-let trailsRepository: InMemoryTrailsRepository
-let projectsRepository: InMemoryProjectsRepository
+let projectsRepository: ProjectsRepository
+let studentsRepository: UsersRepository
+let subjectsRepository: SubjectsRepository
+let trailsRepository: TrailsRepository
+let author: User
 let sut: SearchProjectsUseCase
 
 describe('search projects use case', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     studentsRepository = new InMemoryUsersRepository()
     subjectsRepository = new InMemorySubjectsRepository()
     trailsRepository = new InMemoryTrailsRepository()
+    
     projectsRepository = new InMemoryProjectsRepository(
       studentsRepository,
       subjectsRepository,
       trailsRepository,
     )
+    
+    author = await makeUser()
+    await studentsRepository.create(author)
+    
     sut = new SearchProjectsUseCase(projectsRepository)
   })
 
   it('should be able to search projects by title', async () => {
-    const student = makeUser()
-    await studentsRepository.create(student)
-
     const project1 = makeProject({
       title: 'React Project',
-      authorId: student.id,
+      authorId: author.id,
     })
-    project1.post() // Publicar o projeto
+    project1.post()
     
     const project2 = makeProject({
       title: 'Vue Project',
-      authorId: student.id,
+      authorId: author.id,
     })
     project2.post()
     
     const project3 = makeProject({
       title: 'Angular Project',
-      authorId: student.id,
+      authorId: author.id,
     })
     project3.post()
 
@@ -63,27 +71,24 @@ describe('search projects use case', () => {
   })
 
   it('should be able to filter projects by year and semester', async () => {
-    const student = makeUser()
-    await studentsRepository.create(student)
-
     const project1 = makeProject({
       publishedYear: 2024,
       semester: 1,
-      authorId: student.id,
+      authorId: author.id,
     })
     project1.post()
     
     const project2 = makeProject({
       publishedYear: 2024,
       semester: 2,
-      authorId: student.id,
+      authorId: author.id,
     })
     project2.post()
     
     const project3 = makeProject({
       publishedYear: 2023,
       semester: 1,
-      authorId: student.id,
+      authorId: author.id,
     })
     project3.post()
 
@@ -105,13 +110,10 @@ describe('search projects use case', () => {
   })
 
   it('should return paginated results', async () => {
-    const student = makeUser()
-    await studentsRepository.create(student)
-
     for (let i = 0; i < 25; i++) {
       const project = makeProject({
         title: `Project ${i}`,
-        authorId: student.id,
+        authorId: author.id,
       })
       project.post()
       await projectsRepository.create(project)
@@ -130,14 +132,11 @@ describe('search projects use case', () => {
   })
 
   it('should return all projects when no filters are provided', async () => {
-    const student = makeUser()
-    await studentsRepository.create(student)
-
-    const project1 = makeProject({ authorId: student.id })
+    const project1 = makeProject({ authorId: author.id })
     project1.post()
-    const project2 = makeProject({ authorId: student.id })
+    const project2 = makeProject({ authorId: author.id })
     project2.post()
-    const project3 = makeProject({ authorId: student.id })
+    const project3 = makeProject({ authorId: author.id })
     project3.post()
 
     await projectsRepository.create(project1)
