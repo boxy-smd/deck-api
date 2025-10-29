@@ -8,8 +8,5 @@ export function makeListProjectCommentsUseCase() {
   const commentsRepository = new PrismaCommentsRepository(reportsRepository)
   const projectsRepository = new PrismaProjectsRepository()
 
-  return new ListProjectCommentsUseCase(
-    projectsRepository,
-    commentsRepository,
-  )
+  return new ListProjectCommentsUseCase(projectsRepository, commentsRepository)
 }
