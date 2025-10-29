@@ -6,6 +6,7 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "builder": "swc",
-    "typeCheck": true
+    "typeCheck": true,
+    "tsConfigPath": "tsconfig.build.json"
   }
 }
