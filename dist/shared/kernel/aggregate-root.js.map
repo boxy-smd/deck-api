@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../src/shared/kernel/aggregate-root.ts"],"sourcesContent":["import { Entity } from './entity'\n\nexport abstract class AggregateRoot<Props> extends Entity<Props> {}\n"],"names":["AggregateRoot","Entity"],"mappings":";;;;+BAEsBA;;;eAAAA;;;wBAFC;AAEhB,IAAA,AAAeA,gBAAf,MAAeA,sBAA6BC,cAAM;AAAS"}
