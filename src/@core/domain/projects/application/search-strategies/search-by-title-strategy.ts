@@ -1,5 +1,5 @@
-import type { ProjectDTO } from '../../dtos/project.dto'
-import type { ProjectsRepository } from '../../repositories/projects-repository'
+import type { ProjectDTO } from '../dtos/project.dto'
+import type { ProjectsRepository } from '../repositories/projects-repository'
 import type { SearchCriteria, SearchStrategy } from './search-strategy'
 
 export class SearchByTitleStrategy implements SearchStrategy {

@@ -4,6 +4,7 @@ import {
   Pagination,
 } from '@/@shared/kernel/pagination'
 import type { ProjectSummaryDTO } from '../dtos/project-summary.dto'
+import type { ProjectDTO } from '../dtos/project.dto'
 import type { ProjectsRepository } from '../repositories/projects-repository'
 import { SearchContext } from '../search-strategies/search-context'
 import type { SearchCriteria } from '../search-strategies/search-strategy'
@@ -67,23 +68,14 @@ export class SearchProjectsUseCase {
       semester,
     }
 
-    const projects = await this.searchContext.search(
+    const projectDTOs = await this.searchContext.search(
       criteria,
       this.projectsRepository,
     )
 
-    const projectSummaries: ProjectSummaryDTO[] = projects.map(project => ({
-      id: project.id,
-      title: project.title,
-      description: project.description,
-      bannerUrl: project.bannerUrl,
-      publishedYear: project.publishedYear,
-      semester: project.semester,
-      createdAt: project.createdAt,
-      author: project.author,
-      subject: project.subject,
-      trails: project.trails,
-    }))
+    const projectSummaries: ProjectSummaryDTO[] = projectDTOs.map(dto =>
+      this.mapToSummary(dto),
+    )
 
     const paginatedResult = Pagination.paginate(projectSummaries, {
       page,
@@ -91,5 +83,20 @@ export class SearchProjectsUseCase {
     })
 
     return right(paginatedResult)
+  }
+
+  private mapToSummary(dto: ProjectDTO): ProjectSummaryDTO {
+    return {
+      id: dto.id,
+      title: dto.title,
+      description: dto.description,
+      bannerUrl: dto.bannerUrl,
+      publishedYear: dto.publishedYear,
+      semester: dto.semester,
+      createdAt: dto.createdAt,
+      author: dto.author,
+      subject: dto.subject,
+      trails: dto.trails,
+    }
   }
 }

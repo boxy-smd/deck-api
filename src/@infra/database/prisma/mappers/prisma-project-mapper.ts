@@ -1,8 +1,31 @@
 import type { Prisma, Project as ProjectRaw } from '@prisma/client'
 
 import { Project } from '@/@core/domain/projects/enterprise/entities/project'
+import type { ProjectDTO } from '@/@core/domain/projects/application/dtos/project.dto'
+import type { ProjectSummaryDTO } from '@/@core/domain/projects/application/dtos/project-summary.dto'
 import type { ProjectStatus } from '@/@core/domain/projects/enterprise/value-objects/project-status'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
+
+type PrismaProjectWithRelations = ProjectRaw & {
+  author?: {
+    name: string
+    username: string
+    profileUrl: string | null
+  }
+  subject?: {
+    name: string
+  } | null
+  trails?: Array<{
+    trail: {
+      name: string
+    }
+  }>
+  professors?: Array<{
+    professor: {
+      name: string
+    }
+  }>
+}
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaProjectMapper {
@@ -71,50 +94,51 @@ export class PrismaProjectMapper {
     }
   }
 
-  static toEntityPost(raw: any): any {
-    const project = this.toEntity(raw)
+  static toProjectDTO(raw: PrismaProjectWithRelations): ProjectDTO {
     return {
-      id: project.id.toString(),
-      title: project.title,
-      description: project.description,
-      content: project.content,
-      semester: project.semester,
-      publishedYear: project.publishedYear,
-      status: project.status,
-      allowComments: project.allowComments,
-      bannerUrl: project.bannerUrl,
-      authorId: project.authorId.toString(),
-      subjectId: project.subjectId?.toString(),
-      createdAt: project.createdAt,
-      updatedAt: project.updatedAt,
-      author: raw.author,
-      subject: raw.subject,
-      trails: raw.trails?.map((t: any) => t.trail) || [],
-      professors: raw.professors?.map((p: any) => p.professor) || [],
+      id: raw.id,
+      title: raw.title,
+      description: raw.description ?? '',
+      bannerUrl: raw.bannerUrl,
+      content: raw.content,
+      publishedYear: raw.publishedYear,
+      status: raw.status as 'DRAFT' | 'PUBLISHED' | 'ARCHIVED',
+      semester: raw.semester,
+      createdAt: raw.createdAt,
+      updatedAt: raw.updatedAt,
+      authorId: raw.authorId,
+      author: raw.author
+        ? {
+            name: raw.author.name,
+            username: raw.author.username,
+            profileUrl: raw.author.profileUrl,
+          }
+        : { name: '', username: '', profileUrl: null },
+      subjectId: raw.subjectId,
+      subject: raw.subject ? { name: raw.subject.name } : null,
+      trails: (raw.trails ?? []).map(t => ({ name: t.trail.name })),
+      professors: (raw.professors ?? []).map(p => ({ name: p.professor.name })),
     }
   }
 
-  static toEntityDetails(raw: any): any {
-    const project = this.toEntity(raw)
+  static toProjectSummaryDTO(raw: PrismaProjectWithRelations): ProjectSummaryDTO {
     return {
-      id: project.id.toString(),
-      title: project.title,
-      description: project.description,
-      content: project.content,
-      semester: project.semester,
-      publishedYear: project.publishedYear,
-      status: project.status,
-      allowComments: project.allowComments,
-      bannerUrl: project.bannerUrl,
-      authorId: project.authorId.toString(),
-      subjectId: project.subjectId?.toString(),
-      createdAt: project.createdAt,
-      updatedAt: project.updatedAt,
-      author: raw.author,
-      subject: raw.subject,
-      trails: raw.trails?.map((t: any) => t.trail) || [],
-      professors: raw.professors?.map((p: any) => p.professor) || [],
-      comments: raw.comments || [],
+      id: raw.id,
+      title: raw.title,
+      description: raw.description ?? '',
+      bannerUrl: raw.bannerUrl,
+      publishedYear: raw.publishedYear,
+      semester: raw.semester,
+      createdAt: raw.createdAt,
+      author: raw.author
+        ? {
+            name: raw.author.name,
+            username: raw.author.username,
+            profileUrl: raw.author.profileUrl,
+          }
+        : { name: '', username: '', profileUrl: null },
+      subject: raw.subject ? { name: raw.subject.name } : null,
+      trails: (raw.trails ?? []).map(t => ({ name: t.trail.name })),
     }
   }
 }
