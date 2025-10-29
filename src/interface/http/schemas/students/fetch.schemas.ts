@@ -18,7 +18,7 @@ const fetchStudentsResponseSchema = z.object(
         name: z.string(),
         username: z.string(),
         semester: z.number(),
-        profileUrl: z.string().optional().nullable(),
+        profileUrl: z.string().nullable(),
         trails: z.array(z.string()),
       }),
     ),

@@ -10,14 +10,12 @@ const deleteProjectParamsSchemas = z.object({
   }),
 })
 
-const deleteProjectResponseSchema = z.undefined()
-
 export const deleteProjectSchemas = {
   summary: 'Delete a project',
   tags: ['Projects'],
   params: deleteProjectParamsSchemas,
   response: {
-    204: deleteProjectResponseSchema,
+    204: z.object({}),
     400: zodErrorSchema,
     403: errorResponseSchema,
     404: errorResponseSchema,

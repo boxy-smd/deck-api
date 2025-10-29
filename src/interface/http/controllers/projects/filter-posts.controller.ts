@@ -13,10 +13,15 @@ export async function filterPosts(
 
   const filterPostsByQueryUseCase = makeFilterPostsByQueryUseCase()
 
-  const isTrailArray = Array.isArray(trailsIds)
+  // Handle comma-separated string or single trail ID
+  const trailsArray = trailsIds 
+    ? trailsIds.includes(',') 
+      ? trailsIds.split(',').map(id => id.trim())
+      : [trailsIds]
+    : undefined
 
   const result = await filterPostsByQueryUseCase.execute({
-    trailsIds: trailsIds ? (isTrailArray ? trailsIds : [trailsIds]) : undefined,
+    trailsIds: trailsArray,
     semester,
     subjectId,
     publishedYear,
