@@ -1,7 +1,7 @@
 import type { UsersRepository } from '@/@core/domain/authentication/application/repositories/users-repository'
 import type { CommentsRepository } from '@/@core/domain/interaction/application/repositories/comments-repository'
 import type { Comment } from '@/@core/domain/interaction/enterprise/entities/comment'
-import type { CommentWithAuthor } from '@/@core/domain/interaction/enterprise/entities/value-objects/comment-with-author'
+import { CommentWithAuthor } from '@/@core/domain/interaction/enterprise/entities/value-objects/comment-with-author'
 import { InMemoryUsersRepository } from './users-repository'
 
 export class InMemoryCommentsRepository implements CommentsRepository {
@@ -42,23 +42,17 @@ export class InMemoryCommentsRepository implements CommentsRepository {
           throw new Error('Author not found.')
         }
 
-        return {
-          id: comment.id,
+        return CommentWithAuthor.create({
+          commentId: comment.id,
           content: comment.content,
           createdAt: comment.createdAt,
           updatedAt: comment.updatedAt,
           projectId: comment.projectId,
           authorId: comment.authorId,
-          author: {
-            name: author.name,
-            username: author.username.value,
-            profileUrl: author.profileUrl || null,
-          },
           authorName: author.name,
           authorUsername: author.username.value,
           authorProfileUrl: author.profileUrl || null,
-          commentId: comment.id,
-        } as CommentWithAuthor
+        })
       }),
     )
 
