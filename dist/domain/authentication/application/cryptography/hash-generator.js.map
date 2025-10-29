@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../../src/domain/authentication/application/cryptography/hash-generator.ts"],"sourcesContent":["export abstract class HashGenerator {\n  abstract hash(plain: string): Promise<string>\n}\n"],"names":["HashGenerator"],"mappings":";;;;+BAAsBA;;;eAAAA;;;AAAf,IAAA,AAAeA,gBAAf,MAAeA;AAEtB"}

@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../../src/domain/projects/enterprise/value-objects/project-status.ts"],"sourcesContent":["export enum ProjectStatus {\n  DRAFT = 'DRAFT',\n  PUBLISHED = 'PUBLISHED',\n  ARCHIVED = 'ARCHIVED',\n}\n"],"names":["ProjectStatus"],"mappings":";;;;+BAAYA;;;eAAAA;;;AAAL,IAAA,AAAKA,uCAAAA;;;;WAAAA"}

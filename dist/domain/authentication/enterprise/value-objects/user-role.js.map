@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../../src/domain/authentication/enterprise/value-objects/user-role.ts"],"sourcesContent":["export enum UserRole {\n  STUDENT = 'STUDENT',\n  CURATOR = 'CURATOR',\n  MODERATOR = 'MODERATOR',\n  ADMIN = 'ADMIN',\n}\n"],"names":["UserRole"],"mappings":";;;;+BAAYA;;;eAAAA;;;AAAL,IAAA,AAAKA,kCAAAA;;;;;WAAAA"}
