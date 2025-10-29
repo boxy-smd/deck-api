@@ -1,4 +1,4 @@
-import type { Post } from '../../../enterprise/value-objects/post'
+import type { ProjectDTO } from '../../dtos/project.dto'
 import type { ProjectsRepository } from '../../repositories/projects-repository'
 import type { SearchCriteria, SearchStrategy } from './search-strategy'
 
@@ -10,8 +10,8 @@ export class SearchByProfessorStrategy implements SearchStrategy {
   async search(
     criteria: SearchCriteria,
     repository: ProjectsRepository,
-  ): Promise<Post[]> {
+  ): Promise<ProjectDTO[]> {
     if (!criteria.professorName) return []
-    return repository.findManyPostsByProfessorName(criteria.professorName)
+    return repository.findManyProjectDTOsByProfessorName(criteria.professorName)
   }
 }

@@ -1,9 +1,10 @@
+import type { PaginatedResult } from '@/@shared/kernel/dtos/pagination.dto'
+import { PaginationDTO } from '@/@shared/kernel/dtos/pagination.dto'
 import { type Either, right } from '@/@shared/kernel/either'
 import {
-  Pagination,
-  type PaginatedResult,
-} from '@/@shared/kernel/pagination'
-import { PostSummary } from '../../enterprise/value-objects/post-summary'
+  type ProjectSummaryDTO,
+  ProjectSummaryDTOMapper,
+} from '../dtos/project-summary.dto'
 import type { ProjectsRepository } from '../repositories/projects-repository'
 import { SearchContext } from '../search-strategies/search-context'
 import type { SearchCriteria } from '../search-strategies/search-strategy'
@@ -30,7 +31,7 @@ interface SearchProjectsUseCaseRequest {
 
 type SearchProjectsUseCaseResponse = Either<
   never,
-  PaginatedResult<PostSummary>
+  PaginatedResult<ProjectSummaryDTO>
 >
 
 export class SearchProjectsUseCase {
@@ -67,17 +68,26 @@ export class SearchProjectsUseCase {
       semester,
     }
 
-    const posts = await this.searchContext.search(
+    const projects = await this.searchContext.search(
       criteria,
       this.projectsRepository,
     )
 
-    const postSummaries = posts.map(post => PostSummary.fromPost(post))
+    const projectSummaries = projects.map(project =>
+      ProjectSummaryDTOMapper.fromProject(project),
+    )
 
-    const paginatedResult = Pagination.paginate(postSummaries, {
+    const { page: validPage, limit } = PaginationDTO.validateParams({
       page,
-      perPage,
+      limit: perPage,
     })
+
+    const paginatedResult = PaginationDTO.create(
+      projectSummaries,
+      projectSummaries.length,
+      validPage,
+      limit,
+    )
 
     return right(paginatedResult)
   }

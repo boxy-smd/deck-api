@@ -1,5 +1,5 @@
-import type { Post } from '../../../enterprise/value-objects/post'
-import type { ProjectsRepository } from '../../repositories/projects-repository'
+import type { ProjectDTO } from '../dtos/project.dto'
+import type { ProjectsRepository } from '../repositories/projects-repository'
 
 export interface SearchCriteria {
   query?: string
@@ -17,5 +17,5 @@ export interface SearchStrategy {
   search(
     criteria: SearchCriteria,
     repository: ProjectsRepository,
-  ): Promise<Post[]>
+  ): Promise<ProjectDTO[]>
 }

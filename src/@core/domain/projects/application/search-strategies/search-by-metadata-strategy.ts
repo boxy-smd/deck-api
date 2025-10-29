@@ -1,4 +1,4 @@
-import type { Post } from '../../../enterprise/value-objects/post'
+import type { ProjectDTO } from '../../dtos/project.dto'
 import type { ProjectsRepository } from '../../repositories/projects-repository'
 import type { SearchCriteria, SearchStrategy } from './search-strategy'
 
@@ -15,8 +15,8 @@ export class SearchByMetadataStrategy implements SearchStrategy {
   async search(
     criteria: SearchCriteria,
     repository: ProjectsRepository,
-  ): Promise<Post[]> {
-    return repository.findManyPostsByQuery({
+  ): Promise<ProjectDTO[]> {
+    return repository.findManyProjectDTOsByQuery({
       trailsIds: criteria.trailsIds,
       semester: criteria.semester,
       subjectId: criteria.subjectId,
