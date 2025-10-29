@@ -36,13 +36,16 @@ export async function makeUser(
     userId,
   )
 
-  const email = Email.create(`user_${Math.random().toString(36).substring(7)}@alu.ufc.br`)
+  const emailResult = Email.create(`user_${Math.random().toString(36).substring(7)}@alu.ufc.br`)
+  if (emailResult.isLeft()) {
+    throw emailResult.value
+  }
 
   const user = User.create(
     {
       name: 'John Doe',
       username: usernameResult.value,
-      email,
+      email: emailResult.value,
       passwordHash: await hasher.hash('123456'),
       about: 'Eu sou um estudante de Sistemas e Mídias Digitais.',
       profileUrl: 'https://boxy.com/test.png',

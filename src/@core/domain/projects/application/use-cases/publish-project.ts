@@ -178,7 +178,7 @@ export class PublishProjectUseCase {
       return left(new ResourceNotFoundError('Trail not found.'))
     }
 
-    return right(trails.filter(Boolean))
+    return right(trails.filter((trail): trail is Trail => trail !== null))
   }
 
   private async validateProfessors(
@@ -198,7 +198,7 @@ export class PublishProjectUseCase {
       return left(new ResourceNotFoundError('Professor not found.'))
     }
 
-    return right(professors.filter(Boolean))
+    return right(professors.filter((prof): prof is Professor => prof !== null))
   }
 
   private async processDraft(
