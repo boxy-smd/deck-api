@@ -4,6 +4,7 @@ import { makeGetProfileUseCase } from '@/interface/factories/students/make-get-p
 import { makeGetStudentDetailsUseCase } from '@/interface/factories/students/make-get-student-details-use-case'
 import { makeLoginUseCase } from '@/interface/factories/students/make-login-use-case'
 import { makeRegisterUseCase } from '@/interface/factories/students/make-register-use-case'
+import { makeUploadProfileImageUseCase } from '@/interface/factories/students/make-upload-profile-image-use-case'
 import { StudentPresenter } from '@/interface/http/presenters/student'
 import { StudentProfilePresenter } from '@/interface/http/presenters/student-profile'
 import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth.guard'
@@ -18,16 +19,22 @@ import {
   HttpStatus,
   NotFoundException,
   Param,
+  Patch,
   Post,
   Put,
   Query,
   Request,
   UnauthorizedException,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common'
-import type { JwtService } from '@nestjs/jwt'
+import { JwtService } from '@nestjs/jwt'
+import { FileInterceptor } from '@nestjs/platform-express'
 import {
   ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -195,5 +202,70 @@ export class StudentsController {
     }
 
     return StudentProfilePresenter.toHTTP(result.value)
+  }
+
+  @Post('profile-images/:username')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Upload student profile image' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Profile image uploaded successfully',
+  })
+  @ApiResponse({ status: 404, description: 'Student not found' })
+  async uploadProfileImage(
+    @Param('username') username: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new BadRequestException('File is required')
+    }
+
+    const uploadUseCase = makeUploadProfileImageUseCase()
+
+    const result = await uploadUseCase.execute({
+      username,
+      filename: file.originalname,
+      image: file.buffer,
+    })
+
+    if (result.isLeft()) {
+      const error = result.value
+      if (error.statusCode === 404) {
+        throw new NotFoundException(error.message)
+      }
+      throw new BadRequestException(error.message)
+    }
+
+    return { message: 'Profile image uploaded successfully' }
+  }
+
+  @Patch('token/refresh')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Refresh JWT token' })
+  @ApiResponse({ status: 200, description: 'Token refreshed successfully' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async refreshToken(@Request() req: any) {
+    const token = this.jwtService.sign({
+      sub: req.user.userId,
+      role: 'student',
+    })
+
+    return { token }
   }
 }

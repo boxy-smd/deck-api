@@ -6,6 +6,7 @@ import { makePublishProjectUseCase } from '@/interface/factories/projects/make-p
 import { makeSearchPostsByProfessorNameUseCase } from '@/interface/factories/projects/make-search-posts-by-professor-name-use-case'
 import { makeSearchPostsByTagUseCase } from '@/interface/factories/projects/make-search-posts-by-tag-use-case'
 import { makeSearchPostsByTitleUseCase } from '@/interface/factories/projects/make-search-posts-by-title-use-case'
+import { makeUploadProjectBannerUseCase } from '@/interface/factories/projects/make-upload-project-banner-use-case'
 import { PostPresenter } from '@/interface/http/presenters/post'
 import { ProjectDetailsPresenter } from '@/interface/http/presenters/project-details'
 import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth.guard'
@@ -24,10 +25,15 @@ import {
   Post,
   Query,
   Request,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
 import {
   ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -182,5 +188,51 @@ export class ProjectsController {
       }
       throw new BadRequestException(error.message)
     }
+  }
+
+  @Post('projects/:projectId/banner')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Upload project banner' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 200, description: 'Banner uploaded successfully' })
+  @ApiResponse({ status: 404, description: 'Project not found' })
+  async uploadBanner(
+    @Param('projectId') projectId: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new BadRequestException('File is required')
+    }
+
+    const uploadUseCase = makeUploadProjectBannerUseCase()
+
+    const result = await uploadUseCase.execute({
+      projectId,
+      filename: file.originalname,
+      image: file.buffer,
+    })
+
+    if (result.isLeft()) {
+      const error = result.value
+      if (error.statusCode === 404) {
+        throw new NotFoundException(error.message)
+      }
+      throw new BadRequestException(error.message)
+    }
+
+    return { message: 'Banner uploaded successfully' }
   }
 }

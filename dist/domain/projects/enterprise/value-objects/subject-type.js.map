@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../src/domain/projects/enterprise/value-objects/subject-type.ts"],"sourcesContent":["export enum SubjectType {\n  OBLIGATORY = 'OBLIGATORY',\n  ELECTIVE = 'ELECTIVE',\n  OPTIONAL = 'OPTIONAL',\n}\n"],"names":["SubjectType"],"mappings":";;;;+BAAYA;;;eAAAA;;;AAAL,IAAA,AAAKA,qCAAAA;;;;WAAAA"}
