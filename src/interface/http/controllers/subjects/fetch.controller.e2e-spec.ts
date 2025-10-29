@@ -1,8 +1,8 @@
 import request from 'supertest'
 
-import { app } from '@/app.ts'
-import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
-import { makeSubject } from 'test/factories/make-subject.ts'
+import { app } from '@/app'
+import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository'
+import { makeSubject } from 'test/factories/make-subject'
 
 describe('fetch subjects controller (e2e)', () => {
   beforeAll(async () => {

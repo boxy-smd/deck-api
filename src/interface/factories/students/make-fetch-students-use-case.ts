@@ -1,6 +1,6 @@
-import { FetchStudentsUseCase } from '@/domain/authentication/application/use-cases/fetch-students.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
-import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
+import { FetchStudentsUseCase } from '@/domain/authentication/application/use-cases/fetch-students'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
+import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository'
 
 export function makeFetchStudentsUseCase() {
   const projectsRepository = new PrismaProjectsRepository()

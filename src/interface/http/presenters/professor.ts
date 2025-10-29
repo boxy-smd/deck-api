@@ -1,4 +1,4 @@
-import type { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
+import type { Professor } from '@/domain/deck/enterprise/entities/professor'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class ProfessorPresenter {

@@ -1,8 +1,8 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { makeFetchStudentsUseCase } from '@/interface/factories/students/make-fetch-students-use-case.ts'
-import { StudentPresenter } from '../../presenters/student.ts'
-import type { FetchStudentsQuery } from '../../schemas/students/fetch.schemas.ts'
+import { makeFetchStudentsUseCase } from '@/interface/factories/students/make-fetch-students-use-case'
+import { StudentPresenter } from '../../presenters/student'
+import type { FetchStudentsQuery } from '../../schemas/students/fetch.schemas'
 
 export async function fetchStudents(
   request: FastifyRequest<{

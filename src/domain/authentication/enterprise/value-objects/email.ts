@@ -1,5 +1,5 @@
-import { ValueObject } from '@/shared/kernel/value-object.ts'
-import { EmailBadFormattedError } from '../../application/errors/email-bad-formatted.error.ts'
+import { ValueObject } from '@/shared/kernel/value-object'
+import { EmailBadFormattedError } from '../../application/errors/email-bad-formatted.error'
 
 interface EmailProps {
   value: string

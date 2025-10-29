@@ -1,8 +1,8 @@
 import type { Comment as CommentRaw, Prisma } from '@prisma/client'
 
-import { Comment } from '@/domain/interaction/enterprise/entities/comment.ts'
-import { CommentWithAuthor } from '@/domain/interaction/enterprise/entities/value-objects/comment-with-author.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
+import { Comment } from '@/domain/interaction/enterprise/entities/comment'
+import { CommentWithAuthor } from '@/domain/interaction/enterprise/entities/value-objects/comment-with-author'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaCommentMapper {

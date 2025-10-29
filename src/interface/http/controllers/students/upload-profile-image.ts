@@ -1,6 +1,6 @@
-import { makeUploadProfileImageUseCase } from '@/interface/factories/students/make-upload-profile-image-use-case.ts'
+import { makeUploadProfileImageUseCase } from '@/interface/factories/students/make-upload-profile-image-use-case'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import type { UpdateProfileImageParams } from '../../schemas/students/upload-profile-image.schemas.ts'
+import type { UpdateProfileImageParams } from '../../schemas/students/upload-profile-image.schemas'
 
 export async function uploadProfileImage(
   request: FastifyRequest<{

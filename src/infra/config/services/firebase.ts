@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getStorage, ref } from 'firebase/storage'
-import { env } from '../env/env.ts'
+import { env } from '../env/env'
 
 const firebaseApp = initializeApp({
   apiKey: env.FIREBASE_API_KEY,

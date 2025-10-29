@@ -1,10 +1,10 @@
-import { InvalidCredentialsError } from '@/shared/errors/invalid-credentials.error.ts'
-import { FakeHasher } from 'test/cryptography/fake-hasher.ts'
-import { makeUser } from 'test/factories/make-user.ts'
-import { InMemoryUsersRepository } from 'test/repositories/users-repository.ts'
-import type { User } from '../../enterprise/entities/user.ts'
-import type { UsersRepository } from '../repositories/users-repository.ts'
-import { LoginUseCase } from './login.ts'
+import { InvalidCredentialsError } from '@/shared/errors/invalid-credentials.error'
+import { FakeHasher } from 'test/cryptography/fake-hasher'
+import { makeUser } from 'test/factories/make-user'
+import { InMemoryUsersRepository } from 'test/repositories/users-repository'
+import type { User } from '../../enterprise/entities/user'
+import type { UsersRepository } from '../repositories/users-repository'
+import { LoginUseCase } from './login'
 
 let usersRepository: UsersRepository
 let hasher: FakeHasher

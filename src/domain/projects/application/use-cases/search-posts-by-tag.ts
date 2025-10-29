@@ -1,5 +1,5 @@
-import type { ProjectsRepository } from '../../../projects/application/repositories/projects-repository.ts'
-import type { Post } from '../../enterprise/value-objects/post.ts'
+import type { ProjectsRepository } from '../../../projects/application/repositories/projects-repository'
+import type { Post } from '../../enterprise/value-objects/post'
 
 interface SearchPostsByTagUseCaseRequest {
   tag: string

@@ -1,5 +1,5 @@
-import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository.ts'
-import type { Trail } from '@/domain/projects/enterprise/entities/trail.ts'
+import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository'
+import type { Trail } from '@/domain/projects/enterprise/entities/trail'
 
 export class InMemoryTrailsRepository implements TrailsRepository {
   public items: Trail[] = []

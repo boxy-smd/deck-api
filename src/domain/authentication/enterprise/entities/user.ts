@@ -1,11 +1,11 @@
-import { AggregateRoot } from '@/shared/kernel/aggregate-root.ts'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
-import type { Email } from '../value-objects/email.ts'
-import { Semester } from '../value-objects/semester.ts'
-import type { UserRole } from '../value-objects/user-role.ts'
-import { UserStatus } from '../value-objects/user-status.ts'
-import type { Username } from '../value-objects/username.ts'
-import { StudentProfile } from './student-profile.ts'
+import { AggregateRoot } from '@/shared/kernel/aggregate-root'
+import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
+import type { Email } from '../value-objects/email'
+import { Semester } from '../value-objects/semester'
+import type { UserRole } from '../value-objects/user-role'
+import { UserStatus } from '../value-objects/user-status'
+import type { Username } from '../value-objects/username'
+import { StudentProfile } from './student-profile'
 
 export interface UserProps {
   name: string

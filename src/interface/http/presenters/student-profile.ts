@@ -1,5 +1,5 @@
-import type { StudentProfileWithDetails } from '@/domain/authentication/enterprise/value-objects/student-profile-with-details.ts'
-import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
+import type { StudentProfileWithDetails } from '@/domain/authentication/enterprise/value-objects/student-profile-with-details'
+import type { User } from '@/domain/authentication/enterprise/entities/user'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class StudentProfilePresenter {

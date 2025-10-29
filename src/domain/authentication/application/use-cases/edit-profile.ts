@@ -1,12 +1,12 @@
-import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository.ts'
-import { type Either, left, right } from '@/shared/either.ts'
-import type { InvalidCredentialsError } from '@/shared/errors/invalid-credentials.error.ts'
-import type { ResourceAlreadyExistsError } from '@/shared/errors/resource-already-exists.error.ts'
-import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import type { User } from '../../enterprise/entities/user.ts'
-import { Semester } from '../../enterprise/value-objects/semester.ts'
-import type { SemesterOutOfBoundsError } from '../errors/semester-out-of-bounds.error.ts'
-import type { UsersRepository } from '../repositories/users-repository.ts'
+import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository'
+import { type Either, left, right } from '@/shared/either'
+import type { InvalidCredentialsError } from '@/shared/errors/invalid-credentials.error'
+import type { ResourceAlreadyExistsError } from '@/shared/errors/resource-already-exists.error'
+import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error'
+import type { User } from '../../enterprise/entities/user'
+import { Semester } from '../../enterprise/value-objects/semester'
+import type { SemesterOutOfBoundsError } from '../errors/semester-out-of-bounds.error'
+import type { UsersRepository } from '../repositories/users-repository'
 
 interface EditProfileUseCaseRequest {
   studentId: string

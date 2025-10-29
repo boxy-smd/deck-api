@@ -1,13 +1,13 @@
 import type { Prisma, User as UserRaw } from '@prisma/client'
 
-import { StudentProfile } from '@/domain/authentication/enterprise/entities/student-profile.ts'
-import { User } from '@/domain/authentication/enterprise/entities/user.ts'
-import { Email } from '@/domain/authentication/enterprise/value-objects/email.ts'
-import { Semester } from '@/domain/authentication/enterprise/value-objects/semester.ts'
-import type { UserRole } from '@/domain/authentication/enterprise/value-objects/user-role.ts'
-import type { UserStatus } from '@/domain/authentication/enterprise/value-objects/user-status.ts'
-import { Username } from '@/domain/authentication/enterprise/value-objects/username.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
+import { StudentProfile } from '@/domain/authentication/enterprise/entities/student-profile'
+import { User } from '@/domain/authentication/enterprise/entities/user'
+import { Email } from '@/domain/authentication/enterprise/value-objects/email'
+import { Semester } from '@/domain/authentication/enterprise/value-objects/semester'
+import type { UserRole } from '@/domain/authentication/enterprise/value-objects/user-role'
+import type { UserStatus } from '@/domain/authentication/enterprise/value-objects/user-status'
+import { Username } from '@/domain/authentication/enterprise/value-objects/username'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaStudentMapper {

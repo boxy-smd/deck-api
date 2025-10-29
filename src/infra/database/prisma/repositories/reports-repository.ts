@@ -1,7 +1,7 @@
-import type { ReportsRepository } from '@/domain/interaction/application/repositories/reports-repository.ts'
-import type { Report } from '@/domain/interaction/enterprise/entities/report.ts'
-import { prisma } from '../client.ts'
-import { PrismaReportMapper } from '../mappers/prisma-report-mapper.ts'
+import type { ReportsRepository } from '@/domain/interaction/application/repositories/reports-repository'
+import type { Report } from '@/domain/interaction/enterprise/entities/report'
+import { prisma } from '../client'
+import { PrismaReportMapper } from '../mappers/prisma-report-mapper'
 
 export class PrismaReportsRepository implements ReportsRepository {
   async findById(id: string): Promise<Report | null> {

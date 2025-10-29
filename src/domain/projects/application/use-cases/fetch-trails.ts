@@ -1,5 +1,5 @@
-import type { Trail } from '../../enterprise/entities/trail.ts'
-import type { TrailsRepository } from '../repositories/trails-repository.ts'
+import type { Trail } from '../../enterprise/entities/trail'
+import type { TrailsRepository } from '../repositories/trails-repository'
 
 type FetchTrailsUseCaseResponse = Trail[]
 

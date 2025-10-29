@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { zodErrorSchema } from '../common.schemas.ts'
+import { zodErrorSchema } from '../common.schemas'
 
 const uploadBannerParamsSchema = z.object({
   projectId: z

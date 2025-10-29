@@ -11,15 +11,15 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 
-import { envToLogger } from '@/infra/config/env/env-to-logger.ts'
-import { env } from '@/infra/config/env/env.ts'
-import { errorHandler } from '@/interface/error-handler.ts'
-import { studentsRoutes } from '@/interface/http/routes/students.routes.ts'
-import { commentsRoutes } from './interface/http/routes/comments.routes.ts'
-import { professorsRoutes } from './interface/http/routes/professors.routes.ts'
-import { projectsRoutes } from './interface/http/routes/projects.routes.ts'
-import { subjectsRoutes } from './interface/http/routes/subjects.routes.ts'
-import { trailsRoutes } from './interface/http/routes/trails.routes.ts'
+import { envToLogger } from '@/infra/config/env/env-to-logger'
+import { env } from '@/infra/config/env/env'
+import { errorHandler } from '@/interface/error-handler'
+import { studentsRoutes } from '@/interface/http/routes/students.routes'
+import { commentsRoutes } from './interface/http/routes/comments.routes'
+import { professorsRoutes } from './interface/http/routes/professors.routes'
+import { projectsRoutes } from './interface/http/routes/projects.routes'
+import { subjectsRoutes } from './interface/http/routes/subjects.routes'
+import { trailsRoutes } from './interface/http/routes/trails.routes'
 
 async function buildServer() {
   const app = fastify({

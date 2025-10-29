@@ -1,8 +1,8 @@
 import {
   Report,
   type ReportProps,
-} from '@/domain/interaction/enterprise/entities/report.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
+} from '@/domain/interaction/enterprise/entities/report'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
 
 export function makeReport(
   override: Partial<ReportProps> = {},

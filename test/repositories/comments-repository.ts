@@ -1,8 +1,8 @@
-import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
-import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
-import type { Comment } from '@/domain/interaction/enterprise/entities/comment.ts'
-import type { CommentWithAuthor } from '@/domain/interaction/enterprise/entities/value-objects/comment-with-author.ts'
-import { InMemoryUsersRepository } from './users-repository.ts'
+import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository'
+import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository'
+import type { Comment } from '@/domain/interaction/enterprise/entities/comment'
+import type { CommentWithAuthor } from '@/domain/interaction/enterprise/entities/value-objects/comment-with-author'
+import { InMemoryUsersRepository } from './users-repository'
 
 export class InMemoryCommentsRepository implements CommentsRepository {
   public items: Comment[] = []

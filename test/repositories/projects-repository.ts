@@ -1,17 +1,17 @@
-import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
-import type { ProfessorsRepository } from '@/domain/projects/application/repositories/professors-repository.ts'
+import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository'
+import type { ProfessorsRepository } from '@/domain/projects/application/repositories/professors-repository'
 import type {
   ProjectQuery,
   ProjectsRepository,
-} from '@/domain/projects/application/repositories/projects-repository.ts'
-import type { SubjectsRepository } from '@/domain/projects/application/repositories/subjects-repository.ts'
-import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository.ts'
-import { Project } from '@/domain/projects/enterprise/entities/project.ts'
-import { Post } from '@/domain/projects/enterprise/value-objects/post.ts'
-import { InMemoryProfessorsRepository } from './professors-repository.ts'
-import { InMemorySubjectsRepository } from './subjects-repository.ts'
-import { InMemoryTrailsRepository } from './trails-repository.ts'
-import { InMemoryUsersRepository } from './users-repository.ts'
+} from '@/domain/projects/application/repositories/projects-repository'
+import type { SubjectsRepository } from '@/domain/projects/application/repositories/subjects-repository'
+import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository'
+import { Project } from '@/domain/projects/enterprise/entities/project'
+import { Post } from '@/domain/projects/enterprise/value-objects/post'
+import { InMemoryProfessorsRepository } from './professors-repository'
+import { InMemorySubjectsRepository } from './subjects-repository'
+import { InMemoryTrailsRepository } from './trails-repository'
+import { InMemoryUsersRepository } from './users-repository'
 
 export class InMemoryProjectsRepository implements ProjectsRepository {
   public items: Project[] = []

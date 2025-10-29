@@ -1,8 +1,8 @@
-import { ReportCommentUseCase } from '@/domain/interaction/application/use-cases/report-comment.ts'
-import { PrismaCommentsRepository } from '@/infra/database/prisma/repositories/comments-repository.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
-import { PrismaReportsRepository } from '@/infra/database/prisma/repositories/reports-repository.ts'
-import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
+import { ReportCommentUseCase } from '@/domain/interaction/application/use-cases/report-comment'
+import { PrismaCommentsRepository } from '@/infra/database/prisma/repositories/comments-repository'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
+import { PrismaReportsRepository } from '@/infra/database/prisma/repositories/reports-repository'
+import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository'
 
 export function makeReportCommentUseCase() {
   const reportsRepository = new PrismaReportsRepository()

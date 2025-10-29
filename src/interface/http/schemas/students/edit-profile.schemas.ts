@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { errorResponseSchema, zodErrorSchema } from '../common.schemas.ts'
+import { errorResponseSchema, zodErrorSchema } from '../common.schemas'
 
 const editProfileParamsSchema = z.object({
   studentId: z

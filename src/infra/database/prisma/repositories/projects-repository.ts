@@ -1,11 +1,11 @@
 import type {
   ProjectQuery,
   ProjectsRepository,
-} from '@/domain/projects/application/repositories/projects-repository.ts'
-import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
-import type { Post } from '@/domain/projects/enterprise/value-objects/post.ts'
-import { prisma } from '../client.ts'
-import { PrismaProjectMapper } from '../mappers/prisma-project-mapper.ts'
+} from '@/domain/projects/application/repositories/projects-repository'
+import type { Project } from '@/domain/projects/enterprise/entities/project'
+import type { Post } from '@/domain/projects/enterprise/value-objects/post'
+import { prisma } from '../client'
+import { PrismaProjectMapper } from '../mappers/prisma-project-mapper'
 
 export class PrismaProjectsRepository implements ProjectsRepository {
   async findManyByTitle(title: string): Promise<Project[]> {

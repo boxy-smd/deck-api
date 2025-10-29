@@ -1,7 +1,7 @@
-import type { SubjectsRepository } from '@/domain/projects/application/repositories/subjects-repository.ts'
-import type { Subject } from '@/domain/projects/enterprise/entities/subject.ts'
-import { prisma } from '../client.ts'
-import { PrismaSubjectMapper } from '../mappers/prisma-subject-mapper.ts'
+import type { SubjectsRepository } from '@/domain/projects/application/repositories/subjects-repository'
+import type { Subject } from '@/domain/projects/enterprise/entities/subject'
+import { prisma } from '../client'
+import { PrismaSubjectMapper } from '../mappers/prisma-subject-mapper'
 
 export class PrismaSubjectsRepository implements SubjectsRepository {
   async findById(id: string): Promise<Subject | null> {

@@ -1,5 +1,5 @@
-import { SearchPostsByProfessorUseCase } from '@/domain/projects/application/use-cases/search-posts-by-professor-name.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
+import { SearchPostsByProfessorUseCase } from '@/domain/projects/application/use-cases/search-posts-by-professor-name'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
 
 export function makeSearchPostsByProfessorNameUseCase() {
   const projectsRepository = new PrismaProjectsRepository()

@@ -1,7 +1,7 @@
-import { type Either, left, right } from '@/shared/either.ts'
-import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import type { User } from '../../enterprise/entities/user.ts'
-import type { UsersRepository } from '../repositories/users-repository.ts'
+import { type Either, left, right } from '@/shared/either'
+import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error'
+import type { User } from '../../enterprise/entities/user'
+import type { UsersRepository } from '../repositories/users-repository'
 
 interface GetProfileUseCaseRequest {
   username: string

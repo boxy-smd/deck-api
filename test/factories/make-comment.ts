@@ -1,8 +1,8 @@
 import {
   Comment,
   type CommentProps,
-} from '@/domain/interaction/enterprise/entities/comment.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
+} from '@/domain/interaction/enterprise/entities/comment'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
 
 export function makeComment(
   override: Partial<CommentProps> = {},

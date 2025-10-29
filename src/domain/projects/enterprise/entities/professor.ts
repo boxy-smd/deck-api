@@ -1,5 +1,5 @@
-import { Entity } from '@/shared/kernel/entity.ts'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
+import { Entity } from '@/shared/kernel/entity'
+import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
 
 export interface ProfessorProps {
   name: string

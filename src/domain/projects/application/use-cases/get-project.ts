@@ -1,7 +1,7 @@
-import { type Either, left, right } from '@/shared/either.ts'
-import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import type { Project } from '../../enterprise/entities/project.ts'
-import type { ProjectsRepository } from '../repositories/projects-repository.ts'
+import { type Either, left, right } from '@/shared/either'
+import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error'
+import type { Project } from '../../enterprise/entities/project'
+import type { ProjectsRepository } from '../repositories/projects-repository'
 
 interface GetProjectUseCaseRequest {
   projectId: string

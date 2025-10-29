@@ -1,4 +1,4 @@
-import type { Report } from '../../enterprise/entities/report.ts'
+import type { Report } from '../../enterprise/entities/report'
 
 export interface ReportsRepository {
   findById(id: string): Promise<Report | null>

@@ -1,8 +1,8 @@
 import request from 'supertest'
 
-import { app } from '@/app.ts'
-import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository.ts'
-import { makeTrail } from 'test/factories/make-trail.ts'
+import { app } from '@/app'
+import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository'
+import { makeTrail } from 'test/factories/make-trail'
 
 describe('register controller (e2e)', () => {
   beforeAll(async () => {

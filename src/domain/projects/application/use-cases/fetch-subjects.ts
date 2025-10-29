@@ -1,5 +1,5 @@
-import type { Subject } from '../../enterprise/entities/subject.ts'
-import type { SubjectsRepository } from '../repositories/subjects-repository.ts'
+import type { Subject } from '../../enterprise/entities/subject'
+import type { SubjectsRepository } from '../repositories/subjects-repository'
 
 export interface FetchSubjectsUseCaseRequest {
   name?: string

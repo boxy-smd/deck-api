@@ -1,8 +1,8 @@
 import request from 'supertest'
 
-import { app } from '@/app.ts'
-import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
-import { makeProfessor } from 'test/factories/make-professor.ts'
+import { app } from '@/app'
+import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository'
+import { makeProfessor } from 'test/factories/make-professor'
 
 describe('fetch professors controller (e2e)', () => {
   beforeAll(async () => {

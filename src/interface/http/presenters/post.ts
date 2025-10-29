@@ -1,4 +1,4 @@
-import { Post } from '@/domain/projects/enterprise/value-objects/post.ts'
+import { Post } from '@/domain/projects/enterprise/value-objects/post'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class PostPresenter {

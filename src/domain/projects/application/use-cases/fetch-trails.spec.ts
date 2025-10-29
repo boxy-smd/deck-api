@@ -1,8 +1,8 @@
-import { makeTrail } from 'test/factories/make-trail.ts'
-import { InMemoryTrailsRepository } from 'test/repositories/trails-repository.ts'
-import type { Trail } from '../../enterprise/entities/trail.ts'
-import type { TrailsRepository } from '../repositories/trails-repository.ts'
-import { FetchTrailsUseCase } from './fetch-trails.ts'
+import { makeTrail } from 'test/factories/make-trail'
+import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
+import type { Trail } from '../../enterprise/entities/trail'
+import type { TrailsRepository } from '../repositories/trails-repository'
+import { FetchTrailsUseCase } from './fetch-trails'
 
 let trailsRepository: TrailsRepository
 

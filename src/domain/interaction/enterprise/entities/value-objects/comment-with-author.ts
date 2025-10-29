@@ -1,4 +1,4 @@
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
+import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
 
 export interface CommentWithAuthorProps {
   commentId: UniqueEntityID

@@ -1,10 +1,10 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { makeSearchPostsByProfessorNameUseCase } from '@/interface/factories/projects/make-search-posts-by-professor-name-use-case.ts'
-import { makeSearchPostsByTagUseCase } from '@/interface/factories/projects/make-search-posts-by-tag-use-case.ts'
-import { makeSearchPostsByTitleUseCase } from '@/interface/factories/projects/make-search-posts-by-title-use-case.ts'
-import { PostPresenter } from '../../presenters/post.ts'
-import type { SearchPostsQuery } from '../../schemas/projects/search-posts.schemas.ts'
+import { makeSearchPostsByProfessorNameUseCase } from '@/interface/factories/projects/make-search-posts-by-professor-name-use-case'
+import { makeSearchPostsByTagUseCase } from '@/interface/factories/projects/make-search-posts-by-tag-use-case'
+import { makeSearchPostsByTitleUseCase } from '@/interface/factories/projects/make-search-posts-by-title-use-case'
+import { PostPresenter } from '../../presenters/post'
+import type { SearchPostsQuery } from '../../schemas/projects/search-posts.schemas'
 
 export async function searchPosts(
   request: FastifyRequest<{

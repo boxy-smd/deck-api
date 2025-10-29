@@ -1,5 +1,5 @@
-import type { Post } from '@/domain/projects/enterprise/entities/project.ts'
-import type { ProjectsRepository } from '../repositories/projects-repository.ts'
+import type { Post } from '@/domain/projects/enterprise/entities/project'
+import type { ProjectsRepository } from '../repositories/projects-repository'
 
 type FetchPostsUseCaseResponse = Post[]
 

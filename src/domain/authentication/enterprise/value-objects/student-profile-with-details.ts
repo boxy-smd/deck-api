@@ -1,5 +1,5 @@
-import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
-import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
+import type { User } from '@/domain/authentication/enterprise/entities/user'
+import type { Project } from '@/domain/projects/enterprise/entities/project'
 
 interface StudentProfileWithDetailsProps {
   student: User

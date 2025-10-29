@@ -1,6 +1,6 @@
-import { makeUploadProjectBannerUseCase } from '@/interface/factories/projects/make-upload-project-banner-use-case.ts'
+import { makeUploadProjectBannerUseCase } from '@/interface/factories/projects/make-upload-project-banner-use-case'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import type { UpdateBannerParams } from '../../schemas/projects/upload-banner.schemas.ts'
+import type { UpdateBannerParams } from '../../schemas/projects/upload-banner.schemas'
 
 export async function uploadBanner(
   request: FastifyRequest<{

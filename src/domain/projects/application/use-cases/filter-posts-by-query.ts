@@ -1,5 +1,5 @@
-import type { Post } from '../../enterprise/value-objects/post.ts'
-import type { ProjectsRepository } from '../repositories/projects-repository.ts'
+import type { Post } from '../../enterprise/value-objects/post'
+import type { ProjectsRepository } from '../repositories/projects-repository'
 
 interface FilterPostsByQueryUseCaseRequest {
   trailsIds?: string[]

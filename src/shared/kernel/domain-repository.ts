@@ -1,4 +1,4 @@
-import type { UniqueEntityID } from './unique-entity-id.ts'
+import type { UniqueEntityID } from './unique-entity-id'
 
 export interface DomainRepository<T> {
   findById(id: string): Promise<T | null>

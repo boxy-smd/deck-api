@@ -1,6 +1,6 @@
-import { makeDeleteCommentUseCase } from '@/interface/factories/comments/make-delete-comment-use-case.ts'
+import { makeDeleteCommentUseCase } from '@/interface/factories/comments/make-delete-comment-use-case'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import type { DeleteCommentParams } from '../../schemas/comments/delete.schemas.ts'
+import type { DeleteCommentParams } from '../../schemas/comments/delete.schemas'
 
 export async function deleteComment(
   request: FastifyRequest<{

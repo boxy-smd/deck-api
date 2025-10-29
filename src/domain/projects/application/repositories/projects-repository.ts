@@ -1,6 +1,6 @@
-import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
-import type { DomainRepository } from '@/shared/kernel/domain-repository.ts'
-import type { Post } from '../../enterprise/value-objects/post.ts'
+import type { Project } from '@/domain/projects/enterprise/entities/project'
+import type { DomainRepository } from '@/shared/kernel/domain-repository'
+import type { Post } from '../../enterprise/value-objects/post'
 
 export type ProjectQuery = {
   trailsIds?: string[]

@@ -1,8 +1,8 @@
 import request from 'supertest'
 
-import { app } from '@/app.ts'
-import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
-import { makeUser } from 'test/factories/make-user.ts'
+import { app } from '@/app'
+import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository'
+import { makeUser } from 'test/factories/make-user'
 
 describe('get profile controller (e2e)', () => {
   beforeAll(async () => {

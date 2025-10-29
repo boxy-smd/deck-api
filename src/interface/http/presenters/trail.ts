@@ -1,4 +1,4 @@
-import type { Trail } from '@/domain/projects/enterprise/entities/trail.ts'
+import type { Trail } from '@/domain/projects/enterprise/entities/trail'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class TrailPresenter {

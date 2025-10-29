@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { makeFetchPostsUseCase } from '@/interface/factories/projects/make-fetch-posts-use-case.ts'
-import { PostPresenter } from '../../presenters/post.ts'
+import { makeFetchPostsUseCase } from '@/interface/factories/projects/make-fetch-posts-use-case'
+import { PostPresenter } from '../../presenters/post'
 
 export async function fetchPosts(
   _request: FastifyRequest,
