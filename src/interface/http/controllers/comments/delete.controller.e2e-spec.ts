@@ -1,6 +1,6 @@
 import request from 'supertest'
+import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
 
-import { app } from '@/app'
 import { PrismaCommentsRepository } from '@/infra/database/prisma/repositories/comments-repository'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
@@ -15,14 +15,15 @@ import { makeSubject } from 'test/factories/make-subject'
 
 describe('delete comment (e2e)', () => {
   beforeAll(async () => {
-    await app.ready()
+    await createTestApp()
   })
 
   afterAll(async () => {
-    await app.close()
+    await closeTestApp()
   })
 
   it('should be able to delete a comment', async () => {
+    const app = await createTestApp()
     const { studentId, token, trail } = await createAndAuthenticateStudent()
 
     const professorsRepository = new PrismaProfessorsRepository()
@@ -55,7 +56,7 @@ describe('delete comment (e2e)', () => {
 
     await commentsRepository.create(comment)
 
-    const response = await request(app.server)
+    const response = await request(app.getHttpServer())
       .delete(
         `/projects/${project.id.toString()}/comments/${comment.id.toString()}`,
       )

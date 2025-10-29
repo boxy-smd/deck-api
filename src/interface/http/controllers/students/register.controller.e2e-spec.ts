@@ -1,25 +1,26 @@
 import request from 'supertest'
 
-import { app } from '@/app'
 import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository'
 import { makeTrail } from 'test/factories/make-trail'
+import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
 
 describe('register controller (e2e)', () => {
   beforeAll(async () => {
-    await app.ready()
+    await createTestApp()
   })
 
   afterAll(async () => {
-    await app.close()
+    await closeTestApp()
   })
 
   it('should be able to register a user', async () => {
+    const app = await createTestApp()
     const trail = makeTrail()
     const trailsRepository = new PrismaTrailsRepository()
 
     await trailsRepository.create(trail)
 
-    const response = await request(app.server)
+    const response = await request(app.getHttpServer())
       .post('/students')
       .send({
         name: 'John Doe',

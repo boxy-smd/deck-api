@@ -1,6 +1,6 @@
 import request from 'supertest'
+import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
 
-import { app } from '@/app'
 import { Email } from '@/domain/authentication/enterprise/value-objects/email'
 import { Username } from '@/domain/authentication/enterprise/value-objects/username'
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository'
@@ -8,21 +8,22 @@ import { makeUser } from 'test/factories/make-user'
 
 describe('fetch students controller (e2e)', () => {
   beforeAll(async () => {
-    await app.ready()
+    await createTestApp()
   })
 
   afterAll(async () => {
-    await app.close()
+    await closeTestApp()
   })
 
   it('should be able to fetch students', async () => {
+    const app = await createTestApp()
     const studentsRepository = new PrismaStudentsRepository()
 
     const student = await makeUser()
 
     await studentsRepository.create(student)
 
-    const response = await request(app.server).get('/students')
+    const response = await request(app.getHttpServer()).get('/students')
 
     expect(response.status).toBe(200)
     expect(response.body).toMatchObject({
@@ -40,6 +41,7 @@ describe('fetch students controller (e2e)', () => {
   })
 
   it('should be able to fetch students by name', async () => {
+    const app = await createTestApp()
     const studentsRepository = new PrismaStudentsRepository()
 
     const amandaUsername = Username.create('amanda.coelho')
@@ -61,7 +63,7 @@ describe('fetch students controller (e2e)', () => {
     await studentsRepository.create(amanda)
     await studentsRepository.create(levi)
 
-    const response = await request(app.server).get('/students').query({
+    const response = await request(app.getHttpServer()).get('/students').query({
       name: 'Amanda',
     })
 

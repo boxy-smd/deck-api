@@ -1,19 +1,20 @@
 import request from 'supertest'
+import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
 
-import { app } from '@/app'
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository'
 import { makeSubject } from 'test/factories/make-subject'
 
 describe('fetch subjects controller (e2e)', () => {
   beforeAll(async () => {
-    await app.ready()
+    await createTestApp()
   })
 
   afterAll(async () => {
-    await app.close()
+    await closeTestApp()
   })
 
   it('should be able to fetch subjects', async () => {
+    const app = await createTestApp()
     const subjectRepository = new PrismaSubjectsRepository()
 
     const ihc = makeSubject({
@@ -29,7 +30,7 @@ describe('fetch subjects controller (e2e)', () => {
     await subjectRepository.create(ihc)
     await subjectRepository.create(de)
 
-    const response = await request(app.server).get('/subjects')
+    const response = await request(app.getHttpServer()).get('/subjects')
 
     expect(response.status).toBe(200)
     expect(response.body).toMatchObject({
@@ -41,6 +42,7 @@ describe('fetch subjects controller (e2e)', () => {
   })
 
   it('should be able to fetch subjects by name', async () => {
+    const app = await createTestApp()
     const subjectRepository = new PrismaSubjectsRepository()
 
     const am = makeSubject({
@@ -56,7 +58,7 @@ describe('fetch subjects controller (e2e)', () => {
     await subjectRepository.create(am)
     await subjectRepository.create(pw)
 
-    const response = await request(app.server).get('/subjects').query({
+    const response = await request(app.getHttpServer()).get('/subjects').query({
       name: 'Web',
     })
 

@@ -1,6 +1,6 @@
 import request from 'supertest'
+import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
 
-import { app } from '@/app'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
 import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository'
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository'
@@ -12,14 +12,15 @@ import { makeTrail } from 'test/factories/make-trail'
 
 describe('get project (e2e)', () => {
   beforeAll(async () => {
-    await app.ready()
+    await createTestApp()
   })
 
   afterAll(async () => {
-    await app.close()
+    await closeTestApp()
   })
 
   it('should be able to get a project', async () => {
+    const app = await createTestApp()
     const projectsRepository = new PrismaProjectsRepository()
     const studentsRepository = new PrismaStudentsRepository(
       projectsRepository,
@@ -41,7 +42,7 @@ describe('get project (e2e)', () => {
     await subjectsRepository.create(subject)
     await projectsRepository.create(project)
 
-    const result = await request(app.server).get(
+    const result = await request(app.getHttpServer()).get(
       `/projects/${project.id.toString()}`,
     )
 

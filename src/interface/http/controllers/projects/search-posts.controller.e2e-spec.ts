@@ -1,6 +1,6 @@
 import request from 'supertest'
+import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
 
-import { app } from '@/app'
 import type { User } from '@/domain/authentication/enterprise/entities/user'
 import type { Professor } from '@/domain/projects/enterprise/entities/professor'
 import type { Project } from '@/domain/projects/enterprise/entities/project'
@@ -26,7 +26,7 @@ let project: Project
 
 describe('search posts (e2e)', () => {
   beforeAll(async () => {
-    await app.ready()
+    await createTestApp()
 
     const projectsRepository = new PrismaProjectsRepository()
     const studentsRepository = new PrismaStudentsRepository(
@@ -56,11 +56,12 @@ describe('search posts (e2e)', () => {
   })
 
   afterAll(async () => {
-    await app.close()
+    await closeTestApp()
   })
 
   it('should be able to search posts by title', async () => {
-    const result = await request(app.server).get('/projects/search').query({
+    const app = await createTestApp()
+    const result = await request(app.getHttpServer()).get('/projects/search').query({
       title: project.title,
     })
 
@@ -69,7 +70,8 @@ describe('search posts (e2e)', () => {
   })
 
   it('should be able to search posts by professor name', async () => {
-    const result = await request(app.server).get('/projects/search').query({
+    const app = await createTestApp()
+    const result = await request(app.getHttpServer()).get('/projects/search').query({
       professorName: professor.name,
     })
 
@@ -78,7 +80,8 @@ describe('search posts (e2e)', () => {
   })
 
   it('should be able to search posts by subject name', async () => {
-    const result = await request(app.server).get('/projects/search').query({
+    const app = await createTestApp()
+    const result = await request(app.getHttpServer()).get('/projects/search').query({
       tag: subject.name.toLowerCase(),
     })
 
@@ -87,7 +90,8 @@ describe('search posts (e2e)', () => {
   })
 
   it('should be able to search posts by trail name', async () => {
-    const result = await request(app.server).get('/projects/search').query({
+    const app = await createTestApp()
+    const result = await request(app.getHttpServer()).get('/projects/search').query({
       tag: trail.name.toLowerCase(),
     })
 
@@ -96,7 +100,8 @@ describe('search posts (e2e)', () => {
   })
 
   it('should be able to search posts by publish year', async () => {
-    const result = await request(app.server).get('/projects/search').query({
+    const app = await createTestApp()
+    const result = await request(app.getHttpServer()).get('/projects/search').query({
       tag: project.publishedYear,
     })
 
@@ -105,7 +110,8 @@ describe('search posts (e2e)', () => {
   })
 
   it('should be able to search posts by semester (unit)', async () => {
-    const result = await request(app.server).get('/projects/search').query({
+    const app = await createTestApp()
+    const result = await request(app.getHttpServer()).get('/projects/search').query({
       tag: project.semester,
     })
 
@@ -114,7 +120,8 @@ describe('search posts (e2e)', () => {
   })
 
   it('should be able to search posts by semester (ordinal)', async () => {
-    const result = await request(app.server).get('/projects/search').query({
+    const app = await createTestApp()
+    const result = await request(app.getHttpServer()).get('/projects/search').query({
       tag: project.semester,
     })
 
@@ -123,7 +130,8 @@ describe('search posts (e2e)', () => {
   })
 
   it('should be able to search posts by semester (word)', async () => {
-    const result = await request(app.server).get('/projects/search').query({
+    const app = await createTestApp()
+    const result = await request(app.getHttpServer()).get('/projects/search').query({
       tag: 'primeiro',
     })
 

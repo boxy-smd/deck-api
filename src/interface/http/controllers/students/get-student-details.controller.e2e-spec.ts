@@ -1,21 +1,22 @@
 import request from 'supertest'
+import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
 
-import { app } from '@/app'
 import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students'
 
 describe('get student details controller (e2e)', () => {
   beforeAll(async () => {
-    await app.ready()
+    await createTestApp()
   })
 
   afterAll(async () => {
-    await app.close()
+    await closeTestApp()
   })
 
   it('should be able to get student details', async () => {
+    const app = await createTestApp()
     const { studentId, token } = await createAndAuthenticateStudent()
 
-    const response = await request(app.server)
+    const response = await request(app.getHttpServer())
       .get('/students/me')
       .set('Authorization', `Bearer ${token}`)
 

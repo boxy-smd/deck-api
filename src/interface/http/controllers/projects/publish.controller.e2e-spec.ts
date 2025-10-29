@@ -1,6 +1,6 @@
 import request from 'supertest'
+import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
 
-import { app } from '@/app'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository'
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository'
 import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students'
@@ -9,14 +9,15 @@ import { makeSubject } from 'test/factories/make-subject'
 
 describe('publish project (e2e)', () => {
   beforeAll(async () => {
-    await app.ready()
+    await createTestApp()
   })
 
   afterAll(async () => {
-    await app.close()
+    await closeTestApp()
   })
 
   it('should be able to publish a project', async () => {
+    const app = await createTestApp()
     const { token, trail } = await createAndAuthenticateStudent()
 
     const professorsRepository = new PrismaProfessorsRepository()
@@ -33,7 +34,7 @@ describe('publish project (e2e)', () => {
     await professorsRepository.create(professor)
     await subjectsRepository.create(subject)
 
-    const response = await request(app.server)
+    const response = await request(app.getHttpServer())
       .post('/projects')
       .set('Authorization', `Bearer ${token}`)
       .send({

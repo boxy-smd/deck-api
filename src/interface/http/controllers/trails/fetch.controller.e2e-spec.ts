@@ -1,19 +1,20 @@
 import request from 'supertest'
+import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
 
-import { app } from '@/app'
 import { Trail } from '@/domain/projects/enterprise/entities/trail'
 import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository'
 
 describe('fetch trails controller (e2e)', () => {
   beforeAll(async () => {
-    await app.ready()
+    await createTestApp()
   })
 
   afterAll(async () => {
-    await app.close()
+    await closeTestApp()
   })
 
   it('should be able to fetch trails', async () => {
+    const app = await createTestApp()
     const trailRepository = new PrismaTrailsRepository()
     const trail1 = Trail.create({
       name: 'Sistemas',
@@ -26,7 +27,7 @@ describe('fetch trails controller (e2e)', () => {
     await trailRepository.create(trail1)
     await trailRepository.create(trail2)
 
-    const response = await request(app.server).get('/trails')
+    const response = await request(app.getHttpServer()).get('/trails')
 
     expect(response.status).toBe(200)
     expect(response.body).toMatchObject({

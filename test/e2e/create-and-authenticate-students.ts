@@ -1,17 +1,18 @@
 import request from 'supertest'
 
-import { app } from '@/app'
 import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository'
 import { makeTrail } from 'test/factories/make-trail'
+import { createTestApp } from './setup-app'
 
 export async function createAndAuthenticateStudent() {
+  const app = await createTestApp()
   const trailsRepository = new PrismaTrailsRepository()
 
   const trail = makeTrail()
 
   await trailsRepository.create(trail)
 
-  const registerResponse = await request(app.server)
+  const registerResponse = await request(app.getHttpServer())
     .post('/students')
     .send({
       name: 'John Doe',
@@ -22,7 +23,7 @@ export async function createAndAuthenticateStudent() {
       trailsIds: [trail.id.toString()],
     })
 
-  const authenticationResponse = await request(app.server)
+  const authenticationResponse = await request(app.getHttpServer())
     .post('/sessions')
     .send({
       email: 'johndoe@alu.ufc.br',
