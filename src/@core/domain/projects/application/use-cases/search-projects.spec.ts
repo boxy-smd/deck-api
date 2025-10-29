@@ -65,8 +65,10 @@ describe('search projects use case', () => {
 
     expect(result.isRight()).toBe(true)
     if (result.isRight()) {
-      expect(result.value.projects).toHaveLength(1)
-      expect(result.value.projects[0].title).toContain('React')
+      expect(result.value.items).toHaveLength(1)
+      expect(result.value.items[0].title).toContain('React')
+      expect(result.value.total).toBe(1)
+      expect(result.value.totalPages).toBe(1)
     }
   })
 
@@ -103,9 +105,9 @@ describe('search projects use case', () => {
 
     expect(result.isRight()).toBe(true)
     if (result.isRight()) {
-      expect(result.value.projects).toHaveLength(1)
-      expect(result.value.projects[0].publishedYear).toBe(2024)
-      expect(result.value.projects[0].semester).toBe(1)
+      expect(result.value.items).toHaveLength(1)
+      expect(result.value.items[0].publishedYear).toBe(2024)
+      expect(result.value.items[0].semester).toBe(1)
     }
   })
 
@@ -126,8 +128,11 @@ describe('search projects use case', () => {
 
     expect(result.isRight()).toBe(true)
     if (result.isRight()) {
-      expect(result.value.projects).toHaveLength(10)
+      expect(result.value.items).toHaveLength(10)
       expect(result.value.total).toBe(25)
+      expect(result.value.totalPages).toBe(3)
+      expect(result.value.hasNext).toBe(true)
+      expect(result.value.hasPrevious).toBe(false)
     }
   })
 
@@ -147,8 +152,10 @@ describe('search projects use case', () => {
 
     expect(result.isRight()).toBe(true)
     if (result.isRight()) {
-      expect(result.value.projects.length).toBeGreaterThan(0)
+      expect(result.value.items.length).toBeGreaterThan(0)
       expect(result.value.total).toBeGreaterThan(0)
+      expect(result.value.page).toBe(1)
+      expect(result.value.perPage).toBe(20)
     }
   })
 })
