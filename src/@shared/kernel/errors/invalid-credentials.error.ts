@@ -1,25 +1,10 @@
-interface InvalidCredentialsErrorProps {
-  message: string
-  statusCode: number
-}
-
 export class InvalidCredentialsError extends Error {
-  private props: InvalidCredentialsErrorProps
-
-  constructor(message = 'Credenciais inválidas.', statusCode = 400) {
-    super(message)
-
-    this.props = {
-      message,
-      statusCode,
-    }
-  }
-
-  get message(): string {
-    return this.props.message
+  constructor() {
+    super('Email ou senha incorretos.')
+    this.name = 'InvalidCredentialsError'
   }
 
   get statusCode(): number {
-    return this.props.statusCode
+    return 401
   }
 }
