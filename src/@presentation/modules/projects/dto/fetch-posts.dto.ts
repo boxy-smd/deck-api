@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsOptional, IsString } from 'class-validator'
+import { Type } from 'class-transformer'
+import { IsArray, IsInt, IsOptional, IsString } from 'class-validator'
 
 export class FetchPostsDto {
   @ApiProperty({
@@ -20,16 +21,18 @@ export class FilterPostsDto {
   })
   @IsOptional()
   @IsString()
-  subject?: string
+  subjectId?: string
 
   @ApiProperty({
-    description: 'Filtro por ID da trilha',
+    description: 'Filtro por IDs das trilhas',
     required: false,
-    example: 'uuid',
+    type: [String],
+    example: ['uuid1', 'uuid2'],
   })
   @IsOptional()
-  @IsString()
-  trail?: string
+  @IsArray()
+  @IsString({ each: true })
+  trailsIds?: string[]
 
   @ApiProperty({
     description: 'Filtro por nome do professor',
@@ -38,16 +41,18 @@ export class FilterPostsDto {
   })
   @IsOptional()
   @IsString()
-  professor?: string
+  professorName?: string
 
   @ApiProperty({
-    description: 'Filtro por tag',
+    description: 'Filtro por tags',
     required: false,
-    example: 'react',
+    type: [String],
+    example: ['react', 'typescript'],
   })
   @IsOptional()
-  @IsString()
-  tag?: string
+  @IsArray()
+  @IsString({ each: true })
+  tags?: string[]
 
   @ApiProperty({
     description: 'Pesquisa por título do post',
@@ -57,4 +62,24 @@ export class FilterPostsDto {
   @IsOptional()
   @IsString()
   title?: string
+
+  @ApiProperty({
+    description: 'Filtro por semestre',
+    required: false,
+    example: 1,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  semester?: number
+
+  @ApiProperty({
+    description: 'Filtro por ano de publicação',
+    required: false,
+    example: 2024,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  publishedYear?: number
 }

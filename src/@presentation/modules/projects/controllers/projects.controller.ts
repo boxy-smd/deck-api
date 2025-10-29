@@ -89,7 +89,7 @@ export class ProjectsController {
     const result = await searchProjectsUseCase.execute({})
 
     if (result.isLeft()) {
-      throw new BadRequestException(result.value.message)
+      throw new BadRequestException('Failed to fetch posts')
     }
 
     return {
@@ -111,18 +111,16 @@ export class ProjectsController {
 
     const result = await searchProjectsUseCase.execute({
       title: filter.title,
-      professorName: filter.professor,
-      tag: filter.tag,
-      metadata: filter.semester || filter.publishedYear || filter.subjectId || filter.trailsIds ? {
-        semester: filter.semester,
-        publishedYear: filter.publishedYear,
-        subjectId: filter.subjectId,
-        trailsIds: filter.trailsIds,
-      } : undefined,
+      professorName: filter.professorName,
+      tags: filter.tags,
+      subjectId: filter.subjectId,
+      trailsIds: filter.trailsIds,
+      semester: filter.semester,
+      publishedYear: filter.publishedYear,
     })
 
     if (result.isLeft()) {
-      throw new BadRequestException(result.value.message)
+      throw new BadRequestException('Failed to search projects')
     }
 
     return {
