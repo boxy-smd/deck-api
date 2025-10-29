@@ -82,8 +82,12 @@ export class SearchProjectsUseCase {
       limit: perPage,
     })
 
+    const start = (validPage - 1) * limit
+    const end = start + limit
+    const paginatedItems = projectSummaries.slice(start, end)
+
     const paginatedResult = PaginationDTO.create(
-      projectSummaries,
+      paginatedItems,
       projectSummaries.length,
       validPage,
       limit,

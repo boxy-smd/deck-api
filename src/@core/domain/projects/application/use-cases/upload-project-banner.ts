@@ -1,6 +1,5 @@
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
-import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import type { StorageUploader } from '../../../authentication/application/storage/uploader'
 import type { ProjectsRepository } from '../repositories/projects-repository'
 
@@ -23,9 +22,7 @@ export class UploadProjectBannerUseCase {
     image,
     projectId,
   }: UploadProjectBannerUseCaseRequest): Promise<UploadProjectBannerUseCaseResponse> {
-    const project = await this.projectsRepository.findById(
-      UniqueEntityID.create(projectId),
-    )
+    const project = await this.projectsRepository.findById(projectId)
 
     if (!project) {
       return left(new ResourceNotFoundError('Project not found.'))

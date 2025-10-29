@@ -155,7 +155,7 @@ describe('search projects use case', () => {
       expect(result.value.items.length).toBeGreaterThan(0)
       expect(result.value.total).toBeGreaterThan(0)
       expect(result.value.page).toBe(1)
-      expect(result.value.perPage).toBe(20)
+      expect(result.value.limit).toBe(10)
     }
   })
 })
