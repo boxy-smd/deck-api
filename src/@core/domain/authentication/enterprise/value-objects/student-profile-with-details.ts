@@ -1,3 +1,4 @@
+import { ValueObject } from '@/@shared/kernel/kernel/value-object'
 import type { User } from '@/@core/domain/authentication/enterprise/entities/user'
 import type { Project } from '@/@core/domain/projects/enterprise/entities/project'
 
@@ -7,62 +8,79 @@ interface StudentProfileWithDetailsProps {
   posts: Project[]
 }
 
-export class StudentProfileWithDetails {
-  private readonly _props: StudentProfileWithDetailsProps
-
-  constructor(props: StudentProfileWithDetailsProps) {
-    this._props = props
-  }
-
+export class StudentProfileWithDetails extends ValueObject<StudentProfileWithDetailsProps> {
   get student(): User {
-    return this._props.student
+    return this.props.student
   }
 
   get id(): string {
-    return this._props.student.id.toString()
+    return this.props.student.id.toString()
   }
 
   get name(): string {
-    return this._props.student.name
+    return this.props.student.name
   }
 
   get username(): string {
-    return this._props.student.username.value
+    return this.props.student.username.value
   }
 
   get email(): string {
-    return this._props.student.email.value
+    return this.props.student.email.value
   }
 
   get about(): string | undefined {
-    return this._props.student.about
+    return this.props.student.about
   }
 
   get profileUrl(): string | undefined {
-    return this._props.student.profileUrl
+    return this.props.student.profileUrl
   }
 
   get semester(): number {
-    return this._props.student.profile?.semester.value || 1
+    return this.props.student.profile?.semester.value || 1
   }
 
   get role(): string {
-    return this._props.student.role
+    return this.props.student.role
   }
 
   get status(): string {
-    return this._props.student.status
+    return this.props.student.status
   }
 
   get trails(): string[] {
-    return this._props.trails
+    return this.props.trails
   }
 
   get posts(): Project[] {
-    return this._props.posts
+    return this.props.posts
   }
 
   static create(props: StudentProfileWithDetailsProps): StudentProfileWithDetails {
     return new StudentProfileWithDetails(props)
+  }
+
+  toDTO() {
+    return {
+      id: this.id,
+      name: this.name,
+      username: this.username,
+      email: this.email,
+      about: this.about,
+      profileUrl: this.profileUrl,
+      semester: this.semester,
+      role: this.role,
+      status: this.status,
+      trails: this.trails,
+      posts: this.posts.map(post => ({
+        id: post.id.toString(),
+        title: post.title,
+        description: post.description,
+        bannerUrl: post.bannerUrl,
+        status: post.status,
+        createdAt: post.createdAt,
+      })),
+    }
   }
 }

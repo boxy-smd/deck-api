@@ -1,3 +1,4 @@
+import { ValueObject } from '@/@shared/kernel/kernel/value-object'
 import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export interface CommentWithAuthorProps {
@@ -12,30 +13,60 @@ export interface CommentWithAuthorProps {
   projectId: UniqueEntityID
 }
 
-export class CommentWithAuthor {
-  public readonly commentId: UniqueEntityID
-  public readonly content: string
-  public readonly createdAt: Date
-  public readonly updatedAt: Date
-  public readonly authorId: UniqueEntityID
-  public readonly authorName: string
-  public readonly authorUsername: string
-  public readonly authorProfileUrl: string | null
-  public readonly projectId: UniqueEntityID
+export class CommentWithAuthor extends ValueObject<CommentWithAuthorProps> {
+  get commentId(): UniqueEntityID {
+    return this.props.commentId
+  }
 
-  private constructor(props: CommentWithAuthorProps) {
-    this.commentId = props.commentId
-    this.content = props.content
-    this.createdAt = props.createdAt
-    this.updatedAt = props.updatedAt
-    this.authorId = props.authorId
-    this.authorName = props.authorName
-    this.authorUsername = props.authorUsername
-    this.authorProfileUrl = props.authorProfileUrl
-    this.projectId = props.projectId
+  get content(): string {
+    return this.props.content
+  }
+
+  get createdAt(): Date {
+    return this.props.createdAt
+  }
+
+  get updatedAt(): Date {
+    return this.props.updatedAt
+  }
+
+  get authorId(): UniqueEntityID {
+    return this.props.authorId
+  }
+
+  get authorName(): string {
+    return this.props.authorName
+  }
+
+  get authorUsername(): string {
+    return this.props.authorUsername
+  }
+
+  get authorProfileUrl(): string | null {
+    return this.props.authorProfileUrl
+  }
+
+  get projectId(): UniqueEntityID {
+    return this.props.projectId
   }
 
   static create(props: CommentWithAuthorProps): CommentWithAuthor {
     return new CommentWithAuthor(props)
+  }
+
+  toDTO() {
+    return {
+      id: this.commentId.toString(),
+      content: this.content,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+      author: {
+        id: this.authorId.toString(),
+        name: this.authorName,
+        username: this.authorUsername,
+        profileUrl: this.authorProfileUrl,
+      },
+      projectId: this.projectId.toString(),
+    }
   }
 }
