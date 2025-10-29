@@ -41,7 +41,6 @@ export class PublishProjectUseCase {
     private readonly professorsRepository: ProfessorsRepository,
   ) {}
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: This logic will be refactored soon.
   async execute({
     title,
     description,
@@ -56,6 +55,81 @@ export class PublishProjectUseCase {
     professorsIds,
     draftId,
   }: PublishProjectUseCaseRequest): Promise<PublishProjectUseCaseResponse> {
+    // Validar autor
+    const authorValidation = await this.validateAuthor(authorId)
+    if (authorValidation.isLeft()) {
+      return authorValidation
+    }
+    const student = authorValidation.value
+
+    // Validar disciplina (opcional)
+    const subjectValidation = await this.validateSubject(subjectId)
+    if (subjectValidation.isLeft()) {
+      return subjectValidation
+    }
+    const subject = subjectValidation.value
+
+    // Validar trilhas
+    const trailsValidation = await this.validateTrails(trailsIds)
+    if (trailsValidation.isLeft()) {
+      return trailsValidation
+    }
+    const trails = trailsValidation.value
+
+    // Validar professores (opcional)
+    const professorsValidation = await this.validateProfessors(professorsIds)
+    if (professorsValidation.isLeft()) {
+      return professorsValidation
+    }
+    const professors = professorsValidation.value
+
+    // Processar draft ou criar novo projeto
+    let createdProjectId = ''
+
+    if (draftId) {
+      const draftValidation = await this.processDraft(
+        draftId,
+        authorId,
+        title,
+        description,
+        bannerUrl,
+        content,
+        publishedYear,
+        semester,
+        allowComments,
+        subject,
+        trails,
+        professors,
+      )
+      if (draftValidation.isLeft()) {
+        return draftValidation
+      }
+      createdProjectId = draftValidation.value
+    } else {
+      const project = this.createProject(
+        title,
+        description,
+        bannerUrl,
+        content,
+        publishedYear,
+        semester,
+        allowComments,
+        student.id,
+        subject,
+        trails,
+        professors,
+      )
+
+      await this.projectsRepository.create(project)
+      createdProjectId = project.id.toString()
+    }
+
+    return right({
+      projectId: createdProjectId,
+    })
+  }
+
+  private async validateAuthor(authorId: string) {
     if (!authorId) {
       return left(
         new ForbiddenError('You must be logged in to publish a project.'),
@@ -68,116 +142,131 @@ export class PublishProjectUseCase {
       return left(new ResourceNotFoundError('Student not found.'))
     }
 
-    let subject: Subject | null = null
+    return right(student)
+  }
 
-    if (subjectId) {
-      subject = await this.subjectsRepository.findById(subjectId)
-
-      if (!subject) {
-        return left(new ResourceNotFoundError('Subject not found.'))
-      }
+  private async validateSubject(subjectId?: string) {
+    if (!subjectId) {
+      return right(null)
     }
 
-    const trails = await Promise.all(
-      trailsIds.map(async trailId => {
-        const trail = await this.trailsRepository.findById(trailId)
+    const subject = await this.subjectsRepository.findById(subjectId)
 
-        return trail
-      }),
+    if (!subject) {
+      return left(new ResourceNotFoundError('Subject not found.'))
+    }
+
+    return right(subject)
+  }
+
+  private async validateTrails(trailsIds: string[]) {
+    const trails = await Promise.all(
+      trailsIds.map(trailId => this.trailsRepository.findById(trailId)),
     )
 
     if (trails.some(trail => !trail)) {
       return left(new ResourceNotFoundError('Trail not found.'))
     }
 
-    const professors = await Promise.all(
-      professorsIds
-        ? professorsIds.map(async professorId => {
-            const professor =
-              await this.professorsRepository.findById(professorId)
+    return right(trails.filter(Boolean))
+  }
 
-            return professor
-          })
-        : [],
+  private async validateProfessors(professorsIds?: string[]) {
+    if (!professorsIds || professorsIds.length === 0) {
+      return right([])
+    }
+
+    const professors = await Promise.all(
+      professorsIds.map(professorId =>
+        this.professorsRepository.findById(professorId),
+      ),
     )
 
-    if (professorsIds && professors.some(professor => !professor)) {
+    if (professors.some(professor => !professor)) {
       return left(new ResourceNotFoundError('Professor not found.'))
     }
 
-    let createdProjectId = ''
+    return right(professors.filter(Boolean))
+  }
 
-    if (draftId) {
-      const draft = await this.projectsRepository.findById(draftId)
+  private async processDraft(
+    draftId: string,
+    authorId: string,
+    title: string,
+    description: string,
+    bannerUrl: string | undefined,
+    content: string | undefined,
+    publishedYear: number,
+    semester: number,
+    allowComments: boolean,
+    subject: Subject | null,
+    trails: any[],
+    professors: any[],
+  ) {
+    const draft = await this.projectsRepository.findById(draftId)
 
-      if (!draft) {
-        return left(new ResourceNotFoundError('Draft not found.'))
-      }
-
-      if (draft.authorId.toString() !== authorId) {
-        return left(
-          new ForbiddenError('You are not allowed to publish this draft.'),
-        )
-      }
-
-      draft.post()
-
-      draft.editInfo({
-        title,
-        description,
-        bannerUrl,
-        content,
-        publishedYear,
-        semester,
-        allowComments,
-        subjectId: subject ? subject.id : undefined,
-      })
-
-      if (trails.length > 0) {
-        draft.defineTrails(
-          trails.filter(trail => trail !== null).map(trail => trail.id),
-        )
-      }
-
-      if (professors.length > 0) {
-        draft.defineProfessors(
-          professors
-            .filter(professor => professor !== null)
-            .map(professor => professor.id),
-        )
-      }
-
-      await this.projectsRepository.save(draft)
-
-      createdProjectId = draft.id.toString()
-    } else {
-      const project = Project.create({
-        title,
-        description,
-        bannerUrl,
-        content: content || '',
-        publishedYear,
-        semester,
-        allowComments,
-        status: ProjectStatus.PUBLISHED,
-        authorId: student.id,
-        subjectId: subject ? subject.id : undefined,
-        trails: new Set(
-          trails.filter(trail => trail !== null).map(trail => trail.id),
-        ),
-        professors: new Set(
-          professors
-            .filter(professor => professor !== null)
-            .map(professor => professor.id),
-        ),
-      })
-
-      await this.projectsRepository.create(project)
-      createdProjectId = project.id.toString()
+    if (!draft) {
+      return left(new ResourceNotFoundError('Draft not found.'))
     }
 
-    return right({
-      projectId: createdProjectId,
+    if (draft.authorId.toString() !== authorId) {
+      return left(
+        new ForbiddenError('You are not allowed to publish this draft.'),
+      )
+    }
+
+    draft.post()
+
+    draft.editInfo({
+      title,
+      description,
+      bannerUrl,
+      content,
+      publishedYear,
+      semester,
+      allowComments,
+      subjectId: subject ? subject.id : undefined,
+    })
+
+    if (trails.length > 0) {
+      draft.defineTrails(trails.map(trail => trail.id))
+    }
+
+    if (professors.length > 0) {
+      draft.defineProfessors(professors.map(professor => professor.id))
+    }
+
+    await this.projectsRepository.save(draft)
+
+    return right(draft.id.toString())
+  }
+
+  private createProject(
+    title: string,
+    description: string,
+    bannerUrl: string | undefined,
+    content: string | undefined,
+    publishedYear: number,
+    semester: number,
+    allowComments: boolean,
+    authorId: any,
+    subject: Subject | null,
+    trails: any[],
+    professors: any[],
+  ) {
+    return Project.create({
+      title,
+      description,
+      bannerUrl,
+      content: content || '',
+      publishedYear,
+      semester,
+      allowComments,
+      status: ProjectStatus.PUBLISHED,
+      authorId,
+      subjectId: subject ? subject.id : undefined,
+      trails: new Set(trails.map(trail => trail.id)),
+      professors: new Set(professors.map(professor => professor.id)),
     })
   }
 }
