@@ -1,14 +1,14 @@
 import {
   User,
   type UserProps,
-} from '@/domain/authentication/enterprise/entities/user'
-import { StudentProfile } from '@/domain/authentication/enterprise/entities/student-profile'
-import { Email } from '@/domain/authentication/enterprise/value-objects/email'
-import { Semester } from '@/domain/authentication/enterprise/value-objects/semester'
-import { UserRole } from '@/domain/authentication/enterprise/value-objects/user-role'
-import { UserStatus } from '@/domain/authentication/enterprise/value-objects/user-status'
-import { Username } from '@/domain/authentication/enterprise/value-objects/username'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
+} from '@/@core/domain/authentication/enterprise/entities/user'
+import { StudentProfile } from '@/@core/domain/authentication/enterprise/entities/student-profile'
+import { Email } from '@/@core/domain/authentication/enterprise/value-objects/email'
+import { Semester } from '@/@core/domain/authentication/enterprise/value-objects/semester'
+import { UserRole } from '@/@core/domain/authentication/enterprise/value-objects/user-role'
+import { UserStatus } from '@/@core/domain/authentication/enterprise/value-objects/user-status'
+import { Username } from '@/@core/domain/authentication/enterprise/value-objects/username'
+import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { FakeHasher } from 'test/cryptography/fake-hasher'
 
 export async function makeUser(

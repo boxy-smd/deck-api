@@ -1,7 +1,7 @@
-import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository'
-import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository'
-import type { Comment } from '@/domain/interaction/enterprise/entities/comment'
-import type { CommentWithAuthor } from '@/domain/interaction/enterprise/entities/value-objects/comment-with-author'
+import type { UsersRepository } from '@/@core/domain/authentication/application/repositories/users-repository'
+import type { CommentsRepository } from '@/@core/domain/interaction/application/repositories/comments-repository'
+import type { Comment } from '@/@core/domain/interaction/enterprise/entities/comment'
+import type { CommentWithAuthor } from '@/@core/domain/interaction/enterprise/entities/value-objects/comment-with-author'
 import { InMemoryUsersRepository } from './users-repository'
 
 export class InMemoryCommentsRepository implements CommentsRepository {

@@ -1,13 +1,13 @@
-import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository'
-import type { ProfessorsRepository } from '@/domain/projects/application/repositories/professors-repository'
+import type { UsersRepository } from '@/@core/domain/authentication/application/repositories/users-repository'
+import type { ProfessorsRepository } from '@/@core/domain/projects/application/repositories/professors-repository'
 import type {
   ProjectQuery,
   ProjectsRepository,
-} from '@/domain/projects/application/repositories/projects-repository'
-import type { SubjectsRepository } from '@/domain/projects/application/repositories/subjects-repository'
-import type { TrailsRepository } from '@/domain/projects/application/repositories/trails-repository'
-import { Project } from '@/domain/projects/enterprise/entities/project'
-import { Post } from '@/domain/projects/enterprise/value-objects/post'
+} from '@/@core/domain/projects/application/repositories/projects-repository'
+import type { SubjectsRepository } from '@/@core/domain/projects/application/repositories/subjects-repository'
+import type { TrailsRepository } from '@/@core/domain/projects/application/repositories/trails-repository'
+import { Project } from '@/@core/domain/projects/enterprise/entities/project'
+import { Post } from '@/@core/domain/projects/enterprise/value-objects/post'
 import { InMemoryProfessorsRepository } from './professors-repository'
 import { InMemorySubjectsRepository } from './subjects-repository'
 import { InMemoryTrailsRepository } from './trails-repository'
