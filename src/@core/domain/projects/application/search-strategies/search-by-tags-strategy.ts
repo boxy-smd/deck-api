@@ -1,4 +1,4 @@
-import type { Post } from '../../../enterprise/value-objects/post'
+import type { ProjectDTO } from '../../dtos/project.dto'
 import type { ProjectsRepository } from '../../repositories/projects-repository'
 import type { SearchCriteria, SearchStrategy } from './search-strategy'
 
@@ -10,17 +10,17 @@ export class SearchByTagsStrategy implements SearchStrategy {
   async search(
     criteria: SearchCriteria,
     repository: ProjectsRepository,
-  ): Promise<Post[]> {
+  ): Promise<ProjectDTO[]> {
     if (!criteria.tags || criteria.tags.length === 0) return []
 
     const allProjects = await Promise.all(
-      criteria.tags.map(tag => repository.findManyPostsByTag(tag)),
+      criteria.tags.map(tag => repository.findManyProjectDTOsByTag(tag)),
     )
 
-    const projectsMap = new Map<string, Post>()
+    const projectsMap = new Map<string, ProjectDTO>()
     for (const projectList of allProjects) {
       for (const project of projectList) {
-        projectsMap.set(project.id.toString(), project)
+        projectsMap.set(project.id, project)
       }
     }
 

@@ -7,19 +7,22 @@ interface SemesterProps {
 }
 
 export class Semester extends ValueObject<SemesterProps> {
-  get value() {
+  private static readonly MIN_SEMESTER = 1
+  private static readonly MAX_SEMESTER = 12
+
+  get value(): number {
     return this.props.value
   }
 
-  static validate(semester: number) {
-    return semester < 1 || semester > 12
+  private static isValid(semester: number): boolean {
+    return semester >= Semester.MIN_SEMESTER && semester <= Semester.MAX_SEMESTER
   }
 
-  static create(semester: number): Either<SemesterOutOfBoundsError, Semester> {
-    if (Semester.validate(semester)) {
+  public static create(semester: number): Either<SemesterOutOfBoundsError, Semester> {
+    if (!Semester.isValid(semester)) {
       return left(
         new SemesterOutOfBoundsError(
-          'O semestre deve ser um número entre 1 e 12.',
+          `O semestre deve ser um número entre ${Semester.MIN_SEMESTER} e ${Semester.MAX_SEMESTER}.`,
         ),
       )
     }
@@ -27,19 +30,11 @@ export class Semester extends ValueObject<SemesterProps> {
     return right(new Semester({ value: semester }))
   }
 
-  increment() {
-    if (this.props.value === 12) {
-      throw new Error('O semestre não pode ser maior que 12.')
-    }
-
-    this.props.value++
+  public increment(): Either<SemesterOutOfBoundsError, Semester> {
+    return Semester.create(this.value + 1)
   }
 
-  update(semester: number) {
-    if (Semester.validate(semester)) {
-      throw new Error('O semestre deve ser um número entre 1 e 12.')
-    }
-
-    this.props.value = semester
+  public decrement(): Either<SemesterOutOfBoundsError, Semester> {
+    return Semester.create(this.value - 1)
   }
 }

@@ -1,6 +1,6 @@
 import type { Project } from '@/@core/domain/projects/enterprise/entities/project'
 import type { DomainRepository } from '@/@shared/kernel/kernel/domain-repository'
-import type { Post } from '../../enterprise/value-objects/post'
+import type { ProjectDTO } from '../dtos/project.dto'
 
 export type ProjectQuery = {
   trailsIds?: string[]
@@ -12,21 +12,21 @@ export type ProjectQuery = {
 export interface ProjectsRepository extends DomainRepository<Project> {
   findManyByTitle(title: string): Promise<Project[]>
 
-  findManyPostsByTitle(title: string): Promise<Post[]>
+  findManyProjectDTOsByTitle(title: string): Promise<ProjectDTO[]>
 
   findManyByProfessorName(name: string): Promise<Project[]>
 
-  findManyPostsByProfessorName(name: string): Promise<Post[]>
+  findManyProjectDTOsByProfessorName(name: string): Promise<ProjectDTO[]>
 
   findManyByQuery(query: ProjectQuery): Promise<Project[]>
 
-  findManyPostsByQuery(query: ProjectQuery): Promise<Post[]>
+  findManyProjectDTOsByQuery(query: ProjectQuery): Promise<ProjectDTO[]>
 
   findManyByTag(tag: string): Promise<Project[]>
 
-  findManyPostsByTag(tag: string): Promise<Post[]>
+  findManyProjectDTOsByTag(tag: string): Promise<ProjectDTO[]>
 
   findManyByStudentId(studentId: string): Promise<Project[]>
 
-  findAllPosts(): Promise<Post[]>
+  findAllProjectDTOs(): Promise<ProjectDTO[]>
 }

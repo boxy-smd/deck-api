@@ -1,4 +1,4 @@
-import type { Post } from '../../../enterprise/value-objects/post'
+import type { ProjectDTO } from '../../dtos/project.dto'
 import type { ProjectsRepository } from '../../repositories/projects-repository'
 import { SearchAllStrategy } from './search-all-strategy'
 import { SearchByMetadataStrategy } from './search-by-metadata-strategy'
@@ -25,7 +25,7 @@ export class SearchContext {
   async search(
     criteria: SearchCriteria,
     repository: ProjectsRepository,
-  ): Promise<Post[]> {
+  ): Promise<ProjectDTO[]> {
     const strategy = this.strategies.find(s => s.canHandle(criteria))
 
     if (!strategy) {
