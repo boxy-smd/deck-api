@@ -3,7 +3,7 @@ import type {
   ProjectsRepository,
 } from '@/@core/domain/projects/application/repositories/projects-repository'
 import type { Project } from '@/@core/domain/projects/enterprise/entities/project'
-import type { Post } from '@/@core/domain/projects/enterprise/value-objects/post'
+import type { ProjectDTO } from '@/@core/domain/projects/application/dtos/project.dto'
 import { prisma } from '../client'
 import { PrismaProjectMapper } from '../mappers/prisma-project-mapper'
 
@@ -160,7 +160,102 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     return project
   }
 
-  async findManyPostsByTitle(title: string): Promise<Post[]> {
+  async findAll(): Promise<Project[]> {
+    const data = await prisma.project.findMany()
+    return data.map(PrismaProjectMapper.toEntity)
+  }
+
+  async findAllPosts(): Promise<ProjectDTO[]> {
+    const data = await prisma.project.findMany({
+      include: {
+        author: {
+          select: {
+            name: true,
+            username: true,
+            profileUrl: true,
+          },
+        },
+        professors: {
+          select: {
+            professor: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        subject: {
+          select: {
+            name: true,
+          },
+        },
+        trails: {
+          select: {
+            trail: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+      where: {
+        status: 'PUBLISHED',
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+
+    return data.map(d => PrismaProjectMapper.toEntityPost(d))
+  }
+
+  async findAllProjectDTOs(): Promise<ProjectDTO[]> {
+    const data = await prisma.project.findMany({
+      include: {
+        author: {
+          select: {
+            name: true,
+            username: true,
+            profileUrl: true,
+          },
+        },
+        professors: {
+          select: {
+            professor: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        subject: {
+          select: {
+            name: true,
+          },
+        },
+        trails: {
+          select: {
+            trail: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+      where: {
+        status: 'PUBLISHED',
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+
+    return data.map(d => PrismaProjectMapper.toProjectDTO(d))
+  }
+
+  async findManyProjectDTOsByTitle(title: string): Promise<ProjectDTO[]> {
     const data = await prisma.project.findMany({
       where: {
         title: {
@@ -205,10 +300,10 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return data.map(d => PrismaProjectMapper.toEntityPost(d))
+    return data.map(d => PrismaProjectMapper.toProjectDTO(d))
   }
 
-  async findManyPostsByProfessorName(name: string): Promise<Post[]> {
+  async findManyProjectDTOsByProfessorName(name: string): Promise<ProjectDTO[]> {
     const data = await prisma.project.findMany({
       where: {
         professors: {
@@ -259,61 +354,15 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return data.map(d => PrismaProjectMapper.toEntityPost(d))
+    return data.map(d => PrismaProjectMapper.toProjectDTO(d))
   }
 
-  async findManyDraftsByStudentId(studentId: string): Promise<Post[]> {
-    const data = await prisma.project.findMany({
-      where: {
-        authorId: studentId,
-        status: 'DRAFT',
-      },
-      include: {
-        author: {
-          select: {
-            name: true,
-            username: true,
-            profileUrl: true,
-          },
-        },
-        professors: {
-          select: {
-            professor: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-        subject: {
-          select: {
-            name: true,
-          },
-        },
-        trails: {
-          select: {
-            trail: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    })
-
-    return data.map(d => PrismaProjectMapper.toEntityPost(d))
-  }
-
-  async findManyPostsByQuery({
+  async findManyProjectDTOsByQuery({
     semester,
     publishedYear,
     subjectId,
     trailsIds,
-  }: ProjectQuery): Promise<Post[]> {
+  }: ProjectQuery): Promise<ProjectDTO[]> {
     const data = await prisma.project.findMany({
       where: {
         AND: [
@@ -391,10 +440,10 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return data.map(d => PrismaProjectMapper.toEntityPost(d))
+    return data.map(d => PrismaProjectMapper.toProjectDTO(d))
   }
 
-  async findManyPostsByTag(tag: string): Promise<Post[]> {
+  async findManyProjectDTOsByTag(tag: string): Promise<ProjectDTO[]> {
     const semesterVariants: Record<number, string[]> = {
       1: ['1', 'primeiro', '1º'],
       2: ['2', 'segundo', '2º'],
@@ -512,102 +561,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       },
     })
 
-    return data.map(d => PrismaProjectMapper.toEntityPost(d))
-  }
-
-  async findManyPostsByStudentId(studentId: string): Promise<Post[]> {
-    const data = await prisma.project.findMany({
-      where: {
-        authorId: studentId,
-      },
-      include: {
-        author: {
-          select: {
-            name: true,
-            username: true,
-            profileUrl: true,
-          },
-        },
-        professors: {
-          select: {
-            professor: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-        subject: {
-          select: {
-            name: true,
-          },
-        },
-        trails: {
-          select: {
-            trail: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    })
-
-    return data.map(d => PrismaProjectMapper.toEntityPost(d))
-  }
-
-  async findAll(): Promise<Project[]> {
-    const data = await prisma.project.findMany()
-    return data.map(PrismaProjectMapper.toEntity)
-  }
-
-  async findAllPosts(): Promise<Post[]> {
-    const data = await prisma.project.findMany({
-      include: {
-        author: {
-          select: {
-            name: true,
-            username: true,
-            profileUrl: true,
-          },
-        },
-        professors: {
-          select: {
-            professor: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-        subject: {
-          select: {
-            name: true,
-          },
-        },
-        trails: {
-          select: {
-            trail: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-      },
-      where: {
-        status: 'PUBLISHED',
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    })
-
-    return data.map(d => PrismaProjectMapper.toEntityPost(d))
+    return data.map(d => PrismaProjectMapper.toProjectDTO(d))
   }
 
   async create(project: Project): Promise<void> {
