@@ -1,13 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString, IsEmail, MinLength } from 'class-validator'
+import { IsEmail, IsString, MinLength } from 'class-validator'
 
 export class LoginStudentDto {
-  @ApiProperty({ description: 'Student email', example: 'joao@alu.ufc.br' })
-  @IsEmail({}, { message: 'Invalid email.' })
+  @ApiProperty({
+    description: 'Email do estudante',
+    example: 'joao@alu.ufc.br',
+  })
+  @IsEmail({}, { message: 'Email inválido.' })
   email: string
 
-  @ApiProperty({ description: 'Student password', example: 'senha123' })
+  @ApiProperty({ description: 'Senha do estudante', example: '123456' })
   @IsString()
-  @MinLength(6, { message: 'Password must have at least 6 characters.' })
+  @MinLength(6, { message: 'A senha deve ter pelo menos 6 caracteres.' })
   password: string
 }
