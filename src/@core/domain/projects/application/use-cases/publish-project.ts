@@ -129,7 +129,9 @@ export class PublishProjectUseCase {
     })
   }
 
-  private async validateAuthor(authorId: string) {
+  private async validateAuthor(
+    authorId: string,
+  ): Promise<Either<ForbiddenError | ResourceNotFoundError, any>> {
     if (!authorId) {
       return left(
         new ForbiddenError('You must be logged in to publish a project.'),
@@ -145,7 +147,9 @@ export class PublishProjectUseCase {
     return right(student)
   }
 
-  private async validateSubject(subjectId?: string) {
+  private async validateSubject(
+    subjectId?: string,
+  ): Promise<Either<ResourceNotFoundError, Subject | null>> {
     if (!subjectId) {
       return right(null)
     }
@@ -159,7 +163,9 @@ export class PublishProjectUseCase {
     return right(subject)
   }
 
-  private async validateTrails(trailsIds: string[]) {
+  private async validateTrails(
+    trailsIds: string[],
+  ): Promise<Either<ResourceNotFoundError, any[]>> {
     const trails = await Promise.all(
       trailsIds.map(trailId => this.trailsRepository.findById(trailId)),
     )
@@ -171,7 +177,9 @@ export class PublishProjectUseCase {
     return right(trails.filter(Boolean))
   }
 
-  private async validateProfessors(professorsIds?: string[]) {
+  private async validateProfessors(
+    professorsIds?: string[],
+  ): Promise<Either<ResourceNotFoundError, any[]>> {
     if (!professorsIds || professorsIds.length === 0) {
       return right([])
     }
@@ -202,7 +210,7 @@ export class PublishProjectUseCase {
     subject: Subject | null,
     trails: any[],
     professors: any[],
-  ) {
+  ): Promise<Either<ForbiddenError | ResourceNotFoundError, string>> {
     const draft = await this.projectsRepository.findById(draftId)
 
     if (!draft) {
