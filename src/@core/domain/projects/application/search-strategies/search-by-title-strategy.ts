@@ -7,11 +7,11 @@ export class SearchByTitleStrategy implements SearchStrategy {
     return Boolean(criteria.title)
   }
 
-  async search(
+  search(
     criteria: SearchCriteria,
     repository: ProjectsRepository,
   ): Promise<ProjectDTO[]> {
-    if (!criteria.title) return []
+    if (!criteria.title) return Promise.resolve([])
     return repository.findManyProjectDTOsByTitle(criteria.title)
   }
 }

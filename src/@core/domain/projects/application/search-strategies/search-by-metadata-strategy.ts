@@ -12,7 +12,7 @@ export class SearchByMetadataStrategy implements SearchStrategy {
     )
   }
 
-  async search(
+  search(
     criteria: SearchCriteria,
     repository: ProjectsRepository,
   ): Promise<ProjectDTO[]> {

@@ -2,6 +2,7 @@ import type { CommentsRepository } from '@/@core/domain/interaction/application/
 import type { Comment } from '@/@core/domain/interaction/enterprise/entities/comment'
 import type { CommentWithAuthor } from '@/@core/domain/interaction/enterprise/entities/value-objects/comment-with-author'
 import { prisma } from '../client'
+import { PrismaErrorHandler } from '../error-handler'
 import { PrismaCommentMapper } from '../mappers/prisma-comment-mapper'
 import type { PrismaReportsRepository } from './reports-repository'
 
@@ -87,12 +88,16 @@ export class PrismaCommentsRepository implements CommentsRepository {
   }
 
   async delete(comment: Comment): Promise<void> {
-    await this.reportsRepository.deleteManyByCommentId(comment.id.toString())
+    await PrismaErrorHandler.execute(async () => {
+      await prisma.$transaction(async tx => {
+        await tx.report.deleteMany({
+          where: { commentId: comment.id.toString() },
+        })
 
-    await prisma.comment.delete({
-      where: {
-        id: comment.id.toString(),
-      },
+        await tx.comment.delete({
+          where: { id: comment.id.toString() },
+        })
+      })
     })
   }
 

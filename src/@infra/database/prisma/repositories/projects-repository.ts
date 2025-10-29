@@ -6,8 +6,10 @@ import type {
 import type { Project } from '@/@core/domain/projects/enterprise/entities/project'
 import { SemesterParser } from '@/@shared/kernel/utils/semester-parser'
 import { prisma } from '../client'
+import { PrismaErrorHandler } from '../error-handler'
 import { PrismaProjectMapper } from '../mappers/prisma-project-mapper'
 import type { ProjectWithMetadata } from '../mappers/project-with-metadata'
+import { PrismaQueryBuilder } from '../query-builder'
 
 export class PrismaProjectsRepository implements ProjectsRepository {
   async findManyByTitle(title: string): Promise<Project[]> {
@@ -43,44 +45,16 @@ export class PrismaProjectsRepository implements ProjectsRepository {
   }
 
   async findManyByQuery(query: ProjectQuery): Promise<Project[]> {
-    const data = await prisma.project.findMany({
-      where: {
-        AND: [
-          query.publishedYear
-            ? {
-                publishedYear: {
-                  equals: query.publishedYear,
-                },
-              }
-            : {},
-          query.semester
-            ? {
-                semester: {
-                  equals: query.semester,
-                },
-              }
-            : {},
-          query.subjectId
-            ? {
-                subjectId: {
-                  equals: query.subjectId,
-                },
-              }
-            : {},
-          query.trailsIds?.length
-            ? {
-                trails: {
-                  some: {
-                    trailId: {
-                      in: query.trailsIds,
-                    },
-                  },
-                },
-              }
-            : {},
-        ],
-      },
+    const where = PrismaQueryBuilder.buildProjectFilters({
+      publishedYear: query.publishedYear,
+      semester: query.semester,
+      subjectId: query.subjectId,
+      trailsIds: query.trailsIds,
     })
+
+    const data = await PrismaErrorHandler.execute(() =>
+      prisma.project.findMany({ where }),
+    )
 
     return data.map(PrismaProjectMapper.toEntity)
   }
@@ -125,61 +99,12 @@ export class PrismaProjectsRepository implements ProjectsRepository {
   }
 
   async findById(id: string): Promise<(Project & ProjectWithMetadata) | null> {
-    const data = await prisma.project.findUnique({
-      where: {
-        id: id.toString(),
-      },
-      include: {
-        author: {
-          select: {
-            name: true,
-            username: true,
-            profileUrl: true,
-          },
-        },
-        professors: {
-          select: {
-            professor: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-          },
-        },
-        subject: {
-          select: {
-            name: true,
-          },
-        },
-        trails: {
-          select: {
-            trail: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-          },
-        },
-        comments: {
-          select: {
-            id: true,
-            content: true,
-            createdAt: true,
-            updatedAt: true,
-            author: {
-              select: {
-                name: true,
-                username: true,
-                profileUrl: true,
-              },
-            },
-            authorId: true,
-          },
-        },
-      },
-    })
+    const data = await PrismaErrorHandler.execute(() =>
+      prisma.project.findUnique({
+        where: { id: id.toString() },
+        include: PrismaQueryBuilder.getProjectFullIncludes(),
+      }),
+    )
 
     if (!data) return null
 
@@ -215,67 +140,30 @@ export class PrismaProjectsRepository implements ProjectsRepository {
   }
 
   async findAllProjectDTOs(): Promise<ProjectDTO[]> {
-    const data = await prisma.project.findMany({
-      include: this.getProjectDTOIncludes(),
-      where: {
-        status: 'PUBLISHED',
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    })
+    const data = await PrismaErrorHandler.execute(() =>
+      prisma.project.findMany({
+        include: PrismaQueryBuilder.getProjectDTOIncludes(),
+        where: { status: 'PUBLISHED' },
+        orderBy: { createdAt: 'desc' },
+      }),
+    )
 
     return data.map(d => PrismaProjectMapper.toProjectDTO(d))
   }
 
-  private getProjectDTOIncludes() {
-    return {
-      author: {
-        select: {
-          name: true,
-          username: true,
-          profileUrl: true,
-        },
-      },
-      professors: {
-        select: {
-          professor: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      },
-      subject: {
-        select: {
-          name: true,
-        },
-      },
-      trails: {
-        select: {
-          trail: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      },
-    }
-  }
-
   async findManyProjectDTOsByTitle(title: string): Promise<ProjectDTO[]> {
-    const data = await prisma.project.findMany({
-      where: {
-        title: {
-          contains: title,
-          mode: 'insensitive',
+    const data = await PrismaErrorHandler.execute(() =>
+      prisma.project.findMany({
+        where: {
+          title: {
+            contains: title,
+            mode: 'insensitive',
+          },
         },
-      },
-      include: this.getProjectDTOIncludes(),
-      orderBy: {
-        createdAt: 'desc',
-      },
-    })
+        include: PrismaQueryBuilder.getProjectDTOIncludes(),
+        orderBy: { createdAt: 'desc' },
+      }),
+    )
 
     return data.map(d => PrismaProjectMapper.toProjectDTO(d))
   }
@@ -283,24 +171,24 @@ export class PrismaProjectsRepository implements ProjectsRepository {
   async findManyProjectDTOsByProfessorName(
     name: string,
   ): Promise<ProjectDTO[]> {
-    const data = await prisma.project.findMany({
-      where: {
-        professors: {
-          some: {
-            professor: {
-              name: {
-                contains: name,
-                mode: 'insensitive',
+    const data = await PrismaErrorHandler.execute(() =>
+      prisma.project.findMany({
+        where: {
+          professors: {
+            some: {
+              professor: {
+                name: {
+                  contains: name,
+                  mode: 'insensitive',
+                },
               },
             },
           },
         },
-      },
-      include: this.getProjectDTOIncludes(),
-      orderBy: {
-        createdAt: 'desc',
-      },
-    })
+        include: PrismaQueryBuilder.getProjectDTOIncludes(),
+        orderBy: { createdAt: 'desc' },
+      }),
+    )
 
     return data.map(d => PrismaProjectMapper.toProjectDTO(d))
   }
@@ -311,51 +199,21 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     subjectId,
     trailsIds,
   }: ProjectQuery): Promise<ProjectDTO[]> {
-    const data = await prisma.project.findMany({
-      where: {
-        AND: [
-          {
-            status: 'PUBLISHED',
-          },
-          publishedYear
-            ? {
-                publishedYear: {
-                  equals: publishedYear,
-                },
-              }
-            : {},
-          semester
-            ? {
-                semester: {
-                  equals: semester,
-                },
-              }
-            : {},
-          subjectId
-            ? {
-                subjectId: {
-                  equals: subjectId,
-                },
-              }
-            : {},
-          trailsIds?.length
-            ? {
-                trails: {
-                  some: {
-                    trailId: {
-                      in: trailsIds,
-                    },
-                  },
-                },
-              }
-            : {},
-        ],
-      },
-      include: this.getProjectDTOIncludes(),
-      orderBy: {
-        publishedYear: 'desc',
-      },
+    const where = PrismaQueryBuilder.buildProjectFilters({
+      publishedYear,
+      semester,
+      subjectId,
+      trailsIds,
+      status: 'PUBLISHED',
     })
+
+    const data = await PrismaErrorHandler.execute(() =>
+      prisma.project.findMany({
+        where,
+        include: PrismaQueryBuilder.getProjectDTOIncludes(),
+        orderBy: { publishedYear: 'desc' },
+      }),
+    )
 
     return data.map(d => PrismaProjectMapper.toProjectDTO(d))
   }
@@ -364,49 +222,50 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     const parsedSemester = SemesterParser.parseSemester(tag)
     const parsedYear = Number.parseInt(tag, 10)
 
-    const data = await prisma.project.findMany({
-      where: {
-        OR: [
-          {
-            trails: {
-              some: {
-                trail: {
-                  name: {
-                    contains: tag,
-                    mode: 'insensitive',
+    const data = await PrismaErrorHandler.execute(() =>
+      prisma.project.findMany({
+        where: {
+          OR: [
+            {
+              trails: {
+                some: {
+                  trail: {
+                    name: {
+                      contains: tag,
+                      mode: 'insensitive',
+                    },
                   },
                 },
               },
             },
-          },
-          {
-            subject: {
-              name: {
-                contains: tag,
-                mode: 'insensitive',
+            {
+              subject: {
+                name: {
+                  contains: tag,
+                  mode: 'insensitive',
+                },
               },
             },
-          },
-          Number.isNaN(parsedYear)
-            ? {} : {
-                publishedYear: {
-                  equals: parsedYear,
+            Number.isNaN(parsedYear)
+              ? {}
+              : {
+                  publishedYear: {
+                    equals: parsedYear,
+                  },
                 },
-              },
-          parsedSemester
-            ? {
-                semester: {
-                  equals: parsedSemester,
-                },
-              }
-            : {},
-        ],
-      },
-      include: this.getProjectDTOIncludes(),
-      orderBy: {
-        publishedYear: 'desc',
-      },
-    })
+            parsedSemester
+              ? {
+                  semester: {
+                    equals: parsedSemester,
+                  },
+                }
+              : {},
+          ],
+        },
+        include: PrismaQueryBuilder.getProjectDTOIncludes(),
+        orderBy: { publishedYear: 'desc' },
+      }),
+    )
 
     return data.map(d => PrismaProjectMapper.toProjectDTO(d))
   }
@@ -414,36 +273,34 @@ export class PrismaProjectsRepository implements ProjectsRepository {
   async create(project: Project): Promise<void> {
     const data = PrismaProjectMapper.toPrisma(project)
 
-    await prisma.project.create({
-      data,
-    })
+    await PrismaErrorHandler.execute(() => prisma.project.create({ data }))
   }
 
   async save(project: Project): Promise<void> {
     const data = PrismaProjectMapper.toPrisma(project)
 
-    await prisma.project.update({
-      where: {
-        id: data.id,
-      },
-      data,
-    })
+    await PrismaErrorHandler.execute(() =>
+      prisma.project.update({
+        where: { id: data.id },
+        data,
+      }),
+    )
   }
 
   async delete(project: Project): Promise<void> {
-    await prisma.project.delete({
-      where: {
-        id: project.id.toString(),
-      },
-    })
+    await PrismaErrorHandler.execute(() =>
+      prisma.project.delete({
+        where: { id: project.id.toString() },
+      }),
+    )
   }
 
   async deleteById(id: string): Promise<void> {
-    await prisma.project.delete({
-      where: {
-        id: id.toString(),
-      },
-    })
+    await PrismaErrorHandler.execute(() =>
+      prisma.project.delete({
+        where: { id: id.toString() },
+      }),
+    )
   }
 
   async existsById(id: string): Promise<boolean> {
