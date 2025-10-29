@@ -1,6 +1,8 @@
 import { makeCommentOnProjectUseCase } from '@/@core/application/factories/comments/make-comment-on-project-use-case'
 import { makeDeleteCommentUseCase } from '@/@core/application/factories/comments/make-delete-comment-use-case'
+import { makeListProjectCommentsUseCase } from '@/@core/application/factories/comments/make-list-project-comments-use-case'
 import { makeReportCommentUseCase } from '@/@core/application/factories/comments/make-report-comment-use-case'
+import { CommentPresenter } from '@/@presentation/presenters/comment'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import {
   BadRequestException,
@@ -8,6 +10,7 @@ import {
   Controller,
   Delete,
   ForbiddenException,
+  Get,
   HttpCode,
   HttpStatus,
   NotFoundException,
@@ -28,6 +31,28 @@ import type { ReportCommentDto } from '../dto/report-comment.dto'
 @ApiTags('Comments')
 @Controller()
 export class CommentsController {
+  @Get('projects/:projectId/comments')
+  @ApiOperation({ summary: 'List project comments' })
+  @ApiResponse({ status: 200, description: 'Comments retrieved successfully' })
+  @ApiResponse({ status: 404, description: 'Project not found' })
+  async listProjectComments(@Param('projectId') projectId: string) {
+    const listProjectCommentsUseCase = makeListProjectCommentsUseCase()
+
+    const result = await listProjectCommentsUseCase.execute({ projectId })
+
+    if (result.isLeft()) {
+      const error = result.value
+      if (error.statusCode === 404) {
+        throw new NotFoundException(error.message)
+      }
+      throw new BadRequestException(error.message)
+    }
+
+    return {
+      comments: result.value.comments.map(CommentPresenter.toHTTP),
+    }
+  }
+
   @Post('projects/:projectId/comments')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
