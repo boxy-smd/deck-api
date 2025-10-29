@@ -1,17 +1,39 @@
+import { makeEditProfileUseCase } from '@/interface/factories/students/make-edit-profile-use-case'
+import { makeFetchStudentsUseCase } from '@/interface/factories/students/make-fetch-students-use-case'
 import { makeGetProfileUseCase } from '@/interface/factories/students/make-get-profile-use-case'
+import { makeGetStudentDetailsUseCase } from '@/interface/factories/students/make-get-student-details-use-case'
 import { makeLoginUseCase } from '@/interface/factories/students/make-login-use-case'
 import { makeRegisterUseCase } from '@/interface/factories/students/make-register-use-case'
+import { StudentPresenter } from '@/interface/http/presenters/student'
+import { StudentProfilePresenter } from '@/interface/http/presenters/student-profile'
+import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth.guard'
 import {
+  BadRequestException,
   Body,
+  ConflictException,
   Controller,
+  ForbiddenException,
   Get,
   HttpCode,
   HttpStatus,
+  NotFoundException,
   Param,
   Post,
+  Put,
+  Query,
+  Request,
+  UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common'
 import type { JwtService } from '@nestjs/jwt'
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger'
+import type { EditProfileDto } from '../dto/edit-profile.dto'
+import type { FetchStudentsDto } from '../dto/fetch-students.dto'
 import type { LoginStudentDto } from '../dto/login-student.dto'
 import type { RegisterStudentDto } from '../dto/register-student.dto'
 
@@ -41,7 +63,10 @@ export class StudentsController {
 
     if (result.isLeft()) {
       const error = result.value
-      throw new Error(error.message)
+      if (error.statusCode === 409) {
+        throw new ConflictException(error.message)
+      }
+      throw new BadRequestException(error.message)
     }
 
     return { user_id: result.value.id.toString() }
@@ -62,7 +87,7 @@ export class StudentsController {
 
     if (result.isLeft()) {
       const error = result.value
-      throw new Error(error.message)
+      throw new UnauthorizedException(error.message)
     }
 
     const token = this.jwtService.sign({
@@ -84,9 +109,91 @@ export class StudentsController {
 
     if (result.isLeft()) {
       const error = result.value
-      throw new Error(error.message)
+      if (error.statusCode === 404) {
+        throw new NotFoundException(error.message)
+      }
+      throw new BadRequestException(error.message)
     }
 
-    return result.value
+    return StudentProfilePresenter.toHTTP(result.value)
+  }
+
+  @Put('profiles/:studentId')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Edit student profile' })
+  @ApiResponse({ status: 200, description: 'Profile updated successfully' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 404, description: 'Student not found' })
+  async editProfile(
+    @Param('studentId') studentId: string,
+    @Body() editDto: EditProfileDto,
+    @Request() req: any,
+  ) {
+    if (studentId !== req.user.userId) {
+      throw new ForbiddenException('Forbidden.')
+    }
+
+    const editProfileUseCase = makeEditProfileUseCase()
+
+    const result = await editProfileUseCase.execute({
+      studentId,
+      profileUrl: editDto.profileUrl,
+      semester: editDto.semester,
+      trailsIds: editDto.trailsIds,
+      about: editDto.about,
+    })
+
+    if (result.isLeft()) {
+      const error = result.value
+      if (error.statusCode === 404) {
+        throw new NotFoundException(error.message)
+      }
+      throw new BadRequestException(error.message)
+    }
+
+    return {
+      profile: StudentProfilePresenter.toHTTP(result.value),
+    }
+  }
+
+  @Get('students')
+  @ApiOperation({ summary: 'Fetch students' })
+  @ApiResponse({ status: 200, description: 'Students retrieved successfully' })
+  async fetchStudents(@Query() query: FetchStudentsDto) {
+    const fetchStudentsUseCase = makeFetchStudentsUseCase()
+
+    const result = await fetchStudentsUseCase.execute({
+      name: query.name,
+    })
+
+    return {
+      students: result.map(StudentPresenter.toHTTP),
+    }
+  }
+
+  @Get('students/:studentId')
+  @ApiOperation({ summary: 'Get student details' })
+  @ApiResponse({
+    status: 200,
+    description: 'Student details retrieved successfully',
+  })
+  @ApiResponse({ status: 404, description: 'Student not found' })
+  async getStudentDetails(@Param('studentId') studentId: string) {
+    const getStudentDetailsUseCase = makeGetStudentDetailsUseCase()
+
+    const result = await getStudentDetailsUseCase.execute({
+      username: studentId,
+    })
+
+    if (result.isLeft()) {
+      const error = result.value
+      if (error.statusCode === 404) {
+        throw new NotFoundException(error.message)
+      }
+      throw new BadRequestException(error.message)
+    }
+
+    return StudentProfilePresenter.toHTTP(result.value)
   }
 }
