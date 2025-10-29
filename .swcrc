@@ -14,12 +14,24 @@
     "keepClassNames": true,
     "baseUrl": "./",
     "paths": {
-      "@/@core/*": ["./src/@core/*"],
-      "@/@infra/*": ["./src/@infra/*"],
-      "@/@shared/*": ["./src/@shared/*"],
-      "@/@presentation/*": ["./src/@presentation/*"],
-      "@/*": ["./src/*"],
-      "test/*": ["./test/*"]
+      "@/@core/*": [
+        "./src/@core/*"
+      ],
+      "@/@infra/*": [
+        "./src/@infra/*"
+      ],
+      "@/@shared/*": [
+        "./src/@shared/*"
+      ],
+      "@/@presentation/*": [
+        "./src/@presentation/*"
+      ],
+      "@/*": [
+        "./src/*"
+      ],
+      "test/*": [
+        "./test/*"
+      ]
     }
   },
   "module": {

@@ -9,7 +9,7 @@ export class StudentPresenter {
       username: student.username.value,
       semester: student.profile?.semester.value || 1,
       profileUrl: student.profileUrl || '',
-      trails: student.profile?.trailsIds 
+      trails: student.profile?.trailsIds
         ? Array.from(student.profile.trailsIds).map(id => id.toString())
         : [],
     }

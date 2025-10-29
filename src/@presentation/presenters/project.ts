@@ -15,10 +15,8 @@ export class ProjectPresenter {
       allowComments: project.allowComments,
       authorId: project.authorId.toString(),
       subjectId: project.subjectId?.toString(),
-      trailsIds: project.trails.map(trail => trail.id.toString()),
-      professorsIds: project.professors?.map(professor =>
-        professor.id.toString(),
-      ),
+      trailsIds: project.trails.map(trail => trail.toString()),
+      professorsIds: project.professors?.map(professor => professor.toString()),
     }
   }
 }

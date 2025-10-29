@@ -1,10 +1,8 @@
-import { Post } from '@/@core/domain/projects/enterprise/value-objects/post'
+import type { Post } from '@/@core/domain/projects/enterprise/value-objects/post'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class PostPresenter {
-  static toHTTP(
-    post: Post
-  ) {
+  static toHTTP(post: Post) {
     return {
       id: post.id.toString(),
       title: post.title,
