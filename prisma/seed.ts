@@ -86,6 +86,15 @@ function fetchSubjects() {
 }
 
 async function seed() {
+  // Check if seed has already been executed
+  const existingTrails = await prisma.trail.count()
+  if (existingTrails > 0) {
+    console.log('⏭️  Database already seeded, skipping...')
+    return
+  }
+
+  console.log('🌱 Starting database seed...')
+  
   const professors = await fetchProfessors()
 
   await Promise.all(
@@ -204,9 +213,9 @@ async function seed() {
   })
 
   console.log('✅ Users created successfully!')
+  console.log('✅ Database seeded!')
 }
 
 seed().then(() => {
-  console.log('Database seeded!')
   prisma.$disconnect()
 })
