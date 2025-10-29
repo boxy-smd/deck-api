@@ -1,10 +1,14 @@
 import type { UsersRepository } from '@/@core/domain/authentication/application/repositories/users-repository'
+import type { User } from '@/@core/domain/authentication/enterprise/entities/user'
 import { Project } from '@/@core/domain/projects/enterprise/entities/project'
 import type { Subject } from '@/@core/domain/projects/enterprise/entities/subject'
 import { ProjectStatus } from '@/@core/domain/projects/enterprise/value-objects/project-status'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ForbiddenError } from '@/@shared/kernel/errors/forbidden.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
+import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
+import type { Professor } from '../../enterprise/entities/professor'
+import type { Trail } from '../../enterprise/entities/trail'
 import type { ProfessorsRepository } from '../repositories/professors-repository'
 import type { ProjectsRepository } from '../repositories/projects-repository'
 import type { SubjectsRepository } from '../repositories/subjects-repository'
@@ -131,7 +135,7 @@ export class PublishProjectUseCase {
 
   private async validateAuthor(
     authorId: string,
-  ): Promise<Either<ForbiddenError | ResourceNotFoundError, any>> {
+  ): Promise<Either<ForbiddenError | ResourceNotFoundError, User>> {
     if (!authorId) {
       return left(
         new ForbiddenError('You must be logged in to publish a project.'),
@@ -165,7 +169,7 @@ export class PublishProjectUseCase {
 
   private async validateTrails(
     trailsIds: string[],
-  ): Promise<Either<ResourceNotFoundError, any[]>> {
+  ): Promise<Either<ResourceNotFoundError, Trail[]>> {
     const trails = await Promise.all(
       trailsIds.map(trailId => this.trailsRepository.findById(trailId)),
     )
@@ -179,7 +183,7 @@ export class PublishProjectUseCase {
 
   private async validateProfessors(
     professorsIds?: string[],
-  ): Promise<Either<ResourceNotFoundError, any[]>> {
+  ): Promise<Either<ResourceNotFoundError, Professor[]>> {
     if (!professorsIds || professorsIds.length === 0) {
       return right([])
     }
@@ -208,8 +212,8 @@ export class PublishProjectUseCase {
     semester: number,
     allowComments: boolean,
     subject: Subject | null,
-    trails: any[],
-    professors: any[],
+    trails: Trail[],
+    professors: Professor[],
   ): Promise<Either<ForbiddenError | ResourceNotFoundError, string>> {
     const draft = await this.projectsRepository.findById(draftId)
 
@@ -257,10 +261,10 @@ export class PublishProjectUseCase {
     publishedYear: number,
     semester: number,
     allowComments: boolean,
-    authorId: any,
+    authorId: UniqueEntityID,
     subject: Subject | null,
-    trails: any[],
-    professors: any[],
+    trails: Trail[],
+    professors: Professor[],
   ) {
     return Project.create({
       title,
