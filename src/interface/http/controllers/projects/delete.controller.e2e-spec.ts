@@ -1,6 +1,6 @@
 import request from 'supertest'
+import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
 
-import { app } from '@/app'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
 import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository'
@@ -12,14 +12,15 @@ import { makeSubject } from 'test/factories/make-subject'
 
 describe('delete project (e2e)', () => {
   beforeAll(async () => {
-    await app.ready()
+    await createTestApp()
   })
 
   afterAll(async () => {
-    await app.close()
+    await closeTestApp()
   })
 
   it('should be able to delete a project', async () => {
+    const app = await createTestApp()
     const { studentId, token, trail } = await createAndAuthenticateStudent()
 
     const professorsRepository = new PrismaProfessorsRepository()
@@ -44,7 +45,7 @@ describe('delete project (e2e)', () => {
     await subjectsRepository.create(subject)
     await projectsRepository.create(project)
 
-    const response = await request(app.server)
+    const response = await request(app.getHttpServer())
       .delete(`/projects/${project.id.toString()}`)
       .set('Authorization', `Bearer ${token}`)
 

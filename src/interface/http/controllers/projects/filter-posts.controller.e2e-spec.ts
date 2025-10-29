@@ -1,6 +1,6 @@
 import request from 'supertest'
+import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
 
-import { app } from '@/app'
 import type { User } from '@/domain/authentication/enterprise/entities/user'
 import type { Professor } from '@/domain/projects/enterprise/entities/professor'
 import type { Project } from '@/domain/projects/enterprise/entities/project'
@@ -26,7 +26,7 @@ let project: Project
 
 describe('filter posts (e2e)', () => {
   beforeAll(async () => {
-    await app.ready()
+    await createTestApp()
 
     const projectsRepository = new PrismaProjectsRepository()
     const studentsRepository = new PrismaStudentsRepository()
@@ -54,11 +54,12 @@ describe('filter posts (e2e)', () => {
   })
 
   afterAll(async () => {
-    await app.close()
+    await closeTestApp()
   })
 
   it('should be able to filter posts by published year', async () => {
-    const result = await request(app.server).get('/projects/filter').query({
+    const app = await createTestApp()
+    const result = await request(app.getHttpServer()).get('/projects/filter').query({
       publishedYear: project.publishedYear,
     })
 
@@ -67,7 +68,8 @@ describe('filter posts (e2e)', () => {
   })
 
   it('should be able to filter posts by semester', async () => {
-    const result = await request(app.server).get('/projects/filter').query({
+    const app = await createTestApp()
+    const result = await request(app.getHttpServer()).get('/projects/filter').query({
       semester: project.semester,
     })
 
@@ -76,7 +78,8 @@ describe('filter posts (e2e)', () => {
   })
 
   it('should be able to filter posts by subject id', async () => {
-    const result = await request(app.server).get('/projects/filter').query({
+    const app = await createTestApp()
+    const result = await request(app.getHttpServer()).get('/projects/filter').query({
       subjectId: subject.id.toString(),
     })
 
@@ -85,7 +88,8 @@ describe('filter posts (e2e)', () => {
   })
 
   it('should be able to filter posts by trail id', async () => {
-    const result = await request(app.server).get('/projects/filter').query({
+    const app = await createTestApp()
+    const result = await request(app.getHttpServer()).get('/projects/filter').query({
       trailsIds: trail.id.toString(),
     })
 

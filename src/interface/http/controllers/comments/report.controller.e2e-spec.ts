@@ -1,6 +1,6 @@
 import request from 'supertest'
+import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
 
-import { app } from '@/app'
 import { PrismaCommentsRepository } from '@/infra/database/prisma/repositories/comments-repository'
 import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
 import { PrismaReportsRepository } from '@/infra/database/prisma/repositories/reports-repository'
@@ -13,14 +13,15 @@ import { makeSubject } from 'test/factories/make-subject'
 
 describe('report comment (e2e)', () => {
   beforeAll(async () => {
-    await app.ready()
+    await createTestApp()
   })
 
   afterAll(async () => {
-    await app.close()
+    await closeTestApp()
   })
 
   it('should be able to report a comment', async () => {
+    const app = await createTestApp()
     const { studentId, token, trail } = await createAndAuthenticateStudent()
 
     const subjectsRepository = new PrismaSubjectsRepository()
@@ -43,7 +44,7 @@ describe('report comment (e2e)', () => {
     await projectsRepository.create(project)
     await commentsRepository.create(comment)
 
-    const result = await request(app.server)
+    const result = await request(app.getHttpServer())
       .post(`/reports/${comment.id.toString()}`)
       .set('Authorization', `Bearer ${token}`)
       .send({

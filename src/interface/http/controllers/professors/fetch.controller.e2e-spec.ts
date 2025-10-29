@@ -1,19 +1,20 @@
 import request from 'supertest'
+import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
 
-import { app } from '@/app'
 import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository'
 import { makeProfessor } from 'test/factories/make-professor'
 
 describe('fetch professors controller (e2e)', () => {
   beforeAll(async () => {
-    await app.ready()
+    await createTestApp()
   })
 
   afterAll(async () => {
-    await app.close()
+    await closeTestApp()
   })
 
   it('should be able to fetch professors', async () => {
+    const app = await createTestApp()
     const professorRepository = new PrismaProfessorsRepository()
 
     const tici = makeProfessor({
@@ -27,7 +28,7 @@ describe('fetch professors controller (e2e)', () => {
     await professorRepository.create(tici)
     await professorRepository.create(inga)
 
-    const response = await request(app.server).get('/professors')
+    const response = await request(app.getHttpServer()).get('/professors')
 
     expect(response.status).toBe(200)
     expect(response.body).toMatchObject({
@@ -39,6 +40,7 @@ describe('fetch professors controller (e2e)', () => {
   })
 
   it('should be able to fetch professors by name', async () => {
+    const app = await createTestApp()
     const professorRepository = new PrismaProfessorsRepository()
 
     const pequeno = makeProfessor({
@@ -52,7 +54,7 @@ describe('fetch professors controller (e2e)', () => {
     await professorRepository.create(pequeno)
     await professorRepository.create(mara)
 
-    const response = await request(app.server).get('/professors').query({
+    const response = await request(app.getHttpServer()).get('/professors').query({
       name: 'Pequeno',
     })
 
