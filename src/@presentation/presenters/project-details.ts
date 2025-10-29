@@ -5,6 +5,7 @@ import type { Project } from '@/@core/domain/projects/enterprise/entities/projec
 export class ProjectDetailsPresenter {
   static toHTTP(project: Project) {
     const details = project as any
+
     return {
       id: project.id.toString(),
       title: project.title,

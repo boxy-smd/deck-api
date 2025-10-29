@@ -1,14 +1,12 @@
-import type { StudentProfileWithDetails } from '@/@core/domain/authentication/enterprise/value-objects/student-profile-with-details'
 import type { User } from '@/@core/domain/authentication/enterprise/entities/user'
+import type { StudentProfileWithDetails } from '@/@core/domain/authentication/enterprise/value-objects/student-profile-with-details'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class StudentProfilePresenter {
-  static toHTTP(
-    student: User | StudentProfileWithDetails,
-  ) {
+  static toHTTP(student: User | StudentProfileWithDetails) {
     // Check if it's a StudentProfileWithDetails
     const isProfileWithDetails = 'trails' in student && 'posts' in student
-    
+
     if (isProfileWithDetails) {
       const profile = student as StudentProfileWithDetails
       return {
@@ -19,7 +17,7 @@ export class StudentProfilePresenter {
         semester: profile.semester,
         profileUrl: profile.profileUrl || '',
         trails: profile.trails,
-        posts: profile.posts.map((post) => ({
+        posts: profile.posts.map(post => ({
           id: post.id.toString(),
           title: post.title,
           description: post.description,

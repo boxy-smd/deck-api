@@ -8,8 +8,5 @@ export default defineConfig({
   sourcemap: false,
   minify: false,
   bundle: true,
-  external: [
-    '@prisma/client',
-    '.prisma',
-  ],
+  external: ['@prisma/client', '.prisma'],
 })
