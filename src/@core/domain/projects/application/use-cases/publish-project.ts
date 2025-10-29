@@ -58,28 +58,28 @@ export class PublishProjectUseCase {
     // Validar autor
     const authorValidation = await this.validateAuthor(authorId)
     if (authorValidation.isLeft()) {
-      return authorValidation
+      return left(authorValidation.value)
     }
     const student = authorValidation.value
 
     // Validar disciplina (opcional)
     const subjectValidation = await this.validateSubject(subjectId)
     if (subjectValidation.isLeft()) {
-      return subjectValidation
+      return left(subjectValidation.value)
     }
     const subject = subjectValidation.value
 
     // Validar trilhas
     const trailsValidation = await this.validateTrails(trailsIds)
     if (trailsValidation.isLeft()) {
-      return trailsValidation
+      return left(trailsValidation.value)
     }
     const trails = trailsValidation.value
 
     // Validar professores (opcional)
     const professorsValidation = await this.validateProfessors(professorsIds)
     if (professorsValidation.isLeft()) {
-      return professorsValidation
+      return left(professorsValidation.value)
     }
     const professors = professorsValidation.value
 
@@ -102,7 +102,7 @@ export class PublishProjectUseCase {
         professors,
       )
       if (draftValidation.isLeft()) {
-        return draftValidation
+        return left(draftValidation.value)
       }
       createdProjectId = draftValidation.value
     } else {
