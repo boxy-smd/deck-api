@@ -1,0 +1,5 @@
+export * from './project-author.vo'
+export * from './project-professor.vo'
+export * from './project-subject.vo'
+export * from './project-trail.vo'
+export * from './project-summary.vo'

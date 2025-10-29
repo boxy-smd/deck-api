@@ -35,6 +35,7 @@ export interface ProjectDTO {
   professors: ProjectProfessorDTO[]
 }
 
+// biome-ignore lint/complexity/noStaticOnlyClass: This is a DTO mapper
 export class ProjectDTOMapper {
   static toDTO(raw: ProjectDTO): ProjectDTO {
     return {
