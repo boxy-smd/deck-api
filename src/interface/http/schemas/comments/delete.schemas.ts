@@ -15,14 +15,12 @@ const deleteCommentParamsSchemas = z.object({
   }),
 })
 
-const deleteCommentResponseSchema = z.undefined()
-
 export const deleteCommentSchemas = {
   summary: 'Delete a comment',
   tags: ['Comments'],
   params: deleteCommentParamsSchemas,
   response: {
-    204: deleteCommentResponseSchema,
+    204: z.object({}),
     400: zodErrorSchema,
     403: errorResponseSchema,
     404: errorResponseSchema,

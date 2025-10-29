@@ -108,6 +108,10 @@ async function buildServer() {
     }
   })
 
+  app.get('/swagger.json', () => {
+    return app.swagger()
+  })
+
   app.setErrorHandler(errorHandler)
 
   return app

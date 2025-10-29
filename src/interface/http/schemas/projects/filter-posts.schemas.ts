@@ -5,24 +5,11 @@ import { errorResponseSchema, zodErrorSchema } from '../common.schemas.ts'
 const filterPostsQuerySchema = z.object(
   {
     trailsIds: z
-      .array(
-        z
-          .string({
-            description: 'Trail ids to filter posts.',
-            message: 'Invalid trail id.',
-            invalid_type_error: 'Trail id must be a string.',
-          })
-          .uuid('Invalid trail id.'),
-      )
-      .or(
-        z
-          .string({
-            description: 'Trail id to filter posts.',
-            message: 'Invalid trail id.',
-            invalid_type_error: 'Trail id must be a string.',
-          })
-          .uuid('Invalid trail id.'),
-      )
+      .string({
+        description: 'Trail id to filter posts (comma-separated for multiple).',
+        message: 'Invalid trail id.',
+        invalid_type_error: 'Trail id must be a string.',
+      })
       .optional(),
     semester: z.coerce
       .number({
