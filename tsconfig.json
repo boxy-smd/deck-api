@@ -13,6 +13,7 @@
 		"removeComments": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
+		"types": ["vitest/globals"],
 		"allowSyntheticDefaultImports": true,
 		"sourceMap": true,
 		"outDir": "./dist",
