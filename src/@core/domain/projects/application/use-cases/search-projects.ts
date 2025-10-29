@@ -1,10 +1,9 @@
-import type { PaginatedResult } from '@/@shared/kernel/dtos/pagination.dto'
-import { PaginationDTO } from '@/@shared/kernel/dtos/pagination.dto'
 import { type Either, right } from '@/@shared/kernel/either'
 import {
-  type ProjectSummaryDTO,
-  ProjectSummaryDTOMapper,
-} from '../dtos/project-summary.dto'
+  type PaginatedResult,
+  Pagination,
+} from '@/@shared/kernel/pagination'
+import type { ProjectSummaryDTO } from '../dtos/project-summary.dto'
 import type { ProjectsRepository } from '../repositories/projects-repository'
 import { SearchContext } from '../search-strategies/search-context'
 import type { SearchCriteria } from '../search-strategies/search-strategy'
@@ -73,25 +72,23 @@ export class SearchProjectsUseCase {
       this.projectsRepository,
     )
 
-    const projectSummaries = projects.map(project =>
-      ProjectSummaryDTOMapper.fromProject(project),
-    )
+    const projectSummaries: ProjectSummaryDTO[] = projects.map(project => ({
+      id: project.id,
+      title: project.title,
+      description: project.description,
+      bannerUrl: project.bannerUrl,
+      publishedYear: project.publishedYear,
+      semester: project.semester,
+      createdAt: project.createdAt,
+      author: project.author,
+      subject: project.subject,
+      trails: project.trails,
+    }))
 
-    const { page: validPage, limit } = PaginationDTO.validateParams({
+    const paginatedResult = Pagination.paginate(projectSummaries, {
       page,
-      limit: perPage,
+      perPage,
     })
-
-    const start = (validPage - 1) * limit
-    const end = start + limit
-    const paginatedItems = projectSummaries.slice(start, end)
-
-    const paginatedResult = PaginationDTO.create(
-      paginatedItems,
-      projectSummaries.length,
-      validPage,
-      limit,
-    )
 
     return right(paginatedResult)
   }
