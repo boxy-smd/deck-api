@@ -1,12 +1,17 @@
-import type { CommentsRepository } from '@/domain/deck/application/repositories/comments-repository.ts'
-import type { Comment } from '@/domain/deck/enterprise/entities/comment.ts'
-import { CommentWithAuthor } from '@/domain/deck/enterprise/entities/value-objects/comment-with-author.ts'
-import type { InMemoryStudentsRepository } from './students-repository.ts'
+import type { UsersRepository } from '@/@core/domain/authentication/application/repositories/users-repository'
+import type { CommentsRepository } from '@/@core/domain/interaction/application/repositories/comments-repository'
+import type { Comment } from '@/@core/domain/interaction/enterprise/entities/comment'
+import type { CommentWithAuthor } from '@/@core/domain/interaction/enterprise/entities/value-objects/comment-with-author'
+import { InMemoryUsersRepository } from './users-repository'
 
 export class InMemoryCommentsRepository implements CommentsRepository {
   public items: Comment[] = []
 
-  constructor(private studentsRepository: InMemoryStudentsRepository) {}
+  private usersRepository: UsersRepository
+
+  constructor(usersRepository?: UsersRepository) {
+    this.usersRepository = usersRepository || new InMemoryUsersRepository()
+  }
 
   async findById(id: string): Promise<Comment | null> {
     return Promise.resolve(
@@ -14,16 +19,22 @@ export class InMemoryCommentsRepository implements CommentsRepository {
     )
   }
 
-  async findManyByProjectIdWithAuthors(
-    projectId: string,
-  ): Promise<CommentWithAuthor[]> {
+  async findByProjectId(projectId: string): Promise<Comment[]> {
     const comments = this.items.filter(
       item => item.projectId.toString() === projectId,
     )
 
+    return await Promise.all(comments)
+  }
+
+  async findManyByProjectIdWithAuthors(
+    projectId: string,
+  ): Promise<CommentWithAuthor[]> {
+    const comments = await this.findByProjectId(projectId)
+
     const commentsWithAuthors = await Promise.all(
       comments.map(async comment => {
-        const author = await this.studentsRepository.findById(
+        const author = await this.usersRepository.findById(
           comment.authorId.toString(),
         )
 
@@ -31,41 +42,64 @@ export class InMemoryCommentsRepository implements CommentsRepository {
           throw new Error('Author not found.')
         }
 
-        return CommentWithAuthor.create({
+        return {
           id: comment.id,
           content: comment.content,
+          createdAt: comment.createdAt,
+          updatedAt: comment.updatedAt,
+          projectId: comment.projectId,
+          authorId: comment.authorId,
           author: {
             name: author.name,
-            username: author.username,
-            profileUrl: author.profileUrl,
+            username: author.username.value,
+            profileUrl: author.profileUrl || null,
           },
-          authorId: author.id,
-          createdAt: comment.createdAt,
-          updatedAt: comment.updatedAt || undefined,
-        })
+          authorName: author.name,
+          authorUsername: author.username.value,
+          authorProfileUrl: author.profileUrl || null,
+          commentId: comment.id,
+        } as CommentWithAuthor
       }),
     )
 
-    return await Promise.resolve(commentsWithAuthors)
+    return commentsWithAuthors
+  }
+
+  async deleteManyByProjectId(projectId: string): Promise<void> {
+    this.items = this.items.filter(
+      item => item.projectId.toString() !== projectId,
+    )
+  }
+
+  async findAll(): Promise<Comment[]> {
+    return await Promise.resolve(this.items)
   }
 
   async create(comment: Comment): Promise<void> {
-    this.items.push(comment)
-
-    return await Promise.resolve()
+    await Promise.resolve(this.items.push(comment))
   }
 
   async save(comment: Comment): Promise<void> {
     const index = this.items.findIndex(item => item.id.equals(comment.id))
 
-    if (index !== -1) {
-      this.items[index] = comment
+    if (index === -1) {
+      throw new Error('Comment not found.')
     }
 
-    return await Promise.resolve()
+    this.items[index] = comment
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(comment: Comment): Promise<void> {
+    const index = this.items.findIndex(item => item.id.equals(comment.id))
+
+    if (index === -1) {
+      throw new Error('Comment not found.')
+    }
+
+    this.items.splice(index, 1)
+  }
+
+  async deleteById(id: string): Promise<void> {
     const index = this.items.findIndex(item => item.id.toString() === id)
 
     if (index === -1) {
@@ -75,11 +109,8 @@ export class InMemoryCommentsRepository implements CommentsRepository {
     this.items.splice(index, 1)
   }
 
-  async deleteManyByProjectId(projectId: string): Promise<void> {
-    this.items = this.items.filter(
-      item => item.projectId.toString() !== projectId,
-    )
-
-    return await Promise.resolve()
+  async existsById(id: string): Promise<boolean> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
+    return await Promise.resolve(index !== -1)
   }
 }

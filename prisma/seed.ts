@@ -3,22 +3,20 @@ import { readFileSync } from 'node:fs'
 import axios from 'axios'
 import { load } from 'cheerio'
 
-import { Email } from '@/domain/deck/enterprise/entities/value-objects/email.ts'
 import { BcryptHasher } from '@/infra/cryptography/bcrypt-hasher.ts'
 import { prisma } from '@/infra/database/prisma/client.ts'
-import { makeStudent } from 'test/factories/make-student.ts'
+import { SubjectType } from '@prisma/client'
 
 interface Subject {
   code: string
   name: string
-  workload: string
-  periods: string
-  full_workload: string
+  workload: number
+  semester: number
   category:
     | 'Disciplina'
     | 'Atividades Complementares'
     | 'Trabalho de Conclusão de Curso'
-  type: 'Obrigatória' | 'Optativa'
+  type: 'Obrigatória' | 'Eletiva' | 'Optativa'
   prerequisites: string[]
   equivalences: string[]
 }
@@ -58,147 +56,45 @@ async function fetchProfessors() {
 }
 
 function fetchSubjects() {
-  // const instance = axios.create()
-
-  // const subjectsUrl =
-  //   'https://smd.ufc.br/pt/sobre-o-curso/matrizcurriculardiurno/'
-
-  // const subjectsScrap = await instance.get(subjectsUrl)
-  // const $ = load(subjectsScrap.data)
-
   const jsonPath = 'prisma/data/matriz-curricular.json'
 
   const jsonFile = readFileSync(jsonPath, 'utf-8')
   const jsonData: Subject[] = JSON.parse(jsonFile)
 
-  // function capitalizeName(name: string) {
-  //   return name
-  //     .split(' ')
-  //     .map(word => {
-  //       return word.charAt(0).toUpperCase() + word.slice(1)
-  //     })
-  //     .join(' ')
-  // }
+  return jsonData.map(subject => {
+    let type: SubjectType
 
-  // const subjects = jsonData
-  //   .map(subject => {
-  //     return subject["Componente Curricular"]
-  //   })
-  //   .filter(subject => subject !== 'COMPONENTE')
-  //   .filter(subject => !subject.startsWith('ELETIVA'))
-  //   .map(subject => {
-  //     return capitalizeName(subject.toLowerCase())
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes('Iii')) {
-  //       return subject.replaceAll('Iii', 'III')
-  //     }
+    switch (subject.type) {
+      case 'Obrigatória':
+        type = SubjectType.OBLIGATORY
+        break
+      case 'Eletiva':
+        type = SubjectType.ELECTIVE
+        break
+      case 'Optativa':
+        type = SubjectType.OPTIONAL
+        break
+      default:
+        type = SubjectType.OPTIONAL
+    }
 
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes('Ii')) {
-  //       return subject.replaceAll('Ii', 'II')
-  //     }
-
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes(' E ')) {
-  //       return subject.replaceAll(' E ', ' e ')
-  //     }
-
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes(' À ')) {
-  //       return subject.replaceAll(' À ', ' à ')
-  //     }
-
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes(' A ')) {
-  //       return subject.replaceAll(' A ', ' a ')
-  //     }
-
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes(' De ')) {
-  //       return subject.replaceAll(' De ', ' de ')
-  //     }
-
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes(' Da ')) {
-  //       return subject.replaceAll(' Da ', ' da ')
-  //     }
-
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes(' Do ')) {
-  //       return subject.replaceAll(' Do ', ' do ')
-  //     }
-
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes(' Em ')) {
-  //       return subject.replaceAll(' Em ', ' em ')
-  //     }
-
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes(' No ')) {
-  //       return subject.replaceAll(' No ', ' no ')
-  //     }
-
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes(' Nos ')) {
-  //       return subject.replaceAll(' Nos ', ' nos ')
-  //     }
-
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes(' Na ')) {
-  //       return subject.replaceAll(' Na ', ' na ')
-  //     }
-
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes(' Nas ')) {
-  //       return subject.replaceAll(' Nas ', ' nas ')
-  //     }
-
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes(' Para ')) {
-  //       return subject.replaceAll(' Para ', ' para ')
-  //     }
-
-  //     return subject
-  //   })
-  //   .map(subject => {
-  //     if (subject.includes('Coginicao')) {
-  //       return subject.replaceAll('Coginicao', 'Cognição')
-  //     }
-
-  //     return subject
-  //   })
-
-  return jsonData
+    return {
+      ...subject,
+      type,
+    }
+  })
 }
 
 async function seed() {
+  // Check if seed has already been executed
+  const existingTrails = await prisma.trail.count()
+  if (existingTrails > 0) {
+    console.log('⏭️  Database already seeded, skipping...')
+    return
+  }
+
+  console.log('🌱 Starting database seed...')
+  
   const professors = await fetchProfessors()
 
   await Promise.all(
@@ -211,16 +107,22 @@ async function seed() {
     ),
   )
 
-  const subjects = await fetchSubjects()
+  const subjects = fetchSubjects()
 
   await Promise.all(
-    subjects.map(subject =>
-      prisma.subject.create({
-        data: {
-          name: subject.name,
-        },
-      }),
-    ),
+    subjects
+      .filter(subject => !!subject.code)
+      .map(subject =>
+        prisma.subject.create({
+          data: {
+            name: subject.name,
+            code: subject.code,
+            semester: subject.semester,
+            type: subject.type,
+            workload: subject.workload,
+          },
+        }),
+      ),
   )
 
   const trails = [
@@ -253,54 +155,67 @@ async function seed() {
     ),
   )
 
-  const amanda = await makeStudent({
-    name: 'Amanda Coelho',
-    username: 'amandafnsc',
-    email: Email.create('amanda@alu.ufc.br'),
-    about: 'Estudante de Sistemas e Mídias',
-  })
-
-  const levi = await makeStudent({
-    name: 'Levi de Brito',
-    username: 'levikbrito',
-    email: Email.create('levi@alu.ufc.br'),
-    about: 'Estudante de Sistemas e Mídias',
-  })
-
-  await prisma.user.create({
+  // Create users directly with Prisma
+  const amandaUser = await prisma.user.create({
     data: {
-      name: amanda.name,
-      username: amanda.username,
-      email: amanda.email.value,
-      about: amanda.about,
+      name: 'Amanda Coelho',
+      username: 'amandafnsc',
+      email: 'amanda@alu.ufc.br',
+      about: 'Estudante de Sistemas e Mídias',
       passwordHash: await new BcryptHasher().hash('123456'),
-      semester: 3,
-      trails: {
-        connect: {
-          id: designTrail.id,
-        },
-      },
+      role: 'STUDENT',
+      status: 'ACTIVE',
     },
   })
 
-  await prisma.user.create({
+  // Create student profile for Amanda
+  await prisma.studentProfile.create({
     data: {
-      name: levi.name,
-      username: levi.username,
-      email: levi.email.value,
-      about: levi.about,
-      passwordHash: await new BcryptHasher().hash('123456'),
+      studentId: amandaUser.id,
       semester: 3,
-      trails: {
-        connect: {
-          id: systemsTrail.id,
-        },
-      },
     },
   })
+
+  // Associate Amanda with Design trail
+  await prisma.studentHasTrail.create({
+    data: {
+      studentId: amandaUser.id,
+      trailId: designTrail.id,
+    },
+  })
+
+  const leviUser = await prisma.user.create({
+    data: {
+      name: 'Levi de Brito',
+      username: 'levikbrito',
+      email: 'levi@alu.ufc.br',
+      about: 'Estudante de Sistemas e Mídias',
+      passwordHash: await new BcryptHasher().hash('123456'),
+      role: 'STUDENT',
+      status: 'ACTIVE',
+    },
+  })
+
+  // Create student profile for Levi
+  await prisma.studentProfile.create({
+    data: {
+      studentId: leviUser.id,
+      semester: 3,
+    },
+  })
+
+  // Associate Levi with Systems trail
+  await prisma.studentHasTrail.create({
+    data: {
+      studentId: leviUser.id,
+      trailId: systemsTrail.id,
+    },
+  })
+
+  console.log('✅ Users created successfully!')
+  console.log('✅ Database seeded!')
 }
 
 seed().then(() => {
-  console.log('Database seeded!')
   prisma.$disconnect()
 })

@@ -1,8 +1,8 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import {
   Trail,
   type TrailProps,
-} from '@/domain/deck/enterprise/entities/trail.ts'
+} from '@/@core/domain/projects/enterprise/entities/trail'
+import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export function makeTrail(
   override: Partial<TrailProps> = {},
@@ -10,7 +10,7 @@ export function makeTrail(
 ) {
   const trail = Trail.create(
     {
-      name: 'Sistemas',
+      name: `Trail_${Math.random().toString(36).substring(7)}`,
       ...override,
     },
     id,

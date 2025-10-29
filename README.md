@@ -86,61 +86,126 @@ Tecnologias utilizadas no projeto.
 
 ### Requisitos
 
-- [Node](https://nodejs.org/) e [pnpm](https://pnpm.io/pt/).
-- [Docker](https://www.docker.com/).
+- [Node](https://nodejs.org/) e [pnpm](https://pnpm.io/pt/)
+- [Docker](https://www.docker.com/) e Docker Compose
+
+## 🐳 Rodar com Docker
+
+A forma mais fácil de rodar o projeto completo:
 
 ```sh
-# Caso não tenha o pnpm, execute:
+# 1. Clonar o projeto
+git clone https://github.com/boxy-smd/deck-api.git
+cd deck-api
+
+# 2. Configurar variáveis de ambiente (opcional)
+cp .env.example .env
+# Edite .env se necessário (JWT_SECRET, etc)
+
+# 3. Build e iniciar containers (app + postgres)
+docker compose up --build
+
+# A aplicação estará rodando em http://localhost:3333
+```
+
+**Comandos úteis:**
+```sh
+# Parar containers
+docker compose down
+
+# Ver logs
+docker compose logs -f
+
+# Rebuild
+docker compose up --build
+
+# Limpar tudo (incluindo dados do banco)
+docker compose down -v
+```
+
+```sh
+# Caso não tenha o pnpm:
 npm install -g pnpm
 ```
 
-Recomendo que veja a [documentação de configuração do Fastify](https://fastify.dev/docs/latest/Reference/).
+### Setup do Projeto
 
 ```sh
-# Clonando o projeto
+# 1. Clonar o projeto
 git clone https://github.com/boxy-smd/deck-api.git
+cd deck-api
 
-# Instalando as dependências
+# 2. Instalar dependências
 pnpm install
 
-# Criando o container do banco de dados:
-docker compose up
+# 3. Subir PostgreSQL com Docker
+docker compose up -d
 
-# Fazendo as migrações para o banco de dados:
+# 4. Configurar variáveis de ambiente
+cp .env.example .env
+# O .env já vem configurado para o Docker
+
+# 5. Rodar migrações do banco
 pnpm db:migrate
 
-# Criar arquivo .env com base no .env.example e preencher os campos necessários
-NODE_ENV=<env>
-JWT_SECRET=<secret>
-PORT=<port>
-DATABASE_URL=<url>
-FIREBASE_API_KEY=<key>
-FIREBASE_APP_ID=<id>
-FIREBASE_AUTH_DOMAIN=<domain>
-FIREBASE_MESSAGING_SENDER_ID=<id>
-FIREBASE_PROJECT_ID=<id>
-FIREBASE_STORAGE_BUCKET=<bucket>
-
-# Popular o banco de dados com as informações necessárias do sistema
+# 6. Popular o banco com dados iniciais
 pnpm db:seed
 
-# Rodar o servidor em desenvolvimento
+# 7. Iniciar servidor de desenvolvimento
 pnpm start:dev
+```
 
-# Iniciar testes gerais
-pnpm test
+### Variáveis de Ambiente
 
-# Iniciar testes unitários
-pnpm test:unit
+O arquivo `.env` já vem configurado para usar o PostgreSQL do Docker:
 
-# Iniciar testes E2E
-pnpm test:e2e
+```env
+NODE_ENV=development
+JWT_SECRET=deck-secret-key
+PORT=3333
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/deck_dev
+```
 
-# Compilar e minificar para produção
-pnpm build
+### Comandos Docker
 
-# Rodar o servidor em produção
-pnpm start
+```sh
+# Subir PostgreSQL
+docker compose up -d
+
+# Ver logs
+docker compose logs -f
+
+# Parar PostgreSQL
+docker compose down
+
+# Parar e remover volumes (apaga dados)
+docker compose down -v
+```
+
+### Comandos Disponíveis
+
+```sh
+# Desenvolvimento
+pnpm start:dev          # Inicia servidor em modo watch
+
+# Build
+pnpm build              # Compila o projeto
+pnpm start              # Roda versão compilada
+
+# Testes
+pnpm test               # Testes unitários
+pnpm test:e2e           # Testes E2E
+pnpm test:coverage      # Cobertura de testes
+
+# Banco de Dados
+pnpm db:migrate         # Roda migrações
+pnpm db:seed            # Popula banco
+pnpm db:studio          # Abre Prisma Studio
+
+# Qualidade de Código
+pnpm check              # Lint e formatação
+pnpm lint               # Apenas lint
+pnpm fix                # Auto-fix formatação
 ```
 
 ---

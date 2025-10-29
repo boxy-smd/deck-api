@@ -1,21 +1,37 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"_version": "20.15.1",
-	"extends": "@tsconfig/node20/tsconfig.json",
 	"compilerOptions": {
 		"lib": ["ES2023", "DOM"],
-		"module": "Node16",
+		"module": "commonjs",
 		"target": "ES2023",
 		"strict": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
-		"moduleResolution": "NodeNext",
-		"allowImportingTsExtensions": true,
-		"noEmit": true,
+		"moduleResolution": "node",
+		"declaration": true,
+		"removeComments": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+		"sourceMap": true,
+		"outDir": "./dist",
+		"baseUrl": "./",
+		"incremental": true,
+		"strictNullChecks": false,
+		"noImplicitAny": false,
+		"strictBindCallApply": false,
+		"forceConsistentCasingInFileNames": false,
+		"noFallthroughCasesInSwitch": false,
 		"paths": {
+			"@/@core/*": ["./src/@core/*"],
+			"@/@infra/*": ["./src/@infra/*"],
+			"@/@shared/*": ["./src/@shared/*"],
+			"@/@presentation/*": ["./src/@presentation/*"],
 			"@/*": ["./src/*"],
 			"test/*": ["./test/*"]
-		},
-		"types": ["vitest/globals"]
-	}
+		}
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
 }

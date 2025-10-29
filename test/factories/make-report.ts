@@ -1,8 +1,8 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.ts'
 import {
   Report,
   type ReportProps,
-} from '@/domain/deck/enterprise/entities/report.ts'
+} from '@/@core/domain/interaction/enterprise/entities/report'
+import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export function makeReport(
   override: Partial<ReportProps> = {},
@@ -10,7 +10,7 @@ export function makeReport(
 ) {
   const report = Report.create(
     {
-      content: 'This comment is inappropriate.',
+      content: 'Esse comentário é inadequado.',
       isResolved: false,
       authorId: new UniqueEntityID(),
       commentId: new UniqueEntityID(),

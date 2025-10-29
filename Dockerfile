@@ -1,31 +1,30 @@
-FROM node:22.14-slim
+FROM node:20-alpine
 
-WORKDIR /usr/src/app
+# Instalar dependências necessárias para Prisma
+RUN apk add --no-cache openssl libc6-compat
 
-RUN apt-get update -y && apt-get install -y \
-  openssl \
-  python3 \
-  make \
-  g++
+# Instalar pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-RUN npm install -g pnpm
+WORKDIR /app
 
+# Copiar arquivos de dependências
 COPY package.json pnpm-lock.yaml ./
 
+# Instalar dependências
 RUN pnpm install --frozen-lockfile
 
-COPY prisma ./prisma/
-
-RUN pnpm db:generate
-
+# Copiar código da aplicação
 COPY . .
 
-# Ensure bcrypt is correctly installed and rebuilt
-RUN pnpm install bcrypt
-RUN pnpm rebuild bcrypt
+# Gerar Prisma Client
+RUN pnpm db:generate
 
+# Build da aplicação
 RUN pnpm build
 
+# Expor porta
 EXPOSE 3333
 
-CMD ["sh", "-c", "pnpm db:deploy && pnpm start"]
+# Iniciar com migrações e seed
+CMD ["sh", "-c", "pnpm db:deploy && npx tsx prisma/seed.ts && node build/server.js"]
