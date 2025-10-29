@@ -1,6 +1,6 @@
 import request from 'supertest'
 
-import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository'
+import { PrismaTrailsRepository } from '@/@infra/database/prisma/repositories/trails-repository'
 import { makeTrail } from 'test/factories/make-trail'
 import { createTestApp } from './setup-app'
 

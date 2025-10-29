@@ -1,9 +1,9 @@
 import {
   Subject,
   type SubjectProps,
-} from '@/domain/projects/enterprise/entities/subject'
-import { SubjectType } from '@/domain/projects/enterprise/value-objects/subject-type'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
+} from '@/@core/domain/projects/enterprise/entities/subject'
+import { SubjectType } from '@/@core/domain/projects/enterprise/value-objects/subject-type'
+import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export function makeSubject(
   override: Partial<SubjectProps> = {},

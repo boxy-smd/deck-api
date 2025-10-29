@@ -1,5 +1,5 @@
-import type { StudentProfile } from '@/domain/authentication/enterprise/entities/student-profile'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
+import type { StudentProfile } from '@/@core/domain/authentication/enterprise/entities/student-profile'
+import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export class InMemoryStudentProfilesRepository
   implements InMemoryStudentProfilesRepository

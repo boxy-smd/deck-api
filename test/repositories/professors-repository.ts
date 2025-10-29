@@ -1,5 +1,5 @@
-import type { ProfessorsRepository } from '@/domain/projects/application/repositories/professors-repository'
-import type { Professor } from '@/domain/projects/enterprise/entities/professor'
+import type { ProfessorsRepository } from '@/@core/domain/projects/application/repositories/professors-repository'
+import type { Professor } from '@/@core/domain/projects/enterprise/entities/professor'
 
 export class InMemoryProfessorsRepository implements ProfessorsRepository {
   public items: Professor[] = []

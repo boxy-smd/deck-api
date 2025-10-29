@@ -1,5 +1,5 @@
-import type { SubjectsRepository } from '@/domain/projects/application/repositories/subjects-repository'
-import type { Subject } from '@/domain/projects/enterprise/entities/subject'
+import type { SubjectsRepository } from '@/@core/domain/projects/application/repositories/subjects-repository'
+import type { Subject } from '@/@core/domain/projects/enterprise/entities/subject'
 
 export class InMemorySubjectsRepository implements SubjectsRepository {
   public items: Subject[] = []

@@ -1,0 +1,21 @@
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+
+import { StorageUploader } from '@/@core/domain/authentication/application/storage/uploader'
+import { profilesRef } from '@/@infra/config/services/firebase'
+
+export class FirebaseProfileUploader extends StorageUploader {
+  async upload(
+    image: Buffer,
+    filename: string,
+  ): Promise<{ downloadUrl: string }> {
+    const imageReference = ref(profilesRef, filename)
+
+    await uploadBytes(imageReference, image)
+
+    const downloadUrl = await getDownloadURL(imageReference)
+
+    return {
+      downloadUrl,
+    }
+  }
+}
