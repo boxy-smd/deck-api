@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/infra/config/types/fastify-jwt.ts"],"sourcesContent":["import '@fastify/jwt'\n\ndeclare module '@fastify/jwt' {\n  export interface FastifyJWT {\n    user: {\n      sign: {\n        sub: string\n      }\n      iat: number\n      exp: number\n    }\n  }\n}\n"],"names":[],"mappings":";;;;QAAO"}

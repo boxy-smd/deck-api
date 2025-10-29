@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../src/domain/authentication/application/storage/uploader.ts"],"sourcesContent":["export abstract class StorageUploader {\n  abstract upload(\n    image: Buffer,\n    filename: string,\n  ): Promise<{\n    downloadUrl: string\n  }>\n}\n"],"names":["StorageUploader"],"mappings":";;;;+BAAsBA;;;eAAAA;;;AAAf,IAAA,AAAeA,kBAAf,MAAeA;AAOtB"}
