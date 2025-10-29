@@ -8,9 +8,7 @@ export function makeCommentOnProjectUseCase() {
   const reportsRepository = new PrismaReportsRepository()
   const commentsRepository = new PrismaCommentsRepository(reportsRepository)
   const projectsRepository = new PrismaProjectsRepository()
-  const studentsRepository = new PrismaStudentsRepository(
-    projectsRepository,
-  )
+  const studentsRepository = new PrismaStudentsRepository()
   const commentOnProjectUseCase = new CommentOnProjectUseCase(
     projectsRepository,
     studentsRepository,

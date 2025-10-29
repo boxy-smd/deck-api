@@ -6,9 +6,7 @@ import { PrismaTrailsRepository } from '@/@infra/database/prisma/repositories/tr
 
 export function makeRegisterUseCase() {
   const projectsRepository = new PrismaProjectsRepository()
-  const studentsRepository = new PrismaStudentsRepository(
-    projectsRepository,
-  )
+  const studentsRepository = new PrismaStudentsRepository()
   const trailsRepository = new PrismaTrailsRepository()
   const bcryptHasher = new BcryptHasher()
   const registerUseCase = new RegisterUseCase(
@@ -19,3 +17,4 @@ export function makeRegisterUseCase() {
 
   return registerUseCase
 }
+

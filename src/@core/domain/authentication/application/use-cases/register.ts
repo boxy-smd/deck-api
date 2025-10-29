@@ -63,17 +63,13 @@ export class RegisterUseCase {
 
     const passwordHash = await this.hasher.hash(request.password)
 
-    let validatedEmail: Email
+    const validatedEmailOrError = Email.create(request.email)
 
-    try {
-      validatedEmail = Email.create(request.email)
-    } catch (error) {
-      if (error instanceof EmailBadFormattedError) {
-        return left(error)
-      }
-
-      return left(new EmailBadFormattedError())
+    if (validatedEmailOrError.isLeft()) {
+      return left(validatedEmailOrError.value)
     }
+
+    const validatedEmail = validatedEmailOrError.value
 
     const validatedUsername = Username.create(request.username)
 

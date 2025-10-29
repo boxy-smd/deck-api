@@ -7,17 +7,17 @@ import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaSubjectMapper {
   static toEntity(raw: SubjectRaw): Subject {
-    return Subject.create(
+    return Subject.reconstitute(
       {
         name: raw.name,
         code: raw.code,
         semester: raw.semester,
         type: SubjectType[raw.type],
         workload: raw.workload,
-        createdAt: raw.createdAt,
-        updatedAt: raw.updatedAt,
       },
       new UniqueEntityID(raw.id),
+      raw.createdAt,
+      raw.updatedAt,
     )
   }
 

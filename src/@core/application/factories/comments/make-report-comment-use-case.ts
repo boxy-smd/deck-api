@@ -7,10 +7,7 @@ import { PrismaStudentsRepository } from '@/@infra/database/prisma/repositories/
 export function makeReportCommentUseCase() {
   const reportsRepository = new PrismaReportsRepository()
   const commentsRepository = new PrismaCommentsRepository(reportsRepository)
-  const projectsRepository = new PrismaProjectsRepository()
-  const studentsRepository = new PrismaStudentsRepository(
-    projectsRepository,
-  )
+  const studentsRepository = new PrismaStudentsRepository()
   const reportCommentUseCase = new ReportCommentUseCase(
     studentsRepository,
     commentsRepository,

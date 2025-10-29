@@ -11,13 +11,20 @@ export class Professor extends Entity<ProfessorProps> {
     return new Professor(props, id)
   }
 
-  public reconstitute(
+  static reconstitute(
     props: ProfessorProps,
     id: UniqueEntityID,
     createdAt: Date,
     updatedAt: Date,
   ): Professor {
-    return new Professor(props, id, createdAt, updatedAt)
+    const professor = Object.create(Professor.prototype)
+    Object.assign(professor, {
+      props,
+      _id: id,
+      _createdAt: createdAt,
+      _updatedAt: updatedAt,
+    })
+    return professor
   }
 
   // --- 3. Getters ---

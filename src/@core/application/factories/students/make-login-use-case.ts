@@ -5,11 +5,10 @@ import { PrismaStudentsRepository } from '@/@infra/database/prisma/repositories/
 
 export function makeLoginUseCase() {
   const projectsRepository = new PrismaProjectsRepository()
-  const studentsRepository = new PrismaStudentsRepository(
-    projectsRepository,
-  )
+  const studentsRepository = new PrismaStudentsRepository()
   const bcryptEncrypter = new BcryptHasher()
   const loginUseCase = new LoginUseCase(studentsRepository, bcryptEncrypter)
 
   return loginUseCase
 }
+

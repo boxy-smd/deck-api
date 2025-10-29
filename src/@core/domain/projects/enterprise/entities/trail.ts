@@ -11,13 +11,20 @@ export class Trail extends Entity<TrailProps> {
     return new Trail(props, id)
   }
 
-  public reconstitute(
+  static reconstitute(
     props: TrailProps,
     id: UniqueEntityID,
     createdAt: Date,
     updatedAt: Date,
   ): Trail {
-    return new Trail(props, id, createdAt, updatedAt)
+    const trail = Object.create(Trail.prototype)
+    Object.assign(trail, {
+      props,
+      _id: id,
+      _createdAt: createdAt,
+      _updatedAt: updatedAt,
+    })
+    return trail
   }
 
   // --- 3. Getters ---
