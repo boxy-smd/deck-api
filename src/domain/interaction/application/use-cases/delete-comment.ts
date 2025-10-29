@@ -1,8 +1,8 @@
-import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
-import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
-import { type Either, left, right } from '@/shared/either.ts'
-import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
-import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
+import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository'
+import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository'
+import { type Either, left, right } from '@/shared/either'
+import { ForbiddenError } from '@/shared/errors/forbidden.error'
+import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error'
 
 interface DeleteCommentUseCaseRequest {
   authorId: string

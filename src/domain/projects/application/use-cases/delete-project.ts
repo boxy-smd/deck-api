@@ -1,7 +1,7 @@
-import { type Either, left, right } from '@/shared/either.ts'
-import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
-import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import type { ProjectsRepository } from '../repositories/projects-repository.ts'
+import { type Either, left, right } from '@/shared/either'
+import { ForbiddenError } from '@/shared/errors/forbidden.error'
+import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error'
+import type { ProjectsRepository } from '../repositories/projects-repository'
 
 interface DeleteProjectUseCaseRequest {
   studentId: string

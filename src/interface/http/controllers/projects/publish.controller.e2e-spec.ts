@@ -1,11 +1,11 @@
 import request from 'supertest'
 
-import { app } from '@/app.ts'
-import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
-import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
-import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students.ts'
-import { makeProfessor } from 'test/factories/make-professor.ts'
-import { makeSubject } from 'test/factories/make-subject.ts'
+import { app } from '@/app'
+import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository'
+import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository'
+import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students'
+import { makeProfessor } from 'test/factories/make-professor'
+import { makeSubject } from 'test/factories/make-subject'
 
 describe('publish project (e2e)', () => {
   beforeAll(async () => {

@@ -1,14 +1,14 @@
-import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
-import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
-import { makeProject } from 'test/factories/make-project.ts'
-import { makeUser } from 'test/factories/make-user.ts'
-import { InMemoryProjectsRepository } from 'test/repositories/projects-repository.ts'
-import { InMemoryUsersRepository } from 'test/repositories/users-repository.ts'
-import type { Project } from '../../../projects/enterprise/entities/project.ts'
-import { CommentOnProjectUseCase } from './comment-on-project.ts'
+import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository'
+import type { User } from '@/domain/authentication/enterprise/entities/user'
+import { makeProject } from 'test/factories/make-project'
+import { makeUser } from 'test/factories/make-user'
+import { InMemoryProjectsRepository } from 'test/repositories/projects-repository'
+import { InMemoryUsersRepository } from 'test/repositories/users-repository'
+import type { Project } from '../../../projects/enterprise/entities/project'
+import { CommentOnProjectUseCase } from './comment-on-project'
 
-import { InMemoryCommentsRepository } from 'test/repositories/comments-repository.ts'
-import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository.ts'
+import { InMemoryCommentsRepository } from 'test/repositories/comments-repository'
+import type { CommentsRepository } from '@/domain/interaction/application/repositories/comments-repository'
 
 let usersRepository: UsersRepository
 let projectsRepository: InMemoryProjectsRepository

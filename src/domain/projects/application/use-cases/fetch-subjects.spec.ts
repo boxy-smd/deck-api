@@ -1,8 +1,8 @@
-import { makeSubject } from 'test/factories/make-subject.ts'
-import { InMemorySubjectsRepository } from 'test/repositories/subjects-repository.ts'
-import type { Subject } from '../../enterprise/entities/subject.ts'
-import type { SubjectsRepository } from '../repositories/subjects-repository.ts'
-import { FetchSubjectsUseCase } from './fetch-subjects.ts'
+import { makeSubject } from 'test/factories/make-subject'
+import { InMemorySubjectsRepository } from 'test/repositories/subjects-repository'
+import type { Subject } from '../../enterprise/entities/subject'
+import type { SubjectsRepository } from '../repositories/subjects-repository'
+import { FetchSubjectsUseCase } from './fetch-subjects'
 
 let subjectsRepository: SubjectsRepository
 

@@ -1,9 +1,9 @@
-import type { StudentProfile } from '@/domain/authentication/enterprise/entities/student-profile.ts'
-import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
-import { Entity } from '@/shared/kernel/entity.ts'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
-import type { Optional } from '@/shared/types/optional.ts'
-import { Report } from './report.ts'
+import type { StudentProfile } from '@/domain/authentication/enterprise/entities/student-profile'
+import type { Project } from '@/domain/projects/enterprise/entities/project'
+import { Entity } from '@/shared/kernel/entity'
+import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
+import type { Optional } from '@/shared/types/optional'
+import { Report } from './report'
 
 export interface CommentProps {
   content: string

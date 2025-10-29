@@ -1,6 +1,6 @@
-import { UploadProjectBannerUseCase } from '@/domain/projects/application/use-cases/upload-project-banner.ts'
-import { FirebaseBannerUploader } from '@/infra/database/firebase/banner-uploader.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
+import { UploadProjectBannerUseCase } from '@/domain/projects/application/use-cases/upload-project-banner'
+import { FirebaseBannerUploader } from '@/infra/database/firebase/banner-uploader'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
 
 export function makeUploadProjectBannerUseCase() {
   const firebaseBannerUploader = new FirebaseBannerUploader()

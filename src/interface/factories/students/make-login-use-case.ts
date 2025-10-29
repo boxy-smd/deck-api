@@ -1,7 +1,7 @@
-import { LoginUseCase } from '@/domain/authentication/application/use-cases/login.ts'
-import { BcryptHasher } from '@/infra/cryptography/bcrypt-hasher.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
-import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
+import { LoginUseCase } from '@/domain/authentication/application/use-cases/login'
+import { BcryptHasher } from '@/infra/cryptography/bcrypt-hasher'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
+import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository'
 
 export function makeLoginUseCase() {
   const projectsRepository = new PrismaProjectsRepository()

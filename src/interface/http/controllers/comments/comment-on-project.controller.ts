@@ -1,10 +1,10 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { makeCommentOnProjectUseCase } from '@/interface/factories/comments/make-comment-on-project-use-case.ts'
+import { makeCommentOnProjectUseCase } from '@/interface/factories/comments/make-comment-on-project-use-case'
 import type {
   CommentOnProjectBody,
   CommentOnProjectParams,
-} from '../../schemas/comments/comment-on-project.schemas.ts'
+} from '../../schemas/comments/comment-on-project.schemas'
 
 export async function commentOnProject(
   request: FastifyRequest<{

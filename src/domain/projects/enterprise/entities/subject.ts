@@ -1,6 +1,6 @@
-import type { SubjectType } from '@/domain/projects/enterprise/value-objects/subject-type.ts'
-import { Entity } from '@/shared/kernel/entity.ts'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
+import type { SubjectType } from '@/domain/projects/enterprise/value-objects/subject-type'
+import { Entity } from '@/shared/kernel/entity'
+import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
 
 export interface SubjectProps {
   code: string

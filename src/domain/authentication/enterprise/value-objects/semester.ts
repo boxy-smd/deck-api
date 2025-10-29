@@ -1,6 +1,6 @@
-import { type Either, left, right } from '@/shared/either.ts'
-import { ValueObject } from '@/shared/kernel/value-object.ts'
-import { SemesterOutOfBoundsError } from '../../application/errors/semester-out-of-bounds.error.ts'
+import { type Either, left, right } from '@/shared/either'
+import { ValueObject } from '@/shared/kernel/value-object'
+import { SemesterOutOfBoundsError } from '../../application/errors/semester-out-of-bounds.error'
 
 interface SemesterProps {
   value: number

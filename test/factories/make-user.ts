@@ -1,15 +1,15 @@
 import {
   User,
   type UserProps,
-} from '@/domain/authentication/enterprise/entities/user.ts'
-import { StudentProfile } from '@/domain/authentication/enterprise/entities/student-profile.ts'
-import { Email } from '@/domain/authentication/enterprise/value-objects/email.ts'
-import { Semester } from '@/domain/authentication/enterprise/value-objects/semester.ts'
-import { UserRole } from '@/domain/authentication/enterprise/value-objects/user-role.ts'
-import { UserStatus } from '@/domain/authentication/enterprise/value-objects/user-status.ts'
-import { Username } from '@/domain/authentication/enterprise/value-objects/username.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
-import { FakeHasher } from 'test/cryptography/fake-hasher.ts'
+} from '@/domain/authentication/enterprise/entities/user'
+import { StudentProfile } from '@/domain/authentication/enterprise/entities/student-profile'
+import { Email } from '@/domain/authentication/enterprise/value-objects/email'
+import { Semester } from '@/domain/authentication/enterprise/value-objects/semester'
+import { UserRole } from '@/domain/authentication/enterprise/value-objects/user-role'
+import { UserStatus } from '@/domain/authentication/enterprise/value-objects/user-status'
+import { Username } from '@/domain/authentication/enterprise/value-objects/username'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
+import { FakeHasher } from 'test/cryptography/fake-hasher'
 
 export async function makeUser(
   override: Partial<UserProps> = {},

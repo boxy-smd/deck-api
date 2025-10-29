@@ -1,5 +1,5 @@
-import { FetchTrailsUseCase } from '@/domain/projects/application/use-cases/fetch-trails.ts'
-import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository.ts'
+import { FetchTrailsUseCase } from '@/domain/projects/application/use-cases/fetch-trails'
+import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository'
 
 export function makeFetchTrailsUseCase() {
   const trailsRepository = new PrismaTrailsRepository()

@@ -1,8 +1,8 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { makeGetProjectUseCase } from '@/interface/factories/projects/make-get-project-use-case.ts'
-import { ProjectDetailsPresenter } from '../../presenters/project-details.ts'
-import type { GetProjectParams } from '../../schemas/projects/get.schemas.ts'
+import { makeGetProjectUseCase } from '@/interface/factories/projects/make-get-project-use-case'
+import { ProjectDetailsPresenter } from '../../presenters/project-details'
+import type { GetProjectParams } from '../../schemas/projects/get.schemas'
 
 export async function getProject(
   request: FastifyRequest<{

@@ -1,12 +1,12 @@
 import request from 'supertest'
 
-import { app } from '@/app.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
-import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
-import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students.ts'
-import { makeProject } from 'test/factories/make-project.ts'
-import { makeSubject } from 'test/factories/make-subject.ts'
+import { app } from '@/app'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
+import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
+import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students'
+import { makeProject } from 'test/factories/make-project'
+import { makeSubject } from 'test/factories/make-subject'
 
 describe('comment on project (e2e)', () => {
   beforeAll(async () => {

@@ -1,9 +1,9 @@
-import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import { makeUser } from 'test/factories/make-user.ts'
-import { InMemoryUsersRepository } from 'test/repositories/users-repository.ts'
-import { User } from '../../enterprise/entities/user.ts'
-import type { UsersRepository } from '../repositories/users-repository.ts'
-import { GetProfileUseCase } from './get-profile.ts'
+import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error'
+import { makeUser } from 'test/factories/make-user'
+import { InMemoryUsersRepository } from 'test/repositories/users-repository'
+import { User } from '../../enterprise/entities/user'
+import type { UsersRepository } from '../repositories/users-repository'
+import { GetProfileUseCase } from './get-profile'
 
 let usersRepository: UsersRepository
 

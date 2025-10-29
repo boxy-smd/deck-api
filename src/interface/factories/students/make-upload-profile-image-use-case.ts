@@ -1,7 +1,7 @@
-import { UploadStudentProfileUseCase } from '@/domain/authentication/application/use-cases/upload-student-profile.ts'
-import { FirebaseProfileUploader } from '@/infra/database/firebase/profile-uploader.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
-import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
+import { UploadStudentProfileUseCase } from '@/domain/authentication/application/use-cases/upload-student-profile'
+import { FirebaseProfileUploader } from '@/infra/database/firebase/profile-uploader'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
+import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository'
 
 export function makeUploadProfileImageUseCase() {
   const firebaseBannerUploader = new FirebaseProfileUploader()

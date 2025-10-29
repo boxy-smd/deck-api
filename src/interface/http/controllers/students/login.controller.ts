@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { makeLoginUseCase } from '@/interface/factories/students/make-login-use-case.ts'
-import type { LoginBody } from '@/interface/http/schemas/students/login.schemas.ts'
+import { makeLoginUseCase } from '@/interface/factories/students/make-login-use-case'
+import type { LoginBody } from '@/interface/http/schemas/students/login.schemas'
 
 export async function login(
   request: FastifyRequest<{

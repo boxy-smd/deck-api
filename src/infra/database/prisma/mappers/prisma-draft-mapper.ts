@@ -1,8 +1,8 @@
 import type { Draft as DraftRaw, Prisma } from '@prisma/client'
 
-import { Project } from '@/domain/projects/enterprise/entities/project.ts'
-import { ProjectStatus } from '@/domain/projects/enterprise/value-objects/project-status.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
+import { Project } from '@/domain/projects/enterprise/entities/project'
+import { ProjectStatus } from '@/domain/projects/enterprise/value-objects/project-status'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaDraftMapper {

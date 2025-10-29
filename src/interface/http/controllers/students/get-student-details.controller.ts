@@ -1,6 +1,6 @@
-import { makeGetStudentDetailsUseCase } from '@/interface/factories/students/make-get-student-details-use-case.ts'
+import { makeGetStudentDetailsUseCase } from '@/interface/factories/students/make-get-student-details-use-case'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { StudentProfilePresenter } from '../../presenters/student-profile.ts'
+import { StudentProfilePresenter } from '../../presenters/student-profile'
 
 export async function getStudentDetails(
   request: FastifyRequest,

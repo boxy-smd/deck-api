@@ -1,7 +1,7 @@
-import { makeFilterPostsByQueryUseCase } from '@/interface/factories/projects/make-filter-posts-by-query-use-case.ts'
+import { makeFilterPostsByQueryUseCase } from '@/interface/factories/projects/make-filter-posts-by-query-use-case'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { PostPresenter } from '../../presenters/post.ts'
-import type { FilterPostsQuery } from '../../schemas/projects/filter-posts.schemas.ts'
+import { PostPresenter } from '../../presenters/post'
+import type { FilterPostsQuery } from '../../schemas/projects/filter-posts.schemas'
 
 export async function filterPosts(
   request: FastifyRequest<{

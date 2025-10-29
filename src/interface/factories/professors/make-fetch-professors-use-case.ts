@@ -1,5 +1,5 @@
-import { FetchProfessorsUseCase } from '@/domain/projects/application/use-cases/fetch-professors.ts'
-import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
+import { FetchProfessorsUseCase } from '@/domain/projects/application/use-cases/fetch-professors'
+import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository'
 
 export function makeFetchProfessorsUseCase() {
   const professorsRepository = new PrismaProfessorsRepository()

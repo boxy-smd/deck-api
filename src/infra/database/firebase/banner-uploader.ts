@@ -1,7 +1,7 @@
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 
-import { StorageUploader } from '@/domain/authentication/application/storage/uploader.ts'
-import { bannersRef } from '@/infra/config/services/firebase.ts'
+import { StorageUploader } from '@/domain/authentication/application/storage/uploader'
+import { bannersRef } from '@/infra/config/services/firebase'
 
 export class FirebaseBannerUploader extends StorageUploader {
   async upload(

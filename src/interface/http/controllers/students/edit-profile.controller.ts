@@ -1,11 +1,11 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { makeEditProfileUseCase } from '@/interface/factories/students/make-edit-profile-use-case.ts'
-import { StudentProfilePresenter } from '../../presenters/student-profile.ts'
+import { makeEditProfileUseCase } from '@/interface/factories/students/make-edit-profile-use-case'
+import { StudentProfilePresenter } from '../../presenters/student-profile'
 import type {
   EditProfileBody,
   EditProfileParams,
-} from '../../schemas/students/edit-profile.schemas.ts'
+} from '../../schemas/students/edit-profile.schemas'
 
 export async function editProfile(
   request: FastifyRequest<{

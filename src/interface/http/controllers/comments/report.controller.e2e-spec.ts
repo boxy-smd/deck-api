@@ -1,15 +1,15 @@
 import request from 'supertest'
 
-import { app } from '@/app.ts'
-import { PrismaCommentsRepository } from '@/infra/database/prisma/repositories/comments-repository.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
-import { PrismaReportsRepository } from '@/infra/database/prisma/repositories/reports-repository.ts'
-import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
-import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students.ts'
-import { makeComment } from 'test/factories/make-comment.ts'
-import { makeProject } from 'test/factories/make-project.ts'
-import { makeSubject } from 'test/factories/make-subject.ts'
+import { app } from '@/app'
+import { PrismaCommentsRepository } from '@/infra/database/prisma/repositories/comments-repository'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
+import { PrismaReportsRepository } from '@/infra/database/prisma/repositories/reports-repository'
+import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
+import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students'
+import { makeComment } from 'test/factories/make-comment'
+import { makeProject } from 'test/factories/make-project'
+import { makeSubject } from 'test/factories/make-subject'
 
 describe('report comment (e2e)', () => {
   beforeAll(async () => {

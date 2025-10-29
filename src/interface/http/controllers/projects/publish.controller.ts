@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { makePublishProjectUseCase } from '@/interface/factories/projects/make-publish-project-use-case.ts'
-import type { PublishProjectBody } from '../../schemas/projects/publish.schemas.ts'
+import { makePublishProjectUseCase } from '@/interface/factories/projects/make-publish-project-use-case'
+import type { PublishProjectBody } from '../../schemas/projects/publish.schemas'
 
 export async function publishProject(
   request: FastifyRequest<{

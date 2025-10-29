@@ -1,5 +1,5 @@
-import type { ReportsRepository } from '@/domain/interaction/application/repositories/reports-repository.ts'
-import { Report } from '@/domain/interaction/enterprise/entities/report.ts'
+import type { ReportsRepository } from '@/domain/interaction/application/repositories/reports-repository'
+import { Report } from '@/domain/interaction/enterprise/entities/report'
 
 export class InMemoryReportsRepository implements ReportsRepository {
   public items: Report[] = []

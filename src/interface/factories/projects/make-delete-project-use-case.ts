@@ -1,5 +1,5 @@
-import { DeleteProjectUseCase } from '@/domain/projects/application/use-cases/delete-project.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
+import { DeleteProjectUseCase } from '@/domain/projects/application/use-cases/delete-project'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
 
 export function makeDeleteProjectUseCase() {
   const projectsRepository = new PrismaProjectsRepository()

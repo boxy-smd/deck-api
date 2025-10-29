@@ -1,5 +1,5 @@
-import type { ProjectsRepository } from '../../../projects/application/repositories/projects-repository.ts'
-import type { Post } from '../../enterprise/entities/post.ts'
+import type { ProjectsRepository } from '../../../projects/application/repositories/projects-repository'
+import type { Post } from '../../enterprise/entities/post'
 
 interface SearchPostsByProfessorUseCaseRequest {
   name: string

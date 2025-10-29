@@ -1,7 +1,7 @@
-import type { ProfessorsRepository } from '@/domain/projects/application/repositories/professors-repository.ts'
-import type { Professor } from '@/domain/projects/enterprise/entities/professor.ts'
-import { prisma } from '../client.ts'
-import { PrismaProfessorMapper } from '../mappers/prisma-professor-mapper.ts'
+import type { ProfessorsRepository } from '@/domain/projects/application/repositories/professors-repository'
+import type { Professor } from '@/domain/projects/enterprise/entities/professor'
+import { prisma } from '../client'
+import { PrismaProfessorMapper } from '../mappers/prisma-professor-mapper'
 
 export class PrismaProfessorsRepository implements ProfessorsRepository {
   async findById(id: string): Promise<Professor | null> {

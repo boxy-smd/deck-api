@@ -1,8 +1,8 @@
-import { RegisterUseCase } from '@/domain/authentication/application/use-cases/register.ts'
-import { BcryptHasher } from '@/infra/cryptography/bcrypt-hasher.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
-import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
-import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository.ts'
+import { RegisterUseCase } from '@/domain/authentication/application/use-cases/register'
+import { BcryptHasher } from '@/infra/cryptography/bcrypt-hasher'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
+import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository'
+import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository'
 
 export function makeRegisterUseCase() {
   const projectsRepository = new PrismaProjectsRepository()

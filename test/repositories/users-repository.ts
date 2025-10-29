@@ -1,5 +1,5 @@
-import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
-import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
+import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository'
+import type { User } from '@/domain/authentication/enterprise/entities/user'
 
 export class InMemoryUsersRepository implements UsersRepository {
   private items: User[] = []

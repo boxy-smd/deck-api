@@ -1,5 +1,5 @@
-import type { User } from '../../enterprise/entities/user.ts'
-import type { UsersRepository } from '../repositories/users-repository.ts'
+import type { User } from '../../enterprise/entities/user'
+import type { UsersRepository } from '../repositories/users-repository'
 
 interface FetchStudentsUseCaseRequest {
   name?: string

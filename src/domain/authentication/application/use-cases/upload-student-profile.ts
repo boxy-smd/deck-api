@@ -1,7 +1,7 @@
-import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
-import { type Either, left, right } from '@/shared/either.ts'
-import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
-import type { StorageUploader } from '../storage/uploader.ts'
+import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository'
+import { type Either, left, right } from '@/shared/either'
+import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error'
+import type { StorageUploader } from '../storage/uploader'
 
 interface UploadStudentProfileUseCaseRequest {
   username: string

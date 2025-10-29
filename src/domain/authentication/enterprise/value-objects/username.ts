@@ -1,7 +1,7 @@
-import { type Either, left, right } from '@/shared/either.ts'
-import { ValueObject } from '@/shared/kernel/value-object.ts'
-import { UsernameBadFormattedError } from '../../application/errors/username-bad-formatted.error.ts'
-import { UsernameInvalidSizeError } from '../../application/errors/username-invalid-size.error.ts'
+import { type Either, left, right } from '@/shared/either'
+import { ValueObject } from '@/shared/kernel/value-object'
+import { UsernameBadFormattedError } from '../../application/errors/username-bad-formatted.error'
+import { UsernameInvalidSizeError } from '../../application/errors/username-invalid-size.error'
 
 interface UsernameProps {
   value: string

@@ -1,8 +1,8 @@
-import { makeProfessor } from 'test/factories/make-professor.ts'
-import { InMemoryProfessorsRepository } from 'test/repositories/professors-repository.ts'
-import type { Professor } from '../../enterprise/entities/professor.ts'
-import type { ProfessorsRepository } from '../repositories/professors-repository.ts'
-import { FetchProfessorsUseCase } from './fetch-professors.ts'
+import { makeProfessor } from 'test/factories/make-professor'
+import { InMemoryProfessorsRepository } from 'test/repositories/professors-repository'
+import type { Professor } from '../../enterprise/entities/professor'
+import type { ProfessorsRepository } from '../repositories/professors-repository'
+import { FetchProfessorsUseCase } from './fetch-professors'
 
 let professorsRepository: ProfessorsRepository
 

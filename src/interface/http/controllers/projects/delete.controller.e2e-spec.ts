@@ -1,14 +1,14 @@
 import request from 'supertest'
 
-import { app } from '@/app.ts'
-import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
-import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
-import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students.ts'
-import { makeProfessor } from 'test/factories/make-professor.ts'
-import { makeProject } from 'test/factories/make-project.ts'
-import { makeSubject } from 'test/factories/make-subject.ts'
+import { app } from '@/app'
+import { PrismaProfessorsRepository } from '@/infra/database/prisma/repositories/professors-repository'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
+import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
+import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students'
+import { makeProfessor } from 'test/factories/make-professor'
+import { makeProject } from 'test/factories/make-project'
+import { makeSubject } from 'test/factories/make-subject'
 
 describe('delete project (e2e)', () => {
   beforeAll(async () => {

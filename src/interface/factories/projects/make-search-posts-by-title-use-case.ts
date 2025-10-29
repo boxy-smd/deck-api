@@ -1,5 +1,5 @@
-import { SearchPostsByTitleUseCase } from '@/domain/projects/application/use-cases/search-posts-by-title.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
+import { SearchPostsByTitleUseCase } from '@/domain/projects/application/use-cases/search-posts-by-title'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
 
 export function makeSearchPostsByTitleUseCase() {
   const projectsRepository = new PrismaProjectsRepository()

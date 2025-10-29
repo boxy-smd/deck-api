@@ -1,15 +1,15 @@
 import request from 'supertest'
 
-import { app } from '@/app.ts'
-import { ProjectStatus } from '@/domain/projects/enterprise/value-objects/project-status.ts'
-import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository.ts'
-import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
-import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository.ts'
-import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository.ts'
-import { makeProject } from 'test/factories/make-project.ts'
-import { makeSubject } from 'test/factories/make-subject.ts'
-import { makeTrail } from 'test/factories/make-trail.ts'
-import { makeUser } from 'test/factories/make-user.ts'
+import { app } from '@/app'
+import { ProjectStatus } from '@/domain/projects/enterprise/value-objects/project-status'
+import { PrismaProjectsRepository } from '@/infra/database/prisma/repositories/projects-repository'
+import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository'
+import { PrismaSubjectsRepository } from '@/infra/database/prisma/repositories/subjects-repository'
+import { PrismaTrailsRepository } from '@/infra/database/prisma/repositories/trails-repository'
+import { makeProject } from 'test/factories/make-project'
+import { makeSubject } from 'test/factories/make-subject'
+import { makeTrail } from 'test/factories/make-trail'
+import { makeUser } from 'test/factories/make-user'
 
 describe('fetch posts (e2e)', () => {
   beforeAll(async () => {

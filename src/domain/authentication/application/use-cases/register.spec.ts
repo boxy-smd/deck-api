@@ -1,10 +1,10 @@
-import { ResourceAlreadyExistsError } from '@/shared/errors/resource-already-exists.error.ts'
-import { FakeHasher } from 'test/cryptography/fake-hasher.ts'
-import { makeUser } from 'test/factories/make-user.ts'
-import { InMemoryTrailsRepository } from 'test/repositories/trails-repository.ts'
-import { InMemoryUsersRepository } from 'test/repositories/users-repository.ts'
-import { User } from '../../enterprise/entities/user.ts'
-import { RegisterUseCase } from './register.ts'
+import { ResourceAlreadyExistsError } from '@/shared/errors/resource-already-exists.error'
+import { FakeHasher } from 'test/cryptography/fake-hasher'
+import { makeUser } from 'test/factories/make-user'
+import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
+import { InMemoryUsersRepository } from 'test/repositories/users-repository'
+import { User } from '../../enterprise/entities/user'
+import { RegisterUseCase } from './register'
 
 let usersRepository: InMemoryUsersRepository
 let trailsRepository: InMemoryTrailsRepository

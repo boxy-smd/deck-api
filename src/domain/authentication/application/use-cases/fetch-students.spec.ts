@@ -1,12 +1,12 @@
-import { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
-import { makeUser } from 'test/factories/make-user.ts'
-import { InMemoryUsersRepository } from 'test/repositories/users-repository.ts'
-import { StudentProfile } from '../../enterprise/entities/student-profile.ts'
-import type { User } from '../../enterprise/entities/user.ts'
-import { Semester } from '../../enterprise/value-objects/semester.ts'
-import { Username } from '../../enterprise/value-objects/username.ts'
-import type { UsersRepository } from '../repositories/users-repository.ts'
-import { FetchStudentsUseCase } from './fetch-students.ts'
+import { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
+import { makeUser } from 'test/factories/make-user'
+import { InMemoryUsersRepository } from 'test/repositories/users-repository'
+import { StudentProfile } from '../../enterprise/entities/student-profile'
+import type { User } from '../../enterprise/entities/user'
+import { Semester } from '../../enterprise/value-objects/semester'
+import { Username } from '../../enterprise/value-objects/username'
+import type { UsersRepository } from '../repositories/users-repository'
+import { FetchStudentsUseCase } from './fetch-students'
 
 let usersRepository: UsersRepository
 

@@ -1,8 +1,8 @@
-import type { Trail } from '@/domain/projects/enterprise/entities/trail.ts'
-import { Entity } from '@/shared/kernel/entity.ts'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
-import type { Optional } from '@/shared/types/optional.ts'
-import type { Semester } from '../value-objects/semester.ts'
+import type { Trail } from '@/domain/projects/enterprise/entities/trail'
+import { Entity } from '@/shared/kernel/entity'
+import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
+import type { Optional } from '@/shared/types/optional'
+import type { Semester } from '../value-objects/semester'
 
 export interface StudentProfileProps {
   semester: Semester

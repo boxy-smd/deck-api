@@ -1,7 +1,7 @@
-import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
-import type { User } from '@/domain/authentication/enterprise/entities/user.ts'
-import { prisma } from '../client.ts'
-import { PrismaStudentMapper } from '../mappers/prisma-student-mapper.ts'
+import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository'
+import type { User } from '@/domain/authentication/enterprise/entities/user'
+import { prisma } from '../client'
+import { PrismaStudentMapper } from '../mappers/prisma-student-mapper'
 
 export class PrismaStudentsRepository implements UsersRepository {
   async findById(id: string): Promise<User | null> {

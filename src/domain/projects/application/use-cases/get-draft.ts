@@ -1,9 +1,9 @@
-import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository.ts'
-import type { ProjectsRepository } from '@/domain/projects/application/repositories/projects-repository.ts'
-import type { Project } from '@/domain/projects/enterprise/entities/project.ts'
-import { type Either, left, right } from '@/shared/either.ts'
-import { ForbiddenError } from '@/shared/errors/forbidden.error.ts'
-import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error.ts'
+import type { UsersRepository } from '@/domain/authentication/application/repositories/users-repository'
+import type { ProjectsRepository } from '@/domain/projects/application/repositories/projects-repository'
+import type { Project } from '@/domain/projects/enterprise/entities/project'
+import { type Either, left, right } from '@/shared/either'
+import { ForbiddenError } from '@/shared/errors/forbidden.error'
+import { ResourceNotFoundError } from '@/shared/errors/resource-not-found.error'
 
 interface GetDraftUseCaseRequest {
   draftId: string

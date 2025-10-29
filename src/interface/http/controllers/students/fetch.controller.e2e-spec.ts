@@ -1,10 +1,10 @@
 import request from 'supertest'
 
-import { app } from '@/app.ts'
-import { Email } from '@/domain/authentication/enterprise/value-objects/email.ts'
-import { Username } from '@/domain/authentication/enterprise/value-objects/username.ts'
-import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository.ts'
-import { makeUser } from 'test/factories/make-user.ts'
+import { app } from '@/app'
+import { Email } from '@/domain/authentication/enterprise/value-objects/email'
+import { Username } from '@/domain/authentication/enterprise/value-objects/username'
+import { PrismaStudentsRepository } from '@/infra/database/prisma/repositories/students-repository'
+import { makeUser } from 'test/factories/make-user'
 
 describe('fetch students controller (e2e)', () => {
   beforeAll(async () => {

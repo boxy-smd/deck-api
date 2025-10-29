@@ -1,9 +1,9 @@
-import { makeReportCommentUseCase } from '@/interface/factories/comments/make-report-comment-use-case.ts'
+import { makeReportCommentUseCase } from '@/interface/factories/comments/make-report-comment-use-case'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import type {
   ReporCommentBody,
   ReporCommentParams,
-} from '../../schemas/comments/report.schemas.ts'
+} from '../../schemas/comments/report.schemas'
 
 export async function reportComment(
   request: FastifyRequest<{

@@ -1,12 +1,12 @@
-import type { StudentProfile } from '@/domain/authentication/enterprise/entities/student-profile.ts'
-import { AggregateRoot } from '@/shared/kernel/aggregate-root.ts'
-import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id.ts'
-import type { Optional } from '@/shared/types/optional.ts'
-import { Comment } from '../../../interaction/enterprise/entities/comment.ts'
-import { ProjectStatus } from '../value-objects/project-status.ts'
-import type { Professor } from './professor.ts'
-import type { Subject } from './subject.ts'
-import type { Trail } from './trail.ts'
+import type { StudentProfile } from '@/domain/authentication/enterprise/entities/student-profile'
+import { AggregateRoot } from '@/shared/kernel/aggregate-root'
+import type { UniqueEntityID } from '@/shared/kernel/unique-entity-id'
+import type { Optional } from '@/shared/types/optional'
+import { Comment } from '../../../interaction/enterprise/entities/comment'
+import { ProjectStatus } from '../value-objects/project-status'
+import type { Professor } from './professor'
+import type { Subject } from './subject'
+import type { Trail } from './trail'
 
 export interface ProjectProps {
   title: string

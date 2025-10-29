@@ -1,7 +1,7 @@
 import request from 'supertest'
 
-import { app } from '@/app.ts'
-import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students.ts'
+import { app } from '@/app'
+import { createAndAuthenticateStudent } from 'test/e2e/create-and-authenticate-students'
 
 describe('get student details controller (e2e)', () => {
   beforeAll(async () => {
