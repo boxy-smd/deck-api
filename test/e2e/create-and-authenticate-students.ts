@@ -1,18 +1,20 @@
+import { PrismaTrailMapper } from '@/@infra/database/prisma/mappers/prisma-trail-mapper'
+import { PrismaService } from '@/@infra/database/prisma/prisma.service'
+import type { INestApplication } from '@nestjs/common'
 import request from 'supertest'
-
-import { PrismaTrailsRepository } from '@/@infra/database/prisma/repositories/trails-repository'
 import { makeTrail } from 'test/factories/make-trail'
 import { createTestApp } from './setup-app'
 
-export async function createAndAuthenticateStudent() {
-  const app = await createTestApp()
-  const trailsRepository = new PrismaTrailsRepository()
+export async function createAndAuthenticateStudent(app?: INestApplication) {
+  const testApp = app ?? (await createTestApp())
+  const prisma = testApp.get(PrismaService)
 
   const trail = makeTrail()
+  const trailData = PrismaTrailMapper.toPrisma(trail)
 
-  await trailsRepository.create(trail)
+  await prisma.trail.create({ data: trailData })
 
-  const registerResponse = await request(app.getHttpServer())
+  const registerResponse = await request(testApp.getHttpServer())
     .post('/students')
     .send({
       name: 'John Doe',
@@ -23,7 +25,7 @@ export async function createAndAuthenticateStudent() {
       trailsIds: [trail.id.toString()],
     })
 
-  const authenticationResponse = await request(app.getHttpServer())
+  const authenticationResponse = await request(testApp.getHttpServer())
     .post('/sessions')
     .send({
       email: 'johndoe@alu.ufc.br',
@@ -31,6 +33,7 @@ export async function createAndAuthenticateStudent() {
     })
 
   return {
+    app: testApp,
     studentId: registerResponse.body.user_id,
     token: authenticationResponse.body.token,
     trail,

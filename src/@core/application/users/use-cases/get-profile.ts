@@ -2,7 +2,7 @@ import type { Trail } from '@/@core/domain/projects/entities/trail'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { Injectable } from '@nestjs/common'
-import type { TrailsRepository } from '../../projects/application/repositories/trails-repository'
+import type { TrailsRepository } from '../../projects/repositories/trails-repository'
 import { type UserDTO, UserDTOMapper } from '../dtos/user.dto'
 import type { UsersRepository } from '../repositories/users-repository'
 

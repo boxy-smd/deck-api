@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
-import { IsArray, IsInt, IsOptional, IsString } from 'class-validator'
+import { IsArray, IsInt, IsOptional, IsString, Min } from 'class-validator'
 
 export class FetchPostsDto {
   @ApiProperty({
@@ -11,6 +11,30 @@ export class FetchPostsDto {
   @IsOptional()
   @IsString()
   query?: string
+
+  @ApiProperty({
+    description: 'Número da página (começa em 1)',
+    required: false,
+    example: 1,
+    default: 1,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  page?: number
+
+  @ApiProperty({
+    description: 'Quantidade de itens por página',
+    required: false,
+    example: 10,
+    default: 10,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  perPage?: number
 }
 
 export class FilterPostsDto {
@@ -82,4 +106,28 @@ export class FilterPostsDto {
   @Type(() => Number)
   @IsInt()
   publishedYear?: number
+
+  @ApiProperty({
+    description: 'Número da página (começa em 1)',
+    required: false,
+    example: 1,
+    default: 1,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  page?: number
+
+  @ApiProperty({
+    description: 'Quantidade de itens por página',
+    required: false,
+    example: 10,
+    default: 10,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  perPage?: number
 }

@@ -1,6 +1,6 @@
 import type { Prisma, Professor as ProfessorRaw } from '@prisma/client'
 
-import { Professor } from '@/@core/domain/projects/enterprise/entities/professor'
+import { Professor } from '@/@core/domain/projects/entities/professor'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export class PrismaProfessorMapper {

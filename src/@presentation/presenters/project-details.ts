@@ -1,4 +1,4 @@
-import type { ProjectDTO } from '@/@core/application/projects/application/dtos/project.dto'
+import type { ProjectDTO } from '@/@core/application/projects/dtos/project.dto'
 
 export class ProjectDetailsPresenter {
   static toHTTP(project: ProjectDTO) {

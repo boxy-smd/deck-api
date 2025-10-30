@@ -2,7 +2,7 @@ import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { Injectable } from '@nestjs/common'
 import type { CommentWithAuthor } from '../../../domain/interactions/value-objects/comment-with-author'
-import type { ProjectsRepository } from '../../projects/application/repositories/projects-repository'
+import type { ProjectsRepository } from '../../projects/repositories/projects-repository'
 import type { CommentsRepository } from '../repositories/comments-repository'
 
 interface ListProjectCommentsUseCaseRequest {
@@ -28,13 +28,11 @@ export class ListProjectCommentsUseCase {
   ): Promise<ListProjectCommentsUseCaseResponse> {
     const { projectId } = request
 
-    // Verificar se projeto existe
     const project = await this.projectsRepository.findById(projectId)
     if (!project) {
       return left(new ResourceNotFoundError('Projeto não encontrado.'))
     }
 
-    // Buscar comentários do projeto
     const comments =
       await this.commentsRepository.findManyByProjectIdWithAuthors(projectId)
 

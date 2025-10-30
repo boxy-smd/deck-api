@@ -1,6 +1,6 @@
-import type { SubjectType } from '@/@core/domain/projects/enterprise/value-objects/subject-type'
 import { Entity } from '@/@shared/kernel/kernel/entity'
 import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
+import type { SubjectType } from '../value-objects/subject-type'
 
 export interface SubjectProps {
   code: string

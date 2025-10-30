@@ -1,4 +1,3 @@
-import { DomainModule } from '@/@core/domain/domain.module'
 import { InfraModule } from '@/@infra/infra.module'
 import { HealthController } from '@/@shared/kernel/controllers/health.controller'
 import { Module } from '@nestjs/common'
@@ -17,7 +16,6 @@ import { TrailsModule } from './modules/trails/trails.module'
       isGlobal: true,
     }),
     InfraModule,
-    DomainModule,
     AuthModule,
     StudentsModule,
     ProfessorsModule,

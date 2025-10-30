@@ -1,6 +1,11 @@
 import type { UsersRepository } from '@/@core/application/users/repositories/users-repository'
+import {
+  STORAGE_UPLOADER,
+  USERS_REPOSITORY,
+} from '@/@shared/kernel/dependency-tokens'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
+import { Inject, Injectable } from '@nestjs/common'
 import type { StorageUploader } from '../storage/uploader'
 
 interface UploadStudentProfileUseCaseRequest {
@@ -11,9 +16,12 @@ interface UploadStudentProfileUseCaseRequest {
 
 type UploadStudentProfileUseCaseResponse = Either<ResourceNotFoundError, void>
 
+@Injectable()
 export class UploadStudentProfileUseCase {
   constructor(
+    @Inject(USERS_REPOSITORY)
     private readonly studentsRepository: UsersRepository,
+    @Inject(STORAGE_UPLOADER)
     private readonly profilesUploader: StorageUploader,
   ) {}
 

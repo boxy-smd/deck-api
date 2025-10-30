@@ -1,5 +1,5 @@
+import type { CommentsRepository } from '@/@core/application/interactions/repositories/comments-repository'
 import type { UsersRepository } from '@/@core/application/users/repositories/users-repository'
-import type { CommentsRepository } from '@/@core/domain/interaction/application/repositories/comments-repository'
 import type { Comment } from '@/@core/domain/interactions/entities/comment'
 import { CommentWithAuthor } from '@/@core/domain/interactions/value-objects/comment-with-author'
 import { InMemoryUsersRepository } from './users-repository'

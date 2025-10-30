@@ -1,4 +1,4 @@
-import type { FetchProfessorsUseCase } from '@/@core/application/projects/application/use-cases/fetch-professors'
+import type { FetchProfessorsUseCase } from '@/@core/application/projects/use-cases/fetch-professors'
 import { ProfessorPresenter } from '@/@presentation/presenters/professor'
 import { Controller, Get, Query } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'

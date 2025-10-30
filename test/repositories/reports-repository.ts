@@ -1,4 +1,4 @@
-import type { ReportsRepository } from '@/@core/domain/interaction/application/repositories/reports-repository'
+import type { ReportsRepository } from '@/@core/application/interactions/repositories/reports-repository'
 import type { Report } from '@/@core/domain/interactions/entities/report'
 
 export class InMemoryReportsRepository implements ReportsRepository {

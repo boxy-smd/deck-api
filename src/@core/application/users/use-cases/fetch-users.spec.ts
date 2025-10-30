@@ -6,7 +6,7 @@ import { StudentProfile } from '../../../domain/users/entities/student-profile'
 import type { User } from '../../../domain/users/entities/user'
 import { Semester } from '../../../domain/users/value-objects/semester'
 import { Username } from '../../../domain/users/value-objects/username'
-import type { TrailsRepository } from '../../projects/application/repositories/trails-repository'
+import type { TrailsRepository } from '../../projects/repositories/trails-repository'
 import type { UsersRepository } from '../repositories/users-repository'
 import { FetchUsersUseCase } from './fetch-users'
 

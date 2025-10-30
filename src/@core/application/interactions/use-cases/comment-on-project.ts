@@ -5,7 +5,7 @@ import { ForbiddenError } from '@/@shared/kernel/errors/forbidden.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { Injectable } from '@nestjs/common'
-import type { ProjectsRepository } from '../../projects/application/repositories/projects-repository'
+import type { ProjectsRepository } from '../../projects/repositories/projects-repository'
 import type { CommentsRepository } from '../repositories/comments-repository'
 
 interface CommentOnProjectUseCaseRequest {

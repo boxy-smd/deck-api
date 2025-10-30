@@ -6,7 +6,7 @@ import { makeUser } from 'test/factories/make-user'
 import { InMemoryCommentsRepository } from 'test/repositories/comments-repository'
 import { InMemoryProjectsRepository } from 'test/repositories/projects-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
-import type { ProjectsRepository } from '../../projects/application/repositories/projects-repository'
+import type { ProjectsRepository } from '../../projects/repositories/projects-repository'
 import type { CommentsRepository } from '../repositories/comments-repository'
 import { CommentOnProjectUseCase } from './comment-on-project'
 

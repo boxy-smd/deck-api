@@ -11,8 +11,8 @@ import { InMemoryProjectsRepository } from 'test/repositories/projects-repositor
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
 import type { Comment } from '../../../domain/interactions/entities/comment'
-import type { ProjectsRepository } from '../../projects/application/repositories/projects-repository'
-import type { TrailsRepository } from '../../projects/application/repositories/trails-repository'
+import type { ProjectsRepository } from '../../projects/repositories/projects-repository'
+import type { TrailsRepository } from '../../projects/repositories/trails-repository'
 import type { CommentsRepository } from '../repositories/comments-repository'
 import { DeleteCommentUseCase } from './delete-comment'
 

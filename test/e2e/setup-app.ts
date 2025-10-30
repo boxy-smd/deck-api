@@ -1,6 +1,7 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common'
-import { Test } from '@nestjs/testing'
 import { AppModule } from '@/@presentation/app.module'
+import type { INestApplication } from '@nestjs/common'
+import { ValidationPipe } from '@nestjs/common'
+import { Test } from '@nestjs/testing'
 
 let app: INestApplication
 
@@ -31,6 +32,6 @@ export async function createTestApp(): Promise<INestApplication> {
 export async function closeTestApp(): Promise<void> {
   if (app) {
     await app.close()
-    app = null
+    app = undefined
   }
 }

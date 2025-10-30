@@ -1,8 +1,8 @@
-import type { ProjectDTO } from '@/@core/application/projects/application/dtos/project.dto'
+import type { ProjectDTO } from '@/@core/application/projects/dtos/project.dto'
 import type {
   ProjectQuery,
   ProjectsRepository,
-} from '@/@core/application/projects/application/repositories/projects-repository'
+} from '@/@core/application/projects/repositories/projects-repository'
 import type { Project } from '@/@core/domain/projects/entities/project'
 import { SemesterParser } from '@/@shared/kernel/utils/semester-parser'
 import { Injectable } from '@nestjs/common'
