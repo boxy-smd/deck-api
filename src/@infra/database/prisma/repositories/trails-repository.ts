@@ -1,5 +1,5 @@
-import type { TrailsRepository } from '@/@core/domain/projects/application/repositories/trails-repository'
-import type { Trail } from '@/@core/domain/projects/enterprise/entities/trail'
+import type { TrailsRepository } from '@/@core/application/projects/application/repositories/trails-repository'
+import type { Trail } from '@/@core/domain/projects/entities/trail'
 import { Injectable } from '@nestjs/common'
 import { PrismaTrailMapper } from '../mappers/prisma-trail-mapper'
 import type { PrismaService } from '../prisma.service'
@@ -7,6 +7,7 @@ import type { PrismaService } from '../prisma.service'
 @Injectable()
 export class PrismaTrailsRepository implements TrailsRepository {
   constructor(private readonly prisma: PrismaService) {}
+
   async findById(id: string): Promise<Trail | null> {
     const trail = await this.prisma.trail.findUnique({ where: { id } })
 

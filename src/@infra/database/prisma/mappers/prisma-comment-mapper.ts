@@ -1,7 +1,7 @@
 import type { Comment as CommentRaw, Prisma } from '@prisma/client'
 
-import { Comment } from '@/@core/domain/interaction/enterprise/entities/comment'
-import { CommentWithAuthor } from '@/@core/domain/interaction/enterprise/entities/value-objects/comment-with-author'
+import { Comment } from '@/@core/domain/interactions/entities/comment'
+import { CommentWithAuthor } from '@/@core/domain/interactions/value-objects/comment-with-author'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import type { PrismaCommentWithAuthor } from '../types/prisma-types'
 

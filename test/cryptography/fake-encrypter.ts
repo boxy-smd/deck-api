@@ -1,4 +1,4 @@
-import type { Encrypter } from '@/@core/domain/authentication/application/cryptography/encrypter'
+import type { Encrypter } from '@/@core/application/users/application/cryptography/encrypter'
 
 export class FakeEncrypter implements Encrypter {
   async encrypt(payload: Record<string, unknown>): Promise<string> {

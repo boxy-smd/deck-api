@@ -1,4 +1,4 @@
-import { ProjectsModule as ProjectsDomainModule } from '@/@core/domain/projects/projects.module'
+import { ProjectsModule as ProjectsDomainModule } from '@/@core/application/projects/projects.module'
 import { Module } from '@nestjs/common'
 import { AuthModule } from '../auth/auth.module'
 import { ProjectsController } from './controllers/projects.controller'

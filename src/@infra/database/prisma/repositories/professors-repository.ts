@@ -1,5 +1,5 @@
-import type { ProfessorsRepository } from '@/@core/domain/projects/application/repositories/professors-repository'
-import type { Professor } from '@/@core/domain/projects/enterprise/entities/professor'
+import type { ProfessorsRepository } from '@/@core/application/projects/application/repositories/professors-repository'
+import type { Professor } from '@/@core/domain/projects/entities/professor'
 import { Injectable } from '@nestjs/common'
 import { PrismaProfessorMapper } from '../mappers/prisma-professor-mapper'
 import type { PrismaService } from '../prisma.service'
@@ -7,6 +7,7 @@ import type { PrismaService } from '../prisma.service'
 @Injectable()
 export class PrismaProfessorsRepository implements ProfessorsRepository {
   constructor(private readonly prisma: PrismaService) {}
+
   async findById(id: string): Promise<Professor | null> {
     const professor = await this.prisma.professor.findUnique({ where: { id } })
 

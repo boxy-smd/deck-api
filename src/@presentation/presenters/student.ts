@@ -1,4 +1,4 @@
-import type { User } from '@/@core/domain/authentication/enterprise/entities/user'
+import type { User } from '@/@core/domain/users/entities/user'
 
 export class StudentPresenter {
   static toHTTP(student: User) {

@@ -1,7 +1,7 @@
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import type { StorageReference } from 'firebase/storage'
 
-import type { StorageUploader } from '@/@core/domain/authentication/application/storage/uploader'
+import type { StorageUploader } from '@/@core/application/users/storage/uploader'
 
 export class FirebaseStorageUploader implements StorageUploader {
   constructor(private readonly storageRef: StorageReference) {}

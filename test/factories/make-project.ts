@@ -1,8 +1,8 @@
 import {
   Project,
   type ProjectProps,
-} from '@/@core/domain/projects/enterprise/entities/project'
-import { ProjectStatus } from '@/@core/domain/projects/enterprise/value-objects/project-status'
+} from '@/@core/domain/projects/entities/project'
+import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export function makeProject(

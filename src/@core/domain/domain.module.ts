@@ -1,11 +1,11 @@
 import { Global, Module } from '@nestjs/common'
-import { AuthenticationModule } from './authentication/authentication.module'
-import { InteractionModule } from './interaction/interaction.module'
-import { ProjectsModule } from './projects/projects.module'
+import { InteractionsModule } from '../application/interactions/interaction.module'
+import { ProjectsModule } from '../application/projects/projects.module'
+import { UsersModule } from '../application/users/users.module'
 
 @Global()
 @Module({
-  imports: [AuthenticationModule, ProjectsModule, InteractionModule],
-  exports: [AuthenticationModule, ProjectsModule, InteractionModule],
+  imports: [UsersModule, ProjectsModule, InteractionsModule],
+  exports: [UsersModule, ProjectsModule, InteractionsModule],
 })
 export class DomainModule {}
