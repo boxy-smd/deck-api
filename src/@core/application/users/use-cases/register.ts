@@ -1,14 +1,19 @@
 import type { Trail } from '@/@core/domain/projects/entities/trail'
+import {
+  HASH_GENERATOR,
+  TRAILS_REPOSITORY,
+  USERS_REPOSITORY,
+} from '@/@shared/kernel/dependency-tokens'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceAlreadyExistsError } from '@/@shared/kernel/errors/resource-already-exists.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { User } from '../../../domain/users/entities/user'
 import { Email } from '../../../domain/users/value-objects/email'
 import { UserRole } from '../../../domain/users/value-objects/user-role'
 import { UserStatus } from '../../../domain/users/value-objects/user-status'
 import { Username } from '../../../domain/users/value-objects/username'
-import type { TrailsRepository } from '../../projects/application/repositories/trails-repository'
+import type { TrailsRepository } from '../../projects/repositories/trails-repository'
 import type { HashGenerator } from '../cryptography/hash-generator'
 import { type UserDTO, UserDTOMapper } from '../dtos/user.dto'
 import type { EmailBadFormattedError } from '../errors/email-bad-formatted.error'
@@ -41,9 +46,9 @@ type RegisterUseCaseResponse = Either<
 @Injectable()
 export class RegisterUseCase {
   constructor(
-    private usersRepository: UsersRepository,
-    private trailsRepository: TrailsRepository,
-    private hasher: HashGenerator,
+    @Inject(USERS_REPOSITORY) private usersRepository: UsersRepository,
+    @Inject(TRAILS_REPOSITORY) private trailsRepository: TrailsRepository,
+    @Inject(HASH_GENERATOR) private hasher: HashGenerator,
   ) {}
 
   public async execute(

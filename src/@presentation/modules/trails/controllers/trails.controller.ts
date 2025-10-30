@@ -1,4 +1,4 @@
-import type { FetchTrailsUseCase } from '@/@core/application/projects/application/use-cases/fetch-trails'
+import type { FetchTrailsUseCase } from '@/@core/application/projects/use-cases/fetch-trails'
 import { TrailPresenter } from '@/@presentation/presenters/trail'
 import { Controller, Get } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'

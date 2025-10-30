@@ -1,8 +1,8 @@
-import type { DeleteProjectUseCase } from '@/@core/application/projects/application/use-cases/delete-project'
-import type { GetProjectUseCase } from '@/@core/application/projects/application/use-cases/get-project'
-import type { PublishProjectUseCase } from '@/@core/application/projects/application/use-cases/publish-project'
-import type { SearchProjectsUseCase } from '@/@core/application/projects/application/use-cases/search-projects'
-import type { UploadProjectBannerUseCase } from '@/@core/application/projects/application/use-cases/upload-project-banner'
+import type { DeleteProjectUseCase } from '@/@core/application/projects/use-cases/delete-project'
+import type { GetProjectUseCase } from '@/@core/application/projects/use-cases/get-project'
+import type { PublishProjectUseCase } from '@/@core/application/projects/use-cases/publish-project'
+import type { SearchProjectsUseCase } from '@/@core/application/projects/use-cases/search-projects'
+import type { UploadProjectBannerUseCase } from '@/@core/application/projects/use-cases/upload-project-banner'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { ProjectDetailsPresenter } from '@/@presentation/presenters/project-details'
 import {
@@ -114,7 +114,7 @@ export class ProjectsController {
   @ApiOperation({
     summary: 'Listar publicações',
     description:
-      'Retorna uma lista paginada de projetos publicados na plataforma.',
+      'Retorna uma lista paginada de projetos publicados. Suporta busca geral por query.',
   })
   @ApiResponse({
     status: 200,
@@ -124,7 +124,11 @@ export class ProjectsController {
   async fetchPosts(
     @Query() query: FetchPostsDto,
   ): Promise<ProjectsListResponseDto> {
-    const result = await this.searchProjectsUseCase.execute({})
+    const result = await this.searchProjectsUseCase.execute({
+      query: query.query,
+      page: query.page,
+      perPage: query.perPage,
+    })
 
     if (result.isLeft()) {
       throw new BadRequestException('Falha ao buscar publicações.')
@@ -145,7 +149,7 @@ export class ProjectsController {
   @ApiOperation({
     summary: 'Buscar e filtrar publicações',
     description:
-      'Busca projetos com filtros avançados: título, professor, tags, disciplina, trilhas, semestre e ano.',
+      'Busca projetos com filtros avançados: título, professor, tags, disciplina, trilhas, semestre e ano. Suporta paginação.',
   })
   @ApiResponse({
     status: 200,
@@ -163,6 +167,8 @@ export class ProjectsController {
       trailsIds: filter.trailsIds,
       semester: filter.semester,
       publishedYear: filter.publishedYear,
+      page: filter.page,
+      perPage: filter.perPage,
     })
 
     if (result.isLeft()) {

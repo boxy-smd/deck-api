@@ -1,11 +1,11 @@
-import type { ProjectDTO } from '@/@core/application/projects/application/dtos/project.dto'
-import type { ProfessorsRepository } from '@/@core/application/projects/application/repositories/professors-repository'
+import type { ProjectDTO } from '@/@core/application/projects/dtos/project.dto'
+import type { ProfessorsRepository } from '@/@core/application/projects/repositories/professors-repository'
 import type {
   ProjectQuery,
   ProjectsRepository,
-} from '@/@core/application/projects/application/repositories/projects-repository'
-import type { SubjectsRepository } from '@/@core/application/projects/application/repositories/subjects-repository'
-import type { TrailsRepository } from '@/@core/application/projects/application/repositories/trails-repository'
+} from '@/@core/application/projects/repositories/projects-repository'
+import type { SubjectsRepository } from '@/@core/application/projects/repositories/subjects-repository'
+import type { TrailsRepository } from '@/@core/application/projects/repositories/trails-repository'
 import type { UsersRepository } from '@/@core/application/users/repositories/users-repository'
 import type { Professor } from '@/@core/domain/projects/entities/professor'
 import { Project } from '@/@core/domain/projects/entities/project'

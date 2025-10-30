@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import type { TrailsRepository } from '../../projects/application/repositories/trails-repository'
+import type { TrailsRepository } from '../../projects/repositories/trails-repository'
 import {
   type UserSummaryDTO,
   UserSummaryDTOMapper,

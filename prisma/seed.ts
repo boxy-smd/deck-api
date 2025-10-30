@@ -3,9 +3,10 @@ import { readFileSync } from 'node:fs'
 import axios from 'axios'
 import { load } from 'cheerio'
 
-import { BcryptHasher } from '@/infra/cryptography/bcrypt-hasher.ts'
-import { prisma } from '@/infra/database/prisma/client.ts'
-import { SubjectType } from '@prisma/client'
+import { PrismaClient, SubjectType } from '@prisma/client'
+import { hash } from 'bcrypt'
+
+const prisma = new PrismaClient()
 
 interface Subject {
   code: string
@@ -94,7 +95,7 @@ async function seed() {
   }
 
   console.log('🌱 Starting database seed...')
-  
+
   const professors = await fetchProfessors()
 
   await Promise.all(
@@ -162,7 +163,7 @@ async function seed() {
       username: 'amandafnsc',
       email: 'amanda@alu.ufc.br',
       about: 'Estudante de Sistemas e Mídias',
-      passwordHash: await new BcryptHasher().hash('123456'),
+      passwordHash: await hash('123456', 8),
       role: 'STUDENT',
       status: 'ACTIVE',
     },
@@ -190,7 +191,7 @@ async function seed() {
       username: 'levikbrito',
       email: 'levi@alu.ufc.br',
       about: 'Estudante de Sistemas e Mídias',
-      passwordHash: await new BcryptHasher().hash('123456'),
+      passwordHash: await hash('123456', 8),
       role: 'STUDENT',
       status: 'ACTIVE',
     },

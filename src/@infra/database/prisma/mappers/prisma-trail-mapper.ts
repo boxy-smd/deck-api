@@ -1,6 +1,6 @@
 import type { Prisma, Trail as TrailRaw } from '@prisma/client'
 
-import { Trail } from '@/@core/domain/projects/enterprise/entities/trail'
+import { Trail } from '@/@core/domain/projects/entities/trail'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export class PrismaTrailMapper {

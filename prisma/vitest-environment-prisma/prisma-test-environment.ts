@@ -1,21 +1,24 @@
 import { execSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
-
+import { PrismaClient } from '@prisma/client'
 import type { Environment } from 'vitest/environments'
 
-import { env } from '@/infra/config/env/env.ts'
-import { prisma } from '@/infra/database/prisma/client.ts'
-
 function generateDatabaseURL(schema: string) {
-  if (!env.DATABASE_URL)
-    throw new Error('Please provide a DATABASE_URL environment variable.')
+  const databaseUrl = process.env.DATABASE_URL
 
-  const url = new URL(env.DATABASE_URL)
+  if (!databaseUrl) {
+    throw new Error(
+      'Please provide a DATABASE_URL environment variable for tests.',
+    )
+  }
 
+  const url = new URL(databaseUrl)
   url.searchParams.set('schema', schema)
 
   return url.toString()
 }
+
+const prisma = new PrismaClient()
 
 export default (<Environment>{
   name: 'prisma',
@@ -26,14 +29,18 @@ export default (<Environment>{
 
     process.env.DATABASE_URL = databaseURL
 
-    execSync('npx prisma migrate deploy')
+    execSync('npx prisma migrate deploy', {
+      env: {
+        ...process.env,
+        DATABASE_URL: databaseURL,
+      },
+    })
 
     return {
       async teardown() {
         await prisma.$executeRawUnsafe(
           `DROP SCHEMA IF EXISTS "${schema}" CASCADE`,
         )
-
         await prisma.$disconnect()
       },
     }

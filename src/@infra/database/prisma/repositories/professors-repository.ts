@@ -1,4 +1,4 @@
-import type { ProfessorsRepository } from '@/@core/application/projects/application/repositories/professors-repository'
+import type { ProfessorsRepository } from '@/@core/application/projects/repositories/professors-repository'
 import type { Professor } from '@/@core/domain/projects/entities/professor'
 import { Injectable } from '@nestjs/common'
 import { PrismaProfessorMapper } from '../mappers/prisma-professor-mapper'

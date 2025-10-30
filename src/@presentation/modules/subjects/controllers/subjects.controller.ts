@@ -1,4 +1,4 @@
-import type { FetchSubjectsUseCase } from '@/@core/application/projects/application/use-cases/fetch-subjects'
+import type { FetchSubjectsUseCase } from '@/@core/application/projects/use-cases/fetch-subjects'
 import { SubjectPresenter } from '@/@presentation/presenters/subject'
 import { Controller, Get, Query } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'

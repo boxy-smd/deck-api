@@ -1,8 +1,8 @@
-import type { Project } from '@/@core/domain/projects/enterprise/entities/project'
 import type { StudentProfile } from '@/@core/domain/users/entities/student-profile'
 import { Entity } from '@/@shared/kernel/kernel/entity'
 import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import type { Optional } from '@/@shared/kernel/types/optional'
+import type { Project } from '../../projects/entities/project'
 import { Report } from './report'
 
 export interface CommentProps {

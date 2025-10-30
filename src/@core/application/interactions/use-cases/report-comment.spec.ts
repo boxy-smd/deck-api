@@ -10,7 +10,7 @@ import { InMemoryProjectsRepository } from 'test/repositories/projects-repositor
 import { InMemoryReportsRepository } from 'test/repositories/reports-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
 import type { Comment } from '../../../domain/interactions/entities/comment'
-import type { ProjectsRepository } from '../../projects/application/repositories/projects-repository'
+import type { ProjectsRepository } from '../../projects/repositories/projects-repository'
 import type { CommentsRepository } from '../repositories/comments-repository'
 import type { ReportsRepository } from '../repositories/reports-repository'
 import { ReportCommentUseCase } from './report-comment'
