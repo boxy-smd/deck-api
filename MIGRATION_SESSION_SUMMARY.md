@@ -611,6 +611,61 @@ RESULTADO:
 
 ---
 
+## 🆕 SESSÃO 7: Limpeza de Código Legado e Integração NestJS (30 de Outubro de 2025)
+
+### ✅ Módulos NestJS Criados
+- **FirebaseModule**: Módulo global para gerenciar Firebase Storage
+  - `FirebaseService`: Serviço injetável com referências de storage
+  - Substitui arquivo legado `firebase.ts` de config/services
+  
+- **CryptographyModule**: Módulo global para criptografia
+  - `BcryptHasher`: Serviço injetável para hash de senhas
+  - Implementa `@Injectable()` do NestJS
+
+### ✅ Arquivos Removidos
+- ❌ `src/@infra/config/services/firebase.ts` - Substituído por FirebaseModule
+- ❌ `src/@infra/config/services/` - Pasta removida (vazia)
+- ❌ `dist/*` - 70 arquivos removidos do controle de versão
+
+### ✅ Melhorias
+- ✅ Factories atualizadas para instanciar FirebaseService
+- ✅ `.gitignore` atualizado para ignorar pasta `dist/`
+- ✅ Build funcionando sem erros (35 arquivos compilados)
+- ✅ Todos os testes unitários passando (56/56 testes)
+
+### ✅ Estrutura Integrada com NestJS
+```
+src/
+├── @infra/
+│   ├── config/
+│   │   └── env/
+│   │       └── env.ts                    # Validação de env com Zod
+│   ├── cryptography/
+│   │   ├── cryptography.module.ts        # ✨ Módulo NestJS
+│   │   └── bcrypt-hasher.ts              # ✨ @Injectable()
+│   └── database/
+│       ├── firebase/
+│       │   ├── firebase.module.ts        # ✨ Módulo NestJS Global
+│       │   ├── firebase.service.ts       # ✨ @Injectable()
+│       │   ├── banner-uploader.ts
+│       │   ├── profile-uploader.ts
+│       │   └── storage-uploader.ts
+│       └── prisma/
+│           ├── prisma.module.ts          # ✅ Global Module
+│           └── prisma.service.ts         # ✅ Injectable
+└── @presentation/
+    ├── app.module.ts                     # ✅ Importa todos os módulos
+    └── modules/                          # ✅ 7 módulos funcionais
+```
+
+### 📊 Commits da Sessão
+```bash
+458cc81 - refactor: integrar Firebase e Cryptography como módulos NestJS
+7c9ad77 - chore: remover pasta dist do controle de versão
+```
+
+---
+
 ## 🆕 SESSÃO 6: Limpeza Completa do Projeto (30 de Outubro de 2025)
 
 ### ✅ Arquivos de Documentação Removidos (15 arquivos)
