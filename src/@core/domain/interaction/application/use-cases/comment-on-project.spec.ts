@@ -7,8 +7,8 @@ import { InMemoryUsersRepository } from 'test/repositories/users-repository'
 import type { Project } from '../../../projects/enterprise/entities/project'
 import { CommentOnProjectUseCase } from './comment-on-project'
 
-import { InMemoryCommentsRepository } from 'test/repositories/comments-repository'
 import type { CommentsRepository } from '@/@core/domain/interaction/application/repositories/comments-repository'
+import { InMemoryCommentsRepository } from 'test/repositories/comments-repository'
 
 let usersRepository: UsersRepository
 let projectsRepository: InMemoryProjectsRepository
@@ -31,7 +31,11 @@ describe('comment on project use case', () => {
     await usersRepository.create(author)
     await projectsRepository.create(project)
 
-    sut = new CommentOnProjectUseCase(projectsRepository, usersRepository, commentsRepository)
+    sut = new CommentOnProjectUseCase(
+      projectsRepository,
+      usersRepository,
+      commentsRepository,
+    )
   })
 
   it('should be able to comment on a project', async () => {

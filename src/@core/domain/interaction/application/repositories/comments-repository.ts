@@ -8,6 +8,6 @@ export interface CommentsRepository extends DomainRepository<Comment> {
   findManyByProjectIdWithAuthors(
     projectId: string,
   ): Promise<CommentWithAuthor[]>
-  
+
   deleteManyByProjectId(projectId: string): Promise<void>
 }

@@ -1,5 +1,5 @@
-import { Pagination } from './pagination'
 import { describe, expect, it } from 'vitest'
+import { Pagination } from './pagination'
 
 describe('Pagination', () => {
   it('should paginate items correctly', () => {

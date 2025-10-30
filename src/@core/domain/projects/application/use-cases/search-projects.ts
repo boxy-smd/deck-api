@@ -1,8 +1,5 @@
 import { type Either, right } from '@/@shared/kernel/either'
-import {
-  type PaginatedResult,
-  Pagination,
-} from '@/@shared/kernel/pagination'
+import { type PaginatedResult, Pagination } from '@/@shared/kernel/pagination'
 import type { ProjectSummaryDTO } from '../dtos/project-summary.dto'
 import type { ProjectDTO } from '../dtos/project.dto'
 import type { ProjectsRepository } from '../repositories/projects-repository'

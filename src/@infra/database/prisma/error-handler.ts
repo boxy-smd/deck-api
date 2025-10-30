@@ -30,7 +30,7 @@ export class PrismaErrorHandler {
     try {
       return await operation()
     } catch (error) {
-      throw this.handle(error)
+      throw PrismaErrorHandler.handle(error)
     }
   }
 }

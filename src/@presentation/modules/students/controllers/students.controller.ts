@@ -5,9 +5,9 @@ import { makeGetStudentDetailsUseCase } from '@/@core/application/factories/stud
 import { makeLoginUseCase } from '@/@core/application/factories/students/make-login-use-case'
 import { makeRegisterUseCase } from '@/@core/application/factories/students/make-register-use-case'
 import { makeUploadProfileImageUseCase } from '@/@core/application/factories/students/make-upload-profile-image-use-case'
+import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { StudentPresenter } from '@/@presentation/presenters/student'
 import { StudentProfilePresenter } from '@/@presentation/presenters/student-profile'
-import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import {
   BadRequestException,
   Body,
@@ -29,7 +29,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
+import type { JwtService } from '@nestjs/jwt'
 import { FileInterceptor } from '@nestjs/platform-express'
 import {
   ApiBearerAuth,

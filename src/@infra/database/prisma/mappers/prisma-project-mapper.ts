@@ -1,8 +1,8 @@
 import type { Prisma, Project as ProjectRaw } from '@prisma/client'
 
-import { Project } from '@/@core/domain/projects/enterprise/entities/project'
-import type { ProjectDTO } from '@/@core/domain/projects/application/dtos/project.dto'
 import type { ProjectSummaryDTO } from '@/@core/domain/projects/application/dtos/project-summary.dto'
+import type { ProjectDTO } from '@/@core/domain/projects/application/dtos/project.dto'
+import { Project } from '@/@core/domain/projects/enterprise/entities/project'
 import type { ProjectStatus } from '@/@core/domain/projects/enterprise/value-objects/project-status'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
@@ -16,11 +16,15 @@ type PrismaProjectWithRelations = ProjectRaw & {
     name: string
   } | null
   trails?: Array<{
+    projectId: string
+    trailId: string
     trail: {
       name: string
     }
   }>
   professors?: Array<{
+    projectId: string
+    professorId: string
     professor: {
       name: string
     }
@@ -72,23 +76,25 @@ export class PrismaProjectMapper {
       allowComments: project.allowComments,
       bannerUrl: project.bannerUrl,
       author: {
-        connect: { id: project.authorId.toString() }
+        connect: { id: project.authorId.toString() },
       },
-      subject: project.subjectId ? {
-        connect: { id: project.subjectId.toString() }
-      } : undefined,
+      subject: project.subjectId
+        ? {
+            connect: { id: project.subjectId.toString() },
+          }
+        : undefined,
       trails: {
         create: Array.from(project.trails).map(trailId => ({
           trail: {
-            connect: { id: trailId.toString() }
-          }
+            connect: { id: trailId.toString() },
+          },
         })),
       },
       professors: {
         create: Array.from(project.professors).map(professorId => ({
           professor: {
-            connect: { id: professorId.toString() }
-          }
+            connect: { id: professorId.toString() },
+          },
         })),
       },
     }
@@ -121,7 +127,9 @@ export class PrismaProjectMapper {
     }
   }
 
-  static toProjectSummaryDTO(raw: PrismaProjectWithRelations): ProjectSummaryDTO {
+  static toProjectSummaryDTO(
+    raw: PrismaProjectWithRelations,
+  ): ProjectSummaryDTO {
     return {
       id: raw.id,
       title: raw.title,

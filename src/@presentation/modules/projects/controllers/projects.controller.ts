@@ -3,8 +3,8 @@ import { makeGetProjectUseCase } from '@/@core/application/factories/projects/ma
 import { makePublishProjectUseCase } from '@/@core/application/factories/projects/make-publish-project-use-case'
 import { makeSearchProjectsUseCase } from '@/@core/application/factories/projects/make-search-projects-use-case'
 import { makeUploadProjectBannerUseCase } from '@/@core/application/factories/projects/make-upload-project-banner-use-case'
-import { ProjectDetailsPresenter } from '@/@presentation/presenters/project-details'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
+import { ProjectDetailsPresenter } from '@/@presentation/presenters/project-details'
 import {
   BadRequestException,
   Body,

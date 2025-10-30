@@ -80,18 +80,23 @@ export class PrismaStudentMapper {
       profileUrl: user.profileUrl ?? undefined,
       role: user.role,
       status: user.status,
-      studentProfile: user.profile ? {
-        create: {
-          semester: user.profile.semester.value,
-        }
-      } : undefined,
-      trail: user.profile && user.profile.trailsIds.length > 0 ? {
-        create: user.profile.trailsIds
-          .filter(trailId => trailId != null)
-          .map(trailId => ({
-            trailId: trailId.toString(),
-          })),
-      } : undefined,
+      studentProfile: user.profile
+        ? {
+            create: {
+              semester: user.profile.semester.value,
+            },
+          }
+        : undefined,
+      trail:
+        user.profile && user.profile.trailsIds.length > 0
+          ? {
+              create: user.profile.trailsIds
+                .filter(trailId => trailId != null)
+                .map(trailId => ({
+                  trailId: trailId.toString(),
+                })),
+            }
+          : undefined,
     }
   }
 

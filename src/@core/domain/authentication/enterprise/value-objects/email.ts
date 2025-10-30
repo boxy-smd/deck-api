@@ -7,7 +7,8 @@ interface EmailProps {
 }
 
 export class Email extends ValueObject<EmailProps> {
-  private static readonly EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  private static readonly EMAIL_REGEX =
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   private static readonly INSTITUTION_REGEX = /@alu\.ufc\.br$/
 
   get value(): string {
@@ -28,7 +29,9 @@ export class Email extends ValueObject<EmailProps> {
     }
 
     if (!Email.isInstitutional(email)) {
-      return left(new EmailBadFormattedError('O e-mail deve ser institucional.'))
+      return left(
+        new EmailBadFormattedError('O e-mail deve ser institucional.'),
+      )
     }
 
     return right(new Email({ value: email }))

@@ -7,13 +7,13 @@ export class PrismaStudentsRepository implements UsersRepository {
   async findById(id: string): Promise<User | null> {
     const student = await prisma.user.findUnique({
       where: { id },
-      include: { 
+      include: {
         trail: {
           include: {
-            trail: true
-          }
+            trail: true,
+          },
         },
-        studentProfile: true
+        studentProfile: true,
       },
     })
 
@@ -25,13 +25,13 @@ export class PrismaStudentsRepository implements UsersRepository {
   async findByName(name: string): Promise<User | null> {
     const student = await prisma.user.findFirst({
       where: { name },
-      include: { 
+      include: {
         trail: {
           include: {
-            trail: true
-          }
+            trail: true,
+          },
         },
-        studentProfile: true
+        studentProfile: true,
       },
     })
 
@@ -43,13 +43,13 @@ export class PrismaStudentsRepository implements UsersRepository {
   async findByEmail(email: string): Promise<User | null> {
     const student = await prisma.user.findFirst({
       where: { email },
-      include: { 
+      include: {
         trail: {
           include: {
-            trail: true
-          }
+            trail: true,
+          },
         },
-        studentProfile: true
+        studentProfile: true,
       },
     })
 
@@ -61,19 +61,19 @@ export class PrismaStudentsRepository implements UsersRepository {
   async findByUsername(username: string): Promise<User | null> {
     const student = await prisma.user.findFirst({
       where: { username },
-      include: { 
+      include: {
         trail: {
           include: {
-            trail: true
-          }
+            trail: true,
+          },
         },
-        studentProfile: true
+        studentProfile: true,
       },
     })
 
     if (!student) return null
 
-   return PrismaStudentMapper.toEntity(student)
+    return PrismaStudentMapper.toEntity(student)
   }
 
   async findManyByName(name: string): Promise<User[]> {
@@ -84,36 +84,32 @@ export class PrismaStudentsRepository implements UsersRepository {
           ? { contains: name.slice(1), mode: 'insensitive' }
           : undefined,
       },
-      include: { 
+      include: {
         trail: {
           include: {
-            trail: true
-          }
+            trail: true,
+          },
         },
-        studentProfile: true
+        studentProfile: true,
       },
     })
 
-    return students.map(s => 
-      PrismaStudentMapper.toEntity(s)
-    )
+    return students.map(s => PrismaStudentMapper.toEntity(s))
   }
 
   async findAll(): Promise<User[]> {
     const students = await prisma.user.findMany({
-      include: { 
+      include: {
         trail: {
           include: {
-            trail: true
-          }
+            trail: true,
+          },
         },
-        studentProfile: true
+        studentProfile: true,
       },
     })
 
-    return students.map(s => 
-      PrismaStudentMapper.toEntity(s)
-    )
+    return students.map(s => PrismaStudentMapper.toEntity(s))
   }
 
   async existsById(id: string): Promise<boolean> {

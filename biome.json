@@ -27,7 +27,8 @@
 				"noExcessiveNestedTestSuites": "error",
 				"noUselessTernary": "error",
 				"noVoid": "error",
-				"useSimplifiedLogicExpression": "error"
+				"useSimplifiedLogicExpression": "error",
+				"noStaticOnlyClass": "off"
 			},
 			"correctness": {
 				"noNewSymbol": "error",

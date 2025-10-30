@@ -1,5 +1,5 @@
-import { ValueObject } from '@/@shared/kernel/kernel/value-object'
 import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
+import { ValueObject } from '@/@shared/kernel/kernel/value-object'
 
 export interface CommentWithAuthorProps {
   commentId: UniqueEntityID

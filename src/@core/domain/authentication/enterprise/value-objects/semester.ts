@@ -15,10 +15,14 @@ export class Semester extends ValueObject<SemesterProps> {
   }
 
   private static isValid(semester: number): boolean {
-    return semester >= Semester.MIN_SEMESTER && semester <= Semester.MAX_SEMESTER
+    return (
+      semester >= Semester.MIN_SEMESTER && semester <= Semester.MAX_SEMESTER
+    )
   }
 
-  public static create(semester: number): Either<SemesterOutOfBoundsError, Semester> {
+  public static create(
+    semester: number,
+  ): Either<SemesterOutOfBoundsError, Semester> {
     if (!Semester.isValid(semester)) {
       return left(
         new SemesterOutOfBoundsError(

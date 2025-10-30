@@ -47,7 +47,9 @@ export class DeleteCommentUseCase {
     }
 
     if (comment.projectId.toString() !== projectId) {
-      return left(new ResourceNotFoundError('Comentário não encontrado neste projeto.'))
+      return left(
+        new ResourceNotFoundError('Comentário não encontrado neste projeto.'),
+      )
     }
 
     if (comment.authorId.toString() !== authorId) {

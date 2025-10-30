@@ -1,6 +1,6 @@
-import { ValueObject } from '@/@shared/kernel/kernel/value-object'
 import type { User } from '@/@core/domain/authentication/enterprise/entities/user'
 import type { Project } from '@/@core/domain/projects/enterprise/entities/project'
+import { ValueObject } from '@/@shared/kernel/kernel/value-object'
 
 interface StudentProfileWithDetailsProps {
   student: User
@@ -57,7 +57,9 @@ export class StudentProfileWithDetails extends ValueObject<StudentProfileWithDet
     return this.props.posts
   }
 
-  static create(props: StudentProfileWithDetailsProps): StudentProfileWithDetails {
+  static create(
+    props: StudentProfileWithDetailsProps,
+  ): StudentProfileWithDetails {
     return new StudentProfileWithDetails(props)
   }
 

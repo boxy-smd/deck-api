@@ -2,8 +2,8 @@ import { makeCommentOnProjectUseCase } from '@/@core/application/factories/comme
 import { makeDeleteCommentUseCase } from '@/@core/application/factories/comments/make-delete-comment-use-case'
 import { makeListProjectCommentsUseCase } from '@/@core/application/factories/comments/make-list-project-comments-use-case'
 import { makeReportCommentUseCase } from '@/@core/application/factories/comments/make-report-comment-use-case'
-import { CommentPresenter } from '@/@presentation/presenters/comment'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
+import { CommentPresenter } from '@/@presentation/presenters/comment'
 import {
   BadRequestException,
   Body,
