@@ -5,7 +5,7 @@ import { makeUser } from 'test/factories/make-user'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
 import { StudentProfile } from '../../../domain/users/entities/student-profile'
-import { User } from '../../../domain/users/entities/user'
+import type { User } from '../../../domain/users/entities/user'
 import { Semester } from '../../../domain/users/value-objects/semester'
 import type { TrailsRepository } from '../../projects/application/repositories/trails-repository'
 import type { UsersRepository } from '../repositories/users-repository'
@@ -54,7 +54,9 @@ describe('edit profile use case', () => {
     })
 
     expect(result.isRight()).toBe(true)
-    expect(result.value).toBeInstanceOf(User)
+    if (result.isRight()) {
+      expect(result.value.semester).toBe(4)
+    }
   })
 
   it('should be able to edit student trails', async () => {
@@ -68,7 +70,10 @@ describe('edit profile use case', () => {
     })
 
     expect(result.isRight()).toBe(true)
-    expect(result.value).toBeInstanceOf(User)
+
+    // Verify the user was saved with the new trail
+    const updatedUser = await usersRepository.findById(student.id.toString())
+    expect(updatedUser?.profile?.trailsIds).toHaveLength(2)
   })
 
   it('should not be able to edit student profile if student does not exist', async () => {

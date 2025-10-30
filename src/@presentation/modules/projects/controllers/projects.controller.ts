@@ -1,8 +1,8 @@
-import type { DeleteProjectUseCase } from '@/@core/domain/projects/application/use-cases/delete-project'
-import type { GetProjectUseCase } from '@/@core/domain/projects/application/use-cases/get-project'
-import type { PublishProjectUseCase } from '@/@core/domain/projects/application/use-cases/publish-project'
-import type { SearchProjectsUseCase } from '@/@core/domain/projects/application/use-cases/search-projects'
-import type { UploadProjectBannerUseCase } from '@/@core/domain/projects/application/use-cases/upload-project-banner'
+import type { DeleteProjectUseCase } from '@/@core/application/projects/application/use-cases/delete-project'
+import type { GetProjectUseCase } from '@/@core/application/projects/application/use-cases/get-project'
+import type { PublishProjectUseCase } from '@/@core/application/projects/application/use-cases/publish-project'
+import type { SearchProjectsUseCase } from '@/@core/application/projects/application/use-cases/search-projects'
+import type { UploadProjectBannerUseCase } from '@/@core/application/projects/application/use-cases/upload-project-banner'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { ProjectDetailsPresenter } from '@/@presentation/presenters/project-details'
 import {
@@ -42,7 +42,7 @@ import {
 } from '../dto/projects-response.dto'
 import type { PublishProjectDto } from '../dto/publish-project.dto'
 
-@ApiTags('Projects')
+@ApiTags('Projetos')
 @Controller()
 export class ProjectsController {
   constructor(
@@ -56,14 +56,25 @@ export class ProjectsController {
   @Post('projects')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Publish a project' })
+  @ApiOperation({
+    summary: 'Publicar projeto',
+    description:
+      'Publica um novo projeto na plataforma com todas as informações necessárias incluindo disciplina, trilhas e professores.',
+  })
   @ApiResponse({
     status: 201,
-    description: 'Project published successfully',
+    description: 'Projeto publicado com sucesso.',
     type: PublishProjectResponseDto,
   })
-  @ApiResponse({ status: 400, description: 'Bad request' })
-  @ApiResponse({ status: 404, description: 'Resource not found' })
+  @ApiResponse({
+    status: 400,
+    description: 'Dados inválidos. Verifique todos os campos obrigatórios.',
+  })
+  @ApiResponse({
+    status: 404,
+    description:
+      'Recurso não encontrado. Disciplina, trilha ou professor inválido.',
+  })
   async publishProject(
     @Body() dto: PublishProjectDto,
     @Request() req: { user: { userId: string } },
@@ -100,10 +111,14 @@ export class ProjectsController {
   }
 
   @Get('posts')
-  @ApiOperation({ summary: 'Fetch posts' })
+  @ApiOperation({
+    summary: 'Listar publicações',
+    description:
+      'Retorna uma lista paginada de projetos publicados na plataforma.',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Posts retrieved successfully',
+    description: 'Lista de publicações retornada com sucesso.',
     type: ProjectsListResponseDto,
   })
   async fetchPosts(
@@ -112,7 +127,7 @@ export class ProjectsController {
     const result = await this.searchProjectsUseCase.execute({})
 
     if (result.isLeft()) {
-      throw new BadRequestException('Failed to fetch posts')
+      throw new BadRequestException('Falha ao buscar publicações.')
     }
 
     return {
@@ -127,10 +142,14 @@ export class ProjectsController {
   }
 
   @Get('posts/search')
-  @ApiOperation({ summary: 'Search/Filter posts' })
+  @ApiOperation({
+    summary: 'Buscar e filtrar publicações',
+    description:
+      'Busca projetos com filtros avançados: título, professor, tags, disciplina, trilhas, semestre e ano.',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Posts retrieved successfully',
+    description: 'Resultados da busca retornados com sucesso.',
     type: ProjectsListResponseDto,
   })
   async filterPosts(
@@ -147,7 +166,7 @@ export class ProjectsController {
     })
 
     if (result.isLeft()) {
-      throw new BadRequestException('Failed to search projects')
+      throw new BadRequestException('Falha ao buscar projetos.')
     }
 
     return {
@@ -162,13 +181,20 @@ export class ProjectsController {
   }
 
   @Get('projects/:projectId')
-  @ApiOperation({ summary: 'Get project details' })
+  @ApiOperation({
+    summary: 'Buscar detalhes do projeto',
+    description:
+      'Retorna informações completas de um projeto específico incluindo conteúdo, autores, disciplina e trilhas.',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Project retrieved successfully',
+    description: 'Detalhes do projeto retornados com sucesso.',
     type: ProjectDetailsResponseDto,
   })
-  @ApiResponse({ status: 404, description: 'Project not found' })
+  @ApiResponse({
+    status: 404,
+    description: 'Projeto não encontrado.',
+  })
   async getProject(
     @Param('projectId') projectId: string,
   ): Promise<ProjectDetailsResponseDto> {
@@ -189,10 +215,23 @@ export class ProjectsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiOperation({ summary: 'Delete a project' })
-  @ApiResponse({ status: 204, description: 'Project deleted successfully' })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
-  @ApiResponse({ status: 404, description: 'Project not found' })
+  @ApiOperation({
+    summary: 'Excluir projeto',
+    description:
+      'Remove um projeto da plataforma. Apenas o autor do projeto pode excluí-lo.',
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'Projeto excluído com sucesso.',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Acesso negado. Apenas o autor pode excluir o projeto.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Projeto não encontrado.',
+  })
   async deleteProject(
     @Param('projectId') projectId: string,
     @Request() req: { user: { userId: string } },
@@ -219,7 +258,11 @@ export class ProjectsController {
   @UseInterceptors(FileInterceptor('file'))
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
-  @ApiOperation({ summary: 'Upload project banner' })
+  @ApiOperation({
+    summary: 'Fazer upload do banner do projeto',
+    description:
+      'Envia uma imagem para ser usada como banner/capa do projeto. Formatos aceitos: JPG, PNG. Tamanho máximo: 5MB.',
+  })
   @ApiBody({
     schema: {
       type: 'object',
@@ -227,22 +270,30 @@ export class ProjectsController {
         file: {
           type: 'string',
           format: 'binary',
+          description: 'Arquivo de imagem (JPG ou PNG)',
         },
       },
     },
   })
   @ApiResponse({
     status: 200,
-    description: 'Banner uploaded successfully',
+    description: 'Banner enviado com sucesso.',
     type: UploadResponseDto,
   })
-  @ApiResponse({ status: 404, description: 'Project not found' })
+  @ApiResponse({
+    status: 400,
+    description: 'Arquivo inválido ou não fornecido.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Projeto não encontrado.',
+  })
   async uploadBanner(
     @Param('projectId') projectId: string,
     @UploadedFile() file: Express.Multer.File,
   ): Promise<UploadResponseDto> {
     if (!file) {
-      throw new BadRequestException('File is required')
+      throw new BadRequestException('É necessário enviar um arquivo de imagem.')
     }
 
     const result = await this.uploadProjectBannerUseCase.execute({
@@ -259,6 +310,6 @@ export class ProjectsController {
       throw new BadRequestException(error.message)
     }
 
-    return { message: 'Banner uploaded successfully' }
+    return { message: 'Banner enviado com sucesso.' }
   }
 }

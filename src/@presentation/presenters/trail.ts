@@ -1,4 +1,4 @@
-import type { Trail } from '@/@core/domain/projects/enterprise/entities/trail'
+import type { Trail } from '@/@core/domain/projects/entities/trail'
 
 export class TrailPresenter {
   static toHTTP(trail: Trail) {

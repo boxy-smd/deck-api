@@ -34,6 +34,7 @@ export interface ProjectDTO {
   bannerUrl: string | null
   content: string | null
   publishedYear: number | null
+  allowComments: boolean
   status: ProjectStatus
   semester: number | null
   createdAt: Date
@@ -59,6 +60,7 @@ export class ProjectDTOMapper {
       title: project.title,
       description: project.description,
       bannerUrl: project.bannerUrl,
+      allowComments: project.allowComments,
       content: project.content,
       publishedYear: project.publishedYear,
       status: project.status,

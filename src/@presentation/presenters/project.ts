@@ -1,4 +1,4 @@
-import type { Project } from '@/@core/domain/projects/enterprise/entities/project'
+import type { Project } from '@/@core/domain/projects/entities/project'
 
 export class ProjectPresenter {
   static toHTTP(project: Project) {

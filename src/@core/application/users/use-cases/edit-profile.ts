@@ -3,9 +3,9 @@ import type { InvalidCredentialsError } from '@/@shared/kernel/errors/invalid-cr
 import type { ResourceAlreadyExistsError } from '@/@shared/kernel/errors/resource-already-exists.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { Injectable } from '@nestjs/common'
-import type { User } from '../../../domain/users/entities/user'
 import { Semester } from '../../../domain/users/value-objects/semester'
 import type { TrailsRepository } from '../../projects/application/repositories/trails-repository'
+import { type UserDTO, UserDTOMapper } from '../dtos/user.dto'
 import type { SemesterOutOfBoundsError } from '../errors/semester-out-of-bounds.error'
 import type { UsersRepository } from '../repositories/users-repository'
 
@@ -22,7 +22,7 @@ type EditProfileUseCaseResponse = Either<
   | ResourceNotFoundError
   | ResourceAlreadyExistsError
   | SemesterOutOfBoundsError,
-  User
+  UserDTO
 >
 
 @Injectable()
@@ -73,6 +73,6 @@ export class EditProfileUseCase {
 
     await this.usersRepository.save(user)
 
-    return right(user)
+    return right(UserDTOMapper.toDTO(user))
   }
 }

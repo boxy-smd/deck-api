@@ -78,6 +78,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
       description: project.description || '',
       bannerUrl: project.bannerUrl || null,
       content: project.content,
+      allowComments: project.allowComments,
       publishedYear: project.publishedYear || null,
       status: project.status,
       semester: project.semester || null,
