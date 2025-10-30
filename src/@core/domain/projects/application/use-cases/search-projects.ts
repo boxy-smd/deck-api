@@ -1,5 +1,6 @@
 import { type Either, right } from '@/@shared/kernel/either'
 import { type PaginatedResult, Pagination } from '@/@shared/kernel/pagination'
+import { Injectable } from '@nestjs/common'
 import type { ProjectSummaryDTO } from '../dtos/project-summary.dto'
 import type { ProjectDTO } from '../dtos/project.dto'
 import type { ProjectsRepository } from '../repositories/projects-repository'
@@ -31,6 +32,7 @@ type SearchProjectsUseCaseResponse = Either<
   PaginatedResult<ProjectSummaryDTO>
 >
 
+@Injectable()
 export class SearchProjectsUseCase {
   private readonly searchContext: SearchContext
 

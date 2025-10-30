@@ -5,16 +5,19 @@ import type {
 } from '@/@core/domain/projects/application/repositories/projects-repository'
 import type { Project } from '@/@core/domain/projects/enterprise/entities/project'
 import { SemesterParser } from '@/@shared/kernel/utils/semester-parser'
-import { prisma } from '../client'
+import { Injectable } from '@nestjs/common'
 import { PrismaErrorHandler } from '../error-handler'
 import { PrismaProjectMapper } from '../mappers/prisma-project-mapper'
 import type { ProjectWithMetadata } from '../mappers/project-with-metadata'
+import type { PrismaService } from '../prisma.service'
 import { PrismaQueryBuilder } from '../query-builder'
-import type { } from '../types/prisma-types'
+import type {} from '../types/prisma-types'
 
+@Injectable()
 export class PrismaProjectsRepository implements ProjectsRepository {
+  constructor(private readonly prisma: PrismaService) {}
   async findManyByTitle(title: string): Promise<Project[]> {
-    const data = await prisma.project.findMany({
+    const data = await this.prisma.project.findMany({
       where: {
         title: {
           contains: title,
@@ -27,7 +30,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
   }
 
   async findManyByProfessorName(name: string): Promise<Project[]> {
-    const data = await prisma.project.findMany({
+    const data = await this.prisma.project.findMany({
       where: {
         professors: {
           some: {
@@ -54,14 +57,14 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     })
 
     const data = await PrismaErrorHandler.execute(() =>
-      prisma.project.findMany({ where }),
+      this.prisma.project.findMany({ where }),
     )
 
     return data.map(PrismaProjectMapper.toEntity)
   }
 
   async findManyByAuthorId(authorId: string): Promise<Project[]> {
-    const data = await prisma.project.findMany({
+    const data = await this.prisma.project.findMany({
       where: {
         authorId: authorId.toString(),
       },
@@ -71,7 +74,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
   }
 
   async findManyByStudentId(studentId: string): Promise<Project[]> {
-    const data = await prisma.project.findMany({
+    const data = await this.prisma.project.findMany({
       where: {
         authorId: studentId.toString(),
       },
@@ -81,7 +84,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
   }
 
   async findManyByTag(tag: string): Promise<Project[]> {
-    const data = await prisma.project.findMany({
+    const data = await this.prisma.project.findMany({
       where: {
         trails: {
           some: {
@@ -101,7 +104,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
 
   async findById(id: string): Promise<(Project & ProjectWithMetadata) | null> {
     const data = await PrismaErrorHandler.execute(() =>
-      prisma.project.findUnique({
+      this.prisma.project.findUnique({
         where: { id: id.toString() },
         include: PrismaQueryBuilder.getProjectFullIncludes(),
       }),
@@ -132,13 +135,13 @@ export class PrismaProjectsRepository implements ProjectsRepository {
   }
 
   async findAll(): Promise<Project[]> {
-    const data = await prisma.project.findMany()
+    const data = await this.prisma.project.findMany()
     return data.map(PrismaProjectMapper.toEntity)
   }
 
   async findAllProjectDTOs(): Promise<ProjectDTO[]> {
     const data = await PrismaErrorHandler.execute(() =>
-      prisma.project.findMany({
+      this.prisma.project.findMany({
         include: PrismaQueryBuilder.getProjectDTOIncludes(),
         where: { status: 'PUBLISHED' },
         orderBy: { createdAt: 'desc' },
@@ -150,7 +153,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
 
   async findManyProjectDTOsByTitle(title: string): Promise<ProjectDTO[]> {
     const data = await PrismaErrorHandler.execute(() =>
-      prisma.project.findMany({
+      this.prisma.project.findMany({
         where: {
           title: {
             contains: title,
@@ -169,7 +172,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     name: string,
   ): Promise<ProjectDTO[]> {
     const data = await PrismaErrorHandler.execute(() =>
-      prisma.project.findMany({
+      this.prisma.project.findMany({
         where: {
           professors: {
             some: {
@@ -205,7 +208,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     })
 
     const data = await PrismaErrorHandler.execute(() =>
-      prisma.project.findMany({
+      this.prisma.project.findMany({
         where,
         include: PrismaQueryBuilder.getProjectDTOIncludes(),
         orderBy: { publishedYear: 'desc' },
@@ -220,7 +223,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     const parsedYear = Number.parseInt(tag, 10)
 
     const data = await PrismaErrorHandler.execute(() =>
-      prisma.project.findMany({
+      this.prisma.project.findMany({
         where: {
           OR: [
             {
@@ -270,14 +273,14 @@ export class PrismaProjectsRepository implements ProjectsRepository {
   async create(project: Project): Promise<void> {
     const data = PrismaProjectMapper.toPrisma(project)
 
-    await PrismaErrorHandler.execute(() => prisma.project.create({ data }))
+    await PrismaErrorHandler.execute(() => this.prisma.project.create({ data }))
   }
 
   async save(project: Project): Promise<void> {
     const data = PrismaProjectMapper.toPrisma(project)
 
     await PrismaErrorHandler.execute(() =>
-      prisma.project.update({
+      this.prisma.project.update({
         where: { id: data.id },
         data,
       }),
@@ -286,7 +289,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
 
   async delete(project: Project): Promise<void> {
     await PrismaErrorHandler.execute(() =>
-      prisma.project.delete({
+      this.prisma.project.delete({
         where: { id: project.id.toString() },
       }),
     )
@@ -294,14 +297,14 @@ export class PrismaProjectsRepository implements ProjectsRepository {
 
   async deleteById(id: string): Promise<void> {
     await PrismaErrorHandler.execute(() =>
-      prisma.project.delete({
+      this.prisma.project.delete({
         where: { id: id.toString() },
       }),
     )
   }
 
   async existsById(id: string): Promise<boolean> {
-    const data = await prisma.project.findUnique({
+    const data = await this.prisma.project.findUnique({
       where: {
         id: id.toString(),
       },

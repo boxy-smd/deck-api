@@ -1,5 +1,6 @@
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { InvalidCredentialsError } from '@/@shared/kernel/errors/invalid-credentials.error'
+import { Injectable } from '@nestjs/common'
 import type { HashComparer } from '../cryptography/hash-comparer'
 import type { UsersRepository } from '../repositories/users-repository'
 
@@ -15,6 +16,7 @@ type LoginUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class LoginUseCase {
   constructor(
     private usersRepository: UsersRepository,

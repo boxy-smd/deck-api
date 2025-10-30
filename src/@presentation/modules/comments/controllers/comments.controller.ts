@@ -1,7 +1,7 @@
-import { makeCommentOnProjectUseCase } from '@/@core/application/factories/comments/make-comment-on-project-use-case'
-import { makeDeleteCommentUseCase } from '@/@core/application/factories/comments/make-delete-comment-use-case'
-import { makeListProjectCommentsUseCase } from '@/@core/application/factories/comments/make-list-project-comments-use-case'
-import { makeReportCommentUseCase } from '@/@core/application/factories/comments/make-report-comment-use-case'
+import { CommentOnProjectUseCase } from '@/@core/domain/interaction/application/use-cases/comment-on-project'
+import { DeleteCommentUseCase } from '@/@core/domain/interaction/application/use-cases/delete-comment'
+import { ListProjectCommentsUseCase } from '@/@core/domain/interaction/application/use-cases/list-project-comments'
+import { ReportCommentUseCase } from '@/@core/domain/interaction/application/use-cases/report-comment'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { CommentPresenter } from '@/@presentation/presenters/comment'
 import {
@@ -31,14 +31,18 @@ import type { ReportCommentDto } from '../dto/report-comment.dto'
 @ApiTags('Comments')
 @Controller()
 export class CommentsController {
+  constructor(
+    private readonly commentOnProjectUseCase: CommentOnProjectUseCase,
+    private readonly deleteCommentUseCase: DeleteCommentUseCase,
+    private readonly listProjectCommentsUseCase: ListProjectCommentsUseCase,
+    private readonly reportCommentUseCase: ReportCommentUseCase,
+  ) {}
   @Get('projects/:projectId/comments')
   @ApiOperation({ summary: 'List project comments' })
   @ApiResponse({ status: 200, description: 'Comments retrieved successfully' })
   @ApiResponse({ status: 404, description: 'Project not found' })
   async listProjectComments(@Param('projectId') projectId: string) {
-    const listProjectCommentsUseCase = makeListProjectCommentsUseCase()
-
-    const result = await listProjectCommentsUseCase.execute({ projectId })
+    const result = await this.listProjectCommentsUseCase.execute({ projectId })
 
     if (result.isLeft()) {
       const error = result.value
@@ -64,9 +68,7 @@ export class CommentsController {
     @Body() dto: CommentOnProjectDto,
     @Request() req: any,
   ) {
-    const commentOnProjectUseCase = makeCommentOnProjectUseCase()
-
-    const result = await commentOnProjectUseCase.execute({
+    const result = await this.commentOnProjectUseCase.execute({
       projectId,
       content: dto.content,
       authorId: req.user.userId,
@@ -101,9 +103,7 @@ export class CommentsController {
     @Param('commentId') commentId: string,
     @Request() req: any,
   ) {
-    const deleteCommentUseCase = makeDeleteCommentUseCase()
-
-    const result = await deleteCommentUseCase.execute({
+    const result = await this.deleteCommentUseCase.execute({
       authorId: req.user.userId,
       commentId,
       projectId,
@@ -132,9 +132,7 @@ export class CommentsController {
     @Body() dto: ReportCommentDto,
     @Request() req: any,
   ) {
-    const reportCommentUseCase = makeReportCommentUseCase()
-
-    const result = await reportCommentUseCase.execute({
+    const result = await this.reportCommentUseCase.execute({
       authorId: req.user.userId,
       commentId,
       projectId: dto.projectId,

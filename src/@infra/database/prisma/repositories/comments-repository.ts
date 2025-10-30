@@ -1,16 +1,21 @@
 import type { CommentsRepository } from '@/@core/domain/interaction/application/repositories/comments-repository'
 import type { Comment } from '@/@core/domain/interaction/enterprise/entities/comment'
 import type { CommentWithAuthor } from '@/@core/domain/interaction/enterprise/entities/value-objects/comment-with-author'
-import { prisma } from '../client'
+import { Injectable } from '@nestjs/common'
 import { PrismaErrorHandler } from '../error-handler'
 import { PrismaCommentMapper } from '../mappers/prisma-comment-mapper'
+import type { PrismaService } from '../prisma.service'
 import type { PrismaReportsRepository } from './reports-repository'
 
+@Injectable()
 export class PrismaCommentsRepository implements CommentsRepository {
-  constructor(private readonly reportsRepository: PrismaReportsRepository) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly reportsRepository: PrismaReportsRepository,
+  ) {}
 
   async findById(id: string): Promise<Comment | null> {
-    const data = await prisma.comment.findUnique({
+    const data = await this.prisma.comment.findUnique({
       where: {
         id,
       },
@@ -22,7 +27,7 @@ export class PrismaCommentsRepository implements CommentsRepository {
   }
 
   async findByProjectId(projectId: string): Promise<Comment[]> {
-    const data = await prisma.comment.findMany({
+    const data = await this.prisma.comment.findMany({
       where: {
         projectId,
       },
@@ -34,7 +39,7 @@ export class PrismaCommentsRepository implements CommentsRepository {
   async findManyByProjectIdWithAuthors(
     projectId: string,
   ): Promise<CommentWithAuthor[]> {
-    const data = await prisma.comment.findMany({
+    const data = await this.prisma.comment.findMany({
       where: {
         projectId,
       },
@@ -53,13 +58,13 @@ export class PrismaCommentsRepository implements CommentsRepository {
   }
 
   async findAll(): Promise<Comment[]> {
-    const data = await prisma.comment.findMany()
+    const data = await this.prisma.comment.findMany()
 
     return data.map(PrismaCommentMapper.toEntity)
   }
 
   async existsById(id: string): Promise<boolean> {
-    const count = await prisma.comment.count({
+    const count = await this.prisma.comment.count({
       where: {
         id,
       },
@@ -71,7 +76,7 @@ export class PrismaCommentsRepository implements CommentsRepository {
   async create(comment: Comment): Promise<void> {
     const data = PrismaCommentMapper.toPrisma(comment)
 
-    await prisma.comment.create({
+    await this.prisma.comment.create({
       data,
     })
   }
@@ -79,7 +84,7 @@ export class PrismaCommentsRepository implements CommentsRepository {
   async save(comment: Comment): Promise<void> {
     const data = PrismaCommentMapper.toPrisma(comment)
 
-    await prisma.comment.update({
+    await this.prisma.comment.update({
       where: {
         id: data.id,
       },
@@ -89,7 +94,7 @@ export class PrismaCommentsRepository implements CommentsRepository {
 
   async delete(comment: Comment): Promise<void> {
     await PrismaErrorHandler.execute(async () => {
-      await prisma.$transaction(async tx => {
+      await this.prisma.$transaction(async tx => {
         await tx.report.deleteMany({
           where: { commentId: comment.id.toString() },
         })
@@ -102,7 +107,7 @@ export class PrismaCommentsRepository implements CommentsRepository {
   }
 
   async deleteById(id: string): Promise<void> {
-    await prisma.comment.delete({
+    await this.prisma.comment.delete({
       where: {
         id,
       },
@@ -110,7 +115,7 @@ export class PrismaCommentsRepository implements CommentsRepository {
   }
 
   async deleteManyByProjectId(projectId: string): Promise<void> {
-    await prisma.comment.deleteMany({
+    await this.prisma.comment.deleteMany({
       where: {
         projectId,
       },

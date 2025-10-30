@@ -5,6 +5,7 @@ import { type Either, left, right } from '@/@shared/kernel/either'
 import { ForbiddenError } from '@/@shared/kernel/errors/forbidden.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
+import { Injectable } from '@nestjs/common'
 import type { ProjectsRepository } from '../../../projects/application/repositories/projects-repository'
 
 interface CommentOnProjectUseCaseRequest {
@@ -20,6 +21,7 @@ type CommentOnProjectUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CommentOnProjectUseCase {
   constructor(
     private readonly projectsRepository: ProjectsRepository,

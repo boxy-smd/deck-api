@@ -1,5 +1,6 @@
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
+import { Injectable } from '@nestjs/common'
 import type { StorageUploader } from '../../../authentication/application/storage/uploader'
 import type { ProjectsRepository } from '../repositories/projects-repository'
 
@@ -11,6 +12,7 @@ interface UploadProjectBannerUseCaseRequest {
 
 type UploadProjectBannerUseCaseResponse = Either<ResourceNotFoundError, void>
 
+@Injectable()
 export class UploadProjectBannerUseCase {
   constructor(
     private readonly projectsRepository: ProjectsRepository,

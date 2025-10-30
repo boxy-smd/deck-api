@@ -1,8 +1,6 @@
 import type { Project } from '@/@core/domain/projects/enterprise/entities/project'
 import type { ProjectWithMetadata } from '@/@infra/database/prisma/mappers/project-with-metadata'
 
-// Este presenter é usado para apresentar detalhes completos de um projeto
-// biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class ProjectDetailsPresenter {
   static toHTTP(project: Project & ProjectWithMetadata) {
     return {

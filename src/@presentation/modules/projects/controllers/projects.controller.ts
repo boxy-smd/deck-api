@@ -1,8 +1,8 @@
-import { makeDeleteProjectUseCase } from '@/@core/application/factories/projects/make-delete-project-use-case'
-import { makeGetProjectUseCase } from '@/@core/application/factories/projects/make-get-project-use-case'
-import { makePublishProjectUseCase } from '@/@core/application/factories/projects/make-publish-project-use-case'
-import { makeSearchProjectsUseCase } from '@/@core/application/factories/projects/make-search-projects-use-case'
-import { makeUploadProjectBannerUseCase } from '@/@core/application/factories/projects/make-upload-project-banner-use-case'
+import type { DeleteProjectUseCase } from '@/@core/domain/projects/application/use-cases/delete-project'
+import type { GetProjectUseCase } from '@/@core/domain/projects/application/use-cases/get-project'
+import type { PublishProjectUseCase } from '@/@core/domain/projects/application/use-cases/publish-project'
+import type { SearchProjectsUseCase } from '@/@core/domain/projects/application/use-cases/search-projects'
+import type { UploadProjectBannerUseCase } from '@/@core/domain/projects/application/use-cases/upload-project-banner'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { ProjectDetailsPresenter } from '@/@presentation/presenters/project-details'
 import {
@@ -39,6 +39,14 @@ import type { PublishProjectDto } from '../dto/publish-project.dto'
 @ApiTags('Projects')
 @Controller()
 export class ProjectsController {
+  constructor(
+    private readonly publishProjectUseCase: PublishProjectUseCase,
+    private readonly searchProjectsUseCase: SearchProjectsUseCase,
+    private readonly getProjectUseCase: GetProjectUseCase,
+    private readonly deleteProjectUseCase: DeleteProjectUseCase,
+    private readonly uploadProjectBannerUseCase: UploadProjectBannerUseCase,
+  ) {}
+
   @Post('projects')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -47,9 +55,7 @@ export class ProjectsController {
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 404, description: 'Resource not found' })
   async publishProject(@Body() dto: PublishProjectDto, @Request() req: any) {
-    const publishProjectUseCase = makePublishProjectUseCase()
-
-    const result = await publishProjectUseCase.execute({
+    const result = await this.publishProjectUseCase.execute({
       title: dto.title,
       description: dto.description,
       bannerUrl: dto.bannerUrl,
@@ -84,9 +90,7 @@ export class ProjectsController {
   @ApiOperation({ summary: 'Fetch posts' })
   @ApiResponse({ status: 200, description: 'Posts retrieved successfully' })
   async fetchPosts(@Query() query: FetchPostsDto) {
-    const searchProjectsUseCase = makeSearchProjectsUseCase()
-
-    const result = await searchProjectsUseCase.execute({})
+    const result = await this.searchProjectsUseCase.execute({})
 
     if (result.isLeft()) {
       throw new BadRequestException('Failed to fetch posts')
@@ -107,9 +111,7 @@ export class ProjectsController {
   @ApiOperation({ summary: 'Search/Filter posts' })
   @ApiResponse({ status: 200, description: 'Posts retrieved successfully' })
   async filterPosts(@Query() filter: FilterPostsDto) {
-    const searchProjectsUseCase = makeSearchProjectsUseCase()
-
-    const result = await searchProjectsUseCase.execute({
+    const result = await this.searchProjectsUseCase.execute({
       title: filter.title,
       professorName: filter.professorName,
       tags: filter.tags,
@@ -139,9 +141,7 @@ export class ProjectsController {
   @ApiResponse({ status: 200, description: 'Project retrieved successfully' })
   @ApiResponse({ status: 404, description: 'Project not found' })
   async getProject(@Param('projectId') projectId: string) {
-    const getProjectUseCase = makeGetProjectUseCase()
-
-    const result = await getProjectUseCase.execute({ projectId })
+    const result = await this.getProjectUseCase.execute({ projectId })
 
     if (result.isLeft()) {
       const error = result.value
@@ -166,9 +166,7 @@ export class ProjectsController {
     @Param('projectId') projectId: string,
     @Request() req: any,
   ) {
-    const deleteProjectUseCase = makeDeleteProjectUseCase()
-
-    const result = await deleteProjectUseCase.execute({
+    const result = await this.deleteProjectUseCase.execute({
       projectId,
       studentId: req.user.userId,
     })
@@ -212,9 +210,7 @@ export class ProjectsController {
       throw new BadRequestException('File is required')
     }
 
-    const uploadUseCase = makeUploadProjectBannerUseCase()
-
-    const result = await uploadUseCase.execute({
+    const result = await this.uploadProjectBannerUseCase.execute({
       projectId,
       filename: file.originalname,
       image: file.buffer,
