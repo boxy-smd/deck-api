@@ -3,7 +3,6 @@ import type { Prisma, Report as ReportRaw } from '@prisma/client'
 import { Report } from '@/@core/domain/interaction/enterprise/entities/report'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
-// biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaReportMapper {
   static toEntity(raw: ReportRaw): Report {
     return Report.create(

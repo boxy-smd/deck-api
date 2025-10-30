@@ -10,6 +10,7 @@ import { PrismaErrorHandler } from '../error-handler'
 import { PrismaProjectMapper } from '../mappers/prisma-project-mapper'
 import type { ProjectWithMetadata } from '../mappers/project-with-metadata'
 import { PrismaQueryBuilder } from '../query-builder'
+import type { } from '../types/prisma-types'
 
 export class PrismaProjectsRepository implements ProjectsRepository {
   async findManyByTitle(title: string): Promise<Project[]> {
@@ -110,19 +111,19 @@ export class PrismaProjectsRepository implements ProjectsRepository {
 
     const project = PrismaProjectMapper.toEntity({
       ...data,
-      trails: data.trails.map((t: any) => ({ id: t.trailId })),
-      professors: data.professors.map((p: any) => ({ id: p.professorId })),
+      trails: data.trails,
+      professors: data.professors,
     })
 
     const projectWithMetadata: Project & ProjectWithMetadata = Object.assign(
       project,
       {
         metadata: {
-          author: (data as any).author,
+          author: data.author,
           subject: data.subject?.name,
-          trails: data.trails.map((t: any) => t.trail.name),
-          professors: data.professors.map((p: any) => p.professor.name),
-          comments: (data as any).comments,
+          trails: data.trails.map(t => t.trail.name),
+          professors: data.professors.map(p => p.professor.name),
+          comments: data.comments,
         },
       },
     )
@@ -135,10 +136,6 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     return data.map(PrismaProjectMapper.toEntity)
   }
 
-  async findAllPosts(): Promise<ProjectDTO[]> {
-    return this.findAllProjectDTOs()
-  }
-
   async findAllProjectDTOs(): Promise<ProjectDTO[]> {
     const data = await PrismaErrorHandler.execute(() =>
       prisma.project.findMany({
@@ -148,7 +145,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       }),
     )
 
-    return data.map(d => PrismaProjectMapper.toProjectDTO(d as any))
+    return data.map(PrismaProjectMapper.toProjectDTO)
   }
 
   async findManyProjectDTOsByTitle(title: string): Promise<ProjectDTO[]> {
@@ -165,7 +162,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       }),
     )
 
-    return data.map(d => PrismaProjectMapper.toProjectDTO(d as any))
+    return data.map(PrismaProjectMapper.toProjectDTO)
   }
 
   async findManyProjectDTOsByProfessorName(
@@ -190,7 +187,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       }),
     )
 
-    return data.map(d => PrismaProjectMapper.toProjectDTO(d as any))
+    return data.map(PrismaProjectMapper.toProjectDTO)
   }
 
   async findManyProjectDTOsByQuery({
@@ -215,7 +212,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       }),
     )
 
-    return data.map(d => PrismaProjectMapper.toProjectDTO(d as any))
+    return data.map(PrismaProjectMapper.toProjectDTO)
   }
 
   async findManyProjectDTOsByTag(tag: string): Promise<ProjectDTO[]> {
@@ -267,7 +264,7 @@ export class PrismaProjectsRepository implements ProjectsRepository {
       }),
     )
 
-    return data.map(d => PrismaProjectMapper.toProjectDTO(d as any))
+    return data.map(PrismaProjectMapper.toProjectDTO)
   }
 
   async create(project: Project): Promise<void> {

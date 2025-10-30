@@ -12,8 +12,8 @@ const _makecommentonprojectusecase = require("../../../../@core/application/fact
 const _makedeletecommentusecase = require("../../../../@core/application/factories/comments/make-delete-comment-use-case");
 const _makelistprojectcommentsusecase = require("../../../../@core/application/factories/comments/make-list-project-comments-use-case");
 const _makereportcommentusecase = require("../../../../@core/application/factories/comments/make-report-comment-use-case");
-const _comment = require("../../../presenters/comment");
 const _jwtauthguard = require("../../auth/guards/jwt-auth.guard");
+const _comment = require("../../../presenters/comment");
 const _common = require("@nestjs/common");
 const _swagger = require("@nestjs/swagger");
 function _ts_decorate(decorators, target, key, desc) {

@@ -3,8 +3,8 @@ import type { Comment as CommentRaw, Prisma } from '@prisma/client'
 import { Comment } from '@/@core/domain/interaction/enterprise/entities/comment'
 import { CommentWithAuthor } from '@/@core/domain/interaction/enterprise/entities/value-objects/comment-with-author'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
+import type { PrismaCommentWithAuthor } from '../types/prisma-types'
 
-// biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaCommentMapper {
   static toEntity(raw: CommentRaw): Comment {
     return Comment.create(
@@ -17,15 +17,7 @@ export class PrismaCommentMapper {
     )
   }
 
-  static toEntityWithAuthor(
-    raw: CommentRaw & {
-      author: {
-        name: string
-        username: string
-        profileUrl: string | null
-      }
-    },
-  ): CommentWithAuthor {
+  static toEntityWithAuthor(raw: PrismaCommentWithAuthor): CommentWithAuthor {
     return CommentWithAuthor.create({
       commentId: UniqueEntityID.create(raw.id),
       content: raw.content,

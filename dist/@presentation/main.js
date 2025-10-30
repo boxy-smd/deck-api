@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+const _env = require("../@infra/config/env/env");
 const _common = require("@nestjs/common");
 const _core = require("@nestjs/core");
 const _swagger = require("@nestjs/swagger");
-const _env = require("../@infra/config/env/env");
 const _appmodule = require("./app.module");
 async function bootstrap() {
     const app = await _core.NestFactory.create(_appmodule.AppModule, {

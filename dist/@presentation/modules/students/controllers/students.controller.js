@@ -15,11 +15,10 @@ const _makegetstudentdetailsusecase = require("../../../../@core/application/fac
 const _makeloginusecase = require("../../../../@core/application/factories/students/make-login-use-case");
 const _makeregisterusecase = require("../../../../@core/application/factories/students/make-register-use-case");
 const _makeuploadprofileimageusecase = require("../../../../@core/application/factories/students/make-upload-profile-image-use-case");
+const _jwtauthguard = require("../../auth/guards/jwt-auth.guard");
 const _student = require("../../../presenters/student");
 const _studentprofile = require("../../../presenters/student-profile");
-const _jwtauthguard = require("../../auth/guards/jwt-auth.guard");
 const _common = require("@nestjs/common");
-const _jwt = require("@nestjs/jwt");
 const _platformexpress = require("@nestjs/platform-express");
 const _swagger = require("@nestjs/swagger");
 function _ts_decorate(decorators, target, key, desc) {
@@ -368,7 +367,7 @@ StudentsController = _ts_decorate([
     (0, _common.Controller)(),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
-        typeof _jwt.JwtService === "undefined" ? Object : _jwt.JwtService
+        typeof JwtService === "undefined" ? Object : JwtService
     ])
 ], StudentsController);
 
