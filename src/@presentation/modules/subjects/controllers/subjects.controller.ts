@@ -3,6 +3,7 @@ import { SubjectPresenter } from '@/@presentation/presenters/subject'
 import { Controller, Get, Query } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import type { FetchSubjectsDto } from '../dto/fetch-subjects.dto'
+import { SubjectsListResponseDto } from '../dto/subjects-response.dto'
 
 @ApiTags('Subjects')
 @Controller()
@@ -11,8 +12,12 @@ export class SubjectsController {
 
   @Get('subjects')
   @ApiOperation({ summary: 'Fetch subjects' })
-  @ApiResponse({ status: 200, description: 'Subjects retrieved successfully' })
-  async fetchSubjects(@Query() query: FetchSubjectsDto) {
+  @ApiResponse({
+    status: 200,
+    description: 'Subjects retrieved successfully',
+    type: SubjectsListResponseDto,
+  })
+  async fetchSubjects(@Query() query: FetchSubjectsDto): Promise<SubjectsListResponseDto> {
     const result = await this.fetchSubjectsUseCase.execute({
       name: query.name,
     })

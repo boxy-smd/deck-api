@@ -11,24 +11,12 @@ export class StudentProfilePresenter {
         id: profile.id,
         name: profile.name,
         username: profile.username,
-        about: profile.about,
+        email: '', // Email não é exposto em profiles públicos
         semester: profile.semester,
-        profileUrl: profile.profileUrl || '',
-        trails: profile.trails,
-        posts: profile.posts.map(post => ({
-          id: post.id.toString(),
-          title: post.title,
-          description: post.description,
-          bannerUrl: post.bannerUrl,
-          content: post.content || '',
-          publishedYear: post.publishedYear,
-          semester: post.semester,
-          createdAt: post.createdAt,
-          updatedAt: post.updatedAt,
-          subject: post.subjectId?.toString() || '',
-          trails: Array.from(post.trails).map(t => t.toString()),
-          professors: Array.from(post.professors).map(p => p.toString()),
-        })),
+        about: profile.about,
+        profileUrl: profile.profileUrl || undefined,
+        trails: profile.trails.map(t => ({ id: t, name: '' })),
+        createdAt: new Date(),
       }
     }
 
@@ -37,11 +25,12 @@ export class StudentProfilePresenter {
       id: student.id.toString(),
       name: student.name,
       username: student.username.value,
-      about: student.about,
+      email: student.email.value,
       semester: student.profile?.semester.value || 1,
-      profileUrl: student.profileUrl || '',
+      about: student.about,
+      profileUrl: student.profileUrl || undefined,
       trails: [],
-      posts: [],
+      createdAt: student.createdAt,
     }
   }
 }

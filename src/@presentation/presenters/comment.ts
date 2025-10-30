@@ -5,14 +5,12 @@ export class CommentPresenter {
     return {
       id: comment.commentId.toString(),
       content: comment.content,
-      created_at: comment.createdAt,
-      updated_at: comment.updatedAt,
-      project_id: comment.projectId.toString(),
+      createdAt: comment.createdAt,
       author: {
         id: comment.authorId.toString(),
         name: comment.authorName,
         username: comment.authorUsername,
-        profile_url: comment.authorProfileUrl,
+        profileUrl: comment.authorProfileUrl,
       },
     }
   }

@@ -151,6 +151,21 @@ export class PrismaProjectsRepository implements ProjectsRepository {
     return data.map(PrismaProjectMapper.toProjectDTO)
   }
 
+  async findByIdWithDetails(id: string): Promise<ProjectDTO | null> {
+    const data = await PrismaErrorHandler.execute(() =>
+      this.prisma.project.findUnique({
+        where: { id },
+        include: PrismaQueryBuilder.getProjectDTOIncludes(),
+      }),
+    )
+
+    if (!data) {
+      return null
+    }
+
+    return PrismaProjectMapper.toProjectDTO(data)
+  }
+
   async findManyProjectDTOsByTitle(title: string): Promise<ProjectDTO[]> {
     const data = await PrismaErrorHandler.execute(() =>
       this.prisma.project.findMany({

@@ -1,18 +1,22 @@
 export interface ProjectAuthorDTO {
+  id: string
   name: string
   username: string
   profileUrl: string | null
 }
 
 export interface ProjectSubjectDTO {
+  id: string
   name: string
 }
 
 export interface ProjectTrailDTO {
+  id: string
   name: string
 }
 
 export interface ProjectProfessorDTO {
+  id: string
   name: string
 }
 
@@ -35,7 +39,6 @@ export interface ProjectDTO {
   professors: ProjectProfessorDTO[]
 }
 
-// biome-ignore lint/complexity/noStaticOnlyClass: This is a DTO mapper
 export class ProjectDTOMapper {
   static toDTO(raw: ProjectDTO): ProjectDTO {
     return {

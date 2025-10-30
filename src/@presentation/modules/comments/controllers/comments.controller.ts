@@ -1,7 +1,7 @@
-import { CommentOnProjectUseCase } from '@/@core/domain/interaction/application/use-cases/comment-on-project'
-import { DeleteCommentUseCase } from '@/@core/domain/interaction/application/use-cases/delete-comment'
-import { ListProjectCommentsUseCase } from '@/@core/domain/interaction/application/use-cases/list-project-comments'
-import { ReportCommentUseCase } from '@/@core/domain/interaction/application/use-cases/report-comment'
+import type { CommentOnProjectUseCase } from '@/@core/domain/interaction/application/use-cases/comment-on-project'
+import type { DeleteCommentUseCase } from '@/@core/domain/interaction/application/use-cases/delete-comment'
+import type { ListProjectCommentsUseCase } from '@/@core/domain/interaction/application/use-cases/list-project-comments'
+import type { ReportCommentUseCase } from '@/@core/domain/interaction/application/use-cases/report-comment'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { CommentPresenter } from '@/@presentation/presenters/comment'
 import {
@@ -26,6 +26,11 @@ import {
   ApiTags,
 } from '@nestjs/swagger'
 import type { CommentOnProjectDto } from '../dto/comment-on-project.dto'
+import {
+  CommentCreatedResponseDto,
+  CommentsListResponseDto,
+  MessageResponseDto,
+} from '../dto/comments-response.dto'
 import type { ReportCommentDto } from '../dto/report-comment.dto'
 
 @ApiTags('Comments')
@@ -39,9 +44,15 @@ export class CommentsController {
   ) {}
   @Get('projects/:projectId/comments')
   @ApiOperation({ summary: 'List project comments' })
-  @ApiResponse({ status: 200, description: 'Comments retrieved successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Comments retrieved successfully',
+    type: CommentsListResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Project not found' })
-  async listProjectComments(@Param('projectId') projectId: string) {
+  async listProjectComments(
+    @Param('projectId') projectId: string,
+  ): Promise<CommentsListResponseDto> {
     const result = await this.listProjectCommentsUseCase.execute({ projectId })
 
     if (result.isLeft()) {
@@ -61,13 +72,17 @@ export class CommentsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Comment on a project' })
-  @ApiResponse({ status: 201, description: 'Comment created successfully' })
+  @ApiResponse({
+    status: 201,
+    description: 'Comment created successfully',
+    type: CommentCreatedResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Project not found' })
   async commentOnProject(
     @Param('projectId') projectId: string,
     @Body() dto: CommentOnProjectDto,
-    @Request() req: any,
-  ) {
+    @Request() req: { user: { userId: string } },
+  ): Promise<CommentCreatedResponseDto> {
     const result = await this.commentOnProjectUseCase.execute({
       projectId,
       content: dto.content,
@@ -101,8 +116,8 @@ export class CommentsController {
   async deleteComment(
     @Param('projectId') projectId: string,
     @Param('commentId') commentId: string,
-    @Request() req: any,
-  ) {
+    @Request() req: { user: { userId: string } },
+  ): Promise<void> {
     const result = await this.deleteCommentUseCase.execute({
       authorId: req.user.userId,
       commentId,
@@ -125,13 +140,17 @@ export class CommentsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Report a comment' })
-  @ApiResponse({ status: 201, description: 'Comment reported successfully' })
+  @ApiResponse({
+    status: 201,
+    description: 'Comment reported successfully',
+    type: MessageResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Comment not found' })
   async reportComment(
     @Param('commentId') commentId: string,
     @Body() dto: ReportCommentDto,
-    @Request() req: any,
-  ) {
+    @Request() req: { user: { userId: string } },
+  ): Promise<MessageResponseDto> {
     const result = await this.reportCommentUseCase.execute({
       authorId: req.user.userId,
       commentId,
