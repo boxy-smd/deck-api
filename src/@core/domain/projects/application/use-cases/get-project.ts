@@ -1,14 +1,14 @@
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { Injectable } from '@nestjs/common'
-import type { Project } from '../../enterprise/entities/project'
+import type { ProjectDTO } from '../dtos/project.dto'
 import type { ProjectsRepository } from '../repositories/projects-repository'
 
 interface GetProjectUseCaseRequest {
   projectId: string
 }
 
-type GetProjectUseCaseResponse = Either<ResourceNotFoundError, Project>
+type GetProjectUseCaseResponse = Either<ResourceNotFoundError, ProjectDTO>
 
 @Injectable()
 export class GetProjectUseCase {
@@ -17,12 +17,12 @@ export class GetProjectUseCase {
   async execute({
     projectId,
   }: GetProjectUseCaseRequest): Promise<GetProjectUseCaseResponse> {
-    const project = await this.projectsRepository.findById(projectId)
+    const projectDTO = await this.projectsRepository.findByIdWithDetails(projectId)
 
-    if (!project) {
+    if (!projectDTO) {
       return left(new ResourceNotFoundError('Project not found.'))
     }
 
-    return right(project)
+    return right(projectDTO)
   }
 }

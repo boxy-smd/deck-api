@@ -1,9 +1,9 @@
-import { EditProfileUseCase } from '@/@core/domain/authentication/application/use-cases/edit-profile'
-import { FetchStudentsUseCase } from '@/@core/domain/authentication/application/use-cases/fetch-students'
-import { GetProfileUseCase } from '@/@core/domain/authentication/application/use-cases/get-profile'
-import { LoginUseCase } from '@/@core/domain/authentication/application/use-cases/login'
-import { RegisterUseCase } from '@/@core/domain/authentication/application/use-cases/register'
-import { UploadStudentProfileUseCase } from '@/@core/domain/authentication/application/use-cases/upload-student-profile'
+import type { EditProfileUseCase } from '@/@core/domain/authentication/application/use-cases/edit-profile'
+import type { FetchStudentsUseCase } from '@/@core/domain/authentication/application/use-cases/fetch-students'
+import type { GetProfileUseCase } from '@/@core/domain/authentication/application/use-cases/get-profile'
+import type { LoginUseCase } from '@/@core/domain/authentication/application/use-cases/login'
+import type { RegisterUseCase } from '@/@core/domain/authentication/application/use-cases/register'
+import type { UploadStudentProfileUseCase } from '@/@core/domain/authentication/application/use-cases/upload-student-profile'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { StudentPresenter } from '@/@presentation/presenters/student'
 import { StudentProfilePresenter } from '@/@presentation/presenters/student-profile'
@@ -28,7 +28,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
+import type { JwtService } from '@nestjs/jwt'
 import { FileInterceptor } from '@nestjs/platform-express'
 import {
   ApiBearerAuth,
@@ -42,6 +42,14 @@ import type { EditProfileDto } from '../dto/edit-profile.dto'
 import type { FetchStudentsDto } from '../dto/fetch-students.dto'
 import type { LoginStudentDto } from '../dto/login-student.dto'
 import type { RegisterStudentDto } from '../dto/register-student.dto'
+import {
+  MessageResponseDto,
+  ProfileUpdateResponseDto,
+  StudentProfileResponseDto,
+  StudentsListResponseDto,
+  TokenResponseDto,
+  UserIdResponseDto,
+} from '../dto/students-response.dto'
 
 @ApiTags('Students')
 @Controller()
@@ -58,10 +66,16 @@ export class StudentsController {
 
   @Post('students')
   @ApiOperation({ summary: 'Register a new student' })
-  @ApiResponse({ status: 201, description: 'Student registered successfully' })
+  @ApiResponse({
+    status: 201,
+    description: 'Student registered successfully',
+    type: UserIdResponseDto,
+  })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 409, description: 'Student already exists' })
-  async register(@Body() registerDto: RegisterStudentDto) {
+  async register(
+    @Body() registerDto: RegisterStudentDto,
+  ): Promise<UserIdResponseDto> {
     const result = await this.registerUseCase.execute({
       name: registerDto.name,
       username: registerDto.username,
@@ -87,9 +101,13 @@ export class StudentsController {
   @Post('sessions')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Login student' })
-  @ApiResponse({ status: 200, description: 'Login successful' })
+  @ApiResponse({
+    status: 200,
+    description: 'Login successful',
+    type: TokenResponseDto,
+  })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
-  async login(@Body() loginDto: LoginStudentDto) {
+  async login(@Body() loginDto: LoginStudentDto): Promise<TokenResponseDto> {
     const result = await this.loginUseCase.execute({
       email: loginDto.email,
       password: loginDto.password,
@@ -110,9 +128,15 @@ export class StudentsController {
 
   @Get('profiles/:username')
   @ApiOperation({ summary: 'Get student profile by username' })
-  @ApiResponse({ status: 200, description: 'Profile retrieved successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Profile retrieved successfully',
+    type: StudentProfileResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Student not found' })
-  async getProfile(@Param('username') username: string) {
+  async getProfile(
+    @Param('username') username: string,
+  ): Promise<StudentProfileResponseDto> {
     const result = await this.getProfileUseCase.execute({ username })
 
     if (result.isLeft()) {
@@ -130,14 +154,18 @@ export class StudentsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Edit student profile' })
-  @ApiResponse({ status: 200, description: 'Profile updated successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Profile updated successfully',
+    type: ProfileUpdateResponseDto,
+  })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Student not found' })
   async editProfile(
     @Param('studentId') studentId: string,
     @Body() editDto: EditProfileDto,
-    @Request() req: any,
-  ) {
+    @Request() req: { user: { userId: string } },
+  ): Promise<ProfileUpdateResponseDto> {
     if (studentId !== req.user.userId) {
       throw new ForbiddenException('Forbidden.')
     }
@@ -165,8 +193,14 @@ export class StudentsController {
 
   @Get('students')
   @ApiOperation({ summary: 'Fetch students' })
-  @ApiResponse({ status: 200, description: 'Students retrieved successfully' })
-  async fetchStudents(@Query() query: FetchStudentsDto) {
+  @ApiResponse({
+    status: 200,
+    description: 'Students retrieved successfully',
+    type: StudentsListResponseDto,
+  })
+  async fetchStudents(
+    @Query() query: FetchStudentsDto,
+  ): Promise<StudentsListResponseDto> {
     const result = await this.fetchStudentsUseCase.execute({
       name: query.name,
     })
@@ -181,9 +215,12 @@ export class StudentsController {
   @ApiResponse({
     status: 200,
     description: 'Student details retrieved successfully',
+    type: StudentProfileResponseDto,
   })
   @ApiResponse({ status: 404, description: 'Student not found' })
-  async getStudentDetails(@Param('studentId') studentId: string) {
+  async getStudentDetails(
+    @Param('studentId') studentId: string,
+  ): Promise<StudentProfileResponseDto> {
     const result = await this.getProfileUseCase.execute({
       username: studentId,
     })
@@ -219,12 +256,13 @@ export class StudentsController {
   @ApiResponse({
     status: 200,
     description: 'Profile image uploaded successfully',
+    type: MessageResponseDto,
   })
   @ApiResponse({ status: 404, description: 'Student not found' })
   async uploadProfileImage(
     @Param('username') username: string,
     @UploadedFile() file: Express.Multer.File,
-  ) {
+  ): Promise<MessageResponseDto> {
     if (!file) {
       throw new BadRequestException('File is required')
     }
@@ -251,14 +289,22 @@ export class StudentsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Refresh JWT token' })
-  @ApiResponse({ status: 200, description: 'Token refreshed successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Token refreshed successfully',
+    type: TokenResponseDto,
+  })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async refreshToken(@Request() req: any) {
+  async refreshToken(
+    @Request() req: { user: { userId: string } },
+  ): Promise<TokenResponseDto> {
     const token = this.jwtService.sign({
       sub: req.user.userId,
       role: 'student',
     })
 
-    return { token }
+    return new Promise(resolve => {
+      resolve({ token })
+    })
   }
 }

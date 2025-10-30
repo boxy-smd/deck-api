@@ -18,14 +18,17 @@ export interface ProjectSummaryDTO {
   semester: number | null
   createdAt: Date
   author: {
+    id: string
     name: string
     username: string
     profileUrl: string | null
   }
   subject: {
+    id: string
     name: string
   } | null
   trails: Array<{
+    id: string
     name: string
   }>
 }

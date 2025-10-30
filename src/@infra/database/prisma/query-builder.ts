@@ -67,6 +67,7 @@ export class PrismaQueryBuilder {
     return {
       author: {
         select: {
+          id: true,
           name: true,
           username: true,
           profileUrl: true,
@@ -76,6 +77,7 @@ export class PrismaQueryBuilder {
         select: {
           professor: {
             select: {
+              id: true,
               name: true,
             },
           },
@@ -83,6 +85,7 @@ export class PrismaQueryBuilder {
       },
       subject: {
         select: {
+          id: true,
           name: true,
         },
       },
@@ -90,6 +93,7 @@ export class PrismaQueryBuilder {
         select: {
           trail: {
             select: {
+              id: true,
               name: true,
             },
           },

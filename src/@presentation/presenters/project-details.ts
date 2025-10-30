@@ -1,27 +1,35 @@
-import type { Project } from '@/@core/domain/projects/enterprise/entities/project'
-import type { ProjectWithMetadata } from '@/@infra/database/prisma/mappers/project-with-metadata'
+import type { ProjectDTO } from '@/@core/domain/projects/application/dtos/project.dto'
 
 export class ProjectDetailsPresenter {
-  static toHTTP(project: Project & ProjectWithMetadata) {
+  static toHTTP(project: ProjectDTO) {
     return {
-      id: project.id.toString(),
+      id: project.id,
       title: project.title,
       description: project.description,
-      bannerUrl: project.bannerUrl,
-      content: project.content,
-      publishedYear: project.publishedYear,
-      status: project.status,
-      semester: project.semester,
-      allowComments: project.allowComments,
+      bannerUrl: project.bannerUrl || undefined,
+      content: project.content || '',
+      publishedYear: project.publishedYear || 0,
+      semester: project.semester || 0,
+      allowComments: true, // TODO: add allowComments to ProjectDTO
       createdAt: project.createdAt,
-      updatedAt: project.updatedAt,
-      authorId: project.authorId.toString(),
-      author: project.metadata?.author,
-      subjectId: project.subjectId?.toString(),
-      subject: project.metadata?.subject,
-      trails: project.metadata?.trails || [],
-      professors: project.metadata?.professors || [],
-      comments: project.metadata?.comments || [],
+      author: {
+        id: project.author.id,
+        name: project.author.name,
+        username: project.author.username,
+        profileUrl: project.author.profileUrl || undefined,
+      },
+      subject: {
+        id: project.subject?.id || '',
+        name: project.subject?.name || '',
+      },
+      trails: project.trails.map(t => ({
+        id: t.id,
+        name: t.name,
+      })),
+      professors: project.professors.map(p => ({
+        id: p.id,
+        name: p.name,
+      })),
     }
   }
 }

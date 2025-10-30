@@ -34,6 +34,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger'
 import type { FetchPostsDto, FilterPostsDto } from '../dto/fetch-posts.dto'
+import {
+  ProjectDetailsResponseDto,
+  ProjectsListResponseDto,
+  PublishProjectResponseDto,
+  UploadResponseDto,
+} from '../dto/projects-response.dto'
 import type { PublishProjectDto } from '../dto/publish-project.dto'
 
 @ApiTags('Projects')
@@ -51,10 +57,17 @@ export class ProjectsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Publish a project' })
-  @ApiResponse({ status: 201, description: 'Project published successfully' })
+  @ApiResponse({
+    status: 201,
+    description: 'Project published successfully',
+    type: PublishProjectResponseDto,
+  })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 404, description: 'Resource not found' })
-  async publishProject(@Body() dto: PublishProjectDto, @Request() req: any) {
+  async publishProject(
+    @Body() dto: PublishProjectDto,
+    @Request() req: { user: { userId: string } },
+  ): Promise<PublishProjectResponseDto> {
     const result = await this.publishProjectUseCase.execute({
       title: dto.title,
       description: dto.description,
@@ -88,8 +101,14 @@ export class ProjectsController {
 
   @Get('posts')
   @ApiOperation({ summary: 'Fetch posts' })
-  @ApiResponse({ status: 200, description: 'Posts retrieved successfully' })
-  async fetchPosts(@Query() query: FetchPostsDto) {
+  @ApiResponse({
+    status: 200,
+    description: 'Posts retrieved successfully',
+    type: ProjectsListResponseDto,
+  })
+  async fetchPosts(
+    @Query() query: FetchPostsDto,
+  ): Promise<ProjectsListResponseDto> {
     const result = await this.searchProjectsUseCase.execute({})
 
     if (result.isLeft()) {
@@ -109,8 +128,14 @@ export class ProjectsController {
 
   @Get('posts/search')
   @ApiOperation({ summary: 'Search/Filter posts' })
-  @ApiResponse({ status: 200, description: 'Posts retrieved successfully' })
-  async filterPosts(@Query() filter: FilterPostsDto) {
+  @ApiResponse({
+    status: 200,
+    description: 'Posts retrieved successfully',
+    type: ProjectsListResponseDto,
+  })
+  async filterPosts(
+    @Query() filter: FilterPostsDto,
+  ): Promise<ProjectsListResponseDto> {
     const result = await this.searchProjectsUseCase.execute({
       title: filter.title,
       professorName: filter.professorName,
@@ -138,9 +163,15 @@ export class ProjectsController {
 
   @Get('projects/:projectId')
   @ApiOperation({ summary: 'Get project details' })
-  @ApiResponse({ status: 200, description: 'Project retrieved successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Project retrieved successfully',
+    type: ProjectDetailsResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Project not found' })
-  async getProject(@Param('projectId') projectId: string) {
+  async getProject(
+    @Param('projectId') projectId: string,
+  ): Promise<ProjectDetailsResponseDto> {
     const result = await this.getProjectUseCase.execute({ projectId })
 
     if (result.isLeft()) {
@@ -164,8 +195,8 @@ export class ProjectsController {
   @ApiResponse({ status: 404, description: 'Project not found' })
   async deleteProject(
     @Param('projectId') projectId: string,
-    @Request() req: any,
-  ) {
+    @Request() req: { user: { userId: string } },
+  ): Promise<void> {
     const result = await this.deleteProjectUseCase.execute({
       projectId,
       studentId: req.user.userId,
@@ -200,12 +231,16 @@ export class ProjectsController {
       },
     },
   })
-  @ApiResponse({ status: 200, description: 'Banner uploaded successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Banner uploaded successfully',
+    type: UploadResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Project not found' })
   async uploadBanner(
     @Param('projectId') projectId: string,
     @UploadedFile() file: Express.Multer.File,
-  ) {
+  ): Promise<UploadResponseDto> {
     if (!file) {
       throw new BadRequestException('File is required')
     }

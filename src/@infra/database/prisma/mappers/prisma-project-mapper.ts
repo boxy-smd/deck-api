@@ -91,15 +91,16 @@ export class PrismaProjectMapper {
       authorId: raw.authorId,
       author: raw.author
         ? {
+            id: raw.author.id,
             name: raw.author.name,
             username: raw.author.username,
             profileUrl: raw.author.profileUrl,
           }
-        : { name: '', username: '', profileUrl: null },
+        : { id: '', name: '', username: '', profileUrl: null },
       subjectId: raw.subjectId,
-      subject: raw.subject ? { name: raw.subject.name } : null,
-      trails: (raw.trails ?? []).map(t => ({ name: t.trail.name })),
-      professors: (raw.professors ?? []).map(p => ({ name: p.professor.name })),
+      subject: raw.subject ? { id: raw.subject.id, name: raw.subject.name } : null,
+      trails: (raw.trails ?? []).map(t => ({ id: t.trail.id, name: t.trail.name })),
+      professors: (raw.professors ?? []).map(p => ({ id: p.professor.id, name: p.professor.name })),
     }
   }
 
@@ -114,13 +115,14 @@ export class PrismaProjectMapper {
       createdAt: raw.createdAt,
       author: raw.author
         ? {
+            id: raw.author.id,
             name: raw.author.name,
             username: raw.author.username,
             profileUrl: raw.author.profileUrl,
           }
-        : { name: '', username: '', profileUrl: null },
-      subject: raw.subject ? { name: raw.subject.name } : null,
-      trails: (raw.trails ?? []).map(t => ({ name: t.trail.name })),
+        : { id: '', name: '', username: '', profileUrl: null },
+      subject: raw.subject ? { id: raw.subject.id, name: raw.subject.name } : null,
+      trails: (raw.trails ?? []).map(t => ({ id: t.trail.id, name: t.trail.name })),
     }
   }
 }

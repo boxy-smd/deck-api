@@ -29,4 +29,6 @@ export interface ProjectsRepository extends DomainRepository<Project> {
   findManyByStudentId(studentId: string): Promise<Project[]>
 
   findAllProjectDTOs(): Promise<ProjectDTO[]>
+
+  findByIdWithDetails(id: string): Promise<ProjectDTO | null>
 }

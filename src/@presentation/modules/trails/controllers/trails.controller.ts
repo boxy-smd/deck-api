@@ -2,6 +2,7 @@ import { FetchTrailsUseCase } from '@/@core/domain/projects/application/use-case
 import { TrailPresenter } from '@/@presentation/presenters/trail'
 import { Controller, Get } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { TrailsListResponseDto } from '../dto/trails-response.dto'
 
 @ApiTags('Trails')
 @Controller()
@@ -10,8 +11,12 @@ export class TrailsController {
 
   @Get('trails')
   @ApiOperation({ summary: 'Fetch trails' })
-  @ApiResponse({ status: 200, description: 'Trails retrieved successfully' })
-  async fetchTrails() {
+  @ApiResponse({
+    status: 200,
+    description: 'Trails retrieved successfully',
+    type: TrailsListResponseDto,
+  })
+  async fetchTrails(): Promise<TrailsListResponseDto> {
     const result = await this.fetchTrailsUseCase.execute()
 
     return {
