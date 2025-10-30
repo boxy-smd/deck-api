@@ -1,7 +1,7 @@
 import {
   Comment,
   type CommentProps,
-} from '@/@core/domain/interaction/enterprise/entities/comment'
+} from '@/@core/domain/interactions/entities/comment'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export function makeComment(

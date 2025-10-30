@@ -1,9 +1,9 @@
-import type { ProjectDTO } from '@/@core/domain/projects/application/dtos/project.dto'
+import type { ProjectDTO } from '@/@core/application/projects/application/dtos/project.dto'
 import type {
   ProjectQuery,
   ProjectsRepository,
-} from '@/@core/domain/projects/application/repositories/projects-repository'
-import type { Project } from '@/@core/domain/projects/enterprise/entities/project'
+} from '@/@core/application/projects/application/repositories/projects-repository'
+import type { Project } from '@/@core/domain/projects/entities/project'
 import { SemesterParser } from '@/@shared/kernel/utils/semester-parser'
 import { Injectable } from '@nestjs/common'
 import { PrismaErrorHandler } from '../error-handler'
@@ -16,6 +16,7 @@ import type {} from '../types/prisma-types'
 @Injectable()
 export class PrismaProjectsRepository implements ProjectsRepository {
   constructor(private readonly prisma: PrismaService) {}
+
   async findManyByTitle(title: string): Promise<Project[]> {
     const data = await this.prisma.project.findMany({
       where: {
@@ -279,6 +280,23 @@ export class PrismaProjectsRepository implements ProjectsRepository {
         },
         include: PrismaQueryBuilder.getProjectDTOIncludes(),
         orderBy: { publishedYear: 'desc' },
+      }),
+    )
+
+    return data.map(PrismaProjectMapper.toProjectDTO)
+  }
+
+  async findManyProjectDTOsByStudentId(
+    studentId: string,
+  ): Promise<ProjectDTO[]> {
+    const data = await PrismaErrorHandler.execute(() =>
+      this.prisma.project.findMany({
+        where: {
+          authorId: studentId.toString(),
+          status: 'PUBLISHED',
+        },
+        include: PrismaQueryBuilder.getProjectDTOIncludes(),
+        orderBy: { createdAt: 'desc' },
       }),
     )
 

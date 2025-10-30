@@ -1,5 +1,5 @@
-import type { User } from '@/@core/domain/authentication/enterprise/entities/user'
-import type { StudentProfileWithDetails } from '@/@core/domain/authentication/enterprise/value-objects/student-profile-with-details'
+import type { User } from '@/@core/domain/users/entities/user'
+import type { StudentProfileWithDetails } from '@/@core/domain/users/value-objects/student-profile-with-details'
 
 export class StudentProfilePresenter {
   static toHTTP(student: User | StudentProfileWithDetails) {

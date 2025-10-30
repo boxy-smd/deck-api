@@ -1,6 +1,6 @@
 import type { Prisma, Report as ReportRaw } from '@prisma/client'
 
-import { Report } from '@/@core/domain/interaction/enterprise/entities/report'
+import { Report } from '@/@core/domain/interactions/entities/report'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export class PrismaReportMapper {

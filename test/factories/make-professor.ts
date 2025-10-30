@@ -1,7 +1,7 @@
 import {
   Professor,
   type ProfessorProps,
-} from '@/@core/domain/projects/enterprise/entities/professor'
+} from '@/@core/domain/projects/entities/professor'
 import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export function makeProfessor(

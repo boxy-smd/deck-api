@@ -1,12 +1,13 @@
-import type { SubjectsRepository } from '@/@core/domain/projects/application/repositories/subjects-repository'
-import type { Subject } from '@/@core/domain/projects/enterprise/entities/subject'
+import type { SubjectsRepository } from '@/@core/application/projects/application/repositories/subjects-repository'
 import { Injectable } from '@nestjs/common'
+import type { Subject } from '@prisma/client'
 import { PrismaSubjectMapper } from '../mappers/prisma-subject-mapper'
 import type { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class PrismaSubjectsRepository implements SubjectsRepository {
   constructor(private readonly prisma: PrismaService) {}
+
   async findById(id: string): Promise<Subject | null> {
     const subject = await this.prisma.subject.findUnique({
       where: { id: id.toString() },

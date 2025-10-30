@@ -1,7 +1,7 @@
-import type { CommentOnProjectUseCase } from '@/@core/domain/interaction/application/use-cases/comment-on-project'
-import type { DeleteCommentUseCase } from '@/@core/domain/interaction/application/use-cases/delete-comment'
-import type { ListProjectCommentsUseCase } from '@/@core/domain/interaction/application/use-cases/list-project-comments'
-import type { ReportCommentUseCase } from '@/@core/domain/interaction/application/use-cases/report-comment'
+import type { CommentOnProjectUseCase } from '@/@core/application/interactions/use-cases/comment-on-project'
+import type { DeleteCommentUseCase } from '@/@core/application/interactions/use-cases/delete-comment'
+import type { ListProjectCommentsUseCase } from '@/@core/application/interactions/use-cases/list-project-comments'
+import type { ReportCommentUseCase } from '@/@core/application/interactions/use-cases/report-comment'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { CommentPresenter } from '@/@presentation/presenters/comment'
 import {

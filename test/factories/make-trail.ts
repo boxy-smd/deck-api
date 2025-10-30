@@ -1,7 +1,4 @@
-import {
-  Trail,
-  type TrailProps,
-} from '@/@core/domain/projects/enterprise/entities/trail'
+import { Trail, type TrailProps } from '@/@core/domain/projects/entities/trail'
 import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export function makeTrail(

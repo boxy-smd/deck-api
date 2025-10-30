@@ -1,5 +1,5 @@
-import type { UsersRepository } from '@/@core/domain/authentication/application/repositories/users-repository'
-import type { User } from '@/@core/domain/authentication/enterprise/entities/user'
+import type { UsersRepository } from '@/@core/application/users/repositories/users-repository'
+import type { User } from '@/@core/domain/users/entities/user'
 import { Injectable } from '@nestjs/common'
 import { PrismaStudentMapper } from '../mappers/prisma-student-mapper'
 import type { PrismaService } from '../prisma.service'
@@ -7,6 +7,7 @@ import type { PrismaService } from '../prisma.service'
 @Injectable()
 export class PrismaStudentsRepository implements UsersRepository {
   constructor(private readonly prisma: PrismaService) {}
+
   async findById(id: string): Promise<User | null> {
     const student = await this.prisma.user.findUnique({
       where: { id },

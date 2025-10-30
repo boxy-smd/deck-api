@@ -1,5 +1,5 @@
-import type { ReportsRepository } from '@/@core/domain/interaction/application/repositories/reports-repository'
-import type { Report } from '@/@core/domain/interaction/enterprise/entities/report'
+import type { ReportsRepository } from '@/@core/application/interactions/repositories/reports-repository'
+import type { Report } from '@/@core/domain/interactions/entities/report'
 import { Injectable } from '@nestjs/common'
 import { PrismaReportMapper } from '../mappers/prisma-report-mapper'
 import type { PrismaService } from '../prisma.service'
@@ -7,6 +7,7 @@ import type { PrismaService } from '../prisma.service'
 @Injectable()
 export class PrismaReportsRepository implements ReportsRepository {
   constructor(private readonly prisma: PrismaService) {}
+
   async findById(id: string): Promise<Report | null> {
     const data = await this.prisma.report.findUnique({
       where: {

@@ -1,7 +1,7 @@
 import {
   Report,
   type ReportProps,
-} from '@/@core/domain/interaction/enterprise/entities/report'
+} from '@/@core/domain/interactions/entities/report'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export function makeReport(

@@ -1,13 +1,13 @@
+import { StudentProfile } from '@/@core/domain/users/entities/student-profile'
 import {
   User,
   type UserProps,
-} from '@/@core/domain/authentication/enterprise/entities/user'
-import { StudentProfile } from '@/@core/domain/authentication/enterprise/entities/student-profile'
-import { Email } from '@/@core/domain/authentication/enterprise/value-objects/email'
-import { Semester } from '@/@core/domain/authentication/enterprise/value-objects/semester'
-import { UserRole } from '@/@core/domain/authentication/enterprise/value-objects/user-role'
-import { UserStatus } from '@/@core/domain/authentication/enterprise/value-objects/user-status'
-import { Username } from '@/@core/domain/authentication/enterprise/value-objects/username'
+} from '@/@core/domain/users/entities/user'
+import { Email } from '@/@core/domain/users/value-objects/email'
+import { Semester } from '@/@core/domain/users/value-objects/semester'
+import { UserRole } from '@/@core/domain/users/value-objects/user-role'
+import { UserStatus } from '@/@core/domain/users/value-objects/user-status'
+import { Username } from '@/@core/domain/users/value-objects/username'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { FakeHasher } from 'test/cryptography/fake-hasher'
 
