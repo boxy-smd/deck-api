@@ -1,12 +1,11 @@
 import type { EditProfileUseCase } from '@/@core/application/users/use-cases/edit-profile'
-import type { FetchStudentsUseCase } from '@/@core/application/users/use-cases/fetch-users'
+import type { FetchUsersUseCase } from '@/@core/application/users/use-cases/fetch-users'
 import type { GetProfileUseCase } from '@/@core/application/users/use-cases/get-profile'
 import type { LoginUseCase } from '@/@core/application/users/use-cases/login'
 import type { RegisterUseCase } from '@/@core/application/users/use-cases/register'
 import type { UploadStudentProfileUseCase } from '@/@core/application/users/use-cases/upload-student-profile'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
-import { StudentPresenter } from '@/@presentation/presenters/student'
-import { StudentProfilePresenter } from '@/@presentation/presenters/student-profile'
+import { UserPresenter } from '@/@presentation/presenters/user'
 import {
   BadRequestException,
   Body,
@@ -45,13 +44,13 @@ import type { RegisterStudentDto } from '../dto/register-student.dto'
 import {
   MessageResponseDto,
   ProfileUpdateResponseDto,
-  StudentProfileResponseDto,
-  StudentsListResponseDto,
   TokenResponseDto,
   UserIdResponseDto,
+  UserResponseDto,
+  UsersListResponseDto,
 } from '../dto/students-response.dto'
 
-@ApiTags('Students')
+@ApiTags('Estudantes')
 @Controller()
 export class StudentsController {
   constructor(
@@ -60,19 +59,30 @@ export class StudentsController {
     private readonly loginUseCase: LoginUseCase,
     private readonly getProfileUseCase: GetProfileUseCase,
     private readonly editProfileUseCase: EditProfileUseCase,
-    private readonly fetchStudentsUseCase: FetchStudentsUseCase,
+    private readonly fetchUsersUseCase: FetchUsersUseCase,
     private readonly uploadStudentProfileUseCase: UploadStudentProfileUseCase,
   ) {}
 
   @Post('students')
-  @ApiOperation({ summary: 'Register a new student' })
+  @ApiOperation({
+    summary: 'Cadastrar novo estudante',
+    description:
+      'Registra um novo estudante na plataforma com informações básicas e acadêmicas.',
+  })
   @ApiResponse({
     status: 201,
-    description: 'Student registered successfully',
+    description: 'Estudante cadastrado com sucesso.',
     type: UserIdResponseDto,
   })
-  @ApiResponse({ status: 400, description: 'Bad request' })
-  @ApiResponse({ status: 409, description: 'Student already exists' })
+  @ApiResponse({
+    status: 400,
+    description:
+      'Dados inválidos. Verifique os campos obrigatórios e formatos.',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Estudante já cadastrado com este email ou nome de usuário.',
+  })
   async register(
     @Body() registerDto: RegisterStudentDto,
   ): Promise<UserIdResponseDto> {
@@ -100,13 +110,20 @@ export class StudentsController {
 
   @Post('sessions')
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Login student' })
+  @ApiOperation({
+    summary: 'Autenticar estudante',
+    description:
+      'Realiza login do estudante e retorna um token JWT para autenticação.',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Login successful',
+    description: 'Login realizado com sucesso. Retorna token de acesso.',
     type: TokenResponseDto,
   })
-  @ApiResponse({ status: 401, description: 'Invalid credentials' })
+  @ApiResponse({
+    status: 401,
+    description: 'Credenciais inválidas. Email ou senha incorretos.',
+  })
   async login(@Body() loginDto: LoginStudentDto): Promise<TokenResponseDto> {
     const result = await this.loginUseCase.execute({
       email: loginDto.email,
@@ -127,16 +144,23 @@ export class StudentsController {
   }
 
   @Get('profiles/:username')
-  @ApiOperation({ summary: 'Get student profile by username' })
+  @ApiOperation({
+    summary: 'Buscar perfil por nome de usuário',
+    description:
+      'Retorna as informações públicas do perfil de um estudante através do nome de usuário.',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Profile retrieved successfully',
-    type: StudentProfileResponseDto,
+    description: 'Perfil encontrado e retornado com sucesso.',
+    type: UserResponseDto,
   })
-  @ApiResponse({ status: 404, description: 'Student not found' })
+  @ApiResponse({
+    status: 404,
+    description: 'Estudante não encontrado com o nome de usuário informado.',
+  })
   async getProfile(
     @Param('username') username: string,
-  ): Promise<StudentProfileResponseDto> {
+  ): Promise<UserResponseDto> {
     const result = await this.getProfileUseCase.execute({ username })
 
     if (result.isLeft()) {
@@ -147,31 +171,43 @@ export class StudentsController {
       throw new BadRequestException(error.message)
     }
 
-    return StudentProfilePresenter.toHTTP(result.value)
+    return UserPresenter.toHTTP(result.value)
   }
 
   @Put('profiles/:studentId')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Edit student profile' })
+  @ApiOperation({
+    summary: 'Editar perfil do estudante',
+    description:
+      'Atualiza informações do perfil do estudante. Requer autenticação e o usuário só pode editar seu próprio perfil.',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Profile updated successfully',
+    description: 'Perfil atualizado com sucesso.',
     type: ProfileUpdateResponseDto,
   })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
-  @ApiResponse({ status: 404, description: 'Student not found' })
+  @ApiResponse({
+    status: 403,
+    description: 'Acesso negado. Você só pode editar seu próprio perfil.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Estudante não encontrado.',
+  })
   async editProfile(
-    @Param('studentId') studentId: string,
+    @Param('studentId') userId: string,
     @Body() editDto: EditProfileDto,
     @Request() req: { user: { userId: string } },
   ): Promise<ProfileUpdateResponseDto> {
-    if (studentId !== req.user.userId) {
-      throw new ForbiddenException('Forbidden.')
+    if (userId !== req.user.userId) {
+      throw new ForbiddenException(
+        'Você não tem permissão para editar este perfil.',
+      )
     }
 
     const result = await this.editProfileUseCase.execute({
-      studentId,
+      userId,
       profileUrl: editDto.profileUrl,
       semester: editDto.semester,
       trailsIds: editDto.trailsIds,
@@ -187,40 +223,50 @@ export class StudentsController {
     }
 
     return {
-      profile: StudentProfilePresenter.toHTTP(result.value),
+      profile: UserPresenter.toHTTP(result.value),
     }
   }
 
   @Get('students')
-  @ApiOperation({ summary: 'Fetch students' })
+  @ApiOperation({
+    summary: 'Listar estudantes',
+    description:
+      'Retorna uma lista de estudantes cadastrados. Permite filtro por nome.',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Students retrieved successfully',
-    type: StudentsListResponseDto,
+    description: 'Lista de estudantes retornada com sucesso.',
+    type: UsersListResponseDto,
   })
   async fetchStudents(
     @Query() query: FetchStudentsDto,
-  ): Promise<StudentsListResponseDto> {
-    const result = await this.fetchStudentsUseCase.execute({
+  ): Promise<UsersListResponseDto> {
+    const result = await this.fetchUsersUseCase.execute({
       name: query.name,
     })
 
     return {
-      students: result.map(StudentPresenter.toHTTP),
+      users: result.map(UserPresenter.summaryToHTTP),
     }
   }
 
   @Get('students/:studentId')
-  @ApiOperation({ summary: 'Get student details' })
+  @ApiOperation({
+    summary: 'Buscar detalhes do estudante',
+    description: 'Retorna informações detalhadas de um estudante específico.',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Student details retrieved successfully',
-    type: StudentProfileResponseDto,
+    description: 'Detalhes do estudante retornados com sucesso.',
+    type: UserResponseDto,
   })
-  @ApiResponse({ status: 404, description: 'Student not found' })
+  @ApiResponse({
+    status: 404,
+    description: 'Estudante não encontrado.',
+  })
   async getStudentDetails(
     @Param('studentId') studentId: string,
-  ): Promise<StudentProfileResponseDto> {
+  ): Promise<UserResponseDto> {
     const result = await this.getProfileUseCase.execute({
       username: studentId,
     })
@@ -233,7 +279,7 @@ export class StudentsController {
       throw new BadRequestException(error.message)
     }
 
-    return StudentProfilePresenter.toHTTP(result.value)
+    return UserPresenter.toHTTP(result.value)
   }
 
   @Post('profile-images/:username')
@@ -241,7 +287,11 @@ export class StudentsController {
   @UseInterceptors(FileInterceptor('file'))
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
-  @ApiOperation({ summary: 'Upload student profile image' })
+  @ApiOperation({
+    summary: 'Fazer upload da foto de perfil',
+    description:
+      'Envia uma imagem para ser usada como foto de perfil do estudante. Formatos aceitos: JPG, PNG. Tamanho máximo: 5MB.',
+  })
   @ApiBody({
     schema: {
       type: 'object',
@@ -249,22 +299,30 @@ export class StudentsController {
         file: {
           type: 'string',
           format: 'binary',
+          description: 'Arquivo de imagem (JPG ou PNG)',
         },
       },
     },
   })
   @ApiResponse({
     status: 200,
-    description: 'Profile image uploaded successfully',
+    description: 'Foto de perfil enviada com sucesso.',
     type: MessageResponseDto,
   })
-  @ApiResponse({ status: 404, description: 'Student not found' })
+  @ApiResponse({
+    status: 400,
+    description: 'Arquivo inválido ou não fornecido.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Estudante não encontrado.',
+  })
   async uploadProfileImage(
     @Param('username') username: string,
     @UploadedFile() file: Express.Multer.File,
   ): Promise<MessageResponseDto> {
     if (!file) {
-      throw new BadRequestException('File is required')
+      throw new BadRequestException('É necessário enviar um arquivo de imagem.')
     }
 
     const result = await this.uploadStudentProfileUseCase.execute({
@@ -281,20 +339,27 @@ export class StudentsController {
       throw new BadRequestException(error.message)
     }
 
-    return { message: 'Profile image uploaded successfully' }
+    return { message: 'Foto de perfil enviada com sucesso.' }
   }
 
   @Patch('token/refresh')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Refresh JWT token' })
+  @ApiOperation({
+    summary: 'Renovar token de autenticação',
+    description:
+      'Gera um novo token JWT para o usuário autenticado, permitindo continuar usando a aplicação.',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Token refreshed successfully',
+    description: 'Token renovado com sucesso.',
     type: TokenResponseDto,
   })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({
+    status: 401,
+    description: 'Não autenticado. Token inválido ou expirado.',
+  })
   async refreshToken(
     @Request() req: { user: { userId: string } },
   ): Promise<TokenResponseDto> {

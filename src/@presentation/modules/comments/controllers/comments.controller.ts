@@ -33,7 +33,7 @@ import {
 } from '../dto/comments-response.dto'
 import type { ReportCommentDto } from '../dto/report-comment.dto'
 
-@ApiTags('Comments')
+@ApiTags('Comentários')
 @Controller()
 export class CommentsController {
   constructor(
@@ -43,13 +43,20 @@ export class CommentsController {
     private readonly reportCommentUseCase: ReportCommentUseCase,
   ) {}
   @Get('projects/:projectId/comments')
-  @ApiOperation({ summary: 'List project comments' })
+  @ApiOperation({
+    summary: 'Listar comentários do projeto',
+    description:
+      'Retorna todos os comentários de um projeto específico, ordenados do mais recente para o mais antigo.',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Comments retrieved successfully',
+    description: 'Comentários retornados com sucesso.',
     type: CommentsListResponseDto,
   })
-  @ApiResponse({ status: 404, description: 'Project not found' })
+  @ApiResponse({
+    status: 404,
+    description: 'Projeto não encontrado.',
+  })
   async listProjectComments(
     @Param('projectId') projectId: string,
   ): Promise<CommentsListResponseDto> {
@@ -71,13 +78,24 @@ export class CommentsController {
   @Post('projects/:projectId/comments')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Comment on a project' })
+  @ApiOperation({
+    summary: 'Comentar em projeto',
+    description:
+      'Adiciona um novo comentário a um projeto. Requer autenticação e o projeto deve permitir comentários.',
+  })
   @ApiResponse({
     status: 201,
-    description: 'Comment created successfully',
+    description: 'Comentário criado com sucesso.',
     type: CommentCreatedResponseDto,
   })
-  @ApiResponse({ status: 404, description: 'Project not found' })
+  @ApiResponse({
+    status: 403,
+    description: 'Projeto não permite comentários.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Projeto não encontrado.',
+  })
   async commentOnProject(
     @Param('projectId') projectId: string,
     @Body() dto: CommentOnProjectDto,
@@ -109,10 +127,23 @@ export class CommentsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiOperation({ summary: 'Delete a comment' })
-  @ApiResponse({ status: 204, description: 'Comment deleted successfully' })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
-  @ApiResponse({ status: 404, description: 'Comment not found' })
+  @ApiOperation({
+    summary: 'Excluir comentário',
+    description:
+      'Remove um comentário de um projeto. Apenas o autor do comentário pode excluí-lo.',
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'Comentário excluído com sucesso.',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Acesso negado. Apenas o autor pode excluir o comentário.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Comentário não encontrado.',
+  })
   async deleteComment(
     @Param('projectId') projectId: string,
     @Param('commentId') commentId: string,
@@ -139,13 +170,19 @@ export class CommentsController {
   @Post('comments/:commentId/report')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Report a comment' })
+  @ApiOperation({
+    summary: 'Denunciar comentário',
+    description: 'Reporta um comentário inadequado ou ofensivo para moderação.',
+  })
   @ApiResponse({
     status: 201,
-    description: 'Comment reported successfully',
+    description: 'Comentário denunciado com sucesso.',
     type: MessageResponseDto,
   })
-  @ApiResponse({ status: 404, description: 'Comment not found' })
+  @ApiResponse({
+    status: 404,
+    description: 'Comentário não encontrado.',
+  })
   async reportComment(
     @Param('commentId') commentId: string,
     @Body() dto: ReportCommentDto,

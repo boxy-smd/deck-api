@@ -1,4 +1,4 @@
-import type { Professor } from '@/@core/domain/projects/enterprise/entities/professor'
+import type { Professor } from '@/@core/domain/projects/entities/professor'
 
 export class ProfessorPresenter {
   static toHTTP(professor: Professor) {

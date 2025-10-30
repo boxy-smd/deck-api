@@ -1,11 +1,11 @@
-import type { FetchProfessorsUseCase } from '@/@core/domain/projects/application/use-cases/fetch-professors'
+import type { FetchProfessorsUseCase } from '@/@core/application/projects/application/use-cases/fetch-professors'
 import { ProfessorPresenter } from '@/@presentation/presenters/professor'
 import { Controller, Get, Query } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import type { FetchProfessorsDto } from '../dto/fetch-professors.dto'
 import { ProfessorsListResponseDto } from '../dto/professors-response.dto'
 
-@ApiTags('Professors')
+@ApiTags('Professores')
 @Controller()
 export class ProfessorsController {
   constructor(
@@ -13,10 +13,14 @@ export class ProfessorsController {
   ) {}
 
   @Get('professors')
-  @ApiOperation({ summary: 'Fetch professors' })
+  @ApiOperation({
+    summary: 'Listar professores',
+    description:
+      'Retorna lista de professores cadastrados. Permite filtro por nome.',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Professors retrieved successfully',
+    description: 'Lista de professores retornada com sucesso.',
     type: ProfessorsListResponseDto,
   })
   async fetchProfessors(

@@ -1,4 +1,4 @@
-import type { Subject } from '@/@core/domain/projects/enterprise/entities/subject'
+import type { Subject } from '@/@core/domain/projects/entities/subject'
 
 export class SubjectPresenter {
   static toHTTP(subject: Subject) {

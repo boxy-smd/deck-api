@@ -1,24 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
 
-export class StudentResponseDto {
-  @ApiProperty()
-  id: string
-
-  @ApiProperty()
-  name: string
-
-  @ApiProperty()
-  username: string
-
-  @ApiProperty({ required: false })
-  profileUrl?: string
-}
-
-export class StudentsListResponseDto {
-  @ApiProperty({ type: [StudentResponseDto] })
-  students: StudentResponseDto[]
-}
-
 export class UserIdResponseDto {
   @ApiProperty()
   user_id: string
@@ -29,7 +10,7 @@ export class TokenResponseDto {
   token: string
 }
 
-export class StudentProfileResponseDto {
+export class UserResponseDto {
   @ApiProperty()
   id: string
 
@@ -42,8 +23,8 @@ export class StudentProfileResponseDto {
   @ApiProperty()
   email: string
 
-  @ApiProperty()
-  semester: number
+  @ApiProperty({ required: false })
+  semester?: number
 
   @ApiProperty({ required: false })
   about?: string
@@ -51,19 +32,50 @@ export class StudentProfileResponseDto {
   @ApiProperty({ required: false })
   profileUrl?: string
 
-  @ApiProperty({ type: [Object] })
-  trails: Array<{
-    id: string
-    name: string
-  }>
+  @ApiProperty({ type: [String] })
+  trails: string[]
 
   @ApiProperty()
-  createdAt: Date
+  role: string
+
+  @ApiProperty()
+  status: string
+}
+
+export class UserSummaryResponseDto {
+  @ApiProperty()
+  id: string
+
+  @ApiProperty()
+  name: string
+
+  @ApiProperty()
+  username: string
+
+  @ApiProperty({ required: false })
+  semester?: number
+
+  @ApiProperty({ required: false })
+  about?: string
+
+  @ApiProperty({ required: false })
+  profileUrl?: string
+
+  @ApiProperty({ type: [String] })
+  trails: string[]
+
+  @ApiProperty()
+  role: string
+}
+
+export class UsersListResponseDto {
+  @ApiProperty({ type: [UserSummaryResponseDto] })
+  users: UserSummaryResponseDto[]
 }
 
 export class ProfileUpdateResponseDto {
-  @ApiProperty({ type: StudentProfileResponseDto })
-  profile: StudentProfileResponseDto
+  @ApiProperty({ type: UserResponseDto })
+  profile: UserResponseDto
 }
 
 export class MessageResponseDto {

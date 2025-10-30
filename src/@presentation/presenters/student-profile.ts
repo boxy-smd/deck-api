@@ -20,7 +20,6 @@ export class StudentProfilePresenter {
       }
     }
 
-    // Fallback to regular User
     return {
       id: student.id.toString(),
       name: student.name,
