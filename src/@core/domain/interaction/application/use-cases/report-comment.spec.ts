@@ -41,7 +41,11 @@ describe('report comment use case', () => {
     await projectsRepository.create(project)
     await commentsRepository.create(comment)
 
-    sut = new ReportCommentUseCase(studentsRepository, commentsRepository, reportsRepository)
+    sut = new ReportCommentUseCase(
+      studentsRepository,
+      commentsRepository,
+      reportsRepository,
+    )
   })
 
   it('should be able to report a comment', async () => {
@@ -51,7 +55,7 @@ describe('report comment use case', () => {
       projectId: project.id.toString(),
       commentId: comment.id.toString(),
     })
-    
+
     expect(result.isRight()).toBe(true)
   })
 

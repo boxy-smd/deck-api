@@ -40,7 +40,7 @@ export class PrismaQueryBuilder {
 
     if (filters.status) {
       conditions.push({
-        status: { equals: filters.status },
+        status: { equals: filters.status as any },
       })
     }
 
@@ -109,6 +109,8 @@ export class PrismaQueryBuilder {
       },
       professors: {
         select: {
+          projectId: true,
+          professorId: true,
           professor: {
             select: {
               id: true,
@@ -124,6 +126,8 @@ export class PrismaQueryBuilder {
       },
       trails: {
         select: {
+          projectId: true,
+          trailId: true,
           trail: {
             select: {
               id: true,

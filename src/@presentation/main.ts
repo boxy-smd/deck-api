@@ -1,7 +1,7 @@
+import { env } from '@/@infra/config/env/env'
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { env } from '@/@infra/config/env/env'
 import { AppModule } from './app.module'
 
 async function bootstrap() {

@@ -44,7 +44,9 @@ export class ReportCommentUseCase {
     }
 
     if (comment.projectId.toString() !== projectId) {
-      return left(new ResourceNotFoundError('Comment not found in this project.'))
+      return left(
+        new ResourceNotFoundError('Comment not found in this project.'),
+      )
     }
 
     const student = await this.studentsRepository.findById(authorId)
