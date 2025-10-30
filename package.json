@@ -1,9 +1,7 @@
 {
 	"name": "deck-backend",
 	"version": "1.0.0",
-	"type": "module",
-	"description": "",
-	"main": "index.js",
+	"description": "Deck API - NestJS Backend",
 	"scripts": {
 		"start:dev": "nest start --watch",
 		"start": "node dist/main.js",
@@ -36,8 +34,6 @@
 		"@types/passport-jwt": "^4.0.1",
 		"@types/supertest": "^6.0.3",
 		"@vitest/coverage-v8": "^2.1.9",
-		"axios": "^1.13.0",
-		"cheerio": "^1.1.2",
 		"glob": "^11.0.3",
 		"prisma": "^5.22.0",
 		"supertest": "^7.1.4",
