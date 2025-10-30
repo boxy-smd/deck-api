@@ -5,40 +5,20 @@ import type { ProjectDTO } from '@/@core/domain/projects/application/dtos/projec
 import { Project } from '@/@core/domain/projects/enterprise/entities/project'
 import type { ProjectStatus } from '@/@core/domain/projects/enterprise/value-objects/project-status'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
+import type { PrismaProjectForDTO, PrismaProjectWithTrailsAndProfessors } from '../types/prisma-types'
 
-type PrismaProjectWithRelations = ProjectRaw & {
-  author?: {
-    name: string
-    username: string
-    profileUrl: string | null
-  }
-  subject?: {
-    name: string
-  } | null
-  trails?: Array<{
-    projectId: string
-    trailId: string
-    trail: {
-      name: string
-    }
-  }>
-  professors?: Array<{
-    projectId: string
-    professorId: string
-    professor: {
-      name: string
-    }
-  }>
-}
-
-// biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaProjectMapper {
   static toEntity(
-    raw: ProjectRaw & {
-      trails?: { id: string }[]
-      professors?: { id: string }[]
-    },
+    raw: ProjectRaw | PrismaProjectWithTrailsAndProfessors,
   ): Project {
+    const trails = 'trails' in raw && raw.trails && Array.isArray(raw.trails)
+      ? raw.trails.map(t => UniqueEntityID.create(t.trailId))
+      : []
+
+    const professors = 'professors' in raw && raw.professors && Array.isArray(raw.professors)
+      ? raw.professors.map(p => UniqueEntityID.create(p.professorId))
+      : []
+
     return Project.create(
       {
         title: raw.title,
@@ -53,12 +33,8 @@ export class PrismaProjectMapper {
         subjectId: raw.subjectId
           ? UniqueEntityID.create(raw.subjectId)
           : undefined,
-        trails: new Set(
-          (raw.trails ?? []).map(t => UniqueEntityID.create(t.id)),
-        ),
-        professors: new Set(
-          (raw.professors ?? []).map(p => UniqueEntityID.create(p.id)),
-        ),
+        trails: new Set(trails),
+        professors: new Set(professors),
       },
       UniqueEntityID.create(raw.id),
     )
@@ -100,7 +76,7 @@ export class PrismaProjectMapper {
     }
   }
 
-  static toProjectDTO(raw: PrismaProjectWithRelations): ProjectDTO {
+  static toProjectDTO(raw: PrismaProjectForDTO): ProjectDTO {
     return {
       id: raw.id,
       title: raw.title,
@@ -127,9 +103,7 @@ export class PrismaProjectMapper {
     }
   }
 
-  static toProjectSummaryDTO(
-    raw: PrismaProjectWithRelations,
-  ): ProjectSummaryDTO {
+  static toProjectSummaryDTO(raw: PrismaProjectForDTO): ProjectSummaryDTO {
     return {
       id: raw.id,
       title: raw.title,

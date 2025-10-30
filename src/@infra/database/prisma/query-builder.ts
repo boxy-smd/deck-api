@@ -40,7 +40,7 @@ export class PrismaQueryBuilder {
 
     if (filters.status) {
       conditions.push({
-        status: { equals: filters.status as any },
+        status: filters.status as Prisma.EnumProjectStatusFilter,
       })
     }
 
@@ -63,7 +63,7 @@ export class PrismaQueryBuilder {
     }
   }
 
-  static getProjectDTOIncludes(): Prisma.ProjectInclude {
+  static getProjectDTOIncludes() {
     return {
       author: {
         select: {
@@ -95,10 +95,10 @@ export class PrismaQueryBuilder {
           },
         },
       },
-    }
+    } as const
   }
 
-  static getProjectFullIncludes(): Prisma.ProjectInclude {
+  static getProjectFullIncludes() {
     return {
       author: {
         select: {
@@ -152,6 +152,6 @@ export class PrismaQueryBuilder {
           authorId: true,
         },
       },
-    }
+    } as const
   }
 }

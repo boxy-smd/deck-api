@@ -4,7 +4,6 @@ import { Subject } from '@/@core/domain/projects/enterprise/entities/subject'
 import { SubjectType } from '@/@core/domain/projects/enterprise/value-objects/subject-type'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
-// biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaSubjectMapper {
   static toEntity(raw: SubjectRaw): Subject {
     return Subject.reconstitute(

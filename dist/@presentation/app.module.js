@@ -8,10 +8,10 @@ Object.defineProperty(exports, "AppModule", {
         return AppModule;
     }
 });
-const _common = require("@nestjs/common");
-const _config = require("@nestjs/config");
 const _prismamodule = require("../@infra/database/prisma/prisma.module");
 const _healthcontroller = require("../@shared/kernel/controllers/health.controller");
+const _common = require("@nestjs/common");
+const _config = require("@nestjs/config");
 const _authmodule = require("./modules/auth/auth.module");
 const _commentsmodule = require("./modules/comments/comments.module");
 const _professorsmodule = require("./modules/professors/professors.module");

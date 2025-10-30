@@ -9,8 +9,8 @@ Object.defineProperty(exports, "StudentsModule", {
     }
 });
 const _common = require("@nestjs/common");
-const _studentscontroller = require("./controllers/students.controller");
 const _authmodule = require("../auth/auth.module");
+const _studentscontroller = require("./controllers/students.controller");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);

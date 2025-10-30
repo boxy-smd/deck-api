@@ -1,4 +1,4 @@
-import type { Prisma, User as UserRaw } from '@prisma/client'
+import type { Prisma } from '@prisma/client'
 
 import { StudentProfile } from '@/@core/domain/authentication/enterprise/entities/student-profile'
 import { User } from '@/@core/domain/authentication/enterprise/entities/user'
@@ -8,21 +8,10 @@ import type { UserRole } from '@/@core/domain/authentication/enterprise/value-ob
 import type { UserStatus } from '@/@core/domain/authentication/enterprise/value-objects/user-status'
 import { Username } from '@/@core/domain/authentication/enterprise/value-objects/username'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
+import type { PrismaUserWithProfile } from '../types/prisma-types'
 
-// biome-ignore lint/complexity/noStaticOnlyClass: This class is a mapper and should have only static methods
 export class PrismaStudentMapper {
-  static toEntity(
-    raw: UserRaw & {
-      studentProfile?: {
-        semester: number
-      } | null
-      trail?: {
-        trail: {
-          id: string
-        }
-      }[]
-    },
-  ): User {
+  static toEntity(raw: PrismaUserWithProfile): User {
     const usernameResult = Username.create(raw.username)
     if (usernameResult.isLeft()) {
       throw usernameResult.value
