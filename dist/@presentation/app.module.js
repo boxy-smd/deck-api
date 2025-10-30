@@ -8,6 +8,8 @@ Object.defineProperty(exports, "AppModule", {
         return AppModule;
     }
 });
+const _cryptographymodule = require("../@infra/cryptography/cryptography.module");
+const _firebasemodule = require("../@infra/database/firebase/firebase.module");
 const _prismamodule = require("../@infra/database/prisma/prisma.module");
 const _healthcontroller = require("../@shared/kernel/controllers/health.controller");
 const _common = require("@nestjs/common");
@@ -34,6 +36,8 @@ AppModule = _ts_decorate([
                 isGlobal: true
             }),
             _prismamodule.PrismaModule,
+            _firebasemodule.FirebaseModule,
+            _cryptographymodule.CryptographyModule,
             _authmodule.AuthModule,
             _studentsmodule.StudentsModule,
             _professorsmodule.ProfessorsModule,

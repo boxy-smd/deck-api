@@ -1,8 +1,8 @@
-import { bannersRef } from '@/@infra/config/services/firebase'
 import { FirebaseStorageUploader } from './storage-uploader'
+import type { FirebaseService } from './firebase.service'
 
 export class FirebaseBannerUploader extends FirebaseStorageUploader {
-  constructor() {
-    super(bannersRef)
+  constructor(firebaseService: FirebaseService) {
+    super(firebaseService.getBannersRef())
   }
 }
