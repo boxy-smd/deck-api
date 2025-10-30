@@ -1,3 +1,5 @@
+import { CryptographyModule } from '@/@infra/cryptography/cryptography.module'
+import { FirebaseModule } from '@/@infra/database/firebase/firebase.module'
 import { PrismaModule } from '@/@infra/database/prisma/prisma.module'
 import { HealthController } from '@/@shared/kernel/controllers/health.controller'
 import { Module } from '@nestjs/common'
@@ -16,6 +18,8 @@ import { TrailsModule } from './modules/trails/trails.module'
       isGlobal: true,
     }),
     PrismaModule,
+    FirebaseModule,
+    CryptographyModule,
     AuthModule,
     StudentsModule,
     ProfessorsModule,

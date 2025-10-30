@@ -1,8 +1,8 @@
-import { profilesRef } from '@/@infra/config/services/firebase'
+import type { FirebaseService } from './firebase.service'
 import { FirebaseStorageUploader } from './storage-uploader'
 
 export class FirebaseProfileUploader extends FirebaseStorageUploader {
-  constructor() {
-    super(profilesRef)
+  constructor(firebaseService: FirebaseService) {
+    super(firebaseService.getProfilesRef())
   }
 }
