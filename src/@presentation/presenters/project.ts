@@ -1,6 +1,5 @@
 import type { Project } from '@/@core/domain/projects/enterprise/entities/project'
 
-// biome-ignore lint/complexity/noStaticOnlyClass: This class is a presenter and should be static
 export class ProjectPresenter {
   static toHTTP(project: Project) {
     return {

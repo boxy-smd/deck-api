@@ -1,11 +1,14 @@
 import type { ProfessorsRepository } from '@/@core/domain/projects/application/repositories/professors-repository'
 import type { Professor } from '@/@core/domain/projects/enterprise/entities/professor'
-import { prisma } from '../client'
+import { Injectable } from '@nestjs/common'
 import { PrismaProfessorMapper } from '../mappers/prisma-professor-mapper'
+import type { PrismaService } from '../prisma.service'
 
+@Injectable()
 export class PrismaProfessorsRepository implements ProfessorsRepository {
+  constructor(private readonly prisma: PrismaService) {}
   async findById(id: string): Promise<Professor | null> {
-    const professor = await prisma.professor.findUnique({ where: { id } })
+    const professor = await this.prisma.professor.findUnique({ where: { id } })
 
     if (!professor) return null
 
@@ -13,7 +16,7 @@ export class PrismaProfessorsRepository implements ProfessorsRepository {
   }
 
   async findByName(name: string): Promise<Professor | null> {
-    const professor = await prisma.professor.findFirst({ where: { name } })
+    const professor = await this.prisma.professor.findFirst({ where: { name } })
 
     if (!professor) return null
 
@@ -21,7 +24,7 @@ export class PrismaProfessorsRepository implements ProfessorsRepository {
   }
 
   async findManyByName(name: string): Promise<Professor[]> {
-    const professors = await prisma.professor.findMany({
+    const professors = await this.prisma.professor.findMany({
       where: { name: { contains: name } },
       orderBy: {
         name: 'asc',
@@ -42,7 +45,7 @@ export class PrismaProfessorsRepository implements ProfessorsRepository {
   }
 
   async findAll(): Promise<Professor[]> {
-    const professors = await prisma.professor.findMany({
+    const professors = await this.prisma.professor.findMany({
       orderBy: {
         name: 'asc',
       },
@@ -62,7 +65,7 @@ export class PrismaProfessorsRepository implements ProfessorsRepository {
   }
 
   async existsById(id: string): Promise<boolean> {
-    const count = await prisma.professor.count({
+    const count = await this.prisma.professor.count({
       where: {
         id,
       },
@@ -73,26 +76,26 @@ export class PrismaProfessorsRepository implements ProfessorsRepository {
 
   async create(professor: Professor): Promise<void> {
     const data = PrismaProfessorMapper.toPrisma(professor)
-    await prisma.professor.create({ data })
+    await this.prisma.professor.create({ data })
   }
 
   async save(professor: Professor): Promise<void> {
     const data = PrismaProfessorMapper.toPrisma(professor)
 
-    await prisma.professor.update({
+    await this.prisma.professor.update({
       where: { id: professor.id.toString() },
       data,
     })
   }
 
   async delete(professor: Professor): Promise<void> {
-    await prisma.professor.delete({
+    await this.prisma.professor.delete({
       where: { id: professor.id.toString() },
     })
   }
 
   async deleteById(id: string): Promise<void> {
-    await prisma.professor.delete({
+    await this.prisma.professor.delete({
       where: { id },
     })
   }

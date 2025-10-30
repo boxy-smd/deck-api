@@ -1,6 +1,7 @@
 import type { ProjectsRepository } from '@/@core/domain/projects/application/repositories/projects-repository'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
+import { Injectable } from '@nestjs/common'
 import type { CommentWithAuthor } from '../../enterprise/entities/value-objects/comment-with-author'
 import type { CommentsRepository } from '../repositories/comments-repository'
 
@@ -15,6 +16,7 @@ type ListProjectCommentsUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class ListProjectCommentsUseCase {
   constructor(
     private projectsRepository: ProjectsRepository,

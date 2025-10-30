@@ -1,6 +1,5 @@
-import { CryptographyModule } from '@/@infra/cryptography/cryptography.module'
-import { FirebaseModule } from '@/@infra/database/firebase/firebase.module'
-import { PrismaModule } from '@/@infra/database/prisma/prisma.module'
+import { DomainModule } from '@/@core/domain/domain.module'
+import { InfraModule } from '@/@infra/infra.module'
 import { HealthController } from '@/@shared/kernel/controllers/health.controller'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
@@ -17,9 +16,8 @@ import { TrailsModule } from './modules/trails/trails.module'
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    PrismaModule,
-    FirebaseModule,
-    CryptographyModule,
+    InfraModule,
+    DomainModule,
     AuthModule,
     StudentsModule,
     ProfessorsModule,

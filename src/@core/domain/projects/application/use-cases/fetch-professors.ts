@@ -1,4 +1,5 @@
 import type { ProfessorsRepository } from '@/@core/domain/projects/application/repositories/professors-repository'
+import { Injectable } from '@nestjs/common'
 import type { Professor } from '../../enterprise/entities/professor'
 
 interface FetchProfessorsUseCaseRequest {
@@ -7,6 +8,7 @@ interface FetchProfessorsUseCaseRequest {
 
 type FetchProfessorsUseCaseResponse = Professor[]
 
+@Injectable()
 export class FetchProfessorsUseCase {
   constructor(private readonly professorsRepository: ProfessorsRepository) {}
 

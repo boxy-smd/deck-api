@@ -1,10 +1,9 @@
-import { makeEditProfileUseCase } from '@/@core/application/factories/students/make-edit-profile-use-case'
-import { makeFetchStudentsUseCase } from '@/@core/application/factories/students/make-fetch-students-use-case'
-import { makeGetProfileUseCase } from '@/@core/application/factories/students/make-get-profile-use-case'
-import { makeGetStudentDetailsUseCase } from '@/@core/application/factories/students/make-get-student-details-use-case'
-import { makeLoginUseCase } from '@/@core/application/factories/students/make-login-use-case'
-import { makeRegisterUseCase } from '@/@core/application/factories/students/make-register-use-case'
-import { makeUploadProfileImageUseCase } from '@/@core/application/factories/students/make-upload-profile-image-use-case'
+import { EditProfileUseCase } from '@/@core/domain/authentication/application/use-cases/edit-profile'
+import { FetchStudentsUseCase } from '@/@core/domain/authentication/application/use-cases/fetch-students'
+import { GetProfileUseCase } from '@/@core/domain/authentication/application/use-cases/get-profile'
+import { LoginUseCase } from '@/@core/domain/authentication/application/use-cases/login'
+import { RegisterUseCase } from '@/@core/domain/authentication/application/use-cases/register'
+import { UploadStudentProfileUseCase } from '@/@core/domain/authentication/application/use-cases/upload-student-profile'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { StudentPresenter } from '@/@presentation/presenters/student'
 import { StudentProfilePresenter } from '@/@presentation/presenters/student-profile'
@@ -29,7 +28,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common'
-import type { JwtService } from '@nestjs/jwt'
+import { JwtService } from '@nestjs/jwt'
 import { FileInterceptor } from '@nestjs/platform-express'
 import {
   ApiBearerAuth,
@@ -47,7 +46,15 @@ import type { RegisterStudentDto } from '../dto/register-student.dto'
 @ApiTags('Students')
 @Controller()
 export class StudentsController {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly registerUseCase: RegisterUseCase,
+    private readonly loginUseCase: LoginUseCase,
+    private readonly getProfileUseCase: GetProfileUseCase,
+    private readonly editProfileUseCase: EditProfileUseCase,
+    private readonly fetchStudentsUseCase: FetchStudentsUseCase,
+    private readonly uploadStudentProfileUseCase: UploadStudentProfileUseCase,
+  ) {}
 
   @Post('students')
   @ApiOperation({ summary: 'Register a new student' })
@@ -55,9 +62,7 @@ export class StudentsController {
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 409, description: 'Student already exists' })
   async register(@Body() registerDto: RegisterStudentDto) {
-    const registerUseCase = makeRegisterUseCase()
-
-    const result = await registerUseCase.execute({
+    const result = await this.registerUseCase.execute({
       name: registerDto.name,
       username: registerDto.username,
       email: registerDto.email,
@@ -85,9 +90,7 @@ export class StudentsController {
   @ApiResponse({ status: 200, description: 'Login successful' })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
   async login(@Body() loginDto: LoginStudentDto) {
-    const loginUseCase = makeLoginUseCase()
-
-    const result = await loginUseCase.execute({
+    const result = await this.loginUseCase.execute({
       email: loginDto.email,
       password: loginDto.password,
     })
@@ -110,9 +113,7 @@ export class StudentsController {
   @ApiResponse({ status: 200, description: 'Profile retrieved successfully' })
   @ApiResponse({ status: 404, description: 'Student not found' })
   async getProfile(@Param('username') username: string) {
-    const getProfileUseCase = makeGetProfileUseCase()
-
-    const result = await getProfileUseCase.execute({ username })
+    const result = await this.getProfileUseCase.execute({ username })
 
     if (result.isLeft()) {
       const error = result.value
@@ -141,9 +142,7 @@ export class StudentsController {
       throw new ForbiddenException('Forbidden.')
     }
 
-    const editProfileUseCase = makeEditProfileUseCase()
-
-    const result = await editProfileUseCase.execute({
+    const result = await this.editProfileUseCase.execute({
       studentId,
       profileUrl: editDto.profileUrl,
       semester: editDto.semester,
@@ -168,9 +167,7 @@ export class StudentsController {
   @ApiOperation({ summary: 'Fetch students' })
   @ApiResponse({ status: 200, description: 'Students retrieved successfully' })
   async fetchStudents(@Query() query: FetchStudentsDto) {
-    const fetchStudentsUseCase = makeFetchStudentsUseCase()
-
-    const result = await fetchStudentsUseCase.execute({
+    const result = await this.fetchStudentsUseCase.execute({
       name: query.name,
     })
 
@@ -187,9 +184,7 @@ export class StudentsController {
   })
   @ApiResponse({ status: 404, description: 'Student not found' })
   async getStudentDetails(@Param('studentId') studentId: string) {
-    const getStudentDetailsUseCase = makeGetStudentDetailsUseCase()
-
-    const result = await getStudentDetailsUseCase.execute({
+    const result = await this.getProfileUseCase.execute({
       username: studentId,
     })
 
@@ -234,9 +229,7 @@ export class StudentsController {
       throw new BadRequestException('File is required')
     }
 
-    const uploadUseCase = makeUploadProfileImageUseCase()
-
-    const result = await uploadUseCase.execute({
+    const result = await this.uploadStudentProfileUseCase.execute({
       username,
       filename: file.originalname,
       image: file.buffer,

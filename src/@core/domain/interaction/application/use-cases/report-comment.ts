@@ -4,6 +4,7 @@ import type { ReportsRepository } from '@/@core/domain/interaction/application/r
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ForbiddenError } from '@/@shared/kernel/errors/forbidden.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
+import { Injectable } from '@nestjs/common'
 import { Report } from '../../enterprise/entities/report'
 
 interface ReportCommentUseCaseRequest {
@@ -18,6 +19,7 @@ type ReportCommentUseCaseResponse = Either<
   void
 >
 
+@Injectable()
 export class ReportCommentUseCase {
   constructor(
     private studentsRepository: UsersRepository,

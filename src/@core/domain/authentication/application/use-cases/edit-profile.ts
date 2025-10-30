@@ -3,6 +3,7 @@ import { type Either, left, right } from '@/@shared/kernel/either'
 import type { InvalidCredentialsError } from '@/@shared/kernel/errors/invalid-credentials.error'
 import type { ResourceAlreadyExistsError } from '@/@shared/kernel/errors/resource-already-exists.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
+import { Injectable } from '@nestjs/common'
 import type { User } from '../../enterprise/entities/user'
 import { Semester } from '../../enterprise/value-objects/semester'
 import type { SemesterOutOfBoundsError } from '../errors/semester-out-of-bounds.error'
@@ -24,6 +25,7 @@ type EditProfileUseCaseResponse = Either<
   User
 >
 
+@Injectable()
 export class EditProfileUseCase {
   constructor(
     private readonly usersRepository: UsersRepository,

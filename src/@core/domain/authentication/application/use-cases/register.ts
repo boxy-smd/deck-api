@@ -2,6 +2,7 @@ import type { TrailsRepository } from '@/@core/domain/projects/application/repos
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceAlreadyExistsError } from '@/@shared/kernel/errors/resource-already-exists.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
+import { Injectable } from '@nestjs/common'
 import { User } from '../../enterprise/entities/user'
 import { Email } from '../../enterprise/value-objects/email'
 import { UserRole } from '../../enterprise/value-objects/user-role'
@@ -35,6 +36,7 @@ type RegisterUseCaseResponse = Either<
   User
 >
 
+@Injectable()
 export class RegisterUseCase {
   constructor(
     private usersRepository: UsersRepository,

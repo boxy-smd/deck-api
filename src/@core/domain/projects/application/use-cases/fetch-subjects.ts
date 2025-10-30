@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common'
 import type { Subject } from '../../enterprise/entities/subject'
 import type { SubjectsRepository } from '../repositories/subjects-repository'
 
@@ -7,6 +8,7 @@ export interface FetchSubjectsUseCaseRequest {
 
 type FetchSubjectsUseCaseResponse = Subject[]
 
+@Injectable()
 export class FetchSubjectsUseCase {
   constructor(private readonly subjectsRepository: SubjectsRepository) {}
 

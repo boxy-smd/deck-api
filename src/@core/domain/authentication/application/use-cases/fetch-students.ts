@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common'
 import type { User } from '../../enterprise/entities/user'
 import type { UsersRepository } from '../repositories/users-repository'
 
@@ -7,6 +8,7 @@ interface FetchStudentsUseCaseRequest {
 
 type FetchStudentsUseCaseResponse = User[]
 
+@Injectable()
 export class FetchStudentsUseCase {
   constructor(private readonly usersRepository: UsersRepository) {}
 

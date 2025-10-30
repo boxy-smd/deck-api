@@ -3,6 +3,7 @@ import type { CommentsRepository } from '@/@core/domain/interaction/application/
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ForbiddenError } from '@/@shared/kernel/errors/forbidden.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteCommentUseCaseRequest {
   authorId: string
@@ -15,6 +16,7 @@ type DeleteCommentUseCaseResponse = Either<
   void
 >
 
+@Injectable()
 export class DeleteCommentUseCase {
   constructor(
     private readonly commentsRepository: CommentsRepository,

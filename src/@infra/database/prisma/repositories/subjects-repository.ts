@@ -1,11 +1,14 @@
 import type { SubjectsRepository } from '@/@core/domain/projects/application/repositories/subjects-repository'
 import type { Subject } from '@/@core/domain/projects/enterprise/entities/subject'
-import { prisma } from '../client'
+import { Injectable } from '@nestjs/common'
 import { PrismaSubjectMapper } from '../mappers/prisma-subject-mapper'
+import type { PrismaService } from '../prisma.service'
 
+@Injectable()
 export class PrismaSubjectsRepository implements SubjectsRepository {
+  constructor(private readonly prisma: PrismaService) {}
   async findById(id: string): Promise<Subject | null> {
-    const subject = await prisma.subject.findUnique({
+    const subject = await this.prisma.subject.findUnique({
       where: { id: id.toString() },
     })
 
@@ -15,7 +18,7 @@ export class PrismaSubjectsRepository implements SubjectsRepository {
   }
 
   async findByName(name: string): Promise<Subject | null> {
-    const subject = await prisma.subject.findFirst({ where: { name } })
+    const subject = await this.prisma.subject.findFirst({ where: { name } })
 
     if (!subject) return null
 
@@ -23,7 +26,7 @@ export class PrismaSubjectsRepository implements SubjectsRepository {
   }
 
   async findManyByName(name: string): Promise<Subject[]> {
-    const subjects = await prisma.subject.findMany({
+    const subjects = await this.prisma.subject.findMany({
       where: { name: { contains: name } },
       orderBy: {
         name: 'asc',
@@ -34,7 +37,7 @@ export class PrismaSubjectsRepository implements SubjectsRepository {
   }
 
   async findAll(): Promise<Subject[]> {
-    const subjects = await prisma.subject.findMany({
+    const subjects = await this.prisma.subject.findMany({
       orderBy: {
         name: 'asc',
       },
@@ -43,7 +46,7 @@ export class PrismaSubjectsRepository implements SubjectsRepository {
   }
 
   async existsById(id: string): Promise<boolean> {
-    const count = await prisma.subject.count({
+    const count = await this.prisma.subject.count({
       where: { id: id.toString() },
     })
     return count > 0
@@ -51,26 +54,26 @@ export class PrismaSubjectsRepository implements SubjectsRepository {
 
   async create(subject: Subject): Promise<void> {
     const data = PrismaSubjectMapper.toPrisma(subject)
-    await prisma.subject.create({ data })
+    await this.prisma.subject.create({ data })
   }
 
   async save(subject: Subject): Promise<void> {
     const data = PrismaSubjectMapper.toPrisma(subject)
 
-    await prisma.subject.update({
+    await this.prisma.subject.update({
       where: { id: subject.id.toString() },
       data,
     })
   }
 
   async delete(subject: Subject): Promise<void> {
-    await prisma.subject.delete({
+    await this.prisma.subject.delete({
       where: { id: subject.id.toString() },
     })
   }
 
   async deleteById(id: string): Promise<void> {
-    await prisma.subject.delete({
+    await this.prisma.subject.delete({
       where: { id: id.toString() },
     })
   }
