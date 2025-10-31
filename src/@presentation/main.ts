@@ -1,4 +1,4 @@
-import { env } from '@/@infra/config/env/env'
+import { EnvService } from '@/@infra/config/env/env.service'
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
@@ -7,7 +7,7 @@ import { AppModule } from './app.module'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger:
-      env.NODE_ENV === 'production'
+      process.env.NODE_ENV === 'production'
         ? ['error', 'warn']
         : ['log', 'error', 'warn', 'debug', 'verbose'],
   })
@@ -33,21 +33,26 @@ async function bootstrap() {
     .setVersion('1.0.0')
     .setContact('Boxy Team', '', 'boxy@gmail.com')
     .addBearerAuth()
-    .addTag('Students', 'Operations related to students')
-    .addTag('Professors', 'Operations related to professors')
-    .addTag('Subjects', 'Operations related to subjects')
-    .addTag('Trails', 'Operations related to trails')
-    .addTag('Projects', 'Operations related to projects')
-    .addTag('Comments', 'Operations related to comments')
-    .addTag('Reports', 'Operations related to reports')
+    .addTag('Usuários', 'Operações relacionadas a usuários')
+    .addTag('Professores', 'Operações relacionadas a professores')
+    .addTag('Disciplinas', 'Operações relacionadas a disciplinas')
+    .addTag('Trilhas', 'Operações relacionadas a trilhas')
+    .addTag('Projetos', 'Operações relacionadas a projetos')
+    .addTag('Comentários', 'Operações relacionadas a comentários')
     .build()
+
+  const configService = app.get(EnvService)
 
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('docs', app, document)
 
-  await app.listen(env.PORT, '0.0.0.0')
-  console.log(`🚀 Application is running on: http://localhost:${env.PORT}`)
-  console.log(`📚 Docs available at http://localhost:${env.PORT}/docs`)
+  await app.listen(configService.get('PORT'), '0.0.0.0')
+  console.log(
+    `🚀 Application is running on: http://localhost:${configService.get('PORT')}`,
+  )
+  console.log(
+    `📚 Docs available at http://localhost:${configService.get('PORT')}/docs`,
+  )
 }
 
 bootstrap()

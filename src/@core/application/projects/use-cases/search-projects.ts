@@ -5,7 +5,7 @@ import {
   type ProjectSummaryDTO,
   ProjectSummaryMapper,
 } from '../dtos/project-summary.dto'
-import type { ProjectsRepository } from '../repositories/projects-repository'
+import { ProjectsRepository } from '../repositories/projects-repository'
 import { SearchContext } from '../search-strategies/search-context'
 import type { SearchCriteria } from '../search-strategies/search-strategy'
 

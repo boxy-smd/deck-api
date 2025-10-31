@@ -8,12 +8,12 @@ export async function createComment(
   app: INestApplication,
   token: string,
   projectId: string,
-  content: string,
+  data: { content: string },
 ) {
   return await request(app.getHttpServer())
     .post(`/projects/${projectId}/comments`)
     .set('Authorization', `Bearer ${token}`)
-    .send({ content })
+    .send(data)
 }
 
 /**

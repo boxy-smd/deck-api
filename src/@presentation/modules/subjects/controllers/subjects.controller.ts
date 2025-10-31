@@ -1,4 +1,5 @@
-import type { FetchSubjectsUseCase } from '@/@core/application/projects/use-cases/fetch-subjects'
+import { FetchSubjectsUseCase } from '@/@core/application/projects/use-cases/fetch-subjects'
+import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { SubjectPresenter } from '@/@presentation/presenters/subject'
 import { Controller, Get, Query } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
@@ -9,6 +10,8 @@ import { SubjectsListResponseDto } from '../dto/subjects-response.dto'
 @Controller()
 export class SubjectsController {
   constructor(private readonly fetchSubjectsUseCase: FetchSubjectsUseCase) {}
+
+  @Public()
 
   @Get('subjects')
   @ApiOperation({

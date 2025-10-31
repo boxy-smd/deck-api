@@ -1,9 +1,9 @@
-import type { UsersRepository } from '@/@core/application/users/repositories/users-repository'
+import { UsersRepository } from '@/@core/application/users/repositories/users-repository'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ForbiddenError } from '@/@shared/kernel/errors/forbidden.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { Injectable } from '@nestjs/common'
-import type { CommentsRepository } from '../repositories/comments-repository'
+import { CommentsRepository } from '../repositories/comments-repository'
 
 interface DeleteCommentUseCaseRequest {
   authorId: string

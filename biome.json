@@ -41,6 +41,7 @@
 				"noImplicitBoolean": "error",
 				"noNamespace": "error",
 				"noNamespaceImport": "error",
+				"useImportType": "off",
 				"noNegationElse": "warn",
 				"noShoutyConstants": "error",
 				"useBlockStatements": "off",

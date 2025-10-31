@@ -1,8 +1,9 @@
-import type { DeleteProjectUseCase } from '@/@core/application/projects/use-cases/delete-project'
-import type { GetProjectUseCase } from '@/@core/application/projects/use-cases/get-project'
-import type { PublishProjectUseCase } from '@/@core/application/projects/use-cases/publish-project'
-import type { SearchProjectsUseCase } from '@/@core/application/projects/use-cases/search-projects'
-import type { UploadProjectBannerUseCase } from '@/@core/application/projects/use-cases/upload-project-banner'
+import { DeleteProjectUseCase } from '@/@core/application/projects/use-cases/delete-project'
+import { GetProjectUseCase } from '@/@core/application/projects/use-cases/get-project'
+import { PublishProjectUseCase } from '@/@core/application/projects/use-cases/publish-project'
+import { SearchProjectsUseCase } from '@/@core/application/projects/use-cases/search-projects'
+import { UploadProjectBannerUseCase } from '@/@core/application/projects/use-cases/upload-project-banner'
+import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { ProjectDetailsPresenter } from '@/@presentation/presenters/project-details'
 import {
@@ -110,6 +111,7 @@ export class ProjectsController {
     }
   }
 
+  @Public()
   @Get('posts')
   @ApiOperation({
     summary: 'Listar publicações',
@@ -145,6 +147,7 @@ export class ProjectsController {
     }
   }
 
+  @Public()
   @Get('posts/search')
   @ApiOperation({
     summary: 'Buscar e filtrar publicações',
@@ -155,6 +158,10 @@ export class ProjectsController {
     status: 200,
     description: 'Resultados da busca retornados com sucesso.',
     type: ProjectsListResponseDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Parâmetros de filtro inválidos.',
   })
   async filterPosts(
     @Query() filter: FilterPostsDto,
@@ -186,6 +193,7 @@ export class ProjectsController {
     }
   }
 
+  @Public()
   @Get('projects/:projectId')
   @ApiOperation({
     summary: 'Buscar detalhes do projeto',

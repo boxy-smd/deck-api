@@ -2,7 +2,7 @@ import { type Either, left, right } from '@/@shared/kernel/either'
 import { ForbiddenError } from '@/@shared/kernel/errors/forbidden.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { Injectable } from '@nestjs/common'
-import type { ProjectsRepository } from '../repositories/projects-repository'
+import { ProjectsRepository } from '../repositories/projects-repository'
 
 interface DeleteProjectUseCaseRequest {
   studentId: string

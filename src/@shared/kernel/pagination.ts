@@ -13,7 +13,6 @@ export interface PaginatedResult<T> {
   hasPrevious: boolean
 }
 
-// biome-ignore lint/complexity/noStaticOnlyClass: This is a utility class
 export class Pagination {
   static readonly DEFAULT_PAGE = 1
   static readonly DEFAULT_PER_PAGE = 20

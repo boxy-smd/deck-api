@@ -1,22 +1,13 @@
-import { Global, Module } from '@nestjs/common'
-import {
-  HASH_COMPARER,
-  HASH_GENERATOR,
-} from '@/@shared/kernel/dependency-tokens'
+import { HashComparer } from '@/@core/application/users/cryptography/hash-comparer'
+import { HashGenerator } from '@/@core/application/users/cryptography/hash-generator'
+import { Module } from '@nestjs/common'
 import { BcryptHasher } from './bcrypt-hasher'
 
-@Global()
 @Module({
   providers: [
-    {
-      provide: HASH_GENERATOR,
-      useClass: BcryptHasher,
-    },
-    {
-      provide: HASH_COMPARER,
-      useClass: BcryptHasher,
-    },
+    { provide: HashComparer, useClass: BcryptHasher },
+    { provide: HashGenerator, useClass: BcryptHasher },
   ],
-  exports: [HASH_GENERATOR, HASH_COMPARER],
+  exports: [HashComparer, HashGenerator],
 })
 export class CryptographyModule {}

@@ -2,14 +2,14 @@ import type { UsersRepository } from '@/@core/application/users/repositories/use
 import type { User } from '@/@core/domain/users/entities/user'
 import { Injectable } from '@nestjs/common'
 import { PrismaStudentMapper } from '../mappers/prisma-student-mapper'
-import type { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
-export class PrismaStudentsRepository implements UsersRepository {
+export class PrismaUsersRepository implements UsersRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async findById(id: string): Promise<User | null> {
-    const student = await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { id },
       include: {
         trail: {
@@ -21,13 +21,13 @@ export class PrismaStudentsRepository implements UsersRepository {
       },
     })
 
-    if (!student) return null
+    if (!user) return null
 
-    return PrismaStudentMapper.toEntity(student)
+    return PrismaStudentMapper.toEntity(user)
   }
 
   async findByName(name: string): Promise<User | null> {
-    const student = await this.prisma.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: { name },
       include: {
         trail: {
@@ -39,13 +39,13 @@ export class PrismaStudentsRepository implements UsersRepository {
       },
     })
 
-    if (!student) return null
+    if (!user) return null
 
-    return PrismaStudentMapper.toEntity(student)
+    return PrismaStudentMapper.toEntity(user)
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const student = await this.prisma.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: { email },
       include: {
         trail: {
@@ -57,13 +57,13 @@ export class PrismaStudentsRepository implements UsersRepository {
       },
     })
 
-    if (!student) return null
+    if (!user) return null
 
-    return PrismaStudentMapper.toEntity(student)
+    return PrismaStudentMapper.toEntity(user)
   }
 
   async findByUsername(username: string): Promise<User | null> {
-    const student = await this.prisma.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: { username },
       include: {
         trail: {
@@ -75,13 +75,13 @@ export class PrismaStudentsRepository implements UsersRepository {
       },
     })
 
-    if (!student) return null
+    if (!user) return null
 
-    return PrismaStudentMapper.toEntity(student)
+    return PrismaStudentMapper.toEntity(user)
   }
 
   async findManyByName(name: string): Promise<User[]> {
-    const students = await this.prisma.user.findMany({
+    const users = await this.prisma.user.findMany({
       where: {
         name: { contains: name, mode: 'insensitive' },
         username: name.startsWith('@')
@@ -98,11 +98,11 @@ export class PrismaStudentsRepository implements UsersRepository {
       },
     })
 
-    return students.map(s => PrismaStudentMapper.toEntity(s))
+    return users.map(s => PrismaStudentMapper.toEntity(s))
   }
 
   async findAll(): Promise<User[]> {
-    const students = await this.prisma.user.findMany({
+    const users = await this.prisma.user.findMany({
       include: {
         trail: {
           include: {
@@ -113,7 +113,7 @@ export class PrismaStudentsRepository implements UsersRepository {
       },
     })
 
-    return students.map(s => PrismaStudentMapper.toEntity(s))
+    return users.map(s => PrismaStudentMapper.toEntity(s))
   }
 
   async existsById(id: string): Promise<boolean> {
@@ -124,23 +124,23 @@ export class PrismaStudentsRepository implements UsersRepository {
     return count > 0
   }
 
-  async create(student: User): Promise<void> {
-    const data = PrismaStudentMapper.toPrisma(student)
+  async create(user: User): Promise<void> {
+    const data = PrismaStudentMapper.toPrisma(user)
     await this.prisma.user.create({ data })
   }
 
-  async save(student: User): Promise<void> {
-    const data = PrismaStudentMapper.toPrismaUpdate(student)
+  async save(user: User): Promise<void> {
+    const data = PrismaStudentMapper.toPrismaUpdate(user)
 
     await this.prisma.user.update({
-      where: { id: student.id.toString() },
+      where: { id: user.id.toString() },
       data,
     })
   }
 
-  async delete(student: User): Promise<void> {
+  async delete(user: User): Promise<void> {
     await this.prisma.user.delete({
-      where: { id: student.id.toString() },
+      where: { id: user.id.toString() },
     })
   }
 

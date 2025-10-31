@@ -12,7 +12,7 @@ import type { TrailsRepository } from '../repositories/trails-repository'
 import { SearchProjectsUseCase } from './search-projects'
 
 let projectsRepository: ProjectsRepository
-let studentsRepository: UsersRepository
+let usersRepository: UsersRepository
 let subjectsRepository: SubjectsRepository
 let trailsRepository: TrailsRepository
 let author: User
@@ -20,18 +20,18 @@ let sut: SearchProjectsUseCase
 
 describe('search projects use case', () => {
   beforeEach(async () => {
-    studentsRepository = new InMemoryUsersRepository()
+    usersRepository = new InMemoryUsersRepository()
     subjectsRepository = new InMemorySubjectsRepository()
     trailsRepository = new InMemoryTrailsRepository()
 
     projectsRepository = new InMemoryProjectsRepository(
-      studentsRepository,
+      usersRepository,
       subjectsRepository,
       trailsRepository,
     )
 
     author = await makeUser()
-    await studentsRepository.create(author)
+    await usersRepository.create(author)
 
     sut = new SearchProjectsUseCase(projectsRepository)
   })

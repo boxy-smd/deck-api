@@ -9,7 +9,7 @@ import { Injectable } from '@nestjs/common'
 import { PrismaErrorHandler } from '../error-handler'
 import { PrismaProjectMapper } from '../mappers/prisma-project-mapper'
 import type { ProjectWithMetadata } from '../mappers/project-with-metadata'
-import type { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma.service'
 import { PrismaQueryBuilder } from '../query-builder'
 import type {} from '../types/prisma-types'
 

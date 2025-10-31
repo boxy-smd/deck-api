@@ -15,7 +15,7 @@ import type { CommentsRepository } from '../repositories/comments-repository'
 import type { ReportsRepository } from '../repositories/reports-repository'
 import { ReportCommentUseCase } from './report-comment'
 
-let studentsRepository: UsersRepository
+let usersRepository: UsersRepository
 let projectsRepository: ProjectsRepository
 let commentsRepository: CommentsRepository
 let reportsRepository: ReportsRepository
@@ -28,21 +28,21 @@ let sut: ReportCommentUseCase
 
 describe('report comment use case', () => {
   beforeEach(async () => {
-    studentsRepository = new InMemoryUsersRepository()
+    usersRepository = new InMemoryUsersRepository()
     projectsRepository = new InMemoryProjectsRepository()
-    commentsRepository = new InMemoryCommentsRepository(studentsRepository)
+    commentsRepository = new InMemoryCommentsRepository(usersRepository)
     reportsRepository = new InMemoryReportsRepository()
 
     author = await makeUser()
     project = makeProject()
     comment = project.comment('Teste', author.id)
 
-    await studentsRepository.create(author)
+    await usersRepository.create(author)
     await projectsRepository.create(project)
     await commentsRepository.create(comment)
 
     sut = new ReportCommentUseCase(
-      studentsRepository,
+      usersRepository,
       commentsRepository,
       reportsRepository,
     )

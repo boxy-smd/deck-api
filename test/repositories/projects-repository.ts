@@ -19,19 +19,19 @@ import { InMemoryUsersRepository } from './users-repository'
 export class InMemoryProjectsRepository implements ProjectsRepository {
   public items: Project[] = []
 
-  private studentsRepository: UsersRepository
+  private usersRepository: UsersRepository
   private subjectsRepository: SubjectsRepository
   private trailsRepository: TrailsRepository
   private professorsRepository: ProfessorsRepository
 
   constructor(
-    studentsRepository?: UsersRepository,
+    usersRepository?: UsersRepository,
     subjectsRepository?: SubjectsRepository,
     trailsRepository?: TrailsRepository,
     professorsRepository?: ProfessorsRepository,
   ) {
-    this.studentsRepository =
-      studentsRepository || new InMemoryUsersRepository()
+    this.usersRepository =
+      usersRepository || new InMemoryUsersRepository()
     this.subjectsRepository =
       subjectsRepository || new InMemorySubjectsRepository()
     this.trailsRepository = trailsRepository || new InMemoryTrailsRepository()
@@ -46,7 +46,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
   }
 
   private async projectToDTO(project: Project): Promise<ProjectDTO> {
-    const author = await this.studentsRepository.findById(
+    const author = await this.usersRepository.findById(
       project.authorId.toString(),
     )
 
@@ -283,7 +283,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     )
 
     const posts = projects.map(async post => {
-      const author = await this.studentsRepository.findById(
+      const author = await this.usersRepository.findById(
         post.authorId.toString(),
       )
 

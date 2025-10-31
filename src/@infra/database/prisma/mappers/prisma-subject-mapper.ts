@@ -27,7 +27,7 @@ export class PrismaSubjectMapper {
       code: subject.code,
       workload: subject.workload,
       semester: subject.semester,
-      type: SubjectType[subject.type],
+      type: subject.type as any,
       createdAt: subject.createdAt,
       updatedAt: subject.updatedAt ?? undefined,
     }

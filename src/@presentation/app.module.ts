@@ -1,29 +1,26 @@
-import { InfraModule } from '@/@infra/infra.module'
-import { HealthController } from '@/@shared/kernel/controllers/health.controller'
+import { envSchema } from '@/@infra/config/env/env'
+import { EnvModule } from '@/@infra/config/env/env.module'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { AuthModule } from './modules/auth/auth.module'
-import { CommentsModule } from './modules/comments/comments.module'
-import { ProfessorsModule } from './modules/professors/professors.module'
-import { ProjectsModule } from './modules/projects/projects.module'
-import { StudentsModule } from './modules/students/students.module'
-import { SubjectsModule } from './modules/subjects/subjects.module'
-import { TrailsModule } from './modules/trails/trails.module'
+import { HttpModule } from './modules/http.module'
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      validate: (env) => {
+        try {
+          return envSchema.parse(env)
+        } catch (error) {
+          console.error('❌ Environment validation failed:', error)
+          throw error
+        }
+      },
       isGlobal: true,
     }),
-    InfraModule,
     AuthModule,
-    StudentsModule,
-    ProfessorsModule,
-    SubjectsModule,
-    TrailsModule,
-    ProjectsModule,
-    CommentsModule,
+    HttpModule,
+    EnvModule,
   ],
-  controllers: [HealthController],
 })
 export class AppModule {}

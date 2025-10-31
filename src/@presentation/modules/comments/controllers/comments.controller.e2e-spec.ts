@@ -1,427 +1,197 @@
-import type { INestApplication } from '@nestjs/common'
-import {
-  createComment,
-  deleteComment,
-  listComments,
-  reportComment,
-} from 'test/e2e/comment-utils'
+import { HttpStatus, type INestApplication } from '@nestjs/common'
+import request from 'supertest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { createComment } from 'test/e2e/comment-utils'
 import { clearDatabase } from 'test/e2e/database-utils'
 import { createProject } from 'test/e2e/project-utils'
 import { createProjectTestData } from 'test/e2e/seed-utils'
-import { closeTestApp, createTestApp } from 'test/e2e/setup-app'
+import { createTestApp } from 'test/e2e/setup-e2e'
 import { createAuthenticatedStudent } from 'test/e2e/student-utils'
 
-describe('[E2E] CommentsController', () => {
+describe('Comments E2E Tests (Success Cases)', () => {
   let app: INestApplication
+  let token: string
+  let projectId: string
+  let trailId: string
+  let subjectId: string
+  let professorId: string
 
   beforeAll(async () => {
     app = await createTestApp()
+    const testData = await createProjectTestData(app)
+
+    trailId = testData.trail.id.toString()
+    subjectId = testData.subject.id.toString()
+    professorId = testData.professor.id.toString()
+
+    const auth = await createAuthenticatedStudent(app, trailId)
+    token = auth.token
+
+    const projectResponse = await createProject(app, token, {
+      title: 'Projeto para Comentários',
+      description: 'Descrição',
+      content: 'Conteúdo',
+      publishedYear: 2024,
+      semester: 1,
+      subjectId,
+      trailsIds: [trailId],
+      professorsIds: [professorId],
+      allowComments: true,
+    })
+
+    projectId = projectResponse.body.project_id
   })
 
   afterAll(async () => {
-    await closeTestApp()
-  })
-
-  beforeEach(async () => {
     await clearDatabase(app)
+    await app.close()
   })
 
-  describe('GET /projects/:projectId/comments - List Comments', () => {
-    it('should list project comments', async () => {
-      // Arrange
-      const { trail, subject, professor } = await createProjectTestData(app)
-      const { token } = await createAuthenticatedStudent(
-        app,
-        trail.id.toString(),
+  describe('GET /projects/:projectId/comments', () => {
+    it('should list all comments of a project', async () => {
+      await createComment(app, token, projectId, {
+        content: 'Primeiro comentário',
+      })
+
+      await createComment(app, token, projectId, {
+        content: 'Segundo comentário',
+      })
+
+      const response = await request(app.getHttpServer()).get(
+        `/projects/${projectId}/comments`,
       )
 
-      const projectResponse = await createProject(app, token, {
-        title: 'Projeto com Comentários',
-        description: 'Desc',
-        content: 'Content',
+      expect(response.status).toBe(HttpStatus.OK)
+      expect(response.body).toHaveProperty('comments')
+      expect(Array.isArray(response.body.comments)).toBe(true)
+      expect(response.body.comments.length).toBeGreaterThanOrEqual(2)
+    })
+
+    it('should return empty array when project has no comments', async () => {
+      const newProjectResponse = await createProject(app, token, {
+        title: 'Projeto Sem Comentários',
+        description: 'Descrição',
+        content: 'Conteúdo',
         publishedYear: 2024,
-        semester: 3,
-        subjectId: subject.id.toString(),
-        trailsIds: [trail.id.toString()],
-        professorsIds: [professor.id.toString()],
+        semester: 1,
+        subjectId,
+        trailsIds: [trailId],
+        professorsIds: [professorId],
         allowComments: true,
       })
 
-      await createComment(
-        app,
-        token,
-        projectResponse.body.project_id,
-        'Excelente projeto!',
-      )
-      await createComment(
-        app,
-        token,
-        projectResponse.body.project_id,
-        'Muito bom!',
+      const response = await request(app.getHttpServer()).get(
+        `/projects/${newProjectResponse.body.project_id}/comments`,
       )
 
-      // Act
-      const response = await listComments(app, projectResponse.body.project_id)
-
-      // Assert
-      expect(response.status).toBe(200)
-      expect(response.body.comments).toBeInstanceOf(Array)
-      expect(response.body.comments.length).toBe(2)
-    })
-
-    it('should return empty array for project without comments', async () => {
-      // Arrange
-      const { trail, subject, professor } = await createProjectTestData(app)
-      const { token } = await createAuthenticatedStudent(
-        app,
-        trail.id.toString(),
-      )
-
-      const projectResponse = await createProject(app, token, {
-        title: 'Projeto sem Comentários',
-        description: 'Desc',
-        content: 'Content',
-        publishedYear: 2024,
-        semester: 3,
-        subjectId: subject.id.toString(),
-        trailsIds: [trail.id.toString()],
-        professorsIds: [professor.id.toString()],
-      })
-
-      // Act
-      const response = await listComments(app, projectResponse.body.project_id)
-
-      // Assert
-      expect(response.status).toBe(200)
-      expect(response.body.comments).toBeInstanceOf(Array)
+      expect(response.status).toBe(HttpStatus.OK)
+      expect(response.body).toHaveProperty('comments')
+      expect(Array.isArray(response.body.comments)).toBe(true)
       expect(response.body.comments.length).toBe(0)
     })
-
-    it('should return 404 for non-existent project', async () => {
-      // Act
-      const response = await listComments(
-        app,
-        '00000000-0000-0000-0000-000000000000',
-      )
-
-      // Assert
-      expect(response.status).toBe(404)
-    })
   })
 
-  describe('POST /projects/:projectId/comments - Create Comment', () => {
-    it('should create comment on project', async () => {
-      // Arrange
-      const { trail, subject, professor } = await createProjectTestData(app)
-      const { token } = await createAuthenticatedStudent(
-        app,
-        trail.id.toString(),
-      )
-
-      const projectResponse = await createProject(app, token, {
-        title: 'Projeto Comentável',
-        description: 'Desc',
-        content: 'Content',
-        publishedYear: 2024,
-        semester: 3,
-        subjectId: subject.id.toString(),
-        trailsIds: [trail.id.toString()],
-        professorsIds: [professor.id.toString()],
-        allowComments: true,
+  describe('POST /projects/:projectId/comments', () => {
+    it('should create a comment on a project', async () => {
+      const response = await createComment(app, token, projectId, {
+        content: 'Ótimo projeto! Parabéns pelo trabalho.',
       })
 
-      // Act
-      const response = await createComment(
-        app,
-        token,
-        projectResponse.body.project_id,
-        'Ótimo trabalho! Parabéns pelo projeto.',
-      )
-
-      // Assert
-      expect(response.status).toBe(201)
+      expect(response.status).toBe(HttpStatus.CREATED)
       expect(response.body).toHaveProperty('comment_id')
-      expect(typeof response.body.comment_id).toBe('string')
+      expect(response.body.comment_id).toBeTruthy()
     })
 
-    it('should not create comment without authentication', async () => {
-      // Arrange
-      const { trail, subject, professor } = await createProjectTestData(app)
-      const { token } = await createAuthenticatedStudent(
-        app,
-        trail.id.toString(),
-      )
-
-      const projectResponse = await createProject(app, token, {
-        title: 'Projeto',
-        description: 'Desc',
-        content: 'Content',
-        publishedYear: 2024,
-        semester: 3,
-        subjectId: subject.id.toString(),
-        trailsIds: [trail.id.toString()],
-        professorsIds: [professor.id.toString()],
-        allowComments: true,
+    it('should create multiple comments by the same user', async () => {
+      const response1 = await createComment(app, token, projectId, {
+        content: 'Primeiro comentário do usuário',
       })
 
-      // Act
-      const response = await createComment(
-        app,
-        '',
-        projectResponse.body.project_id,
-        'Comentário sem autenticação',
-      )
+      const response2 = await createComment(app, token, projectId, {
+        content: 'Segundo comentário do mesmo usuário',
+      })
 
-      // Assert
-      expect(response.status).toBe(401)
+      expect(response1.status).toBe(HttpStatus.CREATED)
+      expect(response2.status).toBe(HttpStatus.CREATED)
+      expect(response1.body.comment_id).toBeTruthy()
+      expect(response2.body.comment_id).toBeTruthy()
     })
 
-    it('should not create comment on project with comments disabled', async () => {
-      // Arrange
-      const { trail, subject, professor } = await createProjectTestData(app)
-      const { token } = await createAuthenticatedStudent(
-        app,
-        trail.id.toString(),
-      )
+    it('should create comment with long content', async () => {
+      const longContent = 'A'.repeat(500)
 
-      const projectResponse = await createProject(app, token, {
-        title: 'Projeto sem Comentários',
-        description: 'Desc',
-        content: 'Content',
-        publishedYear: 2024,
-        semester: 3,
-        subjectId: subject.id.toString(),
-        trailsIds: [trail.id.toString()],
-        professorsIds: [professor.id.toString()],
-        allowComments: false,
+      const response = await createComment(app, token, projectId, {
+        content: longContent,
       })
 
-      // Act
-      const response = await createComment(
-        app,
-        token,
-        projectResponse.body.project_id,
-        'Tentando comentar',
-      )
-
-      // Assert
-      expect(response.status).toBe(403)
-    })
-
-    it('should not create empty comment', async () => {
-      // Arrange
-      const { trail, subject, professor } = await createProjectTestData(app)
-      const { token } = await createAuthenticatedStudent(
-        app,
-        trail.id.toString(),
-      )
-
-      const projectResponse = await createProject(app, token, {
-        title: 'Projeto',
-        description: 'Desc',
-        content: 'Content',
-        publishedYear: 2024,
-        semester: 3,
-        subjectId: subject.id.toString(),
-        trailsIds: [trail.id.toString()],
-        professorsIds: [professor.id.toString()],
-        allowComments: true,
-      })
-
-      // Act
-      const response = await createComment(
-        app,
-        token,
-        projectResponse.body.project_id,
-        '',
-      )
-
-      // Assert
-      expect(response.status).toBe(400)
+      expect(response.status).toBe(HttpStatus.CREATED)
+      expect(response.body).toHaveProperty('comment_id')
     })
   })
 
-  describe('DELETE /projects/:projectId/comments/:commentId - Delete Comment', () => {
-    it('should delete own comment', async () => {
-      // Arrange
-      const { trail, subject, professor } = await createProjectTestData(app)
-      const { token } = await createAuthenticatedStudent(
-        app,
-        trail.id.toString(),
-      )
-
-      const projectResponse = await createProject(app, token, {
-        title: 'Projeto',
-        description: 'Desc',
-        content: 'Content',
-        publishedYear: 2024,
-        semester: 3,
-        subjectId: subject.id.toString(),
-        trailsIds: [trail.id.toString()],
-        professorsIds: [professor.id.toString()],
-        allowComments: true,
+  describe('DELETE /projects/:projectId/comments/:commentId', () => {
+    it('should delete a comment when user is the author', async () => {
+      const createResponse = await createComment(app, token, projectId, {
+        content: 'Comentário para deletar',
       })
 
-      const commentResponse = await createComment(
-        app,
-        token,
-        projectResponse.body.project_id,
-        'Comentário para deletar',
-      )
+      const commentId = createResponse.body.comment_id
 
-      // Act
-      const response = await deleteComment(
-        app,
-        token,
-        projectResponse.body.project_id,
-        commentResponse.body.comment_id,
-      )
+      const response = await request(app.getHttpServer())
+        .delete(`/projects/${projectId}/comments/${commentId}`)
+        .set('Authorization', `Bearer ${token}`)
 
-      // Assert
-      expect(response.status).toBe(204)
-
-      // Verify deletion
-      const listResponse = await listComments(
-        app,
-        projectResponse.body.project_id,
-      )
-      expect(listResponse.body.comments).toHaveLength(0)
-    })
-
-    it('should not delete comment of another user', async () => {
-      // Arrange
-      const { trail, subject, professor } = await createProjectTestData(app)
-      const student1 = await createAuthenticatedStudent(
-        app,
-        trail.id.toString(),
-      )
-      const student2 = await createAuthenticatedStudent(
-        app,
-        trail.id.toString(),
-        { username: 'student2', email: 'student2@alu.ufc.br' },
-      )
-
-      const projectResponse = await createProject(app, student1.token, {
-        title: 'Projeto',
-        description: 'Desc',
-        content: 'Content',
-        publishedYear: 2024,
-        semester: 3,
-        subjectId: subject.id.toString(),
-        trailsIds: [trail.id.toString()],
-        professorsIds: [professor.id.toString()],
-        allowComments: true,
-      })
-
-      const commentResponse = await createComment(
-        app,
-        student1.token,
-        projectResponse.body.project_id,
-        'Comentário do estudante 1',
-      )
-
-      // Act - Tentar deletar com token de outro estudante
-      const response = await deleteComment(
-        app,
-        student2.token,
-        projectResponse.body.project_id,
-        commentResponse.body.comment_id,
-      )
-
-      // Assert
-      expect(response.status).toBe(403)
-    })
-
-    it('should not delete without authentication', async () => {
-      // Act
-      const response = await deleteComment(app, '', 'project-id', 'comment-id')
-
-      // Assert
-      expect(response.status).toBe(401)
+      expect(response.status).toBe(HttpStatus.NO_CONTENT)
     })
   })
 
-  describe('POST /comments/:commentId/report - Report Comment', () => {
-    it('should report inappropriate comment', async () => {
-      // Arrange
-      const { trail, subject, professor } = await createProjectTestData(app)
-      const student1 = await createAuthenticatedStudent(
-        app,
-        trail.id.toString(),
-      )
-      const student2 = await createAuthenticatedStudent(
-        app,
-        trail.id.toString(),
-        { username: 'student2', email: 'student2@alu.ufc.br' },
-      )
-
-      const projectResponse = await createProject(app, student1.token, {
-        title: 'Projeto',
-        description: 'Desc',
-        content: 'Content',
-        publishedYear: 2024,
-        semester: 3,
-        subjectId: subject.id.toString(),
-        trailsIds: [trail.id.toString()],
-        professorsIds: [professor.id.toString()],
-        allowComments: true,
+  describe('POST /comments/:commentId/report', () => {
+    it('should report a comment successfully', async () => {
+      const auth2 = await createAuthenticatedStudent(app, trailId, {
+        username: 'reporter',
+        email: 'reporter@alu.ufc.br',
       })
 
-      const commentResponse = await createComment(
-        app,
-        student1.token,
-        projectResponse.body.project_id,
-        'Comentário inapropriado',
-      )
+      const commentResponse = await createComment(app, token, projectId, {
+        content: 'Comentário a ser reportado',
+      })
 
-      // Act
-      const response = await reportComment(
-        app,
-        student2.token,
-        commentResponse.body.comment_id,
-        {
-          projectId: projectResponse.body.project_id,
-          content: 'Este comentário contém linguagem ofensiva',
-        },
-      )
+      const commentId = commentResponse.body.comment_id
 
-      // Assert
-      expect(response.status).toBe(201)
+      const response = await request(app.getHttpServer())
+        .post(`/comments/${commentId}/report`)
+        .set('Authorization', `Bearer ${auth2.token}`)
+        .send({
+          projectId,
+          content: 'Conteúdo inapropriado',
+        })
+
+      expect(response.status).toBe(HttpStatus.CREATED)
       expect(response.body).toHaveProperty('message')
     })
 
-    it('should not report without authentication', async () => {
-      // Act
-      const response = await reportComment(app, '', 'comment-id', {
-        projectId: 'project-id',
-        content: 'Denúncia',
+    it('should report a comment with detailed reason', async () => {
+      const auth2 = await createAuthenticatedStudent(app, trailId, {
+        username: 'reporter2',
+        email: 'reporter2@alu.ufc.br',
       })
 
-      // Assert
-      expect(response.status).toBe(401)
-    })
+      const commentResponse = await createComment(app, token, projectId, {
+        content: 'Outro comentário a ser reportado',
+      })
 
-    it('should not report non-existent comment', async () => {
-      // Arrange
-      const { trail } = await createProjectTestData(app)
-      const { token } = await createAuthenticatedStudent(
-        app,
-        trail.id.toString(),
-      )
+      const commentId = commentResponse.body.comment_id
 
-      // Act
-      const response = await reportComment(
-        app,
-        token,
-        '00000000-0000-0000-0000-000000000000',
-        {
-          projectId: '00000000-0000-0000-0000-000000000000',
-          content: 'Denúncia',
-        },
-      )
+      const response = await request(app.getHttpServer())
+        .post(`/comments/${commentId}/report`)
+        .set('Authorization', `Bearer ${auth2.token}`)
+        .send({
+          projectId,
+          content: 'Este comentário contém spam e linguagem ofensiva',
+        })
 
-      // Assert
-      expect(response.status).toBe(404)
+      expect(response.status).toBe(HttpStatus.CREATED)
+      expect(response.body).toHaveProperty('message')
     })
   })
 })

@@ -1,11 +1,11 @@
-import type { UsersRepository } from '@/@core/application/users/repositories/users-repository'
+import { UsersRepository } from '@/@core/application/users/repositories/users-repository'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ForbiddenError } from '@/@shared/kernel/errors/forbidden.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { Injectable } from '@nestjs/common'
 import { Report } from '../../../domain/interactions/entities/report'
-import type { CommentsRepository } from '../repositories/comments-repository'
-import type { ReportsRepository } from '../repositories/reports-repository'
+import { CommentsRepository } from '../repositories/comments-repository'
+import { ReportsRepository } from '../repositories/reports-repository'
 
 interface ReportCommentUseCaseRequest {
   content: string
@@ -22,7 +22,7 @@ type ReportCommentUseCaseResponse = Either<
 @Injectable()
 export class ReportCommentUseCase {
   constructor(
-    private studentsRepository: UsersRepository,
+    private usersRepository: UsersRepository,
     private commentsRepository: CommentsRepository,
     private reportsRepository: ReportsRepository,
   ) {}
@@ -51,7 +51,7 @@ export class ReportCommentUseCase {
       )
     }
 
-    const student = await this.studentsRepository.findById(authorId)
+    const student = await this.usersRepository.findById(authorId)
 
     if (!student) {
       return left(new ResourceNotFoundError('Student not found.'))

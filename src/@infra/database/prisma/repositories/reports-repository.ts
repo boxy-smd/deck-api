@@ -2,7 +2,7 @@ import type { ReportsRepository } from '@/@core/application/interactions/reposit
 import type { Report } from '@/@core/domain/interactions/entities/report'
 import { Injectable } from '@nestjs/common'
 import { PrismaReportMapper } from '../mappers/prisma-report-mapper'
-import type { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class PrismaReportsRepository implements ReportsRepository {

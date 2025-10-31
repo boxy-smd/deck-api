@@ -1,12 +1,12 @@
-import type { UsersRepository } from '@/@core/application/users/repositories/users-repository'
+import { UsersRepository } from '@/@core/application/users/repositories/users-repository'
 import type { StudentProfile } from '@/@core/domain/users/entities/student-profile'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ForbiddenError } from '@/@shared/kernel/errors/forbidden.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { Injectable } from '@nestjs/common'
-import type { ProjectsRepository } from '../../projects/repositories/projects-repository'
-import type { CommentsRepository } from '../repositories/comments-repository'
+import { ProjectsRepository } from '../../projects/repositories/projects-repository'
+import { CommentsRepository } from '../repositories/comments-repository'
 
 interface CommentOnProjectUseCaseRequest {
   content: string

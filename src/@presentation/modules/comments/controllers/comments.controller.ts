@@ -1,7 +1,8 @@
-import type { CommentOnProjectUseCase } from '@/@core/application/interactions/use-cases/comment-on-project'
-import type { DeleteCommentUseCase } from '@/@core/application/interactions/use-cases/delete-comment'
-import type { ListProjectCommentsUseCase } from '@/@core/application/interactions/use-cases/list-project-comments'
-import type { ReportCommentUseCase } from '@/@core/application/interactions/use-cases/report-comment'
+import { CommentOnProjectUseCase } from '@/@core/application/interactions/use-cases/comment-on-project'
+import { DeleteCommentUseCase } from '@/@core/application/interactions/use-cases/delete-comment'
+import { ListProjectCommentsUseCase } from '@/@core/application/interactions/use-cases/list-project-comments'
+import { ReportCommentUseCase } from '@/@core/application/interactions/use-cases/report-comment'
+import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { CommentPresenter } from '@/@presentation/presenters/comment'
 import {
@@ -42,6 +43,8 @@ export class CommentsController {
     private readonly listProjectCommentsUseCase: ListProjectCommentsUseCase,
     private readonly reportCommentUseCase: ReportCommentUseCase,
   ) {}
+  @Public()
+
   @Get('projects/:projectId/comments')
   @ApiOperation({
     summary: 'Listar comentários do projeto',

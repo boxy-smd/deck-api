@@ -1,4 +1,5 @@
-import type { FetchProfessorsUseCase } from '@/@core/application/projects/use-cases/fetch-professors'
+import { FetchProfessorsUseCase } from '@/@core/application/projects/use-cases/fetch-professors'
+import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { ProfessorPresenter } from '@/@presentation/presenters/professor'
 import { Controller, Get, Query } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
@@ -11,6 +12,8 @@ export class ProfessorsController {
   constructor(
     private readonly fetchProfessorsUseCase: FetchProfessorsUseCase,
   ) {}
+
+  @Public()
 
   @Get('professors')
   @ApiOperation({
