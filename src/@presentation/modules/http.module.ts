@@ -26,7 +26,7 @@ import { ProjectsController } from './projects/controllers/projects.controller'
 import { PublishProjectResponseDto } from './projects/dto/projects-response.dto'
 import { SubjectsController } from './subjects/controllers/subjects.controller'
 import { TrailsController } from './trails/controllers/trails.controller'
-import { StudentsController } from './users/controllers/users.controller'
+import { UsersController } from './users/controllers/users.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -34,7 +34,7 @@ import { StudentsController } from './users/controllers/users.controller'
     CommentsController,
     ProfessorsController,
     SubjectsController,
-    StudentsController,
+    UsersController,
     ProjectsController,
     TrailsController,
   ],
