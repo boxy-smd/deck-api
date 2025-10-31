@@ -1,4 +1,4 @@
-import type { UsersRepository } from '@/@core/application/users/repositories/users-repository'
+import { UsersRepository } from '@/@core/application/users/repositories/users-repository'
 import type { Professor } from '@/@core/domain/projects/entities/professor'
 import { Project } from '@/@core/domain/projects/entities/project'
 import type { Subject } from '@/@core/domain/projects/entities/subject'
@@ -10,10 +10,10 @@ import { ForbiddenError } from '@/@shared/kernel/errors/forbidden.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { Injectable } from '@nestjs/common'
-import type { ProfessorsRepository } from '../repositories/professors-repository'
-import type { ProjectsRepository } from '../repositories/projects-repository'
-import type { SubjectsRepository } from '../repositories/subjects-repository'
-import type { TrailsRepository } from '../repositories/trails-repository'
+import { ProfessorsRepository } from '../repositories/professors-repository'
+import { ProjectsRepository } from '../repositories/projects-repository'
+import { SubjectsRepository } from '../repositories/subjects-repository'
+import { TrailsRepository } from '../repositories/trails-repository'
 
 interface PublishProjectUseCaseRequest {
   title: string
@@ -41,7 +41,7 @@ type PublishProjectUseCaseResponse = Either<
 export class PublishProjectUseCase {
   constructor(
     private readonly projectsRepository: ProjectsRepository,
-    private readonly studentsRepository: UsersRepository,
+    private readonly usersRepository: UsersRepository,
     private readonly subjectsRepository: SubjectsRepository,
     private readonly trailsRepository: TrailsRepository,
     private readonly professorsRepository: ProfessorsRepository,
@@ -144,7 +144,7 @@ export class PublishProjectUseCase {
       )
     }
 
-    const student = await this.studentsRepository.findById(authorId)
+    const student = await this.usersRepository.findById(authorId)
 
     if (!student) {
       return left(new ResourceNotFoundError('Student not found.'))

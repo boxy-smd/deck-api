@@ -1,6 +1,6 @@
 import type { Subject } from '@/@core/domain/projects/entities/subject'
 import { Injectable } from '@nestjs/common'
-import type { SubjectsRepository } from '../repositories/subjects-repository'
+import { SubjectsRepository } from '../repositories/subjects-repository'
 
 export interface FetchSubjectsUseCaseRequest {
   name?: string

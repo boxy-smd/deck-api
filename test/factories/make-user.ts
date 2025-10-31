@@ -1,8 +1,5 @@
 import { StudentProfile } from '@/@core/domain/users/entities/student-profile'
-import {
-  User,
-  type UserProps,
-} from '@/@core/domain/users/entities/user'
+import { User, type UserProps } from '@/@core/domain/users/entities/user'
 import { Email } from '@/@core/domain/users/value-objects/email'
 import { Semester } from '@/@core/domain/users/value-objects/semester'
 import { UserRole } from '@/@core/domain/users/value-objects/user-role'
@@ -17,7 +14,9 @@ export async function makeUser(
 ) {
   const hasher = new FakeHasher()
 
-  const usernameResult = Username.create(`user_${Math.random().toString(36).substring(7)}`)
+  const usernameResult = Username.create(
+    `user_${Math.random().toString(36).substring(7)}`,
+  )
   if (usernameResult.isLeft()) {
     throw usernameResult.value
   }
@@ -36,7 +35,9 @@ export async function makeUser(
     userId,
   )
 
-  const emailResult = Email.create(`user_${Math.random().toString(36).substring(7)}@alu.ufc.br`)
+  const emailResult = Email.create(
+    `user_${Math.random().toString(36).substring(7)}@alu.ufc.br`,
+  )
   if (emailResult.isLeft()) {
     throw emailResult.value
   }

@@ -2,7 +2,7 @@ import type { TrailsRepository } from '@/@core/application/projects/repositories
 import type { Trail } from '@/@core/domain/projects/entities/trail'
 import { Injectable } from '@nestjs/common'
 import { PrismaTrailMapper } from '../mappers/prisma-trail-mapper'
-import type { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class PrismaTrailsRepository implements TrailsRepository {

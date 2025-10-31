@@ -1,8 +1,8 @@
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { InvalidCredentialsError } from '@/@shared/kernel/errors/invalid-credentials.error'
 import { Injectable } from '@nestjs/common'
-import type { HashComparer } from '../cryptography/hash-comparer'
-import type { UsersRepository } from '../repositories/users-repository'
+import { HashComparer } from '../cryptography/hash-comparer'
+import { UsersRepository } from '../repositories/users-repository'
 
 interface LoginUseCaseRequest {
   email: string

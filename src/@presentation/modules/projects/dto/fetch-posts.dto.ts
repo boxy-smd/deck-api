@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Type } from 'class-transformer'
+import { Transform, Type } from 'class-transformer'
 import { IsArray, IsInt, IsOptional, IsString, Min } from 'class-validator'
 
 export class FetchPostsDto {
@@ -54,6 +54,7 @@ export class FilterPostsDto {
     example: ['uuid1', 'uuid2'],
   })
   @IsOptional()
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   @IsArray()
   @IsString({ each: true })
   trailsIds?: string[]
@@ -74,6 +75,7 @@ export class FilterPostsDto {
     example: ['react', 'typescript'],
   })
   @IsOptional()
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   @IsArray()
   @IsString({ each: true })
   tags?: string[]

@@ -1,9 +1,10 @@
-import type { EditProfileUseCase } from '@/@core/application/users/use-cases/edit-profile'
-import type { FetchUsersUseCase } from '@/@core/application/users/use-cases/fetch-users'
-import type { GetProfileUseCase } from '@/@core/application/users/use-cases/get-profile'
-import type { LoginUseCase } from '@/@core/application/users/use-cases/login'
-import type { RegisterUseCase } from '@/@core/application/users/use-cases/register'
-import type { UploadStudentProfileUseCase } from '@/@core/application/users/use-cases/upload-student-profile'
+import { EditProfileUseCase } from '@/@core/application/users/use-cases/edit-profile'
+import { FetchUsersUseCase } from '@/@core/application/users/use-cases/fetch-users'
+import { GetProfileUseCase } from '@/@core/application/users/use-cases/get-profile'
+import { LoginUseCase } from '@/@core/application/users/use-cases/login'
+import { RegisterUseCase } from '@/@core/application/users/use-cases/register'
+import { UploadStudentProfileUseCase } from '@/@core/application/users/use-cases/upload-student-profile'
+import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { UserPresenter } from '@/@presentation/presenters/user'
 import {
@@ -27,7 +28,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common'
-import type { JwtService } from '@nestjs/jwt'
+import { JwtService } from '@nestjs/jwt'
 import { FileInterceptor } from '@nestjs/platform-express'
 import {
   ApiBearerAuth,
@@ -63,6 +64,7 @@ export class StudentsController {
     private readonly uploadStudentProfileUseCase: UploadStudentProfileUseCase,
   ) {}
 
+  @Public()
   @Post('students')
   @ApiOperation({
     summary: 'Cadastrar novo estudante',
@@ -108,6 +110,7 @@ export class StudentsController {
     return { user_id: result.value.id.toString() }
   }
 
+  @Public()
   @Post('sessions')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
@@ -143,6 +146,7 @@ export class StudentsController {
     return { token }
   }
 
+  @Public()
   @Get('profiles/:username')
   @ApiOperation({
     summary: 'Buscar perfil por nome de usuário',
@@ -227,6 +231,7 @@ export class StudentsController {
     }
   }
 
+  @Public()
   @Get('students')
   @ApiOperation({
     summary: 'Listar estudantes',
@@ -250,6 +255,7 @@ export class StudentsController {
     }
   }
 
+  @Public()
   @Get('students/:studentId')
   @ApiOperation({
     summary: 'Buscar detalhes do estudante',

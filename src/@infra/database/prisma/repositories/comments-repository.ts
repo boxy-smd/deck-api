@@ -4,8 +4,8 @@ import type { CommentWithAuthor } from '@/@core/domain/interactions/value-object
 import { Injectable } from '@nestjs/common'
 import { PrismaErrorHandler } from '../error-handler'
 import { PrismaCommentMapper } from '../mappers/prisma-comment-mapper'
-import type { PrismaService } from '../prisma.service'
-import type { PrismaReportsRepository } from './reports-repository'
+import { PrismaService } from '../prisma.service'
+import { PrismaReportsRepository } from './reports-repository'
 
 @Injectable()
 export class PrismaCommentsRepository implements CommentsRepository {

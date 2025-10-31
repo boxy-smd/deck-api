@@ -2,7 +2,7 @@ import type { ProfessorsRepository } from '@/@core/application/projects/reposito
 import type { Professor } from '@/@core/domain/projects/entities/professor'
 import { Injectable } from '@nestjs/common'
 import { PrismaProfessorMapper } from '../mappers/prisma-professor-mapper'
-import type { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class PrismaProfessorsRepository implements ProfessorsRepository {

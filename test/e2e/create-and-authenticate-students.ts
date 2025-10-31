@@ -3,7 +3,7 @@ import { PrismaService } from '@/@infra/database/prisma/prisma.service'
 import type { INestApplication } from '@nestjs/common'
 import request from 'supertest'
 import { makeTrail } from 'test/factories/make-trail'
-import { createTestApp } from './setup-app'
+import { createTestApp } from './setup-e2e'
 
 export async function createAndAuthenticateStudent(app?: INestApplication) {
   const testApp = app ?? (await createTestApp())

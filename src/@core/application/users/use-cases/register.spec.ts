@@ -4,10 +4,12 @@ import { makeUser } from 'test/factories/make-user'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
 import type { User } from '../../../domain/users/entities/user'
+import type { TrailsRepository } from '../../projects/repositories/trails-repository'
+import type { UsersRepository } from '../repositories/users-repository'
 import { RegisterUseCase } from './register'
 
-let usersRepository: InMemoryUsersRepository
-let trailsRepository: InMemoryTrailsRepository
+let usersRepository: UsersRepository
+let trailsRepository: TrailsRepository
 let hasher: FakeHasher
 
 let user: User

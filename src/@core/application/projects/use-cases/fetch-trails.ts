@@ -1,6 +1,6 @@
 import type { Trail } from '@/@core/domain/projects/entities/trail'
 import { Injectable } from '@nestjs/common'
-import type { TrailsRepository } from '../repositories/trails-repository'
+import { TrailsRepository } from '../repositories/trails-repository'
 
 type FetchTrailsUseCaseResponse = Trail[]
 

@@ -2,7 +2,7 @@ import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { Injectable } from '@nestjs/common'
 import type { ProjectDTO } from '../dtos/project.dto'
-import type { ProjectsRepository } from '../repositories/projects-repository'
+import { ProjectsRepository } from '../repositories/projects-repository'
 
 interface GetProjectUseCaseRequest {
   projectId: string

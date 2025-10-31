@@ -15,7 +15,7 @@ import type { SubjectsRepository } from '../repositories/subjects-repository'
 import type { TrailsRepository } from '../repositories/trails-repository'
 import { GetProjectUseCase } from './get-project'
 
-let studentsRepository: UsersRepository
+let usersRepository: UsersRepository
 let subjectsRepository: SubjectsRepository
 let trailsRepository: TrailsRepository
 let projectsRepository: ProjectsRepository
@@ -28,12 +28,12 @@ let sut: GetProjectUseCase
 
 describe('get project use case', () => {
   beforeEach(async () => {
-    studentsRepository = new InMemoryUsersRepository()
+    usersRepository = new InMemoryUsersRepository()
     subjectsRepository = new InMemorySubjectsRepository()
     trailsRepository = new InMemoryTrailsRepository()
 
     projectsRepository = new InMemoryProjectsRepository(
-      studentsRepository,
+      usersRepository,
       subjectsRepository,
       trailsRepository,
     )
@@ -47,7 +47,7 @@ describe('get project use case', () => {
       trails: new Set([trail.id]),
     })
 
-    await studentsRepository.create(author)
+    await usersRepository.create(author)
     await trailsRepository.create(trail)
 
     sut = new GetProjectUseCase(projectsRepository)

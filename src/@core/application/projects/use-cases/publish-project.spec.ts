@@ -18,7 +18,7 @@ import type { TrailsRepository } from '../repositories/trails-repository'
 import { PublishProjectUseCase } from './publish-project'
 
 let projectsRepository: ProjectsRepository
-let studentsRepository: UsersRepository
+let usersRepository: UsersRepository
 let subjectsRepository: SubjectsRepository
 let trailsRepository: TrailsRepository
 let professorsRepository: ProfessorsRepository
@@ -30,13 +30,13 @@ let sut: PublishProjectUseCase
 
 describe('publish project use case', () => {
   beforeEach(async () => {
-    studentsRepository = new InMemoryUsersRepository()
+    usersRepository = new InMemoryUsersRepository()
     subjectsRepository = new InMemorySubjectsRepository()
     trailsRepository = new InMemoryTrailsRepository()
     professorsRepository = new InMemoryProfessorsRepository()
 
     projectsRepository = new InMemoryProjectsRepository(
-      studentsRepository,
+      usersRepository,
       subjectsRepository,
       trailsRepository,
       professorsRepository,
@@ -47,7 +47,7 @@ describe('publish project use case', () => {
 
     sut = new PublishProjectUseCase(
       projectsRepository,
-      studentsRepository,
+      usersRepository,
       subjectsRepository,
       trailsRepository,
       professorsRepository,
@@ -55,7 +55,7 @@ describe('publish project use case', () => {
   })
 
   it('should be able to publish a project', async () => {
-    await studentsRepository.create(author)
+    await usersRepository.create(author)
     await trailsRepository.create(trail)
 
     const result = await sut.execute({
@@ -78,7 +78,7 @@ describe('publish project use case', () => {
   it('should be able to publish a project with a subject', async () => {
     const subject = makeSubject()
 
-    await studentsRepository.create(author)
+    await usersRepository.create(author)
     await trailsRepository.create(trail)
     await subjectsRepository.create(subject)
 
@@ -103,7 +103,7 @@ describe('publish project use case', () => {
   it('should be able to publish a project with professors', async () => {
     const professor = makeProfessor()
 
-    await studentsRepository.create(author)
+    await usersRepository.create(author)
     await trailsRepository.create(trail)
     await professorsRepository.create(professor)
 
@@ -146,7 +146,7 @@ describe('publish project use case', () => {
   })
 
   it('should not be able to publish a project with a non-existing trail', async () => {
-    await studentsRepository.create(author)
+    await usersRepository.create(author)
 
     const result = await sut.execute({
       title: 'Project Title',
@@ -166,7 +166,7 @@ describe('publish project use case', () => {
   })
 
   it('should not be able to publish a project with a non-existing subject', async () => {
-    await studentsRepository.create(author)
+    await usersRepository.create(author)
     await trailsRepository.create(trail)
 
     const result = await sut.execute({

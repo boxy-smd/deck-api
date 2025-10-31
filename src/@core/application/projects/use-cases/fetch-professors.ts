@@ -1,6 +1,6 @@
 import type { Professor } from '@/@core/domain/projects/entities/professor'
 import { Injectable } from '@nestjs/common'
-import type { ProfessorsRepository } from '../repositories/professors-repository'
+import { ProfessorsRepository } from '../repositories/professors-repository'
 
 interface FetchProfessorsUseCaseRequest {
   name?: string

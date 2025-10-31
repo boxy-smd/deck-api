@@ -1,5 +1,5 @@
-import type { INestApplication } from '@nestjs/common'
 import { PrismaService } from '@/@infra/database/prisma/prisma.service'
+import type { INestApplication } from '@nestjs/common'
 
 /**
  * Limpa todas as tabelas do banco de dados de teste
@@ -7,10 +7,11 @@ import { PrismaService } from '@/@infra/database/prisma/prisma.service'
 export async function clearDatabase(app: INestApplication): Promise<void> {
   const prisma = app.get(PrismaService)
 
-  // Ordem importa devido a foreign keys
-  await prisma.comment.deleteMany()
   await prisma.report.deleteMany()
+  await prisma.comment.deleteMany()
   await prisma.project.deleteMany()
+  await prisma.$executeRaw`DELETE FROM "student_has_trail"`
+  await prisma.studentProfile.deleteMany()
   await prisma.user.deleteMany()
   await prisma.professor.deleteMany()
   await prisma.subject.deleteMany()

@@ -4,7 +4,7 @@
 	"description": "Deck API - NestJS Backend",
 	"scripts": {
 		"start:dev": "nest start --watch",
-		"start": "node dist/main.js",
+		"start": "node dist/@presentation/main.js",
 		"build": "nest build",
 		"fix": "biome format --write src",
 		"lint": "biome lint --write src",
@@ -25,6 +25,7 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
+		"@faker-js/faker": "^10.1.0",
 		"@nestjs/cli": "^11.0.10",
 		"@nestjs/testing": "^11.1.8",
 		"@swc/cli": "^0.7.8",
@@ -35,11 +36,13 @@
 		"@types/passport-jwt": "^4.0.1",
 		"@types/supertest": "^6.0.3",
 		"@vitest/coverage-v8": "^2.1.9",
+		"dotenv": "^17.2.3",
 		"glob": "^11.0.3",
 		"prisma": "^5.22.0",
 		"supertest": "^7.1.4",
 		"tsx": "^4.20.6",
 		"typescript": "^5.9.3",
+		"unplugin-swc": "^1.5.8",
 		"vitest": "^2.1.9"
 	},
 	"dependencies": {
@@ -60,6 +63,7 @@
 		"passport-jwt": "^4.0.1",
 		"reflect-metadata": "^0.2.2",
 		"rxjs": "^7.8.2",
+		"vite-tsconfig-paths": "^5.1.4",
 		"zod": "^4.1.12"
 	},
 	"pnpm": {

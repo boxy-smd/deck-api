@@ -54,6 +54,12 @@ export class ProjectSummaryResponseDto {
     id: string
     name: string
   }>
+
+  @ApiProperty({ type: [Object] })
+  professors: Array<{
+    id: string
+    name: string
+  }>
 }
 
 export class ProjectsListResponseDto {

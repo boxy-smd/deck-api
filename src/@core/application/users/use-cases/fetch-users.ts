@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import type { TrailsRepository } from '../../projects/repositories/trails-repository'
+import { TrailsRepository } from '../../projects/repositories/trails-repository'
 import {
   type UserSummaryDTO,
   UserSummaryDTOMapper,
 } from '../dtos/user.summary.dto'
-import type { UsersRepository } from '../repositories/users-repository'
+import { UsersRepository } from '../repositories/users-repository'
 
 interface FetchUsersUseCaseRequest {
   name?: string
