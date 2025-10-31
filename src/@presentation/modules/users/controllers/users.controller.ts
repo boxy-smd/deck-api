@@ -51,9 +51,9 @@ import {
   UsersListResponseDto,
 } from '../dto/students-response.dto'
 
-@ApiTags('Estudantes')
+@ApiTags('Usuários')
 @Controller()
-export class StudentsController {
+export class UsersController {
   constructor(
     private readonly jwtService: JwtService,
     private readonly registerUseCase: RegisterUseCase,
