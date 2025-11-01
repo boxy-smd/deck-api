@@ -44,7 +44,9 @@ async function bootstrap() {
   const configService = app.get(EnvService)
 
   const document = SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup('docs', app, document)
+  SwaggerModule.setup('docs', app, document, {
+    jsonDocumentUrl: '/docs-json',
+  })
 
   await app.listen(configService.get('PORT'), '0.0.0.0')
   console.log(
