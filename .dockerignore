@@ -1,8 +1,23 @@
+# Dependencies
 node_modules
+
+# Build outputs
 build
 dist
 coverage
-.git
+
+# Environment
 .env
-*.md
+.env.local
+.env.test
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+
+# IDE
 .vscode
+.idea
+

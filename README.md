@@ -91,36 +91,29 @@ Tecnologias utilizadas no projeto.
 
 ## 🐳 Rodar com Docker
 
-A forma mais fácil de rodar o projeto completo:
+Simples e rápido:
 
-```sh
-# 1. Clonar o projeto
+```bash
+# 1. Clonar
 git clone https://github.com/boxy-smd/deck-api.git
 cd deck-api
 
-# 2. Configurar variáveis de ambiente (opcional)
+# 2. Configurar variáveis de ambiente
 cp .env.example .env
-# Edite .env se necessário (JWT_SECRET, etc)
+# Edite .env e configure JWT_SECRET
 
-# 3. Build e iniciar containers (app + postgres)
-docker compose up --build
+# 3. Iniciar
+docker compose up -d
 
-# A aplicação estará rodando em http://localhost:3333
+# Acessar: http://localhost:3333/docs
 ```
 
-**Comandos úteis:**
-```sh
-# Parar containers
-docker compose down
-
-# Ver logs
-docker compose logs -f
-
-# Rebuild
-docker compose up --build
-
-# Limpar tudo (incluindo dados do banco)
-docker compose down -v
+**Comandos:**
+```bash
+docker compose up -d      # Iniciar
+docker compose down       # Parar
+docker compose logs -f    # Ver logs
+```
 ```
 
 ```sh
