@@ -1,11 +1,11 @@
 import type { ProjectDTO } from '@/@core/application/projects/dtos/project.dto'
-import type { ProfessorsRepository } from '@/@core/application/projects/repositories/professors-repository'
+import type { ProfessorsRepository } from '@/@core/application/professors/repositories/professors-repository'
 import type {
   ProjectQuery,
   ProjectsRepository,
 } from '@/@core/application/projects/repositories/projects-repository'
-import type { SubjectsRepository } from '@/@core/application/projects/repositories/subjects-repository'
-import type { TrailsRepository } from '@/@core/application/projects/repositories/trails-repository'
+import type { SubjectsRepository } from '@/@core/application/subjects/repositories/subjects-repository'
+import type { TrailsRepository } from '@/@core/application/trails/repositories/trails-repository'
 import type { UsersRepository } from '@/@core/application/users/repositories/users-repository'
 import type { Professor } from '@/@core/domain/projects/entities/professor'
 import { Project } from '@/@core/domain/projects/entities/project'
@@ -362,5 +362,14 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
   async existsById(id: string): Promise<boolean> {
     const index = this.items.findIndex(item => item.id.toString() === id)
     return await Promise.resolve(index !== -1)
+  }
+
+  async findDraftsByAuthorId(authorId: string): Promise<Project[]> {
+    const projects = this.items.filter(
+      item =>
+        item.authorId.toString() === authorId && item.status === 'DRAFT',
+    )
+
+    return await Promise.resolve(projects)
   }
 }

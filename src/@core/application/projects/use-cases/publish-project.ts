@@ -10,10 +10,10 @@ import { ForbiddenError } from '@/@shared/kernel/errors/forbidden.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { Injectable } from '@nestjs/common'
-import { ProfessorsRepository } from '../repositories/professors-repository'
+import { ProfessorsRepository } from '@/@core/application/professors/repositories/professors-repository'
 import { ProjectsRepository } from '../repositories/projects-repository'
-import { SubjectsRepository } from '../repositories/subjects-repository'
-import { TrailsRepository } from '../repositories/trails-repository'
+import { SubjectsRepository } from '@/@core/application/subjects/repositories/subjects-repository'
+import { TrailsRepository } from '@/@core/application/trails/repositories/trails-repository'
 
 interface PublishProjectUseCaseRequest {
   title: string

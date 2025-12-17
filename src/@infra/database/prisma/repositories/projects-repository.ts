@@ -348,4 +348,15 @@ export class PrismaProjectsRepository implements ProjectsRepository {
 
     return !!data
   }
+
+  async findDraftsByAuthorId(authorId: string): Promise<Project[]> {
+    const data = await this.prisma.project.findMany({
+      where: {
+        authorId: authorId.toString(),
+        status: 'DRAFT',
+      },
+    })
+
+    return data.map(PrismaProjectMapper.toEntity)
+  }
 }

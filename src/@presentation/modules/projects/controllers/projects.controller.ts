@@ -1,11 +1,14 @@
 import { DeleteProjectUseCase } from '@/@core/application/projects/use-cases/delete-project'
 import { GetProjectUseCase } from '@/@core/application/projects/use-cases/get-project'
+import { ListDraftsUseCase } from '@/@core/application/projects/use-cases/list-drafts'
 import { PublishProjectUseCase } from '@/@core/application/projects/use-cases/publish-project'
+import { SaveDraftUseCase } from '@/@core/application/projects/use-cases/save-draft'
 import { SearchProjectsUseCase } from '@/@core/application/projects/use-cases/search-projects'
 import { UploadProjectBannerUseCase } from '@/@core/application/projects/use-cases/upload-project-banner'
 import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { ProjectDetailsPresenter } from '@/@presentation/presenters/project-details'
+import { ProjectPresenter } from '@/@presentation/presenters/project'
 import {
   BadRequestException,
   Body,
@@ -48,11 +51,78 @@ import type { PublishProjectDto } from '../dto/publish-project.dto'
 export class ProjectsController {
   constructor(
     private readonly publishProjectUseCase: PublishProjectUseCase,
+    private readonly saveDraftUseCase: SaveDraftUseCase,
+    private readonly listDraftsUseCase: ListDraftsUseCase,
     private readonly searchProjectsUseCase: SearchProjectsUseCase,
     private readonly getProjectUseCase: GetProjectUseCase,
     private readonly deleteProjectUseCase: DeleteProjectUseCase,
     private readonly uploadProjectBannerUseCase: UploadProjectBannerUseCase,
   ) {}
+
+  @Post('projects/drafts')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Salvar rascunho',
+    description:
+      'Salva um projeto como rascunho. Pode ser usado para criar um novo rascunho ou atualizar um existente.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Rascunho salvo com sucesso.',
+  })
+  async saveDraft(
+    @Body() dto: PublishProjectDto,
+    @Request() req: { user: { userId: string } },
+  ) {
+    const result = await this.saveDraftUseCase.execute({
+      title: dto.title,
+      description: dto.description,
+      bannerUrl: dto.bannerUrl,
+      content: dto.content,
+      publishedYear: dto.publishedYear,
+      semester: dto.semester,
+      allowComments: dto.allowComments,
+      authorId: req.user.userId,
+      subjectId: dto.subjectId,
+      trailsIds: dto.trailsIds,
+      professorsIds: dto.professorsIds,
+      draftId: dto.draftId,
+    })
+
+    if (result.isLeft()) {
+      const error = result.value
+      if (error.statusCode === 404) {
+        throw new NotFoundException(error.message)
+      }
+      throw new BadRequestException(error.message)
+    }
+
+    return {
+      project_id: result.value.projectId,
+    }
+  }
+
+  @Get('projects/drafts')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Listar rascunhos',
+    description: 'Lista todos os rascunhos do usuário autenticado.',
+  })
+  async listDrafts(@Request() req: { user: { userId: string } }) {
+    const result = await this.listDraftsUseCase.execute({
+      authorId: req.user.userId,
+    })
+
+    if (result.isLeft()) {
+      throw new BadRequestException()
+    }
+
+    return {
+      drafts: result.value.drafts.map(ProjectPresenter.toHTTP),
+    }
+  }
 
   @Post('projects')
   @UseGuards(JwtAuthGuard)

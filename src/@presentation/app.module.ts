@@ -3,7 +3,9 @@ import { EnvModule } from '@/@infra/config/env/env.module'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { AuthModule } from './modules/auth/auth.module'
-import { HttpModule } from './modules/http.module'
+import { InteractionsModule } from './modules/interactions/interactions.module'
+import { ProjectsModule } from './modules/projects/projects.module'
+import { UsersModule } from './modules/users/users.module'
 
 @Module({
   imports: [
@@ -19,7 +21,9 @@ import { HttpModule } from './modules/http.module'
       isGlobal: true,
     }),
     AuthModule,
-    HttpModule,
+    UsersModule,
+    ProjectsModule,
+    InteractionsModule,
     EnvModule,
   ],
 })

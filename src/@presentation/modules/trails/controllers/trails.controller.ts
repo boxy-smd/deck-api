@@ -1,4 +1,4 @@
-import { FetchTrailsUseCase } from '@/@core/application/projects/use-cases/fetch-trails'
+import { FetchTrailsUseCase } from '@/@core/application/trails/use-cases/fetch-trails'
 import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { TrailPresenter } from '@/@presentation/presenters/trail'
 import { Controller, Get } from '@nestjs/common'

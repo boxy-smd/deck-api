@@ -4,6 +4,8 @@ import { GetProfileUseCase } from '@/@core/application/users/use-cases/get-profi
 import { LoginUseCase } from '@/@core/application/users/use-cases/login'
 import { RegisterUseCase } from '@/@core/application/users/use-cases/register'
 import { UploadStudentProfileUseCase } from '@/@core/application/users/use-cases/upload-student-profile'
+import { ForgotPasswordUseCase } from '@/@core/application/users/use-cases/forgot-password'
+import { ResetPasswordUseCase } from '@/@core/application/users/use-cases/reset-password'
 import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { UserPresenter } from '@/@presentation/presenters/user'
@@ -50,6 +52,8 @@ import {
   UserResponseDto,
   UsersListResponseDto,
 } from '../dto/students-response.dto'
+import { ForgotPasswordDto } from '../dto/forgot-password.dto'
+import { ResetPasswordDto } from '../dto/reset-password.dto'
 
 @ApiTags('Usuários')
 @Controller()
@@ -62,6 +66,8 @@ export class UsersController {
     private readonly editProfileUseCase: EditProfileUseCase,
     private readonly fetchUsersUseCase: FetchUsersUseCase,
     private readonly uploadStudentProfileUseCase: UploadStudentProfileUseCase,
+    private readonly forgotPasswordUseCase: ForgotPasswordUseCase,
+    private readonly resetPasswordUseCase: ResetPasswordUseCase,
   ) {}
 
   @Public()
@@ -377,5 +383,63 @@ export class UsersController {
     return new Promise(resolve => {
       resolve({ token })
     })
+  }
+
+  @Public()
+  @Post('password/forgot')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Solicitar recuperação de senha',
+    description:
+      'Envia um email com um token para recuperação de senha caso o email esteja cadastrado.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Email de recuperação enviado (se o usuário existir).',
+    type: MessageResponseDto,
+  })
+  async forgotPassword(
+    @Body() dto: ForgotPasswordDto,
+  ): Promise<MessageResponseDto> {
+    await this.forgotPasswordUseCase.execute({
+      email: dto.email,
+    })
+
+    // Always return OK to prevent email enumeration
+    return {
+      message:
+        'Se o email estiver cadastrado, você receberá instruções para recuperar sua senha.',
+    }
+  }
+
+  @Public()
+  @Post('password/reset')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Redefinir senha',
+    description: 'Redefine a senha do usuário utilizando o token recebido.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Senha redefinida com sucesso.',
+    type: MessageResponseDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Token inválido, expirado ou senha inválida.',
+  })
+  async resetPassword(
+    @Body() dto: ResetPasswordDto,
+  ): Promise<MessageResponseDto> {
+    const result = await this.resetPasswordUseCase.execute({
+      token: dto.token,
+      newPassword: dto.newPassword,
+    })
+
+    if (result.isLeft()) {
+      throw new BadRequestException('Token inválido ou expirado.')
+    }
+
+    return { message: 'Senha redefinida com sucesso.' }
   }
 }

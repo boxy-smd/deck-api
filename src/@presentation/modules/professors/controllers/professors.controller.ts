@@ -1,4 +1,4 @@
-import { FetchProfessorsUseCase } from '@/@core/application/projects/use-cases/fetch-professors'
+import { FetchProfessorsUseCase } from '@/@core/application/professors/use-cases/fetch-professors'
 import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { ProfessorPresenter } from '@/@presentation/presenters/professor'
 import { Controller, Get, Query } from '@nestjs/common'

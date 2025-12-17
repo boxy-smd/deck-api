@@ -53,4 +53,6 @@ export abstract class ProjectsRepository implements DomainRepository<Project> {
   ): Promise<ProjectDTO[]>
 
   abstract findAllProjectDTOs(): Promise<ProjectDTO[]>
+
+  abstract findDraftsByAuthorId(authorId: string): Promise<Project[]>
 }

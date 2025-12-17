@@ -42,7 +42,7 @@ export class PrismaStudentMapper {
       )
     }
 
-    return User.create(
+    const user = User.create(
       {
         name: raw.name,
         username: usernameResult.value,
@@ -56,6 +56,15 @@ export class PrismaStudentMapper {
       },
       UniqueEntityID.create(raw.id),
     )
+
+    if (raw.passwordResetToken && raw.passwordResetExpires) {
+      user.setPasswordResetToken(
+        raw.passwordResetToken,
+        raw.passwordResetExpires,
+      )
+    }
+
+    return user
   }
 
   static toPrisma(user: User): Prisma.UserCreateInput {
@@ -69,6 +78,8 @@ export class PrismaStudentMapper {
       profileUrl: user.profileUrl ?? undefined,
       role: user.role,
       status: user.status,
+      passwordResetToken: user.passwordResetToken,
+      passwordResetExpires: user.passwordResetExpires,
       studentProfile: user.profile
         ? {
             create: {
@@ -99,6 +110,8 @@ export class PrismaStudentMapper {
       profileUrl: user.profileUrl ?? undefined,
       role: user.role,
       status: user.status,
+      passwordResetToken: user.passwordResetToken,
+      passwordResetExpires: user.passwordResetExpires,
     }
   }
 }
