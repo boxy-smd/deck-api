@@ -21,4 +21,6 @@ export abstract class UsersRepository implements DomainRepository<User> {
   abstract findByUsername(username: string): Promise<User | null>
 
   abstract findManyByName(name: string): Promise<User[]>
+
+  abstract findByPasswordResetToken(token: string): Promise<User | null>
 }

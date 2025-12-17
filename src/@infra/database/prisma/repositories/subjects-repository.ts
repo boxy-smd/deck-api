@@ -1,5 +1,5 @@
-import type { SubjectsRepository } from '@/@core/application/projects/repositories/subjects-repository'
-import type { Subject } from '@/@core/domain/projects/entities/subject'
+import { SubjectsRepository } from '@/@core/application/subjects/repositories/subjects-repository'
+import { Subject } from '@/@core/domain/projects/entities/subject'
 import { Injectable } from '@nestjs/common'
 import { PrismaSubjectMapper } from '../mappers/prisma-subject-mapper'
 import { PrismaService } from '../prisma.service'

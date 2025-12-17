@@ -149,4 +149,22 @@ export class PrismaUsersRepository implements UsersRepository {
       where: { id },
     })
   }
+
+  async findByPasswordResetToken(token: string): Promise<User | null> {
+    const user = await this.prisma.user.findFirst({
+      where: { passwordResetToken: token },
+      include: {
+        trail: {
+          include: {
+            trail: true,
+          },
+        },
+        studentProfile: true,
+      },
+    })
+
+    if (!user) return null
+
+    return PrismaStudentMapper.toEntity(user)
+  }
 }

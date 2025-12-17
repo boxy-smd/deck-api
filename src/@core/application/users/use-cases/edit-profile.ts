@@ -4,7 +4,7 @@ import type { ResourceAlreadyExistsError } from '@/@shared/kernel/errors/resourc
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { Injectable } from '@nestjs/common'
 import { Semester } from '../../../domain/users/value-objects/semester'
-import { TrailsRepository } from '../../projects/repositories/trails-repository'
+import { TrailsRepository } from '../../trails/repositories/trails-repository'
 import { type UserDTO, UserDTOMapper } from '../dtos/user.dto'
 import type { SemesterOutOfBoundsError } from '../errors/semester-out-of-bounds.error'
 import { UsersRepository } from '../repositories/users-repository'

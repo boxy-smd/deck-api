@@ -1,5 +1,5 @@
-import type { TrailsRepository } from '@/@core/application/projects/repositories/trails-repository'
-import type { Trail } from '@/@core/domain/projects/entities/trail'
+import { TrailsRepository } from '@/@core/application/trails/repositories/trails-repository'
+import { Trail } from '@/@core/domain/projects/entities/trail'
 import { Injectable } from '@nestjs/common'
 import { PrismaTrailMapper } from '../mappers/prisma-trail-mapper'
 import { PrismaService } from '../prisma.service'

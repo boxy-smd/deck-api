@@ -80,4 +80,10 @@ export class InMemoryUsersRepository implements UsersRepository {
   existsById(id: string): Promise<boolean> {
     return Promise.resolve(this.items.some(item => item.id.toString() === id))
   }
+
+  findByPasswordResetToken(token: string): Promise<User | null> {
+    return Promise.resolve(
+      this.items.find(item => item.passwordResetToken === token) || null,
+    )
+  }
 }

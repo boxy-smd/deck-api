@@ -1,4 +1,4 @@
-import { FetchSubjectsUseCase } from '@/@core/application/projects/use-cases/fetch-subjects'
+import { FetchSubjectsUseCase } from '@/@core/application/subjects/use-cases/fetch-subjects'
 import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { SubjectPresenter } from '@/@presentation/presenters/subject'
 import { Controller, Get, Query } from '@nestjs/common'

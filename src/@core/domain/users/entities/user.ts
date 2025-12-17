@@ -18,6 +18,8 @@ export interface UserProps {
   status: UserStatus
 
   profile?: StudentProfile
+  passwordResetToken?: string
+  passwordResetExpires?: Date
 }
 
 export class User extends AggregateRoot<UserProps> {
@@ -159,5 +161,30 @@ export class User extends AggregateRoot<UserProps> {
 
   get profile() {
     return this.props.profile
+  }
+
+  get passwordResetToken() {
+    return this.props.passwordResetToken
+  }
+
+  get passwordResetExpires() {
+    return this.props.passwordResetExpires
+  }
+
+  public setPasswordResetToken(token: string, expires: Date) {
+    this.props.passwordResetToken = token
+    this.props.passwordResetExpires = expires
+    this.touch()
+  }
+
+  public clearPasswordResetToken() {
+    this.props.passwordResetToken = undefined
+    this.props.passwordResetExpires = undefined
+    this.touch()
+  }
+
+  public updatePassword(passwordHash: string) {
+    this.props.passwordHash = passwordHash
+    this.touch()
   }
 }
