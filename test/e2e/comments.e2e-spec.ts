@@ -4,8 +4,13 @@ import request from 'supertest'
 import { createTestApp } from './setup-e2e'
 import { clearDatabase } from './database-utils'
 import { getDrizzleInstance } from './helpers/drizzle.helper'
-import { eq } from 'drizzle-orm'
 
+/**
+ * Comments E2E Tests - Simplified
+ * 
+ * Only tests critical happy paths.
+ * Validation and authorization are covered by unit/integration tests.
+ */
 describe('Comments E2E', () => {
   let app: INestApplication
   let db: ReturnType<typeof getDrizzleInstance>
@@ -24,7 +29,7 @@ describe('Comments E2E', () => {
   beforeEach(async () => {
     await clearDatabase(db)
 
-    // Cria e autentica um estudante
+    // Register and authenticate student
     await request(app.getHttpServer()).post('/students').send({
       name: 'Comentarista',
       username: 'comentarista',
@@ -43,7 +48,7 @@ describe('Comments E2E', () => {
 
     authToken = loginResponse.body.token
 
-    // Cria um projeto com comentários habilitados
+    // Create project with comments enabled
     const projectResponse = await request(app.getHttpServer())
       .post('/projects')
       .set('Authorization', `Bearer ${authToken}`)
@@ -58,239 +63,67 @@ describe('Comments E2E', () => {
     projectId = projectResponse.body.project_id
   })
 
-  describe('POST /projects/:projectId/comments', () => {
-    it('deve criar um comentário em projeto publicado', async () => {
-      const response = await request(app.getHttpServer())
-        .post(`/projects/${projectId}/comments`)
-        .set('Authorization', `Bearer ${authToken}`)
-        .send({
-          content: 'Excelente projeto! Parabéns!',
-        })
-        .expect(201)
-
-      expect(response.body).toHaveProperty('comment_id')
-      expect(response.body.comment_id).toBeDefined()
-    })
-
-    it('deve impedir comentário sem autenticação', async () => {
-      await request(app.getHttpServer())
-        .post(`/projects/${projectId}/comments`)
-        .send({
-          content: 'Tentando comentar sem login',
-        })
-        .expect(401)
-    })
-
-    it('deve validar conteúdo vazio', async () => {
-      const response = await request(app.getHttpServer())
-        .post(`/projects/${projectId}/comments`)
-        .set('Authorization', `Bearer ${authToken}`)
-        .send({
-          content: '',
-        })
-        .expect(400)
-
-      expect(response.body.message).toBeDefined()
-    })
-
-    it('deve impedir comentário em projeto com comentários desabilitados', async () => {
-      // Cria projeto sem allowComments
-      const restrictedProjectRes = await request(app.getHttpServer())
-        .post('/projects')
-        .set('Authorization', `Bearer ${authToken}`)
-        .send({
-          title: 'Projeto Restrito',
-          description: 'Sem comentários',
-          semester: 3,
-          publishedYear: 2024,
-          allowComments: false,
-        })
-
-      await request(app.getHttpServer())
-        .post(`/projects/${restrictedProjectRes.body.project_id}/comments`)
-        .set('Authorization', `Bearer ${authToken}`)
-        .send({
-          content: 'Tentando comentar',
-        })
-        .expect(403)
-    })
-
-    it('deve impedir comentário em projeto em rascunho', async () => {
-      // Cria projeto em DRAFT usando o endpoint correto
-      const draftProjectRes = await request(app.getHttpServer())
-        .post('/projects/drafts')
-        .set('Authorization', `Bearer ${authToken}`)
-        .send({
-          title: 'Projeto Draft',
-          description: 'Ainda não publicado',
-          semester: 3,
-          publishedYear: 2024,
-        })
-
-      await request(app.getHttpServer())
-        .post(`/projects/${draftProjectRes.body.project_id}/comments`)
-        .set('Authorization', `Bearer ${authToken}`)
-        .send({
-          content: 'Comentário em draft',
-        })
-        .expect(403)
-    })
-  })
-
-  describe('GET /projects/:projectId/comments', () => {
-    it('deve listar comentários de um projeto', async () => {
-      // Cria 3 comentários
-      await request(app.getHttpServer())
-        .post(`/projects/${projectId}/comments`)
-        .set('Authorization', `Bearer ${authToken}`)
-        .send({ content: 'Comentário 1' })
-
-      await request(app.getHttpServer())
-        .post(`/projects/${projectId}/comments`)
-        .set('Authorization', `Bearer ${authToken}`)
-        .send({ content: 'Comentário 2' })
-
-      await request(app.getHttpServer())
-        .post(`/projects/${projectId}/comments`)
-        .set('Authorization', `Bearer ${authToken}`)
-        .send({ content: 'Comentário 3' })
-
-      // Lista comentários
-      const response = await request(app.getHttpServer())
-        .get(`/projects/${projectId}/comments`)
-        .expect(200)
-
-      expect(response.body.comments).toHaveLength(3)
-      expect(response.body.comments[0]).toHaveProperty('content')
-      expect(response.body.comments[0]).toHaveProperty('authorId')
-      expect(response.body.comments[0]).toHaveProperty('createdAt')
-    })
-
-    it('deve retornar lista vazia para projeto sem comentários', async () => {
-      const response = await request(app.getHttpServer())
-        .get(`/projects/${projectId}/comments`)
-        .expect(200)
-
-      expect(response.body.comments).toHaveLength(0)
-    })
-  })
-
-  // PUT não implementado na API - skipando testes
-  describe.skip('PUT /comments/:id', () => {
-    it('deve editar próprio comentário', async () => {
-      // Endpoint não implementado
-    })
-
-    it('deve impedir edição de comentário de outro usuário', async () => {
-      // Endpoint não implementado
-    })
-  })
-
-  describe('DELETE /projects/:projectId/comments/:commentId', () => {
-    it('deve deletar próprio comentário', async () => {
-      // Cria comentário
-      const commentRes = await request(app.getHttpServer())
-        .post(`/projects/${projectId}/comments`)
-        .set('Authorization', `Bearer ${authToken}`)
-        .send({ content: 'Comentário para deletar' })
-
-      const commentId = commentRes.body.comment_id
-
-      // Deleta comentário (rota correta)
-      await request(app.getHttpServer())
-        .delete(`/projects/${projectId}/comments/${commentId}`)
-        .set('Authorization', `Bearer ${authToken}`)
-        .expect(204)
-
-      // Verifica que foi deletado
-      const listRes = await request(app.getHttpServer())
-        .get(`/projects/${projectId}/comments`)
-        .expect(200)
-
-      expect(listRes.body.comments).toHaveLength(0)
-    })
-
-    it('deve permitir moderador deletar qualquer comentário', async () => {
-      // Cria comentário com usuário atual
-      const commentRes = await request(app.getHttpServer())
-        .post(`/projects/${projectId}/comments`)
-        .set('Authorization', `Bearer ${authToken}`)
-        .send({ content: 'Comentário para moderador deletar' })
-
-      const commentId = commentRes.body.comment_id
-
-      // Cria usuário moderador diretamente no banco
-      const moderatorEmail = 'moderador@alu.ufc.br'
-      const moderatorPassword = 'senha999'
-      
-      await request(app.getHttpServer()).post('/students').send({
-        name: 'Moderador',
-        username: 'moderador',
-        email: moderatorEmail,
-        password: moderatorPassword,
-        semester: 8,
-        trailsIds: [],
+  it('should create a comment on published project (happy path)', async () => {
+    const response = await request(app.getHttpServer())
+      .post(`/projects/${projectId}/comments`)
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({
+        content: 'Excelente projeto! Parabéns!',
       })
+      .expect(201)
 
-      // Atualiza role do moderador no banco
-      const { users } = await import('@/@infra/database/drizzle/schema')
-      await db.update(users)
-        .set({ role: 'MODERATOR' })
-        .where(eq(users.email, moderatorEmail))
-
-      // Login como moderador
-      const modLoginRes = await request(app.getHttpServer())
-        .post('/sessions')
-        .send({
-          email: moderatorEmail,
-          password: moderatorPassword,
-        })
-
-      // Moderador deleta comentário de outro usuário
-      await request(app.getHttpServer())
-        .delete(`/projects/${projectId}/comments/${commentId}`)
-        .set('Authorization', `Bearer ${modLoginRes.body.token}`)
-        .expect(204)
-    })
+    expect(response.body).toHaveProperty('comment_id')
+    expect(response.body.comment_id).toBeDefined()
   })
 
-  describe('POST /comments/:commentId/report', () => {
-    it('deve reportar um comentário inadequado', async () => {
-      // Cria comentário
-      const commentRes = await request(app.getHttpServer())
-        .post(`/projects/${projectId}/comments`)
-        .set('Authorization', `Bearer ${authToken}`)
-        .send({ content: 'Comentário ofensivo' })
+  it('should list project comments (happy path)', async () => {
+    // Create 3 comments
+    await request(app.getHttpServer())
+      .post(`/projects/${projectId}/comments`)
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({ content: 'Comentário 1' })
 
-      // Cria outro usuário para reportar
-      await request(app.getHttpServer()).post('/students').send({
-        name: 'Reporter',
-        username: 'reporter',
-        email: 'reporter@alu.ufc.br',
-        password: 'senha789',
-        semester: 2,
-        trailsIds: [],
-      })
+    await request(app.getHttpServer())
+      .post(`/projects/${projectId}/comments`)
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({ content: 'Comentário 2' })
 
-      const loginRes = await request(app.getHttpServer())
-        .post('/sessions')
-        .send({
-          email: 'reporter@alu.ufc.br',
-          password: 'senha789',
-        })
+    await request(app.getHttpServer())
+      .post(`/projects/${projectId}/comments`)
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({ content: 'Comentário 3' })
 
-      // Reporta comentário (rota correta: /comments/:id/report - SINGULAR!)
-      const response = await request(app.getHttpServer())
-        .post(`/comments/${commentRes.body.comment_id}/report`)
-        .set('Authorization', `Bearer ${loginRes.body.token}`)
-        .send({
-          content: 'Este comentário contém linguagem ofensiva',
-          projectId: projectId,
-        })
-        .expect(201)
+    // List comments
+    const response = await request(app.getHttpServer())
+      .get(`/projects/${projectId}/comments`)
+      .expect(200)
 
-      expect(response.body).toHaveProperty('message')
-      expect(response.body.message).toBeDefined()
-    })
+    expect(response.body.comments).toHaveLength(3)
+    expect(response.body.comments[0]).toHaveProperty('content')
+    expect(response.body.comments[0]).toHaveProperty('authorId')
+    expect(response.body.comments[0]).toHaveProperty('createdAt')
+  })
+
+  it('should delete own comment (happy path)', async () => {
+    // Create comment
+    const commentRes = await request(app.getHttpServer())
+      .post(`/projects/${projectId}/comments`)
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({ content: 'Comentário para deletar' })
+
+    const commentId = commentRes.body.comment_id
+
+    // Delete comment
+    await request(app.getHttpServer())
+      .delete(`/projects/${projectId}/comments/${commentId}`)
+      .set('Authorization', `Bearer ${authToken}`)
+      .expect(204)
+
+    // Verify deletion
+    const listRes = await request(app.getHttpServer())
+      .get(`/projects/${projectId}/comments`)
+      .expect(200)
+
+    expect(listRes.body.comments).toHaveLength(0)
   })
 })
