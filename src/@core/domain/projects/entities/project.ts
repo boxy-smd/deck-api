@@ -118,7 +118,7 @@ export class Project extends AggregateRoot<ProjectProps> {
       this.props.semester = semester
     }
 
-    if (allowComments) {
+    if (allowComments !== undefined) {
       this.props.allowComments = allowComments
     }
 
