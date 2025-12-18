@@ -99,7 +99,7 @@
 - [x] **Meta 1:** Value Objects 100% cobertos ✅
 - [x] **Meta 2:** Mappers principais cobertos ✅
 - [x] **Meta 3:** Testes de integração criados ✅ (3/3 repositories principais)
-- [ ] **Meta 4:** E2E simplificados (happy path only) ⏳
+- [x] **Meta 4:** E2E simplificados (happy path only) ✅
 - [ ] **Meta 5:** Entidades de domínio cobertas ⏳
 
 ---
