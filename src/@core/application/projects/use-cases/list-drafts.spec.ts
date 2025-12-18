@@ -1,8 +1,8 @@
-import { InMemoryProjectsRepository } from 'test/repositories/projects-repository'
-import { ListDraftsUseCase } from './list-drafts'
-import { makeProject } from 'test/factories/make-project'
 import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
+import { makeProject } from 'test/factories/make-project'
+import { InMemoryProjectsRepository } from 'test/repositories/projects-repository'
+import { ListDraftsUseCase } from './list-drafts'
 
 let inMemoryProjectsRepository: InMemoryProjectsRepository
 let sut: ListDraftsUseCase

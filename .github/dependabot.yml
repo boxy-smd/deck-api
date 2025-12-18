@@ -1,0 +1,51 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps):"
+    labels:
+      - "dependencies"
+      - "automated"
+    groups:
+      nestjs:
+        patterns:
+          - "@nestjs/*"
+      types:
+        patterns:
+          - "@types/*"
+      dev-dependencies:
+        dependency-type: "development"
+        patterns:
+          - "@vitest/*"
+          - "@biomejs/*"
+          - "@swc/*"
+
+  # Enable version updates for Docker
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "chore(docker):"
+    labels:
+      - "docker"
+      - "automated"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "chore(ci):"
+    labels:
+      - "ci/cd"
+      - "automated"

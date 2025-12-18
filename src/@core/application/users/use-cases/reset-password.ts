@@ -1,8 +1,8 @@
 import { Either, left, right } from '@/@shared/kernel/either'
-import { Injectable } from '@nestjs/common'
-import { UsersRepository } from '../repositories/users-repository'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
+import { Injectable } from '@nestjs/common'
 import { HashGenerator } from '../cryptography/hash-generator'
+import { UsersRepository } from '../repositories/users-repository'
 
 interface ResetPasswordUseCaseRequest {
   token: string
@@ -28,10 +28,7 @@ export class ResetPasswordUseCase {
       return left(new ResourceNotFoundError())
     }
 
-    if (
-      !user.passwordResetExpires ||
-      user.passwordResetExpires < new Date()
-    ) {
+    if (!user.passwordResetExpires || user.passwordResetExpires < new Date()) {
       return left(new Error('Token expired'))
     }
 

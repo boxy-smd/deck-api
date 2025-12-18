@@ -10,6 +10,7 @@ export interface SearchCriteria {
   subjectId?: string
   publishedYear?: number
   semester?: number
+  authorId?: string
 }
 
 export interface SearchStrategy {

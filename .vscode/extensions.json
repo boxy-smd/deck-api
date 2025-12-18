@@ -1,0 +1,15 @@
+{
+	"recommendations": [
+		"biomejs.biome",
+		"dbaeumer.vscode-eslint",
+		"esbenp.prettier-vscode",
+		"ms-azuretools.vscode-docker",
+		"vitest.explorer",
+		"firsttris.vscode-jest-runner",
+		"usernamehw.errorlens",
+		"streetsidesoftware.code-spell-checker",
+		"eamodio.gitlens",
+		"github.copilot",
+		"bradlc.vscode-tailwindcss"
+	]
+}

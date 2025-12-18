@@ -199,14 +199,14 @@ export class Project extends AggregateRoot<ProjectProps> {
   }
 
   get trails() {
-    return [...this.props.trails]
+    return this.props.trails
   }
 
   get professors() {
-    return [...this.props.professors]
+    return this.props.professors
   }
 
   get comments() {
-    return [...this.props.comments]
+    return this.props.comments
   }
 }

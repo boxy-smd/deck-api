@@ -1,7 +1,8 @@
-import { PrismaTrailMapper } from '@/@infra/database/prisma/mappers/prisma-trail-mapper'
-import { PrismaService } from '@/@infra/database/prisma/prisma.service'
 import type { INestApplication } from '@nestjs/common'
 import request from 'supertest'
+
+import { PrismaTrailMapper } from '@/@infra/database/prisma/mappers/prisma-trail-mapper'
+import { PrismaService } from '@/@infra/database/prisma/prisma.service'
 import { makeTrail } from 'test/factories/make-trail'
 import { createTestApp } from './setup-e2e'
 

@@ -1,4 +1,5 @@
 import { UsersRepository } from '@/@core/application/users/repositories/users-repository'
+import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import type { StudentProfile } from '@/@core/domain/users/entities/student-profile'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ForbiddenError } from '@/@shared/kernel/errors/forbidden.error'
@@ -52,6 +53,20 @@ export class CommentOnProjectUseCase {
 
     if (!project) {
       return left(new ResourceNotFoundError('Projeto não encontrado.'))
+    }
+
+    if (project.status !== ProjectStatus.PUBLISHED) {
+      return left(
+        new ForbiddenError(
+          'Não é possível comentar em projetos que não estão publicados.',
+        ),
+      )
+    }
+
+    if (!project.allowComments) {
+      return left(
+        new ForbiddenError('Este projeto não permite comentários.'),
+      )
     }
 
     const comment = project.comment(

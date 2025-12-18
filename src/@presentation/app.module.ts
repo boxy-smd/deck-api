@@ -6,11 +6,12 @@ import { AuthModule } from './modules/auth/auth.module'
 import { InteractionsModule } from './modules/interactions/interactions.module'
 import { ProjectsModule } from './modules/projects/projects.module'
 import { UsersModule } from './modules/users/users.module'
+import { DrizzleModule } from '@/@infra/database/drizzle/drizzle.module'
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      validate: (env) => {
+      validate: env => {
         try {
           return envSchema.parse(env)
         } catch (error) {
@@ -25,6 +26,7 @@ import { UsersModule } from './modules/users/users.module'
     ProjectsModule,
     InteractionsModule,
     EnvModule,
+    DrizzleModule,
   ],
 })
 export class AppModule {}

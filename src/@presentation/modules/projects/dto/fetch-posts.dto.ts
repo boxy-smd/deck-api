@@ -110,6 +110,15 @@ export class FilterPostsDto {
   publishedYear?: number
 
   @ApiProperty({
+    description: 'Filtro por ID do autor',
+    required: false,
+    example: 'uuid',
+  })
+  @IsOptional()
+  @IsString()
+  authorId?: string
+
+  @ApiProperty({
     description: 'Número da página (começa em 1)',
     required: false,
     example: 1,

@@ -55,18 +55,16 @@ Tecnologias utilizadas no projeto.
 ### **Construção da API**
 
 - [TypeScript](https://www.typescriptlang.org)
-- [Fastify](https://fastify.dev)
-- [@fastify/jwt](https://github.com/fastify/fastify-jwt)
-- [@fastify/cookie](https://github.com/fastify/fastify-cookie)
-- [@fastify/swagger](https://github.com/fastify/fastify-swagger)
-- [@fastify/swagger-ui](https://github.com/fastify/fastify-swagger-ui)
+- [NestJS](https://nestjs.com/)
+- [@nestjs/jwt](https://github.com/nestjs/jwt)
+- [@nestjs/swagger](https://github.com/nestjs/swagger)
 - [Node.js](https://nodejs.org/en)
 - [Zod](https://zod.dev)
 - [BCrypt](https://www.npmjs.com/package/bcrypt)
 
 ### **Banco de Dados**
 
-- [Prisma](https://www.prisma.io/)
+- [Drizzle ORM](https://orm.drizzle.team/)
 - [Docker](https://www.docker.com/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Firebase Storage](https://firebase.google.com/docs/storage)
@@ -179,26 +177,39 @@ docker compose down -v
 
 ```sh
 # Desenvolvimento
-pnpm start:dev          # Inicia servidor em modo watch
-
-# Build
+pnpm dev                # Inicia servidor em modo watch
 pnpm build              # Compila o projeto
 pnpm start              # Roda versão compilada
 
 # Testes
 pnpm test               # Testes unitários
+pnpm test:unit          # Testes unitários com coverage
 pnpm test:e2e           # Testes E2E
-pnpm test:coverage      # Cobertura de testes
+pnpm test:all           # Todos os testes
+pnpm test:watch         # Watch mode
 
 # Banco de Dados
-pnpm db:migrate         # Roda migrações
+pnpm db:generate        # Gera migrations
+pnpm db:migrate         # Aplica migrações
 pnpm db:seed            # Popula banco
-pnpm db:studio          # Abre Prisma Studio
+pnpm db:studio          # Abre Drizzle Studio
+pnpm db:setup           # Migrate + Seed
 
 # Qualidade de Código
 pnpm check              # Lint e formatação
-pnpm lint               # Apenas lint
-pnpm fix                # Auto-fix formatação
+pnpm lint:check         # Apenas lint check
+pnpm format:check       # Apenas format check
+pnpm typecheck          # Type checking
+
+# Docker
+pnpm docker:dev         # Subir apenas Postgres
+pnpm docker:up          # Subir todos os serviços
+pnpm docker:down        # Parar serviços
+pnpm docker:logs        # Ver logs
+
+# Utilitários
+pnpm setup              # Setup completo do ambiente
+pnpm clean              # Limpar build artifacts
 ```
 
 ---

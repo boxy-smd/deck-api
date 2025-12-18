@@ -8,11 +8,29 @@ export default defineConfig({
 		globals: true,
 		root: './',
 		setupFiles: ['./test/e2e/setup-e2e.ts'],
+		fileParallelism: false, // Roda arquivos sequencialmente
+		poolOptions: {
+			threads: {
+				singleThread: true,
+			},
+		},
 	},
 	plugins: [
-		tsConfigPaths(),
+		tsConfigPaths({
+			projects: ['./tsconfig.json'],
+		}),
 		swc.vite({
 			module: { type: 'es6' },
 		}),
 	],
-})
+	resolve: {
+		alias: {
+			'@/@core': './src/@core',
+			'@/@infra': './src/@infra',
+			'@/@shared': './src/@shared',
+			'@/@presentation': './src/@presentation',
+			'@': './src',
+			'test': './test',
+		},
+	},
+});
