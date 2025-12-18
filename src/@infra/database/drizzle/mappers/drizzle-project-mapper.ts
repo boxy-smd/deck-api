@@ -39,8 +39,6 @@ export class DrizzleProjectMapper {
         professors: new Set(
           raw.professors.map(p => UniqueEntityID.create(p.professor.id)),
         ),
-        createdAt: raw.createdAt,
-        updatedAt: raw.updatedAt,
       },
       UniqueEntityID.create(raw.id),
     )

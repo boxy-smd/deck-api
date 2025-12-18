@@ -6,6 +6,7 @@
 		"dev": "nest start --watch",
 		"dev:debug": "nest start --debug --watch",
 		"build": "nest build",
+		"build:prod": "nest build",
 		"prebuild": "pnpm typecheck && pnpm lint:check && pnpm test:unit",
 		"start": "node dist/@presentation/main.js",
 		"typecheck": "tsc --noEmit",
@@ -99,6 +100,10 @@
 			"bcrypt",
 			"esbuild",
 			"protobufjs"
-		]
+		],
+		"overrides": {
+			"undici@<6.21.2": ">=6.21.2",
+			"esbuild@<0.25.0": ">=0.25.12"
+		}
 	}
 }

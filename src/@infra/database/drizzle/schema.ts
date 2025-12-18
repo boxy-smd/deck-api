@@ -170,14 +170,12 @@ export const reports = pgTable('reports', {
   createdAt: timestamp('created_at').notNull(),
   updatedAt: timestamp('updated_at'),
   authorId: uuid('author_id')
-    .references(() => users.id, { relationName: 'ReportAuthor' })
+    .references(() => users.id)
     .notNull(),
   commentId: uuid('comment_id')
     .references(() => comments.id, { onDelete: 'cascade' })
     .notNull(),
-  resolvedBy: uuid('resolved_by').references(() => users.id, {
-    relationName: 'ReportResolver',
-  }),
+  resolvedBy: uuid('resolved_by').references(() => users.id),
 })
 
 // Relations

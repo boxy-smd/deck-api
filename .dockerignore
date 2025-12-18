@@ -20,8 +20,11 @@ build
 test
 *.spec.ts
 *.test.ts
+*.e2e-spec.ts
+*.integration.spec.ts
 vitest.config.mjs
 vitest.config.e2e.mjs
+vitest.config.integration.mjs
 
 # Git
 .git
@@ -38,19 +41,24 @@ vitest.config.e2e.mjs
 # Documentation
 *.md
 !README.md
+AGENTS.md
+PROJECT_ORGANIZATION.md
+CONTRIBUTING.md
 
 # Docker
 Dockerfile
+Dockerfile.*
 docker-compose*.yml
 .dockerignore
 
 # CI/CD
 .github
 
-# Scripts
+# Scripts (helpers locais)
 scripts
 
 # Misc
 .DS_Store
 Thumbs.db
+Makefile
 
