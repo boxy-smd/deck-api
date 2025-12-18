@@ -39,7 +39,18 @@
   - save() - 2 testes (básico e com trails)
   - delete() - 2 testes (simples e cascade)
 
-**Total Fase 2:** 2 arquivos, **25 testes novos** ✅
+### Testes de Integração Comments (1 arquivo, 12 testes) ✅
+- ✅ `drizzle-comments-repository.integration.spec.ts` - 12 testes
+  - create() - 1 teste
+  - findById() - 2 testes
+  - findAll() - 2 testes
+  - findByProjectId() - 2 testes
+  - findManyByProjectIdWithAuthors() - 1 teste
+  - save() - 1 teste
+  - delete() - 1 teste
+  - deleteManyByProjectId() - 2 testes
+
+**Total Fase 2:** 3 arquivos, **37 testes novos** ✅
 
 ---
 
@@ -47,11 +58,11 @@
 
 | Métrica | Antes | Agora | Progresso |
 |---------|-------|-------|-----------|
-| **Arquivos de teste** | 28 | 40 | +12 ✅ |
-| **Testes totais** | 71 | 185 | +114 ✅ |
+| **Arquivos de teste** | 28 | 41 | +13 ✅ |
+| **Testes totais** | 71 | 197 | +126 ✅ |
 | **Testes E2E** | ~30 | ~30 | - |
 | **Testes Unitários** | 41 | 130 | +89 ✅ |
-| **Testes Integração** | 0 | 25 | +25 ✅ |
+| **Testes Integração** | 0 | 37 | +37 ✅ |
 
 ---
 
@@ -61,15 +72,15 @@
 - [x] Setup de testes de integração com banco real ✅
 - [x] Configuração do vitest.config.integration.mjs ✅
 - [x] Helpers de database (clearDatabase, createTestTrails) ✅
-- [x] `drizzle-users-repository.integration.spec.ts` - **13 testes passando!** ✅
-- [ ] `drizzle-projects-repository.integration.spec.ts`
-- [ ] `drizzle-comments-repository.integration.spec.ts`
+- [x] `drizzle-users-repository.integration.spec.ts` - **13 testes** ✅
+- [x] `drizzle-projects-repository.integration.spec.ts` - **12 testes** ✅
+- [x] `drizzle-comments-repository.integration.spec.ts` - **12 testes** ✅
 
-**Status:** Primeiro repository com testes de integração completos e 100% passando!
+**Status:** ✅ **TODOS os 3 repositories principais com testes de integração 100% passando!**
 
-**Próximos:** Projects e Comments repositories
+**Próximos:** Repositories auxiliares (professors, subjects, trails, reports)
 
-**Estimativa:** 6 arquivos, ~60 testes (13 já concluídos)
+**Estimativa:** 6 arquivos, ~60 testes (37 já concluídos - 62%)
 
 ### 🟠 PRIORIDADE 2: Simplificar E2E
 - [ ] Reduzir `students.e2e-spec.ts` de 335 para ~100 linhas
@@ -87,7 +98,7 @@
 
 - [x] **Meta 1:** Value Objects 100% cobertos ✅
 - [x] **Meta 2:** Mappers principais cobertos ✅
-- [~] **Meta 3:** Testes de integração criados ⏳ (1/3 repositories)
+- [x] **Meta 3:** Testes de integração criados ✅ (3/3 repositories principais)
 - [ ] **Meta 4:** E2E simplificados (happy path only) ⏳
 - [ ] **Meta 5:** Entidades de domínio cobertas ⏳
 
