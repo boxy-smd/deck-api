@@ -58,11 +58,11 @@
 
 | Métrica | Antes | Agora | Progresso |
 |---------|-------|-------|-----------|
-| **Arquivos de teste** | 28 | 44 | +16 ✅ |
-| **Testes totais** | 71 | 259 | +188 ✅ |
+| **Arquivos de teste** | 28 | 46 | +18 ✅ |
+| **Testes totais** | 71 | 282 | +211 ✅ |
 | **Testes E2E** | 37 | 14 | -23 (otimizado) |
-| **Testes Unitários** | 41 | 222 | +181 ✅ |
-| **Testes Integração** | 0 | 37 | +37 ✅ |
+| **Testes Unitários** | 41 | 236 | +195 ✅ |
+| **Testes Integração** | 0 | 46 | +46 ✅ |
 
 ---
 
