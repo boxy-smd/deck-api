@@ -40,7 +40,7 @@
 				"noDefaultExport": "off",
 				"noImplicitBoolean": "error",
 				"noNamespace": "error",
-				"noNamespaceImport": "error",
+				"noNamespaceImport": "off",
 				"useImportType": "off",
 				"noNegationElse": "warn",
 				"noShoutyConstants": "error",

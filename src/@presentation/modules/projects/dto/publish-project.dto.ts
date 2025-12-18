@@ -59,9 +59,15 @@ export class PublishProjectDto {
   @Max(12, { message: 'O semestre deve estar entre 1 e 12.' })
   semester: number
 
-  @ApiProperty({ description: 'Permitir comentários', example: true })
+  @ApiProperty({ 
+    description: 'Permitir comentários', 
+    example: true,
+    required: false,
+    default: true 
+  })
+  @IsOptional()
   @IsBoolean()
-  allowComments: boolean
+  allowComments?: boolean
 
   @ApiProperty({
     description: 'ID da disciplina',
@@ -76,10 +82,12 @@ export class PublishProjectDto {
     description: 'IDs das trilhas',
     type: [String],
     example: ['uuid1', 'uuid2'],
+    required: false,
   })
+  @IsOptional()
   @IsArray()
   @IsUUID('4', { each: true, message: 'ID da trilha inválido.' })
-  trailsIds: string[]
+  trailsIds?: string[]
 
   @ApiProperty({
     description: 'IDs dos professores',

@@ -1,6 +1,7 @@
 import type { ProjectDTO } from '../dtos/project.dto'
 import type { ProjectsRepository } from '../repositories/projects-repository'
 import { SearchAllStrategy } from './search-all-strategy'
+import { SearchByAuthorStrategy } from './search-by-author-strategy'
 import { SearchByMetadataStrategy } from './search-by-metadata-strategy'
 import { SearchByProfessorStrategy } from './search-by-professor-strategy'
 import { SearchByQueryStrategy } from './search-by-query-strategy'
@@ -13,6 +14,7 @@ export class SearchContext {
 
   constructor() {
     this.strategies = [
+      new SearchByAuthorStrategy(),
       new SearchByTitleStrategy(),
       new SearchByProfessorStrategy(),
       new SearchByTagsStrategy(),

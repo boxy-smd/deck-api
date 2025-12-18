@@ -41,7 +41,7 @@ Thumbs.db
 coverage
 .nyc_output
 
-# Prisma
+# Database
 *.db
 *.db-journal
 

@@ -27,6 +27,7 @@ describe('comment on project use case', () => {
 
     author = await makeUser()
     project = makeProject()
+    project.post() // Publicar projeto para permitir comentários
 
     await usersRepository.create(author)
     await projectsRepository.create(project)

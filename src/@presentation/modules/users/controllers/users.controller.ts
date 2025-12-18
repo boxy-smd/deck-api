@@ -1,11 +1,11 @@
 import { EditProfileUseCase } from '@/@core/application/users/use-cases/edit-profile'
 import { FetchUsersUseCase } from '@/@core/application/users/use-cases/fetch-users'
+import { ForgotPasswordUseCase } from '@/@core/application/users/use-cases/forgot-password'
 import { GetProfileUseCase } from '@/@core/application/users/use-cases/get-profile'
 import { LoginUseCase } from '@/@core/application/users/use-cases/login'
 import { RegisterUseCase } from '@/@core/application/users/use-cases/register'
-import { UploadStudentProfileUseCase } from '@/@core/application/users/use-cases/upload-student-profile'
-import { ForgotPasswordUseCase } from '@/@core/application/users/use-cases/forgot-password'
 import { ResetPasswordUseCase } from '@/@core/application/users/use-cases/reset-password'
+import { UploadStudentProfileUseCase } from '@/@core/application/users/use-cases/upload-student-profile'
 import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { UserPresenter } from '@/@presentation/presenters/user'
@@ -42,8 +42,10 @@ import {
 } from '@nestjs/swagger'
 import type { EditProfileDto } from '../dto/edit-profile.dto'
 import type { FetchStudentsDto } from '../dto/fetch-students.dto'
+import { ForgotPasswordDto } from '../dto/forgot-password.dto'
 import type { LoginStudentDto } from '../dto/login-student.dto'
 import type { RegisterStudentDto } from '../dto/register-student.dto'
+import { ResetPasswordDto } from '../dto/reset-password.dto'
 import {
   MessageResponseDto,
   ProfileUpdateResponseDto,
@@ -52,8 +54,6 @@ import {
   UserResponseDto,
   UsersListResponseDto,
 } from '../dto/students-response.dto'
-import { ForgotPasswordDto } from '../dto/forgot-password.dto'
-import { ResetPasswordDto } from '../dto/reset-password.dto'
 
 @ApiTags('Usuários')
 @Controller()

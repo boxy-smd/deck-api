@@ -20,7 +20,7 @@ export async function createProject(
     allowComments?: boolean
     draftId?: string
   },
-) {
+): Promise<request.Response> {
   return await request(app.getHttpServer())
     .post('/projects')
     .set('Authorization', `Bearer ${token}`)
@@ -30,7 +30,10 @@ export async function createProject(
 /**
  * Busca um projeto por ID
  */
-export async function getProject(app: INestApplication, projectId: string) {
+export async function getProject(
+  app: INestApplication,
+  projectId: string,
+): Promise<request.Response> {
   return await request(app.getHttpServer()).get(`/projects/${projectId}`)
 }
 
@@ -44,7 +47,7 @@ export async function listPosts(
     page?: number
     perPage?: number
   },
-) {
+): Promise<request.Response> {
   let url = '/posts'
   const params = new URLSearchParams()
 
@@ -74,8 +77,9 @@ export async function searchPosts(
     publishedYear?: number
     page?: number
     perPage?: number
+    authorId?: string
   },
-) {
+): Promise<request.Response> {
   let url = '/posts/search'
   const params = new URLSearchParams()
 
@@ -101,6 +105,8 @@ export async function searchPosts(
     }
   }
 
+  if (filters?.authorId) params.append('authorId', filters.authorId)
+
   if (params.toString()) {
     url += `?${params.toString()}`
   }
@@ -115,7 +121,7 @@ export async function deleteProject(
   app: INestApplication,
   token: string,
   projectId: string,
-) {
+): Promise<request.Response> {
   return await request(app.getHttpServer())
     .delete(`/projects/${projectId}`)
     .set('Authorization', `Bearer ${token}`)

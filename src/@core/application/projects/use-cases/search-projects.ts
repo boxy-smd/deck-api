@@ -23,6 +23,7 @@ interface SearchProjectsUseCaseRequest {
   subjectId?: string
   publishedYear?: number
   semester?: number
+  authorId?: string
 
   // Paginação
   page?: number
@@ -54,6 +55,7 @@ export class SearchProjectsUseCase {
       subjectId,
       publishedYear,
       semester,
+      authorId,
       page,
       perPage,
     } = request
@@ -67,6 +69,7 @@ export class SearchProjectsUseCase {
       subjectId,
       publishedYear,
       semester,
+      authorId,
     }
 
     const projectDTOs = await this.searchContext.search(

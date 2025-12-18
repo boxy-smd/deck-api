@@ -1,11 +1,11 @@
-import type { Professor } from '@/@core/domain/projects/entities/professor'
-import type { Subject } from '@/@core/domain/projects/entities/subject'
-import type { Trail } from '@/@core/domain/projects/entities/trail'
-import { PrismaProfessorMapper } from '@/@infra/database/prisma/mappers/prisma-professor-mapper'
-import { PrismaSubjectMapper } from '@/@infra/database/prisma/mappers/prisma-subject-mapper'
-import { PrismaTrailMapper } from '@/@infra/database/prisma/mappers/prisma-trail-mapper'
-import { PrismaService } from '@/@infra/database/prisma/prisma.service'
 import type { INestApplication } from '@nestjs/common'
+
+import { ProfessorsRepository } from '@/@core/application/professors/repositories/professors-repository'
+import { SubjectsRepository } from '@/@core/application/subjects/repositories/subjects-repository'
+import { TrailsRepository } from '@/@core/application/trails/repositories/trails-repository'
+import { Professor } from '@/@core/domain/projects/entities/professor'
+import { Subject } from '@/@core/domain/projects/entities/subject'
+import { Trail } from '@/@core/domain/projects/entities/trail'
 import { makeProfessor } from 'test/factories/make-professor'
 import { makeSubject } from 'test/factories/make-subject'
 import { makeTrail } from 'test/factories/make-trail'
@@ -17,11 +17,17 @@ export async function createTrailInDb(
   app: INestApplication,
   overrides?: Partial<{ name: string }>,
 ): Promise<Trail> {
-  const prisma = app.get(PrismaService)
-  const trail = makeTrail(overrides)
-  const data = PrismaTrailMapper.toPrisma(trail)
+  const repo = app.get(TrailsRepository)
 
-  await prisma.trail.create({ data })
+  if (overrides?.name) {
+    const existing = await repo.findByName(overrides.name)
+    if (existing) {
+      return existing
+    }
+  }
+
+  const trail = makeTrail(overrides)
+  await repo.create(trail)
 
   return trail
 }
@@ -33,11 +39,17 @@ export async function createSubjectInDb(
   app: INestApplication,
   overrides?: Partial<{ name: string; code: string }>,
 ): Promise<Subject> {
-  const prisma = app.get(PrismaService)
-  const subject = makeSubject(overrides)
-  const data = PrismaSubjectMapper.toPrisma(subject)
+  const repo = app.get(SubjectsRepository)
 
-  await prisma.subject.create({ data })
+  if (overrides?.name) {
+    const existing = await repo.findByName(overrides.name)
+    if (existing) {
+      return existing
+    }
+  }
+
+  const subject = makeSubject(overrides)
+  await repo.create(subject)
 
   return subject
 }
@@ -49,11 +61,38 @@ export async function createProfessorInDb(
   app: INestApplication,
   overrides?: Partial<{ name: string }>,
 ): Promise<Professor> {
-  const prisma = app.get(PrismaService)
-  const professor = makeProfessor(overrides)
-  const data = PrismaProfessorMapper.toPrisma(professor)
+  const repo = app.get(ProfessorsRepository)
 
-  await prisma.professor.create({ data })
+  if (overrides?.name) {
+    const existing = await repo.findManyByName(overrides.name)
+    // findManyByName returns array. Exact match?
+    // Drizzle Repo implementation uses ilike %name%.
+    // Existing logic was 'findFirst where name = overrides.name'.
+    // Repo doesn't have `findByName`. It has `findManyByName`.
+    // Wait, ProfessorsRepository interface has `findManyByName`. Does it have `findByName`?
+    // I need to check interface or implementation.
+    // DrizzleProfessorsRepository creates `findManyByName`.
+    // It does NOT implement `findByName`?
+    // Let me check `DrizzleProfessorsRepository` again.
+    // I implemented `findManyByName`.
+    // Existing interface `ProfessorsRepository` (viewed in Step 623) has `findManyByName` only (besides CRUD).
+    // Wait, earlier I saw `findByName` in `TrailsRepository` and `SubjectsRepository`.
+    // ProfessorsRepository on line 21: `abstract findManyByName(name: string): Promise<Professor[]>`
+    // No `findByName` unique?
+    // So simple exact match might not be directly supported by repo interface.
+    // I should iterate or just always create for now?
+    // But uniqueness is needed for idempotency.
+    // I can use `findManyByName` and filter in JS for exact match.
+
+    // Actually, I can rely on `findManyByName` returning something and assume it's the one if name matches exactly?
+    // Let's implement exact match check.
+    const candidates = await repo.findManyByName(overrides.name)
+    const exact = candidates.find(p => p.name === overrides.name)
+    if (exact) return exact
+  }
+
+  const professor = makeProfessor(overrides)
+  await repo.create(professor)
 
   return professor
 }

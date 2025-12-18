@@ -16,7 +16,7 @@ export async function createStudent(
     about?: string
     profileUrl?: string
   },
-) {
+): Promise<request.Response> {
   return await request(app.getHttpServer()).post('/students').send(data)
 }
 
@@ -29,14 +29,17 @@ export async function loginStudent(
     email: string
     password: string
   },
-) {
+): Promise<request.Response> {
   return await request(app.getHttpServer()).post('/sessions').send(credentials)
 }
 
 /**
  * Busca perfil de um estudante por username
  */
-export async function getProfile(app: INestApplication, username: string) {
+export async function getProfile(
+  app: INestApplication,
+  username: string,
+): Promise<request.Response> {
   return await request(app.getHttpServer()).get(`/profiles/${username}`)
 }
 

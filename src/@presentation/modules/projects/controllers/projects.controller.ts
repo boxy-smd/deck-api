@@ -7,8 +7,8 @@ import { SearchProjectsUseCase } from '@/@core/application/projects/use-cases/se
 import { UploadProjectBannerUseCase } from '@/@core/application/projects/use-cases/upload-project-banner'
 import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
-import { ProjectDetailsPresenter } from '@/@presentation/presenters/project-details'
 import { ProjectPresenter } from '@/@presentation/presenters/project'
+import { ProjectDetailsPresenter } from '@/@presentation/presenters/project-details'
 import {
   BadRequestException,
   Body,
@@ -82,10 +82,10 @@ export class ProjectsController {
       content: dto.content,
       publishedYear: dto.publishedYear,
       semester: dto.semester,
-      allowComments: dto.allowComments,
+      allowComments: dto.allowComments ?? true,
       authorId: req.user.userId,
       subjectId: dto.subjectId,
-      trailsIds: dto.trailsIds,
+      trailsIds: dto.trailsIds ?? [],
       professorsIds: dto.professorsIds,
       draftId: dto.draftId,
     })
@@ -157,10 +157,10 @@ export class ProjectsController {
       content: dto.content,
       publishedYear: dto.publishedYear,
       semester: dto.semester,
-      allowComments: dto.allowComments,
+      allowComments: dto.allowComments ?? true,
       authorId: req.user.userId,
       subjectId: dto.subjectId,
-      trailsIds: dto.trailsIds,
+      trailsIds: dto.trailsIds || [],
       professorsIds: dto.professorsIds,
       draftId: dto.draftId,
     })
@@ -244,6 +244,7 @@ export class ProjectsController {
       trailsIds: filter.trailsIds,
       semester: filter.semester,
       publishedYear: filter.publishedYear,
+      authorId: filter.authorId,
       page: filter.page,
       perPage: filter.perPage,
     })

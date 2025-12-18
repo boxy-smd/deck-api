@@ -6,46 +6,43 @@ import { SubjectsRepository } from '@/@core/application/subjects/repositories/su
 import { TrailsRepository } from '@/@core/application/trails/repositories/trails-repository'
 import { UsersRepository } from '@/@core/application/users/repositories/users-repository'
 import { Module } from '@nestjs/common'
-import { PrismaService } from './prisma/prisma.service'
-import { PrismaCommentsRepository } from './prisma/repositories/comments-repository'
-import { PrismaProfessorsRepository } from './prisma/repositories/professors-repository'
-import { PrismaProjectsRepository } from './prisma/repositories/projects-repository'
-import { PrismaReportsRepository } from './prisma/repositories/reports-repository'
-import { PrismaSubjectsRepository } from './prisma/repositories/subjects-repository'
-import { PrismaTrailsRepository } from './prisma/repositories/trails-repository'
-import { PrismaUsersRepository } from './prisma/repositories/users-repository'
+import { DrizzleCommentsRepository } from './drizzle/repositories/drizzle-comments-repository'
+import { DrizzleProfessorsRepository } from './drizzle/repositories/drizzle-professors-repository'
+import { DrizzleProjectsRepository } from './drizzle/repositories/drizzle-projects-repository'
+import { DrizzleReportsRepository } from './drizzle/repositories/drizzle-reports-repository'
+import { DrizzleSubjectsRepository } from './drizzle/repositories/drizzle-subjects-repository'
+import { DrizzleTrailsRepository } from './drizzle/repositories/drizzle-trails-repository'
+import { DrizzleUsersRepository } from './drizzle/repositories/drizzle-users-repository'
 
 @Module({
   providers: [
-    PrismaService,
-    PrismaReportsRepository,
     {
       provide: UsersRepository,
-      useClass: PrismaUsersRepository,
+      useClass: DrizzleUsersRepository,
     },
     {
       provide: TrailsRepository,
-      useClass: PrismaTrailsRepository,
+      useClass: DrizzleTrailsRepository,
     },
     {
       provide: SubjectsRepository,
-      useClass: PrismaSubjectsRepository,
+      useClass: DrizzleSubjectsRepository,
     },
     {
       provide: ProjectsRepository,
-      useClass: PrismaProjectsRepository,
+      useClass: DrizzleProjectsRepository,
     },
     {
       provide: ProfessorsRepository,
-      useClass: PrismaProfessorsRepository,
+      useClass: DrizzleProfessorsRepository,
     },
     {
       provide: CommentsRepository,
-      useClass: PrismaCommentsRepository,
+      useClass: DrizzleCommentsRepository,
     },
     {
       provide: ReportsRepository,
-      useExisting: PrismaReportsRepository,
+      useClass: DrizzleReportsRepository,
     },
   ],
   exports: [

@@ -1,9 +1,9 @@
-import { Either, left, right } from '@/@shared/kernel/either'
-import { Injectable } from '@nestjs/common'
 import { randomUUID } from 'node:crypto'
-import { UsersRepository } from '../repositories/users-repository'
-import { EmailService } from '../../services/email-service'
+import { Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
+import { Injectable } from '@nestjs/common'
+import { EmailService } from '../../services/email-service'
+import { UsersRepository } from '../repositories/users-repository'
 
 interface ForgotPasswordUseCaseRequest {
   email: string

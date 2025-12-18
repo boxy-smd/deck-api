@@ -1,23 +1,56 @@
 # Dependencies
 node_modules
+npm-debug.log
+pnpm-debug.log
+yarn-error.log
 
 # Build outputs
-build
 dist
 coverage
-
-# Environment
-.env
-.env.local
-.env.test
-
-# Logs
+build
 *.log
 
-# OS
-.DS_Store
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Tests
+test
+*.spec.ts
+*.test.ts
+vitest.config.mjs
+vitest.config.e2e.mjs
+
+# Git
+.git
+.gitignore
+.github
 
 # IDE
 .vscode
 .idea
+.zed
+*.swp
+*.swo
+
+# Documentation
+*.md
+!README.md
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# CI/CD
+.github
+
+# Scripts
+scripts
+
+# Misc
+.DS_Store
+Thumbs.db
 

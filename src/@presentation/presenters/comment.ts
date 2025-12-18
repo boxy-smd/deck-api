@@ -6,6 +6,7 @@ export class CommentPresenter {
       id: comment.commentId.toString(),
       content: comment.content,
       createdAt: comment.createdAt,
+      authorId: comment.authorId.toString(),
       author: {
         id: comment.authorId.toString(),
         name: comment.authorName,

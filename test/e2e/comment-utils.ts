@@ -9,7 +9,7 @@ export async function createComment(
   token: string,
   projectId: string,
   data: { content: string },
-) {
+): Promise<request.Response> {
   return await request(app.getHttpServer())
     .post(`/projects/${projectId}/comments`)
     .set('Authorization', `Bearer ${token}`)
@@ -19,7 +19,10 @@ export async function createComment(
 /**
  * Lista comentários de um projeto
  */
-export async function listComments(app: INestApplication, projectId: string) {
+export async function listComments(
+  app: INestApplication,
+  projectId: string,
+): Promise<request.Response> {
   return await request(app.getHttpServer()).get(
     `/projects/${projectId}/comments`,
   )
@@ -33,7 +36,7 @@ export async function deleteComment(
   token: string,
   projectId: string,
   commentId: string,
-) {
+): Promise<request.Response> {
   return await request(app.getHttpServer())
     .delete(`/projects/${projectId}/comments/${commentId}`)
     .set('Authorization', `Bearer ${token}`)
@@ -50,7 +53,7 @@ export async function reportComment(
     projectId: string
     content: string
   },
-) {
+): Promise<request.Response> {
   return await request(app.getHttpServer())
     .post(`/comments/${commentId}/report`)
     .set('Authorization', `Bearer ${token}`)
