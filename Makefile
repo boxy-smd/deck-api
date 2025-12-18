@@ -33,6 +33,9 @@ format: ## Format code
 clean: ## Clean build artifacts
 	pnpm clean
 
+docker-build: ## Build Docker image
+	docker compose build --no-cache
+
 docker-up: ## Start all Docker services
 	pnpm docker:up
 
@@ -41,6 +44,10 @@ docker-down: ## Stop all Docker services
 
 docker-logs: ## View Docker logs
 	pnpm docker:logs
+
+docker-clean: ## Remove Docker volumes and containers
+	docker compose down -v
+	docker system prune -f
 
 db-migrate: ## Run database migrations
 	pnpm db:migrate
