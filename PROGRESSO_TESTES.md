@@ -58,10 +58,10 @@
 
 | Métrica | Antes | Agora | Progresso |
 |---------|-------|-------|-----------|
-| **Arquivos de teste** | 28 | 41 | +13 ✅ |
-| **Testes totais** | 71 | 197 | +126 ✅ |
-| **Testes E2E** | ~30 | ~30 | - |
-| **Testes Unitários** | 41 | 130 | +89 ✅ |
+| **Arquivos de teste** | 28 | 44 | +16 ✅ |
+| **Testes totais** | 71 | 259 | +188 ✅ |
+| **Testes E2E** | 37 | 14 | -23 (otimizado) |
+| **Testes Unitários** | 41 | 222 | +181 ✅ |
 | **Testes Integração** | 0 | 37 | +37 ✅ |
 
 ---
@@ -100,7 +100,7 @@
 - [x] **Meta 2:** Mappers principais cobertos ✅
 - [x] **Meta 3:** Testes de integração criados ✅ (3/3 repositories principais)
 - [x] **Meta 4:** E2E simplificados (happy path only) ✅
-- [ ] **Meta 5:** Entidades de domínio cobertas ⏳
+- [x] **Meta 5:** Entidades de domínio cobertas ✅ (User, Project, Comment)
 
 ---
 
