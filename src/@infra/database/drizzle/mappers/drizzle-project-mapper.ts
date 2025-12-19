@@ -87,7 +87,9 @@ export class DrizzleProjectMapper {
       bannerUrl: raw.bannerUrl,
       publishedYear: raw.publishedYear ?? 0,
       semester: raw.semester ?? 0,
+      allowComments: raw.allowComments,
       createdAt: raw.createdAt,
+      updatedAt: raw.updatedAt,
       author: {
         id: raw.author.id,
         name: raw.author.name,

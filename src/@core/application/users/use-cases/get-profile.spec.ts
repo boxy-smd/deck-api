@@ -1,14 +1,17 @@
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { makeUser } from 'test/factories/make-user'
+import { InMemoryProjectsRepository } from 'test/repositories/projects-repository'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
 import type { User } from '../../../domain/users/entities/user'
+import { ProjectsRepository } from '../../projects/repositories/projects-repository'
 import type { TrailsRepository } from '../../trails/repositories/trails-repository'
 import type { UsersRepository } from '../repositories/users-repository'
 import { GetProfileUseCase } from './get-profile'
 
 let usersRepository: UsersRepository
 let trailsRepository: TrailsRepository
+let projectsRepository: ProjectsRepository
 
 let student: User
 
@@ -18,10 +21,15 @@ describe('get profile use case', () => {
   beforeEach(async () => {
     usersRepository = new InMemoryUsersRepository()
     trailsRepository = new InMemoryTrailsRepository()
+    projectsRepository = new InMemoryProjectsRepository()
 
     student = await makeUser()
 
-    sut = new GetProfileUseCase(usersRepository, trailsRepository)
+    sut = new GetProfileUseCase(
+      usersRepository,
+      trailsRepository,
+      projectsRepository,
+    )
   })
 
   it('should be able to get a student profile', async () => {

@@ -8,7 +8,6 @@ import { UploadProjectBannerUseCase } from '@/@core/application/projects/use-cas
 import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { ProjectPresenter } from '@/@presentation/presenters/project'
-import { ProjectDetailsPresenter } from '@/@presentation/presenters/project-details'
 import {
   BadRequestException,
   Body,
@@ -208,7 +207,7 @@ export class ProjectsController {
     }
 
     return {
-      posts: result.value.items,
+      posts: result.value.items.map(ProjectPresenter.summaryToHTTP),
       pagination: {
         page: result.value.page,
         perPage: result.value.perPage,
@@ -255,7 +254,7 @@ export class ProjectsController {
     }
 
     return {
-      posts: result.value.items,
+      posts: result.value.items.map(ProjectPresenter.summaryToHTTP),
       pagination: {
         page: result.value.page,
         perPage: result.value.perPage,
@@ -294,7 +293,7 @@ export class ProjectsController {
       throw new BadRequestException(error.message)
     }
 
-    return ProjectDetailsPresenter.toHTTP(result.value)
+    return ProjectPresenter.detailsToHTTP(result.value)
   }
 
   @Delete('projects/:projectId')

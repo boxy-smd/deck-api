@@ -14,6 +14,44 @@ export class PaginationResponseDto {
   totalPages: number
 }
 
+export class AuthorDTO {
+  @ApiProperty()
+  id: string
+
+  @ApiProperty()
+  name: string
+
+  @ApiProperty()
+  username: string
+
+  @ApiProperty({ required: false })
+  profileUrl?: string
+}
+
+export class SubjectDTO {
+  @ApiProperty()
+  id: string
+
+  @ApiProperty()
+  name: string
+}
+
+export class TrailDTO {
+  @ApiProperty()
+  id: string
+
+  @ApiProperty()
+  name: string
+}
+
+export class ProfessorDTO {
+  @ApiProperty()
+  id: string
+
+  @ApiProperty()
+  name: string
+}
+
 export class ProjectSummaryResponseDto {
   @ApiProperty()
   id: string
@@ -34,32 +72,25 @@ export class ProjectSummaryResponseDto {
   semester: number
 
   @ApiProperty()
+  allowComments: boolean
+
+  @ApiProperty()
   createdAt: Date
 
-  @ApiProperty()
-  author: {
-    id: string
-    name: string
-    username: string
-  }
+  @ApiProperty({ required: false })
+  updatedAt?: Date
 
-  @ApiProperty()
-  subject: {
-    id: string
-    name: string
-  }
+  @ApiProperty({ type: AuthorDTO })
+  author: AuthorDTO
 
-  @ApiProperty({ type: [Object] })
-  trails: Array<{
-    id: string
-    name: string
-  }>
+  @ApiProperty({ type: SubjectDTO, required: false })
+  subject?: SubjectDTO
 
-  @ApiProperty({ type: [Object] })
-  professors: Array<{
-    id: string
-    name: string
-  }>
+  @ApiProperty({ type: [TrailDTO] })
+  trails: TrailDTO[]
+
+  @ApiProperty({ type: [ProfessorDTO] })
+  professors: ProfessorDTO[]
 }
 
 export class ProjectsListResponseDto {
@@ -108,29 +139,18 @@ export class ProjectDetailsResponseDto {
   @ApiProperty()
   createdAt: Date
 
-  @ApiProperty()
-  author: {
-    id: string
-    name: string
-    username: string
-    profileUrl?: string
-  }
+  @ApiProperty({ required: false })
+  updatedAt?: Date
 
-  @ApiProperty()
-  subject: {
-    id: string
-    name: string
-  }
+  @ApiProperty({ type: AuthorDTO })
+  author: AuthorDTO
 
-  @ApiProperty({ type: [Object] })
-  trails: Array<{
-    id: string
-    name: string
-  }>
+  @ApiProperty({ type: SubjectDTO, required: false })
+  subject?: SubjectDTO
 
-  @ApiProperty({ type: [Object] })
-  professors: Array<{
-    id: string
-    name: string
-  }>
+  @ApiProperty({ type: [TrailDTO] })
+  trails: TrailDTO[]
+
+  @ApiProperty({ type: [ProfessorDTO] })
+  professors: ProfessorDTO[]
 }

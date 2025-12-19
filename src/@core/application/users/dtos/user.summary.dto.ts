@@ -1,4 +1,5 @@
 import type { Trail } from '@/@core/domain/projects/entities/trail'
+import type { UserRole } from '@/@core/domain/users/value-objects/user-role'
 import type { User } from '../../../domain/users/entities/user'
 
 export interface UserSummaryDTO {
@@ -9,7 +10,7 @@ export interface UserSummaryDTO {
   profileUrl: string | null
   semester: number
   trails: string[]
-  role: string
+  role: UserRole
 }
 
 export class UserSummaryDTOMapper {
