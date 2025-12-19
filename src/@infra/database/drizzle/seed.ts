@@ -1,9 +1,8 @@
-import { readFileSync } from 'node:fs'
+import axios from 'axios'
+import { hash } from 'bcrypt'
+import { load } from 'cheerio'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
-import axios from 'axios'
-import { load } from 'cheerio'
-import { hash } from 'bcrypt'
 import * as schema from './schema'
 
 const pool = new Pool({
@@ -11,20 +10,6 @@ const pool = new Pool({
 })
 
 const db = drizzle(pool, { schema })
-
-interface Subject {
-  code: string
-  name: string
-  workload: number
-  semester: number
-  category:
-    | 'Disciplina'
-    | 'Atividades Complementares'
-    | 'Trabalho de Conclusão de Curso'
-  type: 'Obrigatória' | 'Eletiva' | 'Optativa'
-  prerequisites: string[]
-  equivalences: string[]
-}
 
 async function fetchProfessors() {
   const instance = axios.create()

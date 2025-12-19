@@ -1,25 +1,29 @@
-import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import pg from 'pg'
-import { DrizzleCommentsRepository } from './drizzle-comments-repository'
-import { DrizzleUsersRepository } from './drizzle-users-repository'
-import { DrizzleProjectsRepository } from './drizzle-projects-repository'
-import * as schema from '../schema'
-import { clearDatabase } from '../../../../../test/integration/helpers/database-helper'
+import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest'
 import { makeComment } from '../../../../../test/factories/make-comment'
-import { makeUser } from '../../../../../test/factories/make-user'
 import { makeProject } from '../../../../../test/factories/make-project'
+import { makeUser } from '../../../../../test/factories/make-user'
+import { clearDatabase } from '../../../../../test/integration/helpers/database-helper'
+import * as schema from '../schema'
+import { DrizzleCommentsRepository } from './drizzle-comments-repository'
+import { DrizzleProjectsRepository } from './drizzle-projects-repository'
+import { DrizzleUsersRepository } from './drizzle-users-repository'
 
 const { Pool } = pg
 
 describe('DrizzleCommentsRepository (Integration)', () => {
   let pool: pg.Pool
-  let db: ReturnType<typeof drizzle>
+  // Relax typing here to avoid strict NodePgDatabase<typeof schema> mismatch in tests.
+  // Using `any` is acceptable in integration test files to allow passing the runtime db object
+  // returned by `drizzle(pool, { schema })` into repositories that expect a typed schema.
+  // biome-ignore lint/suspicious/noExplicitAny: integration tests
+  let db: any
   let repository: DrizzleCommentsRepository
   let usersRepository: DrizzleUsersRepository
   let projectsRepository: DrizzleProjectsRepository
 
-  beforeAll(async () => {
+  beforeAll(() => {
     const DATABASE_URL = process.env.DATABASE_URL
     if (!DATABASE_URL) {
       throw new Error('DATABASE_URL must be set for integration tests')
@@ -70,7 +74,7 @@ describe('DrizzleCommentsRepository (Integration)', () => {
 
   describe('findById()', () => {
     it('should return null for non-existent comment', async () => {
-      const { randomUUID } = await import('crypto')
+      const { randomUUID } = await import('node:crypto')
       const found = await repository.findById(randomUUID())
       expect(found).toBeNull()
     })
@@ -115,9 +119,21 @@ describe('DrizzleCommentsRepository (Integration)', () => {
       })
       await projectsRepository.create(project)
 
-      const comment1 = makeComment({ content: 'Comment 1', authorId: author.id, projectId: project.id })
-      const comment2 = makeComment({ content: 'Comment 2', authorId: author.id, projectId: project.id })
-      const comment3 = makeComment({ content: 'Comment 3', authorId: author.id, projectId: project.id })
+      const comment1 = makeComment({
+        content: 'Comment 1',
+        authorId: author.id,
+        projectId: project.id,
+      })
+      const comment2 = makeComment({
+        content: 'Comment 2',
+        authorId: author.id,
+        projectId: project.id,
+      })
+      const comment3 = makeComment({
+        content: 'Comment 3',
+        authorId: author.id,
+        projectId: project.id,
+      })
 
       await repository.create(comment1)
       await repository.create(comment2)
@@ -148,15 +164,26 @@ describe('DrizzleCommentsRepository (Integration)', () => {
       await projectsRepository.create(project1)
       await projectsRepository.create(project2)
 
-      const comment1 = makeComment({ authorId: author.id, projectId: project1.id })
-      const comment2 = makeComment({ authorId: author.id, projectId: project1.id })
-      const comment3 = makeComment({ authorId: author.id, projectId: project2.id })
+      const comment1 = makeComment({
+        authorId: author.id,
+        projectId: project1.id,
+      })
+      const comment2 = makeComment({
+        authorId: author.id,
+        projectId: project1.id,
+      })
+      const comment3 = makeComment({
+        authorId: author.id,
+        projectId: project2.id,
+      })
 
       await repository.create(comment1)
       await repository.create(comment2)
       await repository.create(comment3)
 
-      const project1Comments = await repository.findByProjectId(project1.id.toString())
+      const project1Comments = await repository.findByProjectId(
+        project1.id.toString(),
+      )
       expect(project1Comments).toHaveLength(2)
     })
 
@@ -178,9 +205,9 @@ describe('DrizzleCommentsRepository (Integration)', () => {
 
   describe('findManyByProjectIdWithAuthors()', () => {
     it('should return comments with author information', async () => {
-      const author = await makeUser({ 
+      const author = await makeUser({
         name: 'John Doe',
-        profile: undefined 
+        profile: undefined,
       })
       await usersRepository.create(author)
 
@@ -198,9 +225,8 @@ describe('DrizzleCommentsRepository (Integration)', () => {
       })
       await repository.create(comment)
 
-      const commentsWithAuthors = await repository.findManyByProjectIdWithAuthors(
-        project.id.toString()
-      )
+      const commentsWithAuthors =
+        await repository.findManyByProjectIdWithAuthors(project.id.toString())
 
       expect(commentsWithAuthors).toHaveLength(1)
       expect(commentsWithAuthors[0].content).toBe('Nice work!')
@@ -227,11 +253,14 @@ describe('DrizzleCommentsRepository (Integration)', () => {
       })
       await repository.create(comment)
 
-      const updatedComment = makeComment({
-        content: 'Updated content',
-        authorId: author.id,
-        projectId: project.id,
-      }, comment.id)
+      const updatedComment = makeComment(
+        {
+          content: 'Updated content',
+          authorId: author.id,
+          projectId: project.id,
+        },
+        comment.id,
+      )
 
       await repository.save(updatedComment)
 
@@ -277,9 +306,18 @@ describe('DrizzleCommentsRepository (Integration)', () => {
       })
       await projectsRepository.create(project)
 
-      const comment1 = makeComment({ authorId: author.id, projectId: project.id })
-      const comment2 = makeComment({ authorId: author.id, projectId: project.id })
-      const comment3 = makeComment({ authorId: author.id, projectId: project.id })
+      const comment1 = makeComment({
+        authorId: author.id,
+        projectId: project.id,
+      })
+      const comment2 = makeComment({
+        authorId: author.id,
+        projectId: project.id,
+      })
+      const comment3 = makeComment({
+        authorId: author.id,
+        projectId: project.id,
+      })
 
       await repository.create(comment1)
       await repository.create(comment2)
@@ -308,16 +346,26 @@ describe('DrizzleCommentsRepository (Integration)', () => {
       await projectsRepository.create(project1)
       await projectsRepository.create(project2)
 
-      const comment1 = makeComment({ authorId: author.id, projectId: project1.id })
-      const comment2 = makeComment({ authorId: author.id, projectId: project2.id })
+      const comment1 = makeComment({
+        authorId: author.id,
+        projectId: project1.id,
+      })
+      const comment2 = makeComment({
+        authorId: author.id,
+        projectId: project2.id,
+      })
 
       await repository.create(comment1)
       await repository.create(comment2)
 
       await repository.deleteManyByProjectId(project1.id.toString())
 
-      const project1Comments = await repository.findByProjectId(project1.id.toString())
-      const project2Comments = await repository.findByProjectId(project2.id.toString())
+      const project1Comments = await repository.findByProjectId(
+        project1.id.toString(),
+      )
+      const project2Comments = await repository.findByProjectId(
+        project2.id.toString(),
+      )
 
       expect(project1Comments).toEqual([])
       expect(project2Comments).toHaveLength(1)

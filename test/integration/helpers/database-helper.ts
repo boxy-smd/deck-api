@@ -1,6 +1,6 @@
+import * as schema from '@/@infra/database/drizzle/schema'
 import { sql } from 'drizzle-orm'
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
-import * as schema from '@/@infra/database/drizzle/schema'
 
 export async function clearDatabase(db: NodePgDatabase<typeof schema>) {
   await db.execute(sql`TRUNCATE TABLE reports CASCADE`)
@@ -17,10 +17,20 @@ export async function clearDatabase(db: NodePgDatabase<typeof schema>) {
 }
 
 export async function createTestTrails(db: NodePgDatabase<typeof schema>) {
-  const { randomUUID } = await import('crypto')
+  const { randomUUID } = await import('node:crypto')
   const trails = [
-    { id: randomUUID(), name: 'Design Digital', createdAt: new Date(), updatedAt: new Date() },
-    { id: randomUUID(), name: 'Desenvolvimento', createdAt: new Date(), updatedAt: new Date() },
+    {
+      id: randomUUID(),
+      name: 'Design Digital',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: randomUUID(),
+      name: 'Desenvolvimento',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
   ]
   await db.insert(schema.trails).values(trails)
   return trails
