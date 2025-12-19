@@ -1,6 +1,6 @@
 import { type INestApplication } from '@nestjs/common'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import request from 'supertest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { createTestApp } from './setup-e2e'
 
 describe('Trails E2E', () => {

@@ -130,9 +130,15 @@ describe('BcryptHasher', () => {
       const storedHash = await bcrypt.hash(userPassword)
 
       // Login: compare provided password with stored hash
-      const loginAttempt1 = await bcrypt.compare('user-secret-password-123', storedHash)
+      const loginAttempt1 = await bcrypt.compare(
+        'user-secret-password-123',
+        storedHash,
+      )
       const loginAttempt2 = await bcrypt.compare('wrong-password', storedHash)
-      const loginAttempt3 = await bcrypt.compare('user-secret-password-124', storedHash)
+      const loginAttempt3 = await bcrypt.compare(
+        'user-secret-password-124',
+        storedHash,
+      )
 
       expect(loginAttempt1).toBe(true) // Correct password
       expect(loginAttempt2).toBe(false) // Wrong password

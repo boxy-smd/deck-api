@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { Semester } from './semester'
 import { SemesterOutOfBoundsError } from '../../../application/users/errors/semester-out-of-bounds.error'
+import { Semester } from './semester'
 
 describe('Semester Value Object', () => {
   describe('create()', () => {

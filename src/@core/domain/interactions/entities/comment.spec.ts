@@ -1,6 +1,6 @@
+import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { describe, expect, it } from 'vitest'
 import { Comment } from './comment'
-import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 describe('Comment Entity', () => {
   const makeValidComment = () => {

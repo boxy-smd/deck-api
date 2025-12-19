@@ -59,11 +59,11 @@ export class PublishProjectDto {
   @Max(12, { message: 'O semestre deve estar entre 1 e 12.' })
   semester: number
 
-  @ApiProperty({ 
-    description: 'Permitir comentários', 
+  @ApiProperty({
+    description: 'Permitir comentários',
     example: true,
     required: false,
-    default: true 
+    default: true,
   })
   @IsOptional()
   @IsBoolean()

@@ -6,9 +6,7 @@
 		"semester": 1,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0003"
-		],
+		"prerequisites": ["SMD0003"],
 		"equivalences": []
 	},
 	{
@@ -18,9 +16,7 @@
 		"semester": 1,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0004"
-		],
+		"prerequisites": ["SMD0004"],
 		"equivalences": []
 	},
 	{
@@ -30,9 +26,7 @@
 		"semester": 1,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0002"
-		],
+		"prerequisites": ["SMD0002"],
 		"equivalences": []
 	},
 	{
@@ -42,9 +36,7 @@
 		"semester": 1,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0005"
-		],
+		"prerequisites": ["SMD0005"],
 		"equivalences": []
 	},
 	{
@@ -54,9 +46,7 @@
 		"semester": 1,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0001"
-		],
+		"prerequisites": ["SMD0001"],
 		"equivalences": []
 	},
 	{
@@ -66,9 +56,7 @@
 		"semester": 2,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0001"
-		],
+		"prerequisites": ["SMD0001"],
 		"equivalences": []
 	},
 	{
@@ -78,12 +66,8 @@
 		"semester": 2,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0005"
-		],
-		"equivalences": [
-			"SMD0010"
-		]
+		"prerequisites": ["SMD0005"],
+		"equivalences": ["SMD0010"]
 	},
 	{
 		"code": "SMD0105",
@@ -92,12 +76,8 @@
 		"semester": 2,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0008"
-		],
-		"equivalences": [
-			"SMD0009"
-		]
+		"prerequisites": ["SMD0008"],
+		"equivalences": ["SMD0009"]
 	},
 	{
 		"code": "SMD0106",
@@ -106,9 +86,7 @@
 		"semester": 2,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0005"
-		],
+		"prerequisites": ["SMD0005"],
 		"equivalences": []
 	},
 	{
@@ -128,9 +106,7 @@
 		"semester": 3,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD00105"
-		],
+		"prerequisites": ["SMD00105"],
 		"equivalences": []
 	},
 	{
@@ -140,12 +116,8 @@
 		"semester": 3,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0026"
-		],
-		"equivalences": [
-			"SMD0026"
-		]
+		"prerequisites": ["SMD0026"],
+		"equivalences": ["SMD0026"]
 	},
 	{
 		"code": "SMD0097",
@@ -154,12 +126,8 @@
 		"semester": 3,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0008"
-		],
-		"equivalences": [
-			"SMD0007"
-		]
+		"prerequisites": ["SMD0008"],
+		"equivalences": ["SMD0007"]
 	},
 	{
 		"code": "SMD0108",
@@ -168,9 +136,7 @@
 		"semester": 3,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0012"
-		],
+		"prerequisites": ["SMD0012"],
 		"equivalences": []
 	},
 	{
@@ -180,9 +146,7 @@
 		"semester": 3,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0006"
-		],
+		"prerequisites": ["SMD0006"],
 		"equivalences": []
 	},
 	{
@@ -192,9 +156,7 @@
 		"semester": 4,
 		"category": "Disciplina",
 		"type": "Eletiva",
-		"prerequisites": [
-			"SMD0098"
-		],
+		"prerequisites": ["SMD0098"],
 		"equivalences": []
 	},
 	{
@@ -204,9 +166,7 @@
 		"semester": 4,
 		"category": "Disciplina",
 		"type": "Eletiva",
-		"prerequisites": [
-			"SMD0095"
-		],
+		"prerequisites": ["SMD0095"],
 		"equivalences": []
 	},
 	{
@@ -216,9 +176,7 @@
 		"semester": 4,
 		"category": "Disciplina",
 		"type": "Eletiva",
-		"prerequisites": [
-			"SMD0095"
-		],
+		"prerequisites": ["SMD0095"],
 		"equivalences": []
 	},
 	{
@@ -228,9 +186,7 @@
 		"semester": 4,
 		"category": "Disciplina",
 		"type": "Eletiva",
-		"prerequisites": [
-			"SMD0105"
-		],
+		"prerequisites": ["SMD0105"],
 		"equivalences": []
 	},
 	{
@@ -240,12 +196,8 @@
 		"semester": 4,
 		"category": "Disciplina",
 		"type": "Eletiva",
-		"prerequisites": [
-			"SMD0105"
-		],
-		"equivalences": [
-			"SMD0014"
-		]
+		"prerequisites": ["SMD0105"],
+		"equivalences": ["SMD0014"]
 	},
 	{
 		"code": "SMD0098",
@@ -254,12 +206,8 @@
 		"semester": 4,
 		"category": "Disciplina",
 		"type": "Eletiva",
-		"prerequisites": [
-			"SMD0099"
-		],
-		"equivalences": [
-			"SMD0018"
-		]
+		"prerequisites": ["SMD0099"],
+		"equivalences": ["SMD0018"]
 	},
 	{
 		"code": "SMD0102",
@@ -278,9 +226,7 @@
 		"semester": 5,
 		"category": "Disciplina",
 		"type": "Eletiva",
-		"prerequisites": [
-			"SMD0093"
-		],
+		"prerequisites": ["SMD0093"],
 		"equivalences": []
 	},
 	{
@@ -290,9 +236,7 @@
 		"semester": 5,
 		"category": "Disciplina",
 		"type": "Eletiva",
-		"prerequisites": [
-			"SMD0099"
-		],
+		"prerequisites": ["SMD0099"],
 		"equivalences": []
 	},
 	{
@@ -302,12 +246,8 @@
 		"semester": 5,
 		"category": "Disciplina",
 		"type": "Eletiva",
-		"prerequisites": [
-			"SMD0099"
-		],
-		"equivalences": [
-			"SMD0043"
-		]
+		"prerequisites": ["SMD0099"],
+		"equivalences": ["SMD0043"]
 	},
 	{
 		"code": "SMD0110",
@@ -316,9 +256,7 @@
 		"semester": 5,
 		"category": "Disciplina",
 		"type": "Eletiva",
-		"prerequisites": [
-			"SMD0105"
-		],
+		"prerequisites": ["SMD0105"],
 		"equivalences": []
 	},
 	{
@@ -338,12 +276,8 @@
 		"semester": 6,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0092"
-		],
-		"equivalences": [
-			"SMD0060"
-		]
+		"prerequisites": ["SMD0092"],
+		"equivalences": ["SMD0060"]
 	},
 	{
 		"code": "SMD0101",
@@ -352,12 +286,8 @@
 		"semester": 7,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0102"
-		],
-		"equivalences": [
-			"SMD0062"
-		]
+		"prerequisites": ["SMD0102"],
+		"equivalences": ["SMD0062"]
 	},
 	{
 		"code": "SMD0111",
@@ -366,12 +296,8 @@
 		"semester": 7,
 		"category": "Disciplina",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0102"
-		],
-		"equivalences": [
-			"SMD0062"
-		]
+		"prerequisites": ["SMD0102"],
+		"equivalences": ["SMD0062"]
 	},
 	{
 		"code": "ED0115",
@@ -390,9 +316,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"PD0077"
-		],
+		"prerequisites": ["PD0077"],
 		"equivalences": []
 	},
 	{
@@ -482,9 +406,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0095"
-		],
+		"prerequisites": ["SMD0095"],
 		"equivalences": []
 	},
 	{
@@ -814,9 +736,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0053"
-		],
+		"prerequisites": ["SMD0053"],
 		"equivalences": []
 	},
 	{
@@ -826,9 +746,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0050"
-		],
+		"prerequisites": ["SMD0050"],
 		"equivalences": []
 	},
 	{
@@ -848,9 +766,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0052"
-		],
+		"prerequisites": ["SMD0052"],
 		"equivalences": []
 	},
 	{
@@ -860,9 +776,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0096"
-		],
+		"prerequisites": ["SMD0096"],
 		"equivalences": []
 	},
 	{
@@ -872,10 +786,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0027",
-			"SMD0034"
-		],
+		"prerequisites": ["SMD0027", "SMD0034"],
 		"equivalences": []
 	},
 	{
@@ -885,9 +796,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0049"
-		],
+		"prerequisites": ["SMD0049"],
 		"equivalences": []
 	},
 	{
@@ -897,9 +806,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0053"
-		],
+		"prerequisites": ["SMD0053"],
 		"equivalences": []
 	},
 	{
@@ -909,10 +816,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0050",
-			"SMD0053"
-		],
+		"prerequisites": ["SMD0050", "SMD0053"],
 		"equivalences": []
 	},
 	{
@@ -942,10 +846,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0096",
-			"SMD0105"
-		],
+		"prerequisites": ["SMD0096", "SMD0105"],
 		"equivalences": []
 	},
 	{
@@ -955,9 +856,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0080"
-		],
+		"prerequisites": ["SMD0080"],
 		"equivalences": []
 	},
 	{
@@ -967,9 +866,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0035"
-		],
+		"prerequisites": ["SMD0035"],
 		"equivalences": []
 	},
 	{
@@ -979,9 +876,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0054"
-		],
+		"prerequisites": ["SMD0054"],
 		"equivalences": []
 	},
 	{
@@ -991,9 +886,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0073"
-		],
+		"prerequisites": ["SMD0073"],
 		"equivalences": []
 	},
 	{
@@ -1013,9 +906,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0105"
-		],
+		"prerequisites": ["SMD0105"],
 		"equivalences": []
 	},
 	{
@@ -1025,9 +916,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0055"
-		],
+		"prerequisites": ["SMD0055"],
 		"equivalences": []
 	},
 	{
@@ -1047,10 +936,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0106",
-			"SMD0105"
-		],
+		"prerequisites": ["SMD0106", "SMD0105"],
 		"equivalences": []
 	},
 	{
@@ -1060,9 +946,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0105"
-		],
+		"prerequisites": ["SMD0105"],
 		"equivalences": []
 	},
 	{
@@ -1072,9 +956,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0095"
-		],
+		"prerequisites": ["SMD0095"],
 		"equivalences": []
 	},
 	{
@@ -1104,9 +986,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0108"
-		],
+		"prerequisites": ["SMD0108"],
 		"equivalences": []
 	},
 	{
@@ -1116,10 +996,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0091",
-			"SMD0105"
-		],
+		"prerequisites": ["SMD0091", "SMD0105"],
 		"equivalences": []
 	},
 	{
@@ -1129,9 +1006,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0015"
-		],
+		"prerequisites": ["SMD0015"],
 		"equivalences": []
 	},
 	{
@@ -1141,9 +1016,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0032"
-		],
+		"prerequisites": ["SMD0032"],
 		"equivalences": []
 	},
 	{
@@ -1153,9 +1026,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0102"
-		],
+		"prerequisites": ["SMD0102"],
 		"equivalences": []
 	},
 	{
@@ -1165,10 +1036,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0098",
-			"SMD0037"
-		],
+		"prerequisites": ["SMD0098", "SMD0037"],
 		"equivalences": []
 	},
 	{
@@ -1178,9 +1046,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0122"
-		],
+		"prerequisites": ["SMD0122"],
 		"equivalences": []
 	},
 	{
@@ -1200,10 +1066,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0027",
-			"SMD0092"
-		],
+		"prerequisites": ["SMD0027", "SMD0092"],
 		"equivalences": []
 	},
 	{
@@ -1213,9 +1076,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0128"
-		],
+		"prerequisites": ["SMD0128"],
 		"equivalences": []
 	},
 	{
@@ -1225,9 +1086,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0105"
-		],
+		"prerequisites": ["SMD0105"],
 		"equivalences": []
 	},
 	{
@@ -1237,12 +1096,8 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0049"
-		],
-		"equivalences": [
-			"SMD0072"
-		]
+		"prerequisites": ["SMD0049"],
+		"equivalences": ["SMD0072"]
 	},
 	{
 		"code": "SMD0129",
@@ -1251,12 +1106,8 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0098"
-		],
-		"equivalences": [
-			"SMD0049"
-		]
+		"prerequisites": ["SMD0098"],
+		"equivalences": ["SMD0049"]
 	},
 	{
 		"code": "SMD0130",
@@ -1265,9 +1116,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0108"
-		],
+		"prerequisites": ["SMD0108"],
 		"equivalences": []
 	},
 	{
@@ -1277,9 +1126,7 @@
 		"semester": 8,
 		"category": "Disciplina",
 		"type": "Optativa",
-		"prerequisites": [
-			"SMD0034"
-		],
+		"prerequisites": ["SMD0034"],
 		"equivalences": []
 	},
 	{
@@ -1289,9 +1136,7 @@
 		"semester": 8,
 		"category": "Trabalho de Conclusão de Curso",
 		"type": "Obrigatória",
-		"prerequisites": [
-			"SMD0111"
-		],
+		"prerequisites": ["SMD0111"],
 		"equivalences": []
 	},
 	{
@@ -1302,9 +1147,7 @@
 		"category": "Disciplina",
 		"type": "Obrigatória",
 		"prerequisites": [],
-		"equivalences": [
-			"SMD0063"
-		]
+		"equivalences": ["SMD0063"]
 	},
 	{
 		"code": "SMDG0001",
@@ -1314,8 +1157,6 @@
 		"category": "Atividades Complementares",
 		"type": "Obrigatória",
 		"prerequisites": [],
-		"equivalences": [
-			"SMDS0001"
-		]
+		"equivalences": ["SMDS0001"]
 	}
 ]

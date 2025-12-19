@@ -1,7 +1,7 @@
+import { config } from 'dotenv'
 import swc from 'unplugin-swc'
 import tsConfigPaths from 'vite-tsconfig-paths'
 import { defineConfig } from 'vitest/config'
-import { config } from 'dotenv'
 
 // Carrega variáveis de ambiente do .env
 config()
@@ -35,7 +35,7 @@ export default defineConfig({
       '@/@shared': './src/@shared',
       '@/@presentation': './src/@presentation',
       '@': './src',
-      'test': './test',
+      test: './test',
     },
   },
 })

@@ -10,8 +10,8 @@ import { makeUser } from 'test/factories/make-user'
 import { InMemoryProjectsRepository } from 'test/repositories/projects-repository'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
+import type { TrailsRepository } from '../../trails/repositories/trails-repository'
 import type { ProjectsRepository } from '../repositories/projects-repository'
-import type { TrailsRepository } from '../repositories/trails-repository'
 import { DeleteProjectUseCase } from './delete-project'
 
 let usersRepository: UsersRepository

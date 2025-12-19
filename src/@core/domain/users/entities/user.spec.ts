@@ -1,11 +1,10 @@
+import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { describe, expect, it } from 'vitest'
-import { User } from './user'
 import { Email } from '../value-objects/email'
-import { Username } from '../value-objects/username'
 import { UserRole } from '../value-objects/user-role'
 import { UserStatus } from '../value-objects/user-status'
-import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
-import { Semester } from '../value-objects/semester'
+import { Username } from '../value-objects/username'
+import { User } from './user'
 
 describe('User Entity', () => {
   const makeValidUser = () => {

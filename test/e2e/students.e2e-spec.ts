@@ -1,15 +1,15 @@
+import * as schema from '@/@infra/database/drizzle/schema'
 import { type INestApplication } from '@nestjs/common'
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import request from 'supertest'
-import { createTestApp } from './setup-e2e'
+import { makeTrail } from 'test/factories/make-trail'
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { clearDatabase } from './database-utils'
 import { getDrizzleInstance } from './helpers/drizzle.helper'
-import { makeTrail } from 'test/factories/make-trail'
-import * as schema from '@/@infra/database/drizzle/schema'
+import { createTestApp } from './setup-e2e'
 
 /**
  * Students E2E Tests - Simplified
- * 
+ *
  * Only tests critical happy paths and authorization.
  * Validation and business logic are covered by unit/integration tests.
  */

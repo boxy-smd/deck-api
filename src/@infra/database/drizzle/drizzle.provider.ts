@@ -7,7 +7,7 @@ export const DRIZZLE = 'DRIZZLE'
 
 export const drizzleProvider: Provider = {
   provide: DRIZZLE,
-  useFactory: async () => {
+  useFactory: () => {
     const pool = new Pool({
       connectionString: process.env.DATABASE_URL,
     })

@@ -11,10 +11,10 @@ import { InMemoryProjectsRepository } from 'test/repositories/projects-repositor
 import { InMemorySubjectsRepository } from 'test/repositories/subjects-repository'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
-import type { ProfessorsRepository } from '../repositories/professors-repository'
+import type { ProfessorsRepository } from '../../professors/repositories/professors-repository'
+import type { SubjectsRepository } from '../../subjects/repositories/subjects-repository'
+import type { TrailsRepository } from '../../trails/repositories/trails-repository'
 import type { ProjectsRepository } from '../repositories/projects-repository'
-import type { SubjectsRepository } from '../repositories/subjects-repository'
-import type { TrailsRepository } from '../repositories/trails-repository'
 import { PublishProjectUseCase } from './publish-project'
 
 let projectsRepository: ProjectsRepository

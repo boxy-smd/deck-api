@@ -1,5 +1,5 @@
-import type { ProjectDTO } from '@/@core/application/projects/dtos/project.dto'
 import type { ProfessorsRepository } from '@/@core/application/professors/repositories/professors-repository'
+import type { ProjectDTO } from '@/@core/application/projects/dtos/project.dto'
 import type {
   ProjectQuery,
   ProjectsRepository,
@@ -30,8 +30,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     trailsRepository?: TrailsRepository,
     professorsRepository?: ProfessorsRepository,
   ) {
-    this.usersRepository =
-      usersRepository || new InMemoryUsersRepository()
+    this.usersRepository = usersRepository || new InMemoryUsersRepository()
     this.subjectsRepository =
       subjectsRepository || new InMemorySubjectsRepository()
     this.trailsRepository = trailsRepository || new InMemoryTrailsRepository()
@@ -144,7 +143,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     }
 
     const projects = this.items.filter(item =>
-      item.professors?.some(professor =>
+      Array.from(item.professors ?? []).some(professor =>
         professors.some(p => p.id.equals(professor)),
       ),
     )
@@ -171,7 +170,9 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
         (!publishedYear || item.publishedYear === publishedYear) &&
         (!subjectId || item.subjectId?.toString() === subjectId) &&
         (!trailsIds ||
-          item.trails.some(trail => trailsIds.includes(trail.toValue()))),
+          Array.from(item.trails).some(trail =>
+            trailsIds.includes(trail.toValue()),
+          )),
     )
 
     return await Promise.all(projects)
@@ -255,7 +256,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
       }
 
       if (trails.length > 0) {
-        const hasTrail = item.trails.some(trailId =>
+        const hasTrail = Array.from(item.trails).some(trailId =>
           trails.some(trail => trail.id.equals(trailId)),
         )
 
@@ -366,8 +367,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
 
   async findDraftsByAuthorId(authorId: string): Promise<Project[]> {
     const projects = this.items.filter(
-      item =>
-        item.authorId.toString() === authorId && item.status === 'DRAFT',
+      item => item.authorId.toString() === authorId && item.status === 'DRAFT',
     )
 
     return await Promise.resolve(projects)
