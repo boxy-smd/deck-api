@@ -47,9 +47,7 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@faker-js/faker": "^10.1.0",
 		"@nestjs/cli": "^11.0.14",
-		"@nestjs/testing": "^11.1.9",
 		"@swc/cli": "^0.7.9",
 		"@swc/core": "^1.15.5",
 		"@tsconfig/node20": "^20.1.8",
@@ -64,7 +62,6 @@
 		"drizzle-kit": "^0.31.8",
 		"glob": "^13.0.0",
 		"supertest": "^7.1.4",
-		"testcontainers": "^11.10.0",
 		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
 		"unplugin-swc": "^1.5.9",
