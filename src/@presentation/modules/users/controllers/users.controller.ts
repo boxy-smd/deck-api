@@ -40,11 +40,11 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger'
-import type { EditProfileDto } from '../dto/edit-profile.dto'
-import type { FetchStudentsDto } from '../dto/fetch-students.dto'
+import { EditProfileDto } from '../dto/edit-profile.dto'
+import { FetchStudentsDto } from '../dto/fetch-students.dto'
 import { ForgotPasswordDto } from '../dto/forgot-password.dto'
-import type { LoginStudentDto } from '../dto/login-student.dto'
-import type { RegisterStudentDto } from '../dto/register-student.dto'
+import { LoginStudentDto } from '../dto/login-student.dto'
+import { RegisterStudentDto } from '../dto/register-student.dto'
 import { ResetPasswordDto } from '../dto/reset-password.dto'
 import {
   MessageResponseDto,
@@ -91,6 +91,7 @@ export class UsersController {
     status: 409,
     description: 'Estudante já cadastrado com este email ou nome de usuário.',
   })
+  @ApiBody({ type: RegisterStudentDto })
   async register(
     @Body() registerDto: RegisterStudentDto,
   ): Promise<UserIdResponseDto> {
@@ -133,6 +134,7 @@ export class UsersController {
     status: 401,
     description: 'Credenciais inválidas. Email ou senha incorretos.',
   })
+  @ApiBody({ type: LoginStudentDto })
   async login(@Body() loginDto: LoginStudentDto): Promise<TokenResponseDto> {
     const result = await this.loginUseCase.execute({
       email: loginDto.email,
@@ -205,6 +207,7 @@ export class UsersController {
     status: 404,
     description: 'Estudante não encontrado.',
   })
+  @ApiBody({ type: EditProfileDto })
   async editProfile(
     @Param('studentId') userId: string,
     @Body() editDto: EditProfileDto,
