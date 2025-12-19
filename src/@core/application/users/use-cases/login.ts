@@ -1,3 +1,4 @@
+import type { User } from '@/@core/domain/users/entities/user'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { InvalidCredentialsError } from '@/@shared/kernel/errors/invalid-credentials.error'
 import { Injectable } from '@nestjs/common'
@@ -12,7 +13,7 @@ interface LoginUseCaseRequest {
 type LoginUseCaseResponse = Either<
   InvalidCredentialsError,
   {
-    id: string
+    user: User
   }
 >
 
@@ -43,7 +44,7 @@ export class LoginUseCase {
     }
 
     return right({
-      id: user.id.toString(),
+      user,
     })
   }
 }

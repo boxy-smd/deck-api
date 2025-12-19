@@ -146,12 +146,27 @@ export class UsersController {
       throw new UnauthorizedException(error.message)
     }
 
+    const { user } = result.value
+
     const token = this.jwtService.sign({
-      sub: result.value.id,
+      sub: user.id.toString(),
       role: 'student',
     })
 
-    return { token }
+    const profileResult = await this.getProfileUseCase.execute({
+      username: user.username.value,
+    })
+
+    if (profileResult.isLeft()) {
+      throw new BadRequestException(
+        'Não foi possível carregar o perfil do usuário.',
+      )
+    }
+
+    return {
+      token,
+      user: UserPresenter.toHTTP(profileResult.value),
+    }
   }
 
   @Public()
@@ -383,9 +398,20 @@ export class UsersController {
       role: 'student',
     })
 
-    return new Promise(resolve => {
-      resolve({ token })
+    // To get the full profile, we need the username.
+    // We'll fetch the user by ID and then use the username to get the profile.
+    const user = await this.getProfileUseCase.execute({
+      username: req.user.userId,
     })
+
+    if (user.isLeft()) {
+      throw new UnauthorizedException('Usuário não encontrado.')
+    }
+
+    return {
+      token,
+      user: UserPresenter.toHTTP(user.value),
+    }
   }
 
   @Public()

@@ -2,6 +2,7 @@ import type { Trail } from '@/@core/domain/projects/entities/trail'
 import type { UserRole } from '@/@core/domain/users/value-objects/user-role'
 import type { UserStatus } from '@/@core/domain/users/value-objects/user-status'
 import type { User } from '../../../domain/users/entities/user'
+import type { ProjectSummaryDTO } from '../../projects/dtos/project-summary.dto'
 
 export interface UserDTO {
   id: string
@@ -14,10 +15,17 @@ export interface UserDTO {
   trails: string[]
   role: UserRole
   status: UserStatus
+  posts: ProjectSummaryDTO[]
+  drafts: ProjectSummaryDTO[]
 }
 
 export class UserDTOMapper {
-  static toDTO(user: User, trails?: Trail[]): UserDTO {
+  static toDTO(
+    user: User,
+    trails?: Trail[],
+    posts: ProjectSummaryDTO[] = [],
+    drafts: ProjectSummaryDTO[] = [],
+  ): UserDTO {
     return {
       id: user.id.toString(),
       name: user.name,
@@ -29,6 +37,8 @@ export class UserDTOMapper {
       trails: trails?.map(trail => trail.id.toString()) || [],
       role: user.role,
       status: user.status,
+      posts,
+      drafts,
     }
   }
 }

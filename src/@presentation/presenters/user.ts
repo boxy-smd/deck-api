@@ -1,5 +1,6 @@
 import type { UserDTO } from '@/@core/application/users/dtos/user.dto'
 import type { UserSummaryDTO } from '@/@core/application/users/dtos/user.summary.dto'
+import { ProjectPresenter } from './project'
 
 export class UserPresenter {
   static toHTTP(user: UserDTO) {
@@ -14,6 +15,8 @@ export class UserPresenter {
       trails: user.trails,
       role: user.role,
       status: user.status,
+      posts: user.posts.map(ProjectPresenter.summaryToHTTP),
+      drafts: user.drafts.map(ProjectPresenter.summaryToHTTP),
     }
   }
 

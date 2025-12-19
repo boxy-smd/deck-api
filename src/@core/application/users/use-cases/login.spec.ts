@@ -33,7 +33,9 @@ describe('login use case', () => {
 
     expect(result.isRight()).toBe(true)
     expect(result.isRight() && result.value).toMatchObject({
-      id: user.id.toString(),
+      user: expect.objectContaining({
+        id: user.id,
+      }),
     })
   })
 

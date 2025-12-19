@@ -75,7 +75,10 @@ describe('Projects E2E', () => {
       .send({
         title: 'Projeto 1',
         description: 'Descrição 1',
+        publishedYear: 2024,
+        semester: 1,
       })
+      .expect(201)
 
     await request(app.getHttpServer())
       .post('/projects')
@@ -83,7 +86,10 @@ describe('Projects E2E', () => {
       .send({
         title: 'Projeto 2',
         description: 'Descrição 2',
+        publishedYear: 2024,
+        semester: 2,
       })
+      .expect(201)
 
     // List projects
     const response = await request(app.getHttpServer())
@@ -103,7 +109,10 @@ describe('Projects E2E', () => {
         title: 'Projeto para Buscar',
         description: 'Descrição',
         content: 'Conteúdo',
+        publishedYear: 2024,
+        semester: 1,
       })
+      .expect(201)
 
     const projectId = createResponse.body.project_id
 

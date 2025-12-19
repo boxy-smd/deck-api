@@ -1,13 +1,11 @@
+import { UserRole } from '@/@core/domain/users/value-objects/user-role'
+import { UserStatus } from '@/@core/domain/users/value-objects/user-status'
 import { ApiProperty } from '@nestjs/swagger'
+import { ProjectSummaryResponseDto } from '../../projects/dto/projects-response.dto'
 
 export class UserIdResponseDto {
   @ApiProperty()
   user_id: string
-}
-
-export class TokenResponseDto {
-  @ApiProperty()
-  token: string
 }
 
 export class UserResponseDto {
@@ -35,11 +33,25 @@ export class UserResponseDto {
   @ApiProperty({ type: [String] })
   trails: string[]
 
-  @ApiProperty()
-  role: string
+  @ApiProperty({ enum: UserRole })
+  role: UserRole
 
+  @ApiProperty({ enum: UserStatus })
+  status: UserStatus
+
+  @ApiProperty({ type: [ProjectSummaryResponseDto] })
+  posts: ProjectSummaryResponseDto[]
+
+  @ApiProperty({ type: [ProjectSummaryResponseDto] })
+  drafts: ProjectSummaryResponseDto[]
+}
+
+export class TokenResponseDto {
   @ApiProperty()
-  status: string
+  token: string
+
+  @ApiProperty({ type: UserResponseDto })
+  user: UserResponseDto
 }
 
 export class UserSummaryResponseDto {
@@ -64,8 +76,8 @@ export class UserSummaryResponseDto {
   @ApiProperty({ type: [String] })
   trails: string[]
 
-  @ApiProperty()
-  role: string
+  @ApiProperty({ enum: UserRole })
+  role: UserRole
 }
 
 export class UsersListResponseDto {

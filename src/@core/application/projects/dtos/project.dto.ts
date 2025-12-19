@@ -52,7 +52,7 @@ export class ProjectDTOMapper {
     project: Project,
     author: User,
     trails: Trail[],
-    subject: Subject,
+    subject: Subject | null,
     professors: Professor[],
   ): ProjectDTO {
     return {
@@ -75,10 +75,12 @@ export class ProjectDTOMapper {
         profileUrl: author.profileUrl,
       },
       subjectId: subject ? subject.id.toString() : null,
-      subject: {
-        id: subject.id.toString(),
-        name: subject.name,
-      },
+      subject: subject
+        ? {
+            id: subject.id.toString(),
+            name: subject.name,
+          }
+        : null,
       trails: trails.map(trail => ({
         id: trail.id.toString(),
         name: trail.name,

@@ -32,6 +32,8 @@ export interface ProjectSummaryDTO {
     id: string
     name: string
   }>
+  allowComments: boolean
+  updatedAt: Date | null
 }
 
 export class ProjectSummaryMapper {
@@ -48,6 +50,8 @@ export class ProjectSummaryMapper {
       subject: project.subject,
       trails: project.trails,
       professors: project.professors,
+      allowComments: project.allowComments,
+      updatedAt: project.updatedAt,
     }
   }
 }
