@@ -1,14 +1,14 @@
 import { type INestApplication } from '@nestjs/common'
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import request from 'supertest'
-import { createTestApp } from './setup-e2e'
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { clearDatabase } from './database-utils'
 import { getDrizzleInstance } from './helpers/drizzle.helper'
 import { seedCommonData } from './helpers/fixtures.helper'
+import { createTestApp } from './setup-e2e'
 
 /**
  * Projects E2E Tests - Simplified
- * 
+ *
  * Only tests critical happy paths.
  * Validation and business logic are covered by unit/integration tests.
  */
@@ -29,18 +29,16 @@ describe('Projects E2E', () => {
   beforeEach(async () => {
     await clearDatabase(db)
     await seedCommonData(db)
-    
+
     // Register and authenticate student
-    await request(app.getHttpServer())
-      .post('/students')
-      .send({
-        name: 'Autor Teste',
-        username: 'autorteste',
-        email: 'autor@alu.ufc.br',
-        password: 'senha123',
-        semester: 3,
-        trailsIds: [],
-      })
+    await request(app.getHttpServer()).post('/students').send({
+      name: 'Autor Teste',
+      username: 'autorteste',
+      email: 'autor@alu.ufc.br',
+      password: 'senha123',
+      semester: 3,
+      trailsIds: [],
+    })
 
     const loginResponse = await request(app.getHttpServer())
       .post('/sessions')
@@ -48,7 +46,7 @@ describe('Projects E2E', () => {
         email: 'autor@alu.ufc.br',
         password: 'senha123',
       })
-    
+
     authToken = loginResponse.body.token
   })
 

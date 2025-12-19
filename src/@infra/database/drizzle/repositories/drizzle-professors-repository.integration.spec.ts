@@ -1,8 +1,8 @@
 import { Professor } from '@/@core/domain/projects/entities/professor'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import * as schema from '../schema'
 import { DrizzleProfessorsRepository } from './drizzle-professors-repository'
 
@@ -59,8 +59,8 @@ describe('DrizzleProfessorsRepository (Integration)', () => {
       const all = await repository.findAll()
 
       expect(all.length).toBeGreaterThanOrEqual(2)
-      expect(all.some((p) => p.name === 'Prof. Ana')).toBe(true)
-      expect(all.some((p) => p.name === 'Prof. Bruno')).toBe(true)
+      expect(all.some(p => p.name === 'Prof. Ana')).toBe(true)
+      expect(all.some(p => p.name === 'Prof. Bruno')).toBe(true)
     })
   })
 
@@ -121,8 +121,8 @@ describe('DrizzleProfessorsRepository (Integration)', () => {
       const results = await repository.findManyByName('José')
 
       expect(results.length).toBeGreaterThanOrEqual(2)
-      expect(results.some((p) => p.name.includes('José'))).toBe(true)
-      expect(results.every((p) => p.name.toLowerCase().includes('josé'))).toBe(
+      expect(results.some(p => p.name.includes('José'))).toBe(true)
+      expect(results.every(p => p.name.toLowerCase().includes('josé'))).toBe(
         true,
       )
     })
@@ -140,7 +140,7 @@ describe('DrizzleProfessorsRepository (Integration)', () => {
       const results = await repository.findManyByName('uppercase')
 
       expect(results.length).toBeGreaterThanOrEqual(1)
-      expect(results.some((p) => p.name === 'UPPERCASE NAME')).toBe(true)
+      expect(results.some(p => p.name === 'UPPERCASE NAME')).toBe(true)
     })
   })
 })

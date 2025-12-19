@@ -1,8 +1,8 @@
+import { UserRole } from '@/@core/domain/users/value-objects/user-role'
+import { UserStatus } from '@/@core/domain/users/value-objects/user-status'
 import { describe, expect, it } from 'vitest'
 import { DrizzleUserMapper } from './drizzle-user-mapper'
 import type { DrizzleUserWithProfile } from './drizzle-user-mapper'
-import { UserRole } from '@/@core/domain/users/value-objects/user-role'
-import { UserStatus } from '@/@core/domain/users/value-objects/user-status'
 
 describe('DrizzleUserMapper', () => {
   describe('toEntity()', () => {
@@ -53,11 +53,8 @@ describe('DrizzleUserMapper', () => {
         createdAt: new Date('2024-01-01'),
         updatedAt: new Date('2024-01-01'),
         studentProfile: {
-          id: 'user-id-2',
-          userId: 'user-id-2',
+          studentId: 'user-id-2',
           semester: 5,
-          createdAt: new Date('2024-01-01'),
-          updatedAt: new Date('2024-01-01'),
         },
         trails: [
           {
@@ -224,11 +221,8 @@ describe('DrizzleUserMapper', () => {
         createdAt: new Date('2024-01-01'),
         updatedAt: new Date('2024-01-01'),
         studentProfile: {
-          id: 'user-id-8',
-          userId: 'user-id-8',
+          studentId: 'user-id-8',
           semester: 15,
-          createdAt: new Date('2024-01-01'),
-          updatedAt: new Date('2024-01-01'),
         },
         trails: [],
       }

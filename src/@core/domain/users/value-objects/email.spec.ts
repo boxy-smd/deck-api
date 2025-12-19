@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { Email } from './email'
 import { EmailBadFormattedError } from '../../../application/users/errors/email-bad-formatted.error'
+import { Email } from './email'
 
 describe('Email Value Object', () => {
   describe('create()', () => {

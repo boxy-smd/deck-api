@@ -1,5 +1,5 @@
-import type { SubjectsRepository } from '@/@core/domain/projects/application/repositories/subjects-repository'
-import type { Subject } from '@/@core/domain/projects/enterprise/entities/subject'
+import type { SubjectsRepository } from '@/@core/application/subjects/repositories/subjects-repository'
+import type { Subject } from '@/@core/domain/projects/entities/subject'
 
 export class InMemorySubjectsRepository implements SubjectsRepository {
   public items: Subject[] = []
@@ -9,7 +9,9 @@ export class InMemorySubjectsRepository implements SubjectsRepository {
   }
 
   async findById(id: string): Promise<Subject | null> {
-    return Promise.resolve(this.items.find(item => item.id.toString() === id) || null)
+    return Promise.resolve(
+      this.items.find(item => item.id.toString() === id) || null,
+    )
   }
 
   async findByName(name: string): Promise<Subject | null> {

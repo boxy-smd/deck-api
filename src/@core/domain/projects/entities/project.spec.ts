@@ -1,7 +1,7 @@
-import { describe, expect, it } from 'vitest'
-import { Project } from './project'
-import { ProjectStatus } from '../value-objects/project-status'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
+import { describe, expect, it } from 'vitest'
+import { ProjectStatus } from '../value-objects/project-status'
+import { Project } from './project'
 
 describe('Project Entity', () => {
   const makeValidProject = () => {

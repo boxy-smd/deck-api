@@ -31,7 +31,9 @@ export class SemesterParser {
   static parseSemester(tag: string): number | undefined {
     const normalizedTag = tag.toLowerCase().trim()
 
-    for (const [semester, variants] of Object.entries(this.SEMESTER_VARIANTS)) {
+    for (const [semester, variants] of Object.entries(
+      SemesterParser.SEMESTER_VARIANTS,
+    )) {
       if (variants.includes(normalizedTag)) {
         return Number.parseInt(semester, 10)
       }

@@ -1,8 +1,7 @@
+import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import { describe, expect, it } from 'vitest'
 import { DrizzleProjectMapper } from './drizzle-project-mapper'
 import type { DrizzleProjectWithDetails } from './drizzle-project-mapper'
-import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
-import { SubjectType } from '@/@core/domain/projects/value-objects/subject-type'
 
 describe('DrizzleProjectMapper', () => {
   describe('toEntity()', () => {
@@ -90,7 +89,10 @@ describe('DrizzleProjectMapper', () => {
         },
         subject: {
           id: 'subject-1',
+          code: 'SMD001',
           name: 'Programação Web',
+          workload: 64,
+          semester: 1,
           type: 'OBLIGATORY',
           createdAt: new Date('2024-01-01'),
           updatedAt: new Date('2024-01-01'),
@@ -140,7 +142,9 @@ describe('DrizzleProjectMapper', () => {
       expect(Array.from(project.trails).length).toBe(2)
       expect(Array.from(project.professors).length).toBe(2)
       const trailIds = Array.from(project.trails).map(id => id.toString())
-      const professorIds = Array.from(project.professors).map(id => id.toString())
+      const professorIds = Array.from(project.professors).map(id =>
+        id.toString(),
+      )
       expect(trailIds).toContain('trail-1')
       expect(trailIds).toContain('trail-2')
       expect(professorIds).toContain('prof-1')

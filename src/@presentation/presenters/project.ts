@@ -15,7 +15,9 @@ export class ProjectPresenter {
       authorId: project.authorId.toString(),
       subjectId: project.subjectId?.toString(),
       trailsIds: Array.from(project.trails).map(trail => trail.toString()),
-      professorsIds: Array.from(project.professors || []).map(professor => professor.toString()),
+      professorsIds: Array.from(project.professors || []).map(professor =>
+        professor.toString(),
+      ),
     }
   }
 }

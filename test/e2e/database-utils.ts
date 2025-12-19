@@ -1,6 +1,6 @@
+import type { INestApplication } from '@nestjs/common'
 import { sql } from 'drizzle-orm'
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
-import type { INestApplication } from '@nestjs/common'
 
 import * as schema from '@/@infra/database/drizzle/schema'
 import { getDrizzleInstance } from './helpers/drizzle.helper'

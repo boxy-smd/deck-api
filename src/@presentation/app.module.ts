@@ -1,12 +1,12 @@
 import { envSchema } from '@/@infra/config/env/env'
 import { EnvModule } from '@/@infra/config/env/env.module'
+import { DrizzleModule } from '@/@infra/database/drizzle/drizzle.module'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { AuthModule } from './modules/auth/auth.module'
 import { InteractionsModule } from './modules/interactions/interactions.module'
 import { ProjectsModule } from './modules/projects/projects.module'
 import { UsersModule } from './modules/users/users.module'
-import { DrizzleModule } from '@/@infra/database/drizzle/drizzle.module'
 
 @Module({
   imports: [

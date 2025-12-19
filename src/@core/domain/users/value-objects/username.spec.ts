@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { Username } from './username'
 import { UsernameBadFormattedError } from '../../../application/users/errors/username-bad-formatted.error'
-import { UsernameInvalidSizeError } from '../../../application/users/errors/username-invalid-size.error'
+import { Username } from './username'
 
 describe('Username Value Object', () => {
   describe('create()', () => {

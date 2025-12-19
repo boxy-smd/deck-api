@@ -1,13 +1,13 @@
 import { type INestApplication } from '@nestjs/common'
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import request from 'supertest'
-import { createTestApp } from './setup-e2e'
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { clearDatabase } from './database-utils'
 import { getDrizzleInstance } from './helpers/drizzle.helper'
+import { createTestApp } from './setup-e2e'
 
 /**
  * Comments E2E Tests - Simplified
- * 
+ *
  * Only tests critical happy paths.
  * Validation and authorization are covered by unit/integration tests.
  */

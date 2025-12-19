@@ -64,9 +64,7 @@ export class CommentOnProjectUseCase {
     }
 
     if (!project.allowComments) {
-      return left(
-        new ForbiddenError('Este projeto não permite comentários.'),
-      )
+      return left(new ForbiddenError('Este projeto não permite comentários.'))
     }
 
     const comment = project.comment(

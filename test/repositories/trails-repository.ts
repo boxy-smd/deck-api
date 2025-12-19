@@ -1,5 +1,5 @@
-import type { TrailsRepository } from '@/@core/domain/projects/application/repositories/trails-repository'
-import type { Trail } from '@/@core/domain/projects/enterprise/entities/trail'
+import type { TrailsRepository } from '@/@core/application/trails/repositories/trails-repository'
+import type { Trail } from '@/@core/domain/projects/entities/trail'
 
 export class InMemoryTrailsRepository implements TrailsRepository {
   public items: Trail[] = []
@@ -60,6 +60,8 @@ export class InMemoryTrailsRepository implements TrailsRepository {
   }
 
   async existsById(id: string): Promise<boolean> {
-    return await Promise.resolve(this.items.some(item => item.id.toString() === id))
+    return await Promise.resolve(
+      this.items.some(item => item.id.toString() === id),
+    )
   }
 }
