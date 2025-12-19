@@ -1,25 +1,28 @@
-import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { drizzle } from 'drizzle-orm/node-postgres'
-import pg from 'pg'
-import { DrizzleUsersRepository } from './drizzle-users-repository'
-import * as schema from '../schema'
-import { clearDatabase } from '../../../../../test/integration/helpers/database-helper'
-import { makeUser } from '../../../../../test/factories/make-user'
-import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
-import { Email } from '@/@core/domain/users/value-objects/email'
-import { Username } from '@/@core/domain/users/value-objects/username'
 import { User } from '@/@core/domain/users/entities/user'
+import { Email } from '@/@core/domain/users/value-objects/email'
 import { UserRole } from '@/@core/domain/users/value-objects/user-role'
 import { UserStatus } from '@/@core/domain/users/value-objects/user-status'
+import { Username } from '@/@core/domain/users/value-objects/username'
+import { drizzle } from 'drizzle-orm/node-postgres'
+import pg from 'pg'
+import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest'
+import { makeUser } from '../../../../../test/factories/make-user'
+import { clearDatabase } from '../../../../../test/integration/helpers/database-helper'
+import * as schema from '../schema'
+import { DrizzleUsersRepository } from './drizzle-users-repository'
 
 const { Pool } = pg
 
 describe('DrizzleUsersRepository (Integration)', () => {
   let pool: pg.Pool
-  let db: ReturnType<typeof drizzle>
+  // Relax typing here to avoid strict NodePgDatabase<typeof schema> mismatch in tests.
+  // Using `any` in integration tests allows passing the runtime db object returned by
+  // `drizzle(pool, { schema })` into repositories that expect a typed schema.
+  // biome-ignore lint/suspicious/noExplicitAny: integration tests
+  let db: any
   let repository: DrizzleUsersRepository
 
-  beforeAll(async () => {
+  beforeAll(() => {
     const DATABASE_URL = process.env.DATABASE_URL
     if (!DATABASE_URL) {
       throw new Error('DATABASE_URL must be set for integration tests')
@@ -120,7 +123,7 @@ describe('DrizzleUsersRepository (Integration)', () => {
 
   describe('findById()', () => {
     it('should return null for non-existent user', async () => {
-      const { randomUUID } = await import('crypto')
+      const { randomUUID } = await import('node:crypto')
       const found = await repository.findById(randomUUID())
       expect(found).toBeNull()
     })
@@ -138,7 +141,7 @@ describe('DrizzleUsersRepository (Integration)', () => {
   describe('findByEmail()', () => {
     it('should find user by email', async () => {
       const user = await makeUser({
-        email: Email.create('find@alu.ufc.br').value as any,
+        email: Email.create('find@alu.ufc.br').value as Email,
       })
       await repository.create(user)
 
@@ -156,7 +159,7 @@ describe('DrizzleUsersRepository (Integration)', () => {
   describe('findByUsername()', () => {
     it('should find user by username', async () => {
       const user = await makeUser({
-        username: Username.create('findme').value as any,
+        username: Username.create('findme').value as Username,
       })
       await repository.create(user)
 
@@ -199,16 +202,20 @@ describe('DrizzleUsersRepository (Integration)', () => {
       // Cria uma versão atualizada do usuário
       const emailResult = Email.create(user.email.value)
       const usernameResult = Username.create(user.username.value)
-      if (emailResult.isLeft() || usernameResult.isLeft()) throw new Error('Failed')
+      if (emailResult.isLeft() || usernameResult.isLeft())
+        throw new Error('Failed')
 
-      const updatedUser = User.create({
-        name: 'Updated Name',
-        username: usernameResult.value,
-        email: emailResult.value,
-        passwordHash: user.passwordHash,
-        role: user.role,
-        status: user.status,
-      }, user.id)
+      const updatedUser = User.create(
+        {
+          name: 'Updated Name',
+          username: usernameResult.value,
+          email: emailResult.value,
+          passwordHash: user.passwordHash,
+          role: user.role,
+          status: user.status,
+        },
+        user.id,
+      )
 
       await repository.save(updatedUser)
 

@@ -216,7 +216,7 @@ export class DrizzleProjectsRepository implements ProjectsRepository {
     // Filter projects where ANY professor name matches.
     // prisma: professors: { some: { professor: { name: { contains: ... } } } }
 
-    const results = await this.drizzle.query.projects.findMany({
+    const _results = await this.drizzle.query.projects.findMany({
       where: (projects, { eq, and }) => and(eq(projects.status, 'PUBLISHED')), // Filter logic below
       with: {
         author: true,
