@@ -44,7 +44,7 @@ import {
   PublishProjectResponseDto,
   UploadResponseDto,
 } from '../dto/projects-response.dto'
-import type { PublishProjectDto } from '../dto/publish-project.dto'
+import { PublishProjectDto } from '../dto/publish-project.dto'
 
 @ApiTags('Projetos')
 @Controller()
@@ -146,6 +146,7 @@ export class ProjectsController {
     description:
       'Recurso não encontrado. Disciplina, trilha ou professor inválido.',
   })
+  @ApiBody({ type: PublishProjectDto })
   async publishProject(
     @Body() dto: PublishProjectDto,
     @Request() req: { user: { userId: string } },
