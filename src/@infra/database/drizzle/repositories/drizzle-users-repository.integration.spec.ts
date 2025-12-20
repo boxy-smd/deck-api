@@ -5,9 +5,8 @@ import { UserStatus } from '@/@core/domain/users/value-objects/user-status'
 import { Username } from '@/@core/domain/users/value-objects/username'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import pg from 'pg'
-import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { makeUser } from '../../../../../test/factories/make-user'
-import { clearDatabase } from '../../../../../test/integration/helpers/database-helper'
 import * as schema from '../schema'
 import { DrizzleUsersRepository } from './drizzle-users-repository'
 
@@ -31,10 +30,6 @@ describe('DrizzleUsersRepository (Integration)', () => {
     pool = new Pool({ connectionString: DATABASE_URL })
     db = drizzle(pool, { schema })
     repository = new DrizzleUsersRepository(db)
-  })
-
-  afterEach(async () => {
-    await clearDatabase(db)
   })
 
   afterAll(async () => {

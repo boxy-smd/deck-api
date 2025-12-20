@@ -9,6 +9,7 @@
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"moduleResolution": "node",
+		"resolveJsonModule": true,
 		"declaration": true,
 		"removeComments": true,
 		"emitDecoratorMetadata": true,
