@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { CommentResponseDto } from '../../comments/dto/comments-response.dto'
 
 export class PaginationResponseDto {
   @ApiProperty()
@@ -153,4 +154,7 @@ export class ProjectDetailsResponseDto {
 
   @ApiProperty({ type: [ProfessorDTO] })
   professors: ProfessorDTO[]
+
+  @ApiProperty({ type: [CommentResponseDto] })
+  comments: CommentResponseDto[]
 }

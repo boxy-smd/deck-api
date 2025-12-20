@@ -4,6 +4,7 @@ import type { Subject } from '@/@core/domain/projects/entities/subject'
 import type { Trail } from '@/@core/domain/projects/entities/trail'
 import type { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import type { User } from '@/@core/domain/users/entities/user'
+import type { CommentWithAuthor } from '../../../domain/interactions/value-objects/comment-with-author'
 
 export interface ProjectAuthorDTO {
   id: string
@@ -45,6 +46,7 @@ export interface ProjectDTO {
   subject: ProjectSubjectDTO | null
   trails: ProjectTrailDTO[]
   professors: ProjectProfessorDTO[]
+  comments: CommentWithAuthor[]
 }
 
 export class ProjectDTOMapper {
@@ -89,6 +91,7 @@ export class ProjectDTOMapper {
         id: professor.id.toString(),
         name: professor.name,
       })),
+      comments: [],
     }
   }
 }

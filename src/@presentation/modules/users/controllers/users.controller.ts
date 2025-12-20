@@ -312,6 +312,37 @@ export class UsersController {
     return UserPresenter.toHTTP(result.value)
   }
 
+  @Get('students/me')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Buscar dados do perfil atual',
+    description:
+      'Retorna as informações detalhadas do estudante autenticado baseado no token JWT.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Dados do perfil retornados com sucesso.',
+    type: UserResponseDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Não autenticado.',
+  })
+  async getMe(
+    @Request() req: { user: { userId: string } },
+  ): Promise<UserResponseDto> {
+    const result = await this.getProfileUseCase.execute({
+      userId: req.user.userId,
+    })
+
+    if (result.isLeft()) {
+      throw new BadRequestException('Não foi possível carregar seu perfil.')
+    }
+
+    return UserPresenter.toHTTP(result.value)
+  }
+
   @Post('profile-images/:username')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
