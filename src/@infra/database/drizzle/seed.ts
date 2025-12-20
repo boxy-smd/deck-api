@@ -5,11 +5,16 @@ import { drizzle } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
 import * as schema from './schema'
 
+import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 })
 
-const db = drizzle(pool, { schema })
+const db = drizzle(pool, { schema }) as NodePgDatabase<typeof schema>
+
+import subjectsData from './data/matriz-curricular.json'
+import { clearDatabase } from './utils/database-cleaner'
 
 async function fetchProfessors() {
   const instance = axios.create()
@@ -46,54 +51,33 @@ async function fetchProfessors() {
 }
 
 function fetchSubjects() {
-  // Sample subjects - in production, load from external source
-  return [
-    {
-      code: 'HG600',
-      name: 'Introdução a Sistemas e Mídias Digitais',
-      workload: 64,
-      semester: 1,
-      type: 'OBLIGATORY' as const,
-    },
-    {
-      code: 'HG602',
-      name: 'Fundamentos de Redes de Computadores',
-      workload: 64,
-      semester: 1,
-      type: 'OBLIGATORY' as const,
-    },
-    {
-      code: 'HG604',
-      name: 'Fundamentos de Programação',
-      workload: 96,
-      semester: 1,
-      type: 'OBLIGATORY' as const,
-    },
-    {
-      code: 'HG606',
-      name: 'Projeto de Sistemas e Mídias Digitais I',
-      workload: 64,
-      semester: 2,
-      type: 'OBLIGATORY' as const,
-    },
-    {
-      code: 'HG608',
-      name: 'Programação Orientada a Objetos',
-      workload: 96,
-      semester: 2,
-      type: 'OBLIGATORY' as const,
-    },
-  ]
+  return subjectsData.map(subject => ({
+    code: subject.code,
+    name: subject.name,
+    workload: subject.workload,
+    semester: subject.semester,
+    type:
+      subject.type === 'Obrigatória'
+        ? ('OBLIGATORY' as const)
+        : ('ELECTIVE' as const),
+  }))
 }
 
 async function seed() {
   console.log('🌱 Starting database seed...')
 
-  // Check if already seeded
-  const existingTrails = await db.select().from(schema.trails)
-  if (existingTrails.length > 0) {
-    console.log('⏭️  Database already seeded, skipping...')
-    return
+  const shouldClear = process.argv.includes('--clear')
+
+  if (shouldClear) {
+    console.log('🧹 Clearing database before seeding...')
+    await clearDatabase(db)
+  } else {
+    // Check if already seeded
+    const existingTrails = await db.select().from(schema.trails)
+    if (existingTrails.length > 0) {
+      console.log('⏭️  Database already seeded, skipping...')
+      return
+    }
   }
 
   // Seed professors

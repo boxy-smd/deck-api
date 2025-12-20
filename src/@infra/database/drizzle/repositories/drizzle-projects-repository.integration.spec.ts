@@ -1,12 +1,11 @@
 import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import pg from 'pg'
-import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { makeProfessor } from '../../../../../test/factories/make-professor'
 import { makeProject } from '../../../../../test/factories/make-project'
 import { makeTrail } from '../../../../../test/factories/make-trail'
 import { makeUser } from '../../../../../test/factories/make-user'
-import { clearDatabase } from '../../../../../test/integration/helpers/database-helper'
 import * as schema from '../schema'
 import { DrizzleProjectsRepository } from './drizzle-projects-repository'
 import { DrizzleUsersRepository } from './drizzle-users-repository'
@@ -33,10 +32,6 @@ describe('DrizzleProjectsRepository (Integration)', () => {
     db = drizzle(pool, { schema })
     repository = new DrizzleProjectsRepository(db)
     usersRepository = new DrizzleUsersRepository(db)
-  })
-
-  afterEach(async () => {
-    await clearDatabase(db)
   })
 
   afterAll(async () => {
