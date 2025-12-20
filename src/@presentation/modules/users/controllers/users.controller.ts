@@ -6,6 +6,7 @@ import { LoginUseCase } from '@/@core/application/users/use-cases/login'
 import { RegisterUseCase } from '@/@core/application/users/use-cases/register'
 import { ResetPasswordUseCase } from '@/@core/application/users/use-cases/reset-password'
 import { UploadStudentProfileUseCase } from '@/@core/application/users/use-cases/upload-student-profile'
+import { UserRole } from '@/@core/domain/users/value-objects/user-role'
 import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { UserPresenter } from '@/@presentation/presenters/user'
@@ -150,7 +151,7 @@ export class UsersController {
 
     const token = this.jwtService.sign({
       sub: user.id.toString(),
-      role: 'student',
+      role: UserRole.STUDENT,
     })
 
     const profileResult = await this.getProfileUseCase.execute({
@@ -298,7 +299,7 @@ export class UsersController {
     @Param('studentId') studentId: string,
   ): Promise<UserResponseDto> {
     const result = await this.getProfileUseCase.execute({
-      username: studentId,
+      userId: studentId,
     })
 
     if (result.isLeft()) {
@@ -426,13 +427,13 @@ export class UsersController {
   ): Promise<TokenResponseDto> {
     const token = this.jwtService.sign({
       sub: req.user.userId,
-      role: 'student',
+      role: UserRole.STUDENT,
     })
 
-    // To get the full profile, we need the username.
-    // We'll fetch the user by ID and then use the username to get the profile.
+    // To get the full profile, we need the username or ID.
+    // We'll use the ID as it's more reliable since it comes from the token.
     const user = await this.getProfileUseCase.execute({
-      username: req.user.userId,
+      userId: req.user.userId,
     })
 
     if (user.isLeft()) {
