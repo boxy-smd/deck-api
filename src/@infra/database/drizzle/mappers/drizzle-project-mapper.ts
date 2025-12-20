@@ -64,6 +64,7 @@ export class DrizzleProjectMapper {
         username: raw.author.username,
         profileUrl: raw.author.profileUrl,
       },
+      comments: [],
       subjectId: raw.subjectId,
       subject: raw.subject
         ? { id: raw.subject.id, name: raw.subject.name }

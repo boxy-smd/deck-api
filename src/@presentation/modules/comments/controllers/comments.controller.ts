@@ -22,17 +22,18 @@ import {
 } from '@nestjs/common'
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger'
-import type { CommentOnProjectDto } from '../dto/comment-on-project.dto'
+import { CommentOnProjectDto } from '../dto/comment-on-project.dto'
 import {
   CommentCreatedResponseDto,
   CommentsListResponseDto,
   MessageResponseDto,
 } from '../dto/comments-response.dto'
-import type { ReportCommentDto } from '../dto/report-comment.dto'
+import { ReportCommentDto } from '../dto/report-comment.dto'
 
 @ApiTags('Comentários')
 @Controller()
@@ -99,6 +100,7 @@ export class CommentsController {
     status: 404,
     description: 'Projeto não encontrado.',
   })
+  @ApiBody({ type: CommentOnProjectDto })
   async commentOnProject(
     @Param('projectId') projectId: string,
     @Body() dto: CommentOnProjectDto,
@@ -170,7 +172,7 @@ export class CommentsController {
     }
   }
 
-  @Post('comments/:commentId/report')
+  @Post('reports/:commentId')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({
@@ -186,6 +188,7 @@ export class CommentsController {
     status: 404,
     description: 'Comentário não encontrado.',
   })
+  @ApiBody({ type: ReportCommentDto })
   async reportComment(
     @Param('commentId') commentId: string,
     @Body() dto: ReportCommentDto,

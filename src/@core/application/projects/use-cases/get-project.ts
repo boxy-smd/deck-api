@@ -1,6 +1,7 @@
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { Injectable } from '@nestjs/common'
+import { CommentsRepository } from '../../interactions/repositories/comments-repository'
 import type { ProjectDTO } from '../dtos/project.dto'
 import { ProjectsRepository } from '../repositories/projects-repository'
 
@@ -12,7 +13,10 @@ type GetProjectUseCaseResponse = Either<ResourceNotFoundError, ProjectDTO>
 
 @Injectable()
 export class GetProjectUseCase {
-  constructor(private readonly projectsRepository: ProjectsRepository) {}
+  constructor(
+    private readonly projectsRepository: ProjectsRepository,
+    private readonly commentsRepository: CommentsRepository,
+  ) {}
 
   async execute({
     projectId,
@@ -23,6 +27,11 @@ export class GetProjectUseCase {
     if (!projectDTO) {
       return left(new ResourceNotFoundError('Project not found.'))
     }
+
+    const comments =
+      await this.commentsRepository.findManyByProjectIdWithAuthors(projectId)
+
+    projectDTO.comments = comments
 
     return right(projectDTO)
   }

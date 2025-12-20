@@ -1,6 +1,7 @@
 import type { ProjectSummaryDTO } from '@/@core/application/projects/dtos/project-summary.dto'
 import type { ProjectDTO } from '@/@core/application/projects/dtos/project.dto'
 import type { Project } from '@/@core/domain/projects/entities/project'
+import { CommentPresenter } from '@/@presentation/presenters/comment'
 
 export class ProjectPresenter {
   static toHTTP(project: Project) {
@@ -67,6 +68,7 @@ export class ProjectPresenter {
       subject: project.subject || undefined,
       trails: project.trails,
       professors: project.professors,
+      comments: project.comments.map(CommentPresenter.toHTTP),
     }
   }
 }

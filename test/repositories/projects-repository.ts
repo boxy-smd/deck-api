@@ -109,6 +109,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
           id: professor.id.toString(),
           name: professor.name,
         })),
+      comments: [],
     }
   }
 

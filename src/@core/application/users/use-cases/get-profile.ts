@@ -10,7 +10,8 @@ import { type UserDTO, UserDTOMapper } from '../dtos/user.dto'
 import { UsersRepository } from '../repositories/users-repository'
 
 interface GetProfileUseCaseRequest {
-  username: string
+  username?: string
+  userId?: string
 }
 
 type GetProfileUseCaseResponse = Either<ResourceNotFoundError, UserDTO>
@@ -25,8 +26,13 @@ export class GetProfileUseCase {
 
   async execute({
     username,
+    userId,
   }: GetProfileUseCaseRequest): Promise<GetProfileUseCaseResponse> {
-    const user = await this.usersRepository.findByUsername(username)
+    const user = userId
+      ? await this.usersRepository.findById(userId)
+      : username
+        ? await this.usersRepository.findByUsername(username)
+        : null
 
     if (!user) {
       return left(new ResourceNotFoundError('User not found.'))

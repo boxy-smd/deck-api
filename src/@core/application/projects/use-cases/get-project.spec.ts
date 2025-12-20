@@ -6,10 +6,12 @@ import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-foun
 import { makeProject } from 'test/factories/make-project'
 import { makeTrail } from 'test/factories/make-trail'
 import { makeUser } from 'test/factories/make-user'
+import { InMemoryCommentsRepository } from 'test/repositories/comments-repository'
 import { InMemoryProjectsRepository } from 'test/repositories/projects-repository'
 import { InMemorySubjectsRepository } from 'test/repositories/subjects-repository'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
+import { CommentsRepository } from '../../interactions/repositories/comments-repository'
 import type { SubjectsRepository } from '../../subjects/repositories/subjects-repository'
 import type { TrailsRepository } from '../../trails/repositories/trails-repository'
 import type { ProjectsRepository } from '../repositories/projects-repository'
@@ -19,6 +21,7 @@ let usersRepository: UsersRepository
 let subjectsRepository: SubjectsRepository
 let trailsRepository: TrailsRepository
 let projectsRepository: ProjectsRepository
+let commentsRepository: CommentsRepository
 
 let author: User
 let trail: Trail
@@ -37,6 +40,7 @@ describe('get project use case', () => {
       subjectsRepository,
       trailsRepository,
     )
+    commentsRepository = new InMemoryCommentsRepository()
 
     author = await makeUser()
 
@@ -50,7 +54,7 @@ describe('get project use case', () => {
     await usersRepository.create(author)
     await trailsRepository.create(trail)
 
-    sut = new GetProjectUseCase(projectsRepository)
+    sut = new GetProjectUseCase(projectsRepository, commentsRepository)
   })
 
   it('should be able to get a project', async () => {
