@@ -132,6 +132,48 @@ describe('Students E2E', () => {
     })
   })
 
+  it('should get currently authenticated user profile (happy path)', async () => {
+    const trail = makeTrail()
+    await db.insert(schema.trails).values({
+      id: trail.id.toString(),
+      name: trail.name,
+      createdAt: trail.createdAt,
+      updatedAt: trail.updatedAt,
+    })
+
+    // Register and login
+    await request(app.getHttpServer())
+      .post('/students')
+      .send({
+        name: 'João Silva',
+        username: 'joaosilva',
+        email: 'joao@alu.ufc.br',
+        password: 'senha123',
+        semester: 3,
+        trailsIds: [trail.id.toString()],
+      })
+
+    const loginResponse = await request(app.getHttpServer())
+      .post('/sessions')
+      .send({
+        email: 'joao@alu.ufc.br',
+        password: 'senha123',
+      })
+
+    const token = loginResponse.body.token
+
+    // Get profile /students/me
+    const response = await request(app.getHttpServer())
+      .get('/students/me')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(response.body).toMatchObject({
+      name: 'João Silva',
+      username: 'joaosilva',
+    })
+  })
+
   it('should update authenticated user profile (happy path)', async () => {
     const trail = makeTrail()
     await db.insert(schema.trails).values({
