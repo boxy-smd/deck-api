@@ -55,18 +55,16 @@ Tecnologias utilizadas no projeto.
 ### **Construção da API**
 
 - [TypeScript](https://www.typescriptlang.org)
-- [Fastify](https://fastify.dev)
-- [@fastify/jwt](https://github.com/fastify/fastify-jwt)
-- [@fastify/cookie](https://github.com/fastify/fastify-cookie)
-- [@fastify/swagger](https://github.com/fastify/fastify-swagger)
-- [@fastify/swagger-ui](https://github.com/fastify/fastify-swagger-ui)
+- [NestJS](https://nestjs.com/)
+- [@nestjs/jwt](https://github.com/nestjs/jwt)
+- [@nestjs/swagger](https://github.com/nestjs/swagger)
 - [Node.js](https://nodejs.org/en)
 - [Zod](https://zod.dev)
 - [BCrypt](https://www.npmjs.com/package/bcrypt)
 
 ### **Banco de Dados**
 
-- [Prisma](https://www.prisma.io/)
+- [Drizzle ORM](https://orm.drizzle.team/)
 - [Docker](https://www.docker.com/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Firebase Storage](https://firebase.google.com/docs/storage)
@@ -86,61 +84,132 @@ Tecnologias utilizadas no projeto.
 
 ### Requisitos
 
-- [Node](https://nodejs.org/) e [pnpm](https://pnpm.io/pt/).
-- [Docker](https://www.docker.com/).
+- [Node](https://nodejs.org/) e [pnpm](https://pnpm.io/pt/)
+- [Docker](https://www.docker.com/) e Docker Compose
+
+## 🐳 Rodar com Docker
+
+Simples e rápido:
+
+```bash
+# 1. Clonar
+git clone https://github.com/boxy-smd/deck-api.git
+cd deck-api
+
+# 2. Configurar variáveis de ambiente
+cp .env.example .env
+# Edite .env e configure JWT_SECRET
+
+# 3. Iniciar
+docker compose up -d
+
+# Acessar: http://localhost:3333/docs
+```
+
+**Comandos:**
+```bash
+docker compose up -d      # Iniciar
+docker compose down       # Parar
+docker compose logs -f    # Ver logs
+```
+```
 
 ```sh
-# Caso não tenha o pnpm, execute:
+# Caso não tenha o pnpm:
 npm install -g pnpm
 ```
 
-Recomendo que veja a [documentação de configuração do Fastify](https://fastify.dev/docs/latest/Reference/).
+### Setup do Projeto
 
 ```sh
-# Clonando o projeto
+# 1. Clonar o projeto
 git clone https://github.com/boxy-smd/deck-api.git
+cd deck-api
 
-# Instalando as dependências
+# 2. Instalar dependências
 pnpm install
 
-# Criando o container do banco de dados:
-docker compose up
+# 3. Subir PostgreSQL com Docker
+docker compose up -d
 
-# Fazendo as migrações para o banco de dados:
+# 4. Configurar variáveis de ambiente
+cp .env.example .env
+# O .env já vem configurado para o Docker
+
+# 5. Rodar migrações do banco
 pnpm db:migrate
 
-# Criar arquivo .env com base no .env.example e preencher os campos necessários
-NODE_ENV=<env>
-JWT_SECRET=<secret>
-PORT=<port>
-DATABASE_URL=<url>
-FIREBASE_API_KEY=<key>
-FIREBASE_APP_ID=<id>
-FIREBASE_AUTH_DOMAIN=<domain>
-FIREBASE_MESSAGING_SENDER_ID=<id>
-FIREBASE_PROJECT_ID=<id>
-FIREBASE_STORAGE_BUCKET=<bucket>
-
-# Popular o banco de dados com as informações necessárias do sistema
+# 6. Popular o banco com dados iniciais
 pnpm db:seed
 
-# Rodar o servidor em desenvolvimento
+# 7. Iniciar servidor de desenvolvimento
 pnpm start:dev
+```
 
-# Iniciar testes gerais
-pnpm test
+### Variáveis de Ambiente
 
-# Iniciar testes unitários
-pnpm test:unit
+O arquivo `.env` já vem configurado para usar o PostgreSQL do Docker:
 
-# Iniciar testes E2E
-pnpm test:e2e
+```env
+NODE_ENV=development
+JWT_SECRET=deck-secret-key
+PORT=3333
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/deck_dev
+```
 
-# Compilar e minificar para produção
-pnpm build
+### Comandos Docker
 
-# Rodar o servidor em produção
-pnpm start
+```sh
+# Subir PostgreSQL
+docker compose up -d
+
+# Ver logs
+docker compose logs -f
+
+# Parar PostgreSQL
+docker compose down
+
+# Parar e remover volumes (apaga dados)
+docker compose down -v
+```
+
+### Comandos Disponíveis
+
+```sh
+# Desenvolvimento
+pnpm dev                # Inicia servidor em modo watch
+pnpm build              # Compila o projeto
+pnpm start              # Roda versão compilada
+
+# Testes
+pnpm test               # Testes unitários
+pnpm test:unit          # Testes unitários com coverage
+pnpm test:e2e           # Testes E2E
+pnpm test:all           # Todos os testes
+pnpm test:watch         # Watch mode
+
+# Banco de Dados
+pnpm db:generate        # Gera migrations
+pnpm db:migrate         # Aplica migrações
+pnpm db:seed            # Popula banco
+pnpm db:studio          # Abre Drizzle Studio
+pnpm db:setup           # Migrate + Seed
+
+# Qualidade de Código
+pnpm check              # Lint e formatação
+pnpm lint:check         # Apenas lint check
+pnpm format:check       # Apenas format check
+pnpm typecheck          # Type checking
+
+# Docker
+pnpm docker:dev         # Subir apenas Postgres
+pnpm docker:up          # Subir todos os serviços
+pnpm docker:down        # Parar serviços
+pnpm docker:logs        # Ver logs
+
+# Utilitários
+pnpm setup              # Setup completo do ambiente
+pnpm clean              # Limpar build artifacts
 ```
 
 ---

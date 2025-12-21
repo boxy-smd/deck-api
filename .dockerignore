@@ -1,0 +1,64 @@
+# Dependencies
+node_modules
+npm-debug.log
+pnpm-debug.log
+yarn-error.log
+
+# Build outputs
+dist
+coverage
+build
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Tests
+test
+*.spec.ts
+*.test.ts
+*.e2e-spec.ts
+*.integration.spec.ts
+vitest.config.mjs
+vitest.config.e2e.mjs
+vitest.config.integration.mjs
+
+# Git
+.git
+.gitignore
+.github
+
+# IDE
+.vscode
+.idea
+.zed
+*.swp
+*.swo
+
+# Documentation
+*.md
+!README.md
+AGENTS.md
+PROJECT_ORGANIZATION.md
+CONTRIBUTING.md
+
+# Docker
+Dockerfile
+Dockerfile.*
+docker-compose*.yml
+.dockerignore
+
+# CI/CD
+.github
+
+# Scripts (helpers locais)
+scripts
+
+# Misc
+.DS_Store
+Thumbs.db
+Makefile
+

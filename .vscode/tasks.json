@@ -1,0 +1,59 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "🚀 Start Dev Server",
+			"type": "shell",
+			"command": "pnpm dev",
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "🧪 Run Tests",
+			"type": "shell",
+			"command": "pnpm test:watch",
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "🧪 Run E2E Tests",
+			"type": "shell",
+			"command": "pnpm test:e2e:watch",
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "🔍 Lint & Format",
+			"type": "shell",
+			"command": "pnpm check",
+			"problemMatcher": []
+		},
+		{
+			"label": "🗄️ Database Migrate",
+			"type": "shell",
+			"command": "pnpm db:migrate",
+			"problemMatcher": []
+		},
+		{
+			"label": "🌱 Database Seed",
+			"type": "shell",
+			"command": "pnpm db:seed",
+			"problemMatcher": []
+		},
+		{
+			"label": "🐳 Docker Up",
+			"type": "shell",
+			"command": "pnpm docker:dev",
+			"problemMatcher": []
+		},
+		{
+			"label": "📦 Full Setup",
+			"type": "shell",
+			"command": "pnpm setup",
+			"problemMatcher": []
+		}
+	]
+}

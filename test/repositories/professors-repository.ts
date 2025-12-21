@@ -1,5 +1,5 @@
-import type { ProfessorsRepository } from '@/domain/deck/application/repositories/professors-repository.ts'
-import type { Professor } from '@/domain/deck/enterprise/entities/professor.ts'
+import type { ProfessorsRepository } from '@/@core/application/professors/repositories/professors-repository'
+import type { Professor } from '@/@core/domain/projects/entities/professor'
 
 export class InMemoryProfessorsRepository implements ProfessorsRepository {
   public items: Professor[] = []
@@ -34,5 +34,30 @@ export class InMemoryProfessorsRepository implements ProfessorsRepository {
     }
 
     return await Promise.resolve()
+  }
+
+  async delete(professor: Professor): Promise<void> {
+    const index = this.items.findIndex(item => item.id.equals(professor.id))
+
+    if (index !== -1) {
+      this.items.splice(index, 1)
+    }
+
+    return await Promise.resolve()
+  }
+
+  async deleteById(id: string): Promise<void> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
+
+    if (index !== -1) {
+      this.items.splice(index, 1)
+    }
+
+    return await Promise.resolve()
+  }
+
+  async existsById(id: string): Promise<boolean> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
+    return await Promise.resolve(index !== -1)
   }
 }

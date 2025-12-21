@@ -1,5 +1,5 @@
-import type { TrailsRepository } from '@/domain/deck/application/repositories/trails-repository.ts'
-import type { Trail } from '@/domain/deck/enterprise/entities/trail.ts'
+import type { TrailsRepository } from '@/@core/application/trails/repositories/trails-repository'
+import type { Trail } from '@/@core/domain/projects/entities/trail'
 
 export class InMemoryTrailsRepository implements TrailsRepository {
   public items: Trail[] = []
@@ -48,5 +48,20 @@ export class InMemoryTrailsRepository implements TrailsRepository {
     }
 
     return await Promise.resolve()
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await Promise.resolve(
+      this.items.splice(
+        this.items.findIndex(item => item.id.toString() === id),
+        1,
+      ),
+    )
+  }
+
+  async existsById(id: string): Promise<boolean> {
+    return await Promise.resolve(
+      this.items.some(item => item.id.toString() === id),
+    )
   }
 }

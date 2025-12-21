@@ -1,0 +1,1162 @@
+[
+	{
+		"code": "SMD0088",
+		"name": "Autoração Multimídia I",
+		"workload": 64,
+		"semester": 1,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0003"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0089",
+		"name": "Desenho I",
+		"workload": 64,
+		"semester": 1,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0004"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0091",
+		"name": "História do Design",
+		"workload": 64,
+		"semester": 1,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0002"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0094",
+		"name": "Introdução à Sistemas e Mídias Digitais",
+		"workload": 64,
+		"semester": 1,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0005"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0095",
+		"name": "Programação I",
+		"workload": 64,
+		"semester": 1,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0001"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0093",
+		"name": "Narrativas Multimídia",
+		"workload": 64,
+		"semester": 2,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0001"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0096",
+		"name": "Programação II",
+		"workload": 64,
+		"semester": 2,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0005"],
+		"equivalences": ["SMD0010"]
+	},
+	{
+		"code": "SMD0105",
+		"name": "Comunicação Visual I",
+		"workload": 64,
+		"semester": 2,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0008"],
+		"equivalences": ["SMD0009"]
+	},
+	{
+		"code": "SMD0106",
+		"name": "Matemática Aplicada à Multimídia I",
+		"workload": 64,
+		"semester": 2,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0005"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0107",
+		"name": "Cognição e Tecnologias Digitais",
+		"workload": 64,
+		"semester": 2,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0015",
+		"name": "Design de Interfaces Gráficas",
+		"workload": 64,
+		"semester": 3,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD00105"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0092",
+		"name": "Projeto Integrado I",
+		"workload": 64,
+		"semester": 3,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0026"],
+		"equivalences": ["SMD0026"]
+	},
+	{
+		"code": "SMD0097",
+		"name": "Autoração Multimídia II",
+		"workload": 64,
+		"semester": 3,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0008"],
+		"equivalences": ["SMD0007"]
+	},
+	{
+		"code": "SMD0108",
+		"name": "Interação Humano-Computador I",
+		"workload": 64,
+		"semester": 3,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0012"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0109",
+		"name": "Introdução à Cibercultura",
+		"workload": 64,
+		"semester": 3,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0006"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0030",
+		"name": "Análise e Projeto de Sistemas",
+		"workload": 64,
+		"semester": 4,
+		"category": "Disciplina",
+		"type": "Eletiva",
+		"prerequisites": ["SMD0098"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0033",
+		"name": "Estrutura de Dados",
+		"workload": 64,
+		"semester": 4,
+		"category": "Disciplina",
+		"type": "Eletiva",
+		"prerequisites": ["SMD0095"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0037",
+		"name": "Redes de Computadores",
+		"workload": 64,
+		"semester": 4,
+		"category": "Disciplina",
+		"type": "Eletiva",
+		"prerequisites": ["SMD0095"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0086",
+		"name": "Fotografia Digital",
+		"workload": 64,
+		"semester": 4,
+		"category": "Disciplina",
+		"type": "Eletiva",
+		"prerequisites": ["SMD0105"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0090",
+		"name": "Semiótica Aplicada",
+		"workload": 64,
+		"semester": 4,
+		"category": "Disciplina",
+		"type": "Eletiva",
+		"prerequisites": ["SMD0105"],
+		"equivalences": ["SMD0014"]
+	},
+	{
+		"code": "SMD0098",
+		"name": "Desenho II",
+		"workload": 64,
+		"semester": 4,
+		"category": "Disciplina",
+		"type": "Eletiva",
+		"prerequisites": ["SMD0099"],
+		"equivalences": ["SMD0018"]
+	},
+	{
+		"code": "SMD0102",
+		"name": "Metodologia de Pesquisa Transdisciplinar",
+		"workload": 64,
+		"semester": 4,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0032",
+		"name": "Design de Som",
+		"workload": 64,
+		"semester": 5,
+		"category": "Disciplina",
+		"type": "Eletiva",
+		"prerequisites": ["SMD0093"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0055",
+		"name": "Engenharia de Software",
+		"workload": 64,
+		"semester": 5,
+		"category": "Disciplina",
+		"type": "Eletiva",
+		"prerequisites": ["SMD0099"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0099",
+		"name": "Banco de Dados I",
+		"workload": 64,
+		"semester": 5,
+		"category": "Disciplina",
+		"type": "Eletiva",
+		"prerequisites": ["SMD0099"],
+		"equivalences": ["SMD0043"]
+	},
+	{
+		"code": "SMD0110",
+		"name": "Comunicação Visual II",
+		"workload": 64,
+		"semester": 5,
+		"category": "Disciplina",
+		"type": "Eletiva",
+		"prerequisites": ["SMD0105"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0025",
+		"name": "Ética e Política Autoral",
+		"workload": 64,
+		"semester": 6,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0100",
+		"name": "Gestão de Projetos Multimídia",
+		"workload": 64,
+		"semester": 6,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0092"],
+		"equivalences": ["SMD0060"]
+	},
+	{
+		"code": "SMD0101",
+		"name": "Projeto Integrado II",
+		"workload": 64,
+		"semester": 7,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0102"],
+		"equivalences": ["SMD0062"]
+	},
+	{
+		"code": "SMD0111",
+		"name": "Projeto de Trabalho Final",
+		"workload": 64,
+		"semester": 7,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0102"],
+		"equivalences": ["SMD0062"]
+	},
+	{
+		"code": "ED0115",
+		"name": "Administração Mercadológica I",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "HLL0077",
+		"name": "Língua Brasileira de Sinais - LIBRAS",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["PD0077"],
+		"equivalences": []
+	},
+	{
+		"code": "PRG0002",
+		"name": "Relações Étnico-raciais e Africanidades",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "PRG0003",
+		"name": "Educação Ambiental",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "PRG0004",
+		"name": "Educação em Direitos Humanos",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "PRG0005",
+		"name": "Diferença e Enfrentamento Profissional nas Desigualdades Sociais",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0006",
+		"name": "Sociedade, Cultura e Tecnologia",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0008",
+		"name": "Educação, Cognição e Tecnologias Digitais",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0013",
+		"name": "Fundamentos de Material Didático para Educação à Distância",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0016",
+		"name": "Linguagem Audiovisual",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0017",
+		"name": "Programação Orientada à Objetos",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0095"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0019",
+		"name": "Mitos e Arquétipos",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0020",
+		"name": "Prototipação de Jogos Tridimensionais",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0021",
+		"name": "Gestão de Negócios em Multimídia",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0023",
+		"name": "Design de Jogos Digitais",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0024",
+		"name": "Design Instrucional",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0027",
+		"name": "Edição Audiovisual",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0028",
+		"name": "Laboratório de Programação",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0029",
+		"name": "Ambientes Virtuais de Aprendizagem",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0031",
+		"name": "Comunicação em Novas Práticas",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0034",
+		"name": "Ferramentas de Modelagem Tridimensional I",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0035",
+		"name": "Matemática e Física para Jogos",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0036",
+		"name": "Produção Audiovisual",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0038",
+		"name": "Álgebra Computacional para Programação",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0039",
+		"name": "Cultura de Jogos",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0040",
+		"name": "Experimentos em Multimídia I",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0041",
+		"name": "Filosofia da Tecnologia",
+		"workload": 32,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0042",
+		"name": "Gerencia de Projetos de Software",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0044",
+		"name": "Introdução à Computação Móvel e Ubíqua",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0045",
+		"name": "Linguagem de Programação Script",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0046",
+		"name": "Mitologias Universais",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0047",
+		"name": "Processamento Digital de Áudio",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0048",
+		"name": "Teste de Software Aplicado",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0049",
+		"name": "Técnicas de Animação Analógica",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0050",
+		"name": "Sistemas Distribuídos",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0051",
+		"name": "Redação para Mídias Digitais",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0052",
+		"name": "Programação para Web I",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0053",
+		"name": "Programação para Jogos I",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0054",
+		"name": "Inteligência Computacional Aplicada à Jogos I",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0056",
+		"name": "Direção de Arte para Multimídia",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0057",
+		"name": "Concepção de Cenários e de Personagens",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0058",
+		"name": "Banco de Dados Aplicado à Multimídia",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0059",
+		"name": "Mídias Digitais e Matemática",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0061",
+		"name": "Programação para Jogos II",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0053"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0065",
+		"name": "Desenvolvimento de Aplicações Distribuídas",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0050"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0066",
+		"name": "Autoração de Mídia de Armazenamento Local",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0069",
+		"name": "Programação para Web II",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0052"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0070",
+		"name": "Sistemas Embarcados",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0096"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0071",
+		"name": "Videografismo",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0027", "SMD0034"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0072",
+		"name": "Técnicas de Animação Digital I",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0049"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0073",
+		"name": "Jogos Multiplataforma",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0053"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0074",
+		"name": "Jogos Distribuídos",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0050", "SMD0053"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0075",
+		"name": "Desenvolvimento de Material Didático Experimental e Treinamento de Habilidades",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0076",
+		"name": "Cibercultura e Educação: Novas Práticas",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0078",
+		"name": "Desenvolvimento de Jogos Casuais",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0096", "SMD0105"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0079",
+		"name": "Desenvolvimento de Motores Gráficos",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0080"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0080",
+		"name": "Computação Gráfica",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0035"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0081",
+		"name": "Inteligência Computacional Aplicada à Jogos II",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0054"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0082",
+		"name": "Jogos para Console",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0073"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0083",
+		"name": "EDUComunicação",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0084",
+		"name": "Experimentos em Tipografia Digital",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0105"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0085",
+		"name": "Frameworks de Software",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0055"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0087",
+		"name": "Filosofia da Tecnologia",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0112",
+		"name": "Instalações Multimídia",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0106", "SMD0105"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0113",
+		"name": "Laboratório de Criatividade",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0105"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0114",
+		"name": "Computação Física",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0095"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0115",
+		"name": "Métodos e Técnicas na Pesquisa Transdisciplinar",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0116",
+		"name": "Tecnodocência e Animação",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0117",
+		"name": "Interação Humano-Computador II",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0108"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0118",
+		"name": "Teoria e Crítica do Design",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0091", "SMD0105"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0119",
+		"name": "Tópicos Avançados em Design de Interfaces Gráficas",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0015"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0120",
+		"name": "Identidade Sonora de Marcas",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0032"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0121",
+		"name": "Análise de Desempenho",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0102"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0122",
+		"name": "Programação para Dispositivos Móveis",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0098", "SMD0037"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0123",
+		"name": "Computação Móvel e Ubíqua",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0122"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0124",
+		"name": "Produção Audiovisual para Crianças e Adolescentes",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": [],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0125",
+		"name": "Projetos para Educação ON-LINE",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0027", "SMD0092"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0126",
+		"name": "Técnicas de Animação 3D II",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0128"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0127",
+		"name": "Design de Identidade de Marca",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0105"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0128",
+		"name": "Técnicas de Animação 3D I",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0049"],
+		"equivalences": ["SMD0072"]
+	},
+	{
+		"code": "SMD0129",
+		"name": "Técnicas de Animação 2D",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0098"],
+		"equivalences": ["SMD0049"]
+	},
+	{
+		"code": "SMD0130",
+		"name": "Design Emocional",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0108"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0131",
+		"name": "Ferramentas de Modelagem Tridimensional II",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Optativa",
+		"prerequisites": ["SMD0034"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0077",
+		"name": "Trabalho de Conclusão de Curso",
+		"workload": 128,
+		"semester": 8,
+		"category": "Trabalho de Conclusão de Curso",
+		"type": "Obrigatória",
+		"prerequisites": ["SMD0111"],
+		"equivalences": []
+	},
+	{
+		"code": "SMD0103",
+		"name": "Seminários em Multimídia",
+		"workload": 64,
+		"semester": 8,
+		"category": "Disciplina",
+		"type": "Obrigatória",
+		"prerequisites": [],
+		"equivalences": ["SMD0063"]
+	},
+	{
+		"code": "SMDG0001",
+		"name": "Atividades Complementares",
+		"workload": 192,
+		"semester": 8,
+		"category": "Atividades Complementares",
+		"type": "Obrigatória",
+		"prerequisites": [],
+		"equivalences": ["SMDS0001"]
+	}
+]

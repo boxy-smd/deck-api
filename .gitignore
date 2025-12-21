@@ -1,10 +1,50 @@
-# project dependencies
+# Dependencies
 node_modules
 
-# build files
+# Build outputs
 build
+dist
 coverage
 
-# local env files
+# Environment files
 .env
 .env.local
+.env.test
+.env.*.local
+!.env.example
+!.env.docker
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea
+*.swp
+*.swo
+*~
+
+# Test
+coverage
+.nyc_output
+
+# Database
+*.db
+*.db-journal
+
+# Docker (optional - keep if you want to ignore local Docker configs)
+# docker-compose.override.yml
+

@@ -1,5 +1,5 @@
-import type { SubjectsRepository } from '@/domain/deck/application/repositories/subjects-repository.ts'
-import type { Subject } from '@/domain/deck/enterprise/entities/subject.ts'
+import type { SubjectsRepository } from '@/@core/application/subjects/repositories/subjects-repository'
+import type { Subject } from '@/@core/domain/projects/entities/subject'
 
 export class InMemorySubjectsRepository implements SubjectsRepository {
   public items: Subject[] = []
@@ -48,5 +48,20 @@ export class InMemorySubjectsRepository implements SubjectsRepository {
     }
 
     return await Promise.resolve()
+  }
+
+  async deleteById(id: string): Promise<void> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
+
+    if (index !== -1) {
+      this.items.splice(index, 1)
+    }
+
+    return await Promise.resolve()
+  }
+
+  async existsById(id: string): Promise<boolean> {
+    const index = this.items.findIndex(item => item.id.toString() === id)
+    return await Promise.resolve(index !== -1)
   }
 }

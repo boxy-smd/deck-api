@@ -1,12 +1,12 @@
-import type { ReportsRepository } from '@/domain/deck/application/repositories/reports-repository.ts'
-import type { Report } from '@/domain/deck/enterprise/entities/report.ts'
+import type { ReportsRepository } from '@/@core/application/interactions/repositories/reports-repository'
+import type { Report } from '@/@core/domain/interactions/entities/report'
 
 export class InMemoryReportsRepository implements ReportsRepository {
-  private items: Report[] = []
+  public items: Report[] = []
 
   async findById(id: string): Promise<Report | null> {
     return Promise.resolve(
-      this.items.find(report => report.id.toString() === id) || null,
+      this.items.find(item => item.id.toString() === id) || null,
     )
   }
 
@@ -19,18 +19,28 @@ export class InMemoryReportsRepository implements ReportsRepository {
   }
 
   async save(report: Report): Promise<void> {
-    const index = this.items.findIndex(item => item.id === report.id)
+    const index = this.items.findIndex(item => item.id.equals(report.id))
+
+    if (index === -1) {
+      throw new Error('Report not found.')
+    }
 
     this.items[index] = report
-
-    await Promise.resolve()
   }
 
   async delete(id: string): Promise<void> {
     const index = this.items.findIndex(item => item.id.toString() === id)
 
-    this.items.splice(index, 1)
+    if (index === -1) {
+      throw new Error('Report not found.')
+    }
 
-    await Promise.resolve()
+    this.items.splice(index, 1)
+  }
+
+  async deleteManyByCommentId(commentId: string): Promise<void> {
+    this.items = this.items.filter(
+      item => item.commentId.toString() !== commentId,
+    )
   }
 }
