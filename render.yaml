@@ -5,7 +5,7 @@ services:
     region: oregon
     plan: free
     branch: production
-    buildCommand: pnpm install && pnpm build
+    buildCommand: pnpm install && pnpm test:unit && pnpm build:prod
     startCommand: pnpm start
     envVars:
       - key: NODE_ENV

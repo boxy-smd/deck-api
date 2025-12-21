@@ -7,7 +7,6 @@
 		"dev:debug": "nest start --debug --watch",
 		"build": "nest build",
 		"build:prod": "nest build",
-		"prebuild": "pnpm typecheck && pnpm lint:check && pnpm test:unit",
 		"start": "node dist/@presentation/main.js",
 		"typecheck": "tsc --noEmit",
 		"format": "biome format --write .",
