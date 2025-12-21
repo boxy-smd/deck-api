@@ -1,3 +1,4 @@
+import { FakeHasher } from 'test/cryptography/fake-hasher'
 import { StudentProfile } from '@/@core/domain/users/entities/student-profile'
 import { User, type UserProps } from '@/@core/domain/users/entities/user'
 import { Email } from '@/@core/domain/users/value-objects/email'
@@ -6,7 +7,6 @@ import { UserRole } from '@/@core/domain/users/value-objects/user-role'
 import { UserStatus } from '@/@core/domain/users/value-objects/user-status'
 import { Username } from '@/@core/domain/users/value-objects/username'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
-import { FakeHasher } from 'test/cryptography/fake-hasher'
 
 export async function makeUser(
   override: Partial<UserProps> = {},

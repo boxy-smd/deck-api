@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { describe, expect, it } from 'vitest'
+import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { Comment } from './comment'
 
 describe('Comment Entity', () => {

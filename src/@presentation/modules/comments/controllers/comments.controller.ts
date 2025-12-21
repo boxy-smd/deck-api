@@ -1,10 +1,3 @@
-import { CommentOnProjectUseCase } from '@/@core/application/interactions/use-cases/comment-on-project'
-import { DeleteCommentUseCase } from '@/@core/application/interactions/use-cases/delete-comment'
-import { ListProjectCommentsUseCase } from '@/@core/application/interactions/use-cases/list-project-comments'
-import { ReportCommentUseCase } from '@/@core/application/interactions/use-cases/report-comment'
-import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
-import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
-import { CommentPresenter } from '@/@presentation/presenters/comment'
 import {
   BadRequestException,
   Body,
@@ -27,6 +20,13 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger'
+import { CommentOnProjectUseCase } from '@/@core/application/interactions/use-cases/comment-on-project'
+import { DeleteCommentUseCase } from '@/@core/application/interactions/use-cases/delete-comment'
+import { ListProjectCommentsUseCase } from '@/@core/application/interactions/use-cases/list-project-comments'
+import { ReportCommentUseCase } from '@/@core/application/interactions/use-cases/report-comment'
+import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
+import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
+import { CommentPresenter } from '@/@presentation/presenters/comment'
 import { CommentOnProjectDto } from '../dto/comment-on-project.dto'
 import {
   CommentCreatedResponseDto,

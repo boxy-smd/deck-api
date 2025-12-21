@@ -1,8 +1,8 @@
+import { Controller, Get, Query } from '@nestjs/common'
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { FetchSubjectsUseCase } from '@/@core/application/subjects/use-cases/fetch-subjects'
 import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { SubjectPresenter } from '@/@presentation/presenters/subject'
-import { Controller, Get, Query } from '@nestjs/common'
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import type { FetchSubjectsDto } from '../dto/fetch-subjects.dto'
 import { SubjectsListResponseDto } from '../dto/subjects-response.dto'
 

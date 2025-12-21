@@ -14,7 +14,7 @@ export class InMemoryCommentsRepository implements CommentsRepository {
   }
 
   async findById(id: string): Promise<Comment | null> {
-    return Promise.resolve(
+    return await Promise.resolve(
       this.items.find(item => item.id.toString() === id) || null,
     )
   }
@@ -63,6 +63,8 @@ export class InMemoryCommentsRepository implements CommentsRepository {
     this.items = this.items.filter(
       item => item.projectId.toString() !== projectId,
     )
+
+    await Promise.resolve()
   }
 
   async findAll(): Promise<Comment[]> {
@@ -70,7 +72,8 @@ export class InMemoryCommentsRepository implements CommentsRepository {
   }
 
   async create(comment: Comment): Promise<void> {
-    await Promise.resolve(this.items.push(comment))
+    this.items.push(comment)
+    await Promise.resolve()
   }
 
   async save(comment: Comment): Promise<void> {
@@ -81,6 +84,7 @@ export class InMemoryCommentsRepository implements CommentsRepository {
     }
 
     this.items[index] = comment
+    await Promise.resolve()
   }
 
   async delete(comment: Comment): Promise<void> {
@@ -90,7 +94,7 @@ export class InMemoryCommentsRepository implements CommentsRepository {
       throw new Error('Comment not found.')
     }
 
-    this.items.splice(index, 1)
+    await Promise.resolve(this.items.splice(index, 1))
   }
 
   async deleteById(id: string): Promise<void> {
@@ -100,7 +104,7 @@ export class InMemoryCommentsRepository implements CommentsRepository {
       throw new Error('Comment not found.')
     }
 
-    this.items.splice(index, 1)
+    await Promise.resolve(this.items.splice(index, 1))
   }
 
   async existsById(id: string): Promise<boolean> {

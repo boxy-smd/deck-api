@@ -1,9 +1,9 @@
-import { ProjectSummaryDTO } from '@/@core/application/projects/dtos/project-summary.dto'
+import { InferSelectModel } from 'drizzle-orm'
 import { ProjectDTO } from '@/@core/application/projects/dtos/project.dto'
+import { ProjectSummaryDTO } from '@/@core/application/projects/dtos/project-summary.dto'
 import { Project } from '@/@core/domain/projects/entities/project'
 import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
-import { InferSelectModel } from 'drizzle-orm'
 import { professors, projects, subjects, trails, users } from '../schema'
 
 type ProjectRaw = InferSelectModel<typeof projects>

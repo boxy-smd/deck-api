@@ -1,15 +1,3 @@
-import { EditProfileUseCase } from '@/@core/application/users/use-cases/edit-profile'
-import { FetchUsersUseCase } from '@/@core/application/users/use-cases/fetch-users'
-import { ForgotPasswordUseCase } from '@/@core/application/users/use-cases/forgot-password'
-import { GetProfileUseCase } from '@/@core/application/users/use-cases/get-profile'
-import { LoginUseCase } from '@/@core/application/users/use-cases/login'
-import { RegisterUseCase } from '@/@core/application/users/use-cases/register'
-import { ResetPasswordUseCase } from '@/@core/application/users/use-cases/reset-password'
-import { UploadStudentProfileUseCase } from '@/@core/application/users/use-cases/upload-student-profile'
-import { UserRole } from '@/@core/domain/users/value-objects/user-role'
-import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
-import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
-import { UserPresenter } from '@/@presentation/presenters/user'
 import {
   BadRequestException,
   Body,
@@ -41,6 +29,18 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger'
+import { EditProfileUseCase } from '@/@core/application/users/use-cases/edit-profile'
+import { FetchUsersUseCase } from '@/@core/application/users/use-cases/fetch-users'
+import { ForgotPasswordUseCase } from '@/@core/application/users/use-cases/forgot-password'
+import { GetProfileUseCase } from '@/@core/application/users/use-cases/get-profile'
+import { LoginUseCase } from '@/@core/application/users/use-cases/login'
+import { RegisterUseCase } from '@/@core/application/users/use-cases/register'
+import { ResetPasswordUseCase } from '@/@core/application/users/use-cases/reset-password'
+import { UploadStudentProfileUseCase } from '@/@core/application/users/use-cases/upload-student-profile'
+import { UserRole } from '@/@core/domain/users/value-objects/user-role'
+import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
+import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
+import { UserPresenter } from '@/@presentation/presenters/user'
 import { EditProfileDto } from '../dto/edit-profile.dto'
 import { FetchStudentsDto } from '../dto/fetch-students.dto'
 import { ForgotPasswordDto } from '../dto/forgot-password.dto'

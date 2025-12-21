@@ -1,7 +1,7 @@
-import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import pg from 'pg'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import { makeProfessor } from '../../../../../test/factories/make-professor'
 import { makeProject } from '../../../../../test/factories/make-project'
 import { makeTrail } from '../../../../../test/factories/make-trail'

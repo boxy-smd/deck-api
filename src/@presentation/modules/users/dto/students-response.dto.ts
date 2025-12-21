@@ -1,6 +1,6 @@
+import { ApiProperty } from '@nestjs/swagger'
 import { UserRole } from '@/@core/domain/users/value-objects/user-role'
 import { UserStatus } from '@/@core/domain/users/value-objects/user-status'
-import { ApiProperty } from '@nestjs/swagger'
 import { ProjectSummaryResponseDto } from '../../projects/dto/projects-response.dto'
 
 export class UserIdResponseDto {

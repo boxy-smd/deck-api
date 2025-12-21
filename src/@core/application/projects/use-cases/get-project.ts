@@ -1,6 +1,6 @@
+import { Injectable } from '@nestjs/common'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
-import { Injectable } from '@nestjs/common'
 import { CommentsRepository } from '../../interactions/repositories/comments-repository'
 import type { ProjectDTO } from '../dtos/project.dto'
 import { ProjectsRepository } from '../repositories/projects-repository'

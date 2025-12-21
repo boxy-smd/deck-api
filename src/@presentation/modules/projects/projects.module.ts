@@ -1,3 +1,4 @@
+import { Module } from '@nestjs/common'
 import { FetchProfessorsUseCase } from '@/@core/application/professors/use-cases/fetch-professors'
 import { DeleteProjectUseCase } from '@/@core/application/projects/use-cases/delete-project'
 import { GetProjectUseCase } from '@/@core/application/projects/use-cases/get-project'
@@ -10,7 +11,6 @@ import { FetchSubjectsUseCase } from '@/@core/application/subjects/use-cases/fet
 import { FetchTrailsUseCase } from '@/@core/application/trails/use-cases/fetch-trails'
 import { DatabaseModule } from '@/@infra/database/database.module'
 import { StorageModule } from '@/@infra/storage/storage.module'
-import { Module } from '@nestjs/common'
 import { ProfessorsController } from '../professors/controllers/professors.controller'
 import { SubjectsController } from '../subjects/controllers/subjects.controller'
 import { TrailsController } from '../trails/controllers/trails.controller'

@@ -5,7 +5,7 @@ export class InMemoryProfessorsRepository implements ProfessorsRepository {
   public items: Professor[] = []
 
   async findById(id: string): Promise<Professor | null> {
-    return Promise.resolve(
+    return await Promise.resolve(
       this.items.find(item => item.id.toString() === id) || null,
     )
   }
@@ -23,7 +23,8 @@ export class InMemoryProfessorsRepository implements ProfessorsRepository {
   }
 
   async create(professor: Professor): Promise<void> {
-    await Promise.resolve(this.items.push(professor))
+    this.items.push(professor)
+    await Promise.resolve()
   }
 
   async save(professor: Professor): Promise<void> {
@@ -32,8 +33,7 @@ export class InMemoryProfessorsRepository implements ProfessorsRepository {
     if (index !== -1) {
       this.items[index] = professor
     }
-
-    return await Promise.resolve()
+    await Promise.resolve()
   }
 
   async delete(professor: Professor): Promise<void> {
@@ -42,8 +42,7 @@ export class InMemoryProfessorsRepository implements ProfessorsRepository {
     if (index !== -1) {
       this.items.splice(index, 1)
     }
-
-    return await Promise.resolve()
+    await Promise.resolve()
   }
 
   async deleteById(id: string): Promise<void> {
@@ -52,8 +51,7 @@ export class InMemoryProfessorsRepository implements ProfessorsRepository {
     if (index !== -1) {
       this.items.splice(index, 1)
     }
-
-    return await Promise.resolve()
+    await Promise.resolve()
   }
 
   async existsById(id: string): Promise<boolean> {

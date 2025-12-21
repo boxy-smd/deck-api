@@ -1,16 +1,16 @@
+import { Inject, Injectable } from '@nestjs/common'
+import { and, desc, eq, ilike, inArray, or } from 'drizzle-orm'
+import { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import { ProjectDTO } from '@/@core/application/projects/dtos/project.dto'
 import {
   ProjectQuery,
   ProjectsRepository,
 } from '@/@core/application/projects/repositories/projects-repository'
 import { Project } from '@/@core/domain/projects/entities/project'
-import { Inject, Injectable } from '@nestjs/common'
-import { and, desc, eq, ilike, inArray, or } from 'drizzle-orm'
-import { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import { DRIZZLE } from '../drizzle.provider'
 import { DrizzleProjectMapper } from '../mappers/drizzle-project-mapper'
 import * as schema from '../schema'
-import { projectProfessors, projectTrails, projects } from '../schema'
+import { projectProfessors, projects, projectTrails } from '../schema'
 
 @Injectable()
 export class DrizzleProjectsRepository implements ProjectsRepository {

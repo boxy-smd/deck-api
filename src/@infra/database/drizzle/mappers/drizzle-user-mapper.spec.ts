@@ -1,8 +1,8 @@
+import { describe, expect, it } from 'vitest'
 import { UserRole } from '@/@core/domain/users/value-objects/user-role'
 import { UserStatus } from '@/@core/domain/users/value-objects/user-status'
-import { describe, expect, it } from 'vitest'
-import { DrizzleUserMapper } from './drizzle-user-mapper'
 import type { DrizzleUserWithProfile } from './drizzle-user-mapper'
+import { DrizzleUserMapper } from './drizzle-user-mapper'
 
 describe('DrizzleUserMapper', () => {
   describe('toEntity()', () => {

@@ -1,7 +1,7 @@
-import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import { describe, expect, it } from 'vitest'
-import { DrizzleProjectMapper } from './drizzle-project-mapper'
+import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import type { DrizzleProjectWithDetails } from './drizzle-project-mapper'
+import { DrizzleProjectMapper } from './drizzle-project-mapper'
 
 describe('DrizzleProjectMapper', () => {
   describe('toEntity()', () => {

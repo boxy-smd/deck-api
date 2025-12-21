@@ -1,6 +1,6 @@
+import { InferSelectModel } from 'drizzle-orm'
 import { Trail } from '@/@core/domain/projects/entities/trail'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
-import { InferSelectModel } from 'drizzle-orm'
 import { trails } from '../schema'
 
 type TrailRaw = InferSelectModel<typeof trails>

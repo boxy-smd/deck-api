@@ -1,7 +1,7 @@
+import { Injectable } from '@nestjs/common'
 import type { User } from '@/@core/domain/users/entities/user'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { InvalidCredentialsError } from '@/@shared/kernel/errors/invalid-credentials.error'
-import { Injectable } from '@nestjs/common'
 import { HashComparer } from '../cryptography/hash-comparer'
 import { UsersRepository } from '../repositories/users-repository'
 

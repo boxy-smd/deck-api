@@ -1,12 +1,12 @@
-import { AppModule } from '@/@presentation/app.module'
 import { type INestApplication, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { config } from 'dotenv'
+import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 
 import { drizzle } from 'drizzle-orm/node-postgres'
-import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import pg from 'pg'
 import { beforeAll } from 'vitest'
+import { AppModule } from '@/@presentation/app.module'
 import * as schema from '../../src/@infra/database/drizzle/schema'
 import { truncateDatabase } from '../../src/@infra/database/drizzle/utils/database-cleaner'
 

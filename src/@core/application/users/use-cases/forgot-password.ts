@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto'
+import { Injectable } from '@nestjs/common'
 import { Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
-import { Injectable } from '@nestjs/common'
 import { EmailService } from '../../services/email-service'
 import { UsersRepository } from '../repositories/users-repository'
 

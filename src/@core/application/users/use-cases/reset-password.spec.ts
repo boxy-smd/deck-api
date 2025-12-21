@@ -1,8 +1,8 @@
-import { ResetPasswordUseCase } from '@/@core/application/users/use-cases/reset-password'
-import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { FakeHasher } from 'test/cryptography/fake-hasher'
 import { makeUser } from 'test/factories/make-user'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
+import { ResetPasswordUseCase } from '@/@core/application/users/use-cases/reset-password'
+import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 
 let usersRepository: InMemoryUsersRepository
 let hashGenerator: FakeHasher

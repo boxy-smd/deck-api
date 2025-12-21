@@ -1,8 +1,8 @@
-import { Professor } from '@/@core/domain/projects/entities/professor'
-import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { Professor } from '@/@core/domain/projects/entities/professor'
+import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import * as schema from '../schema'
 import { DrizzleProfessorsRepository } from './drizzle-professors-repository'
 

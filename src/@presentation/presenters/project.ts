@@ -1,5 +1,5 @@
-import type { ProjectSummaryDTO } from '@/@core/application/projects/dtos/project-summary.dto'
 import type { ProjectDTO } from '@/@core/application/projects/dtos/project.dto'
+import type { ProjectSummaryDTO } from '@/@core/application/projects/dtos/project-summary.dto'
 import type { Project } from '@/@core/domain/projects/entities/project'
 import { CommentPresenter } from '@/@presentation/presenters/comment'
 

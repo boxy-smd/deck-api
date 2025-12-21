@@ -34,6 +34,6 @@ export class SearchContext {
       return []
     }
 
-    return strategy.search(criteria, repository)
+    return await strategy.search(criteria, repository)
   }
 }

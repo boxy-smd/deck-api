@@ -1,12 +1,12 @@
-import { EnvService } from '@/@infra/config/env/env.service'
 import { Injectable } from '@nestjs/common'
 import { initializeApp } from 'firebase/app'
 import {
   type FirebaseStorage,
-  type StorageReference,
   getStorage,
   ref,
+  type StorageReference,
 } from 'firebase/storage'
+import { EnvService } from '@/@infra/config/env/env.service'
 
 @Injectable()
 export class FirebaseService {

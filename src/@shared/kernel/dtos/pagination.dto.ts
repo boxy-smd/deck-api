@@ -1,5 +1,5 @@
 export type {
-  PaginationParams,
   PaginatedResult,
+  PaginationParams,
 } from '../pagination'
 export { Pagination } from '../pagination'

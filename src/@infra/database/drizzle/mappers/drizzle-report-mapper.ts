@@ -1,6 +1,6 @@
+import { InferSelectModel } from 'drizzle-orm'
 import { Report } from '@/@core/domain/interactions/entities/report'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
-import { InferSelectModel } from 'drizzle-orm'
 import { reports } from '../schema'
 
 type ReportRaw = InferSelectModel<typeof reports>

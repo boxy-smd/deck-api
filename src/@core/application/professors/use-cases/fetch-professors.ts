@@ -1,5 +1,5 @@
-import type { Professor } from '@/@core/domain/projects/entities/professor'
 import { Injectable } from '@nestjs/common'
+import type { Professor } from '@/@core/domain/projects/entities/professor'
 import { ProfessorsRepository } from '../repositories/professors-repository'
 
 interface FetchProfessorsUseCaseRequest {

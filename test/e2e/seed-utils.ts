@@ -1,14 +1,13 @@
 import type { INestApplication } from '@nestjs/common'
-
+import { makeProfessor } from 'test/factories/make-professor'
+import { makeSubject } from 'test/factories/make-subject'
+import { makeTrail } from 'test/factories/make-trail'
 import { ProfessorsRepository } from '@/@core/application/professors/repositories/professors-repository'
 import { SubjectsRepository } from '@/@core/application/subjects/repositories/subjects-repository'
 import { TrailsRepository } from '@/@core/application/trails/repositories/trails-repository'
 import { Professor } from '@/@core/domain/projects/entities/professor'
 import { Subject } from '@/@core/domain/projects/entities/subject'
 import { Trail } from '@/@core/domain/projects/entities/trail'
-import { makeProfessor } from 'test/factories/make-professor'
-import { makeSubject } from 'test/factories/make-subject'
-import { makeTrail } from 'test/factories/make-trail'
 
 /**
  * Cria uma trilha no banco de dados de teste

@@ -1,10 +1,10 @@
+import { Injectable } from '@nestjs/common'
 import { UsersRepository } from '@/@core/application/users/repositories/users-repository'
 import { Project } from '@/@core/domain/projects/entities/project'
 import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import { Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
-import { Injectable } from '@nestjs/common'
 import { ProjectsRepository } from '../repositories/projects-repository'
 
 interface SaveDraftUseCaseRequest {

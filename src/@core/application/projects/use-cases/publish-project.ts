@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common'
 import { ProfessorsRepository } from '@/@core/application/professors/repositories/professors-repository'
 import { SubjectsRepository } from '@/@core/application/subjects/repositories/subjects-repository'
 import { TrailsRepository } from '@/@core/application/trails/repositories/trails-repository'
@@ -12,7 +13,6 @@ import { type Either, left, right } from '@/@shared/kernel/either'
 import { ForbiddenError } from '@/@shared/kernel/errors/forbidden.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
-import { Injectable } from '@nestjs/common'
 import { ProjectsRepository } from '../repositories/projects-repository'
 
 interface PublishProjectUseCaseRequest {

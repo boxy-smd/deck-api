@@ -1,8 +1,8 @@
+import { makeUser } from 'test/factories/make-user'
+import { InMemoryUsersRepository } from 'test/repositories/users-repository'
 import { EmailService } from '@/@core/application/services/email-service'
 import { ForgotPasswordUseCase } from '@/@core/application/users/use-cases/forgot-password'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
-import { makeUser } from 'test/factories/make-user'
-import { InMemoryUsersRepository } from 'test/repositories/users-repository'
 
 class FakeEmailService implements EmailService {
   // biome-ignore lint/suspicious/noExplicitAny: This is a test file

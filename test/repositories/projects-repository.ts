@@ -39,7 +39,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
   }
 
   async findById(id: string): Promise<Project | null> {
-    return Promise.resolve(
+    return await Promise.resolve(
       this.items.find(item => item.id.toString() === id) || null,
     )
   }
@@ -133,7 +133,9 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
 
   async findManyProjectDTOsByTitle(title: string): Promise<ProjectDTO[]> {
     const projects = await this.findManyByTitle(title)
-    return Promise.all(projects.map(project => this.projectToDTO(project)))
+    return await Promise.all(
+      projects.map(project => this.projectToDTO(project)),
+    )
   }
 
   async findManyByProfessorName(name: string): Promise<Project[]> {
@@ -156,7 +158,9 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     name: string,
   ): Promise<ProjectDTO[]> {
     const projects = await this.findManyByProfessorName(name)
-    return Promise.all(projects.map(project => this.projectToDTO(project)))
+    return await Promise.all(
+      projects.map(project => this.projectToDTO(project)),
+    )
   }
 
   async findManyByQuery({
@@ -181,7 +185,9 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
 
   async findManyProjectDTOsByQuery(query: ProjectQuery): Promise<ProjectDTO[]> {
     const projects = await this.findManyByQuery(query)
-    return Promise.all(projects.map(project => this.projectToDTO(project)))
+    return await Promise.all(
+      projects.map(project => this.projectToDTO(project)),
+    )
   }
 
   async findManyByTag(tag: string): Promise<Project[]> {
@@ -214,13 +220,13 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
       ],
     }
 
-    let searchedSemester: number | undefined = undefined
+    let searchedSemester: number | undefined
 
     for (const key in semesterVariants) {
       const variants = semesterVariants[key]
 
       if (variants.includes(tag.toLowerCase())) {
-        searchedSemester = Number.parseInt(key)
+        searchedSemester = Number.parseInt(key, 10)
 
         break
       }
@@ -235,7 +241,9 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: This is fine for now.
     async function filterProjectByTag(item: Project) {
       if (item.title.toLowerCase().includes(tag.toLowerCase())) {
-        return filteredProjects.push(item)
+        filteredProjects.push(item)
+        await Promise.resolve()
+        return
       }
 
       if (item.subjectId) {
@@ -248,7 +256,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
         }
       }
 
-      if (item.publishedYear === Number.parseInt(tag)) {
+      if (item.publishedYear === Number.parseInt(tag, 10)) {
         return filteredProjects.push(item)
       }
 
@@ -276,7 +284,9 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
 
   async findManyProjectDTOsByTag(tag: string): Promise<ProjectDTO[]> {
     const projects = await this.findManyByTag(tag)
-    return Promise.all(projects.map(project => this.projectToDTO(project)))
+    return await Promise.all(
+      projects.map(project => this.projectToDTO(project)),
+    )
   }
 
   async findManyByStudentId(studentId: string): Promise<Project[]> {
@@ -322,7 +332,9 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     studentId: string,
   ): Promise<ProjectDTO[]> {
     const projects = await this.findManyByStudentId(studentId)
-    return Promise.all(projects.map(project => this.projectToDTO(project)))
+    return await Promise.all(
+      projects.map(project => this.projectToDTO(project)),
+    )
   }
 
   async findAll(): Promise<Project[]> {
@@ -330,15 +342,19 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
   }
 
   async findAllProjectDTOs(): Promise<ProjectDTO[]> {
-    return Promise.all(this.items.map(project => this.projectToDTO(project)))
+    return await Promise.all(
+      this.items.map(project => this.projectToDTO(project)),
+    )
   }
 
   async create(project: Project): Promise<void> {
-    await Promise.resolve(this.items.push(project))
+    this.items.push(project)
+    await Promise.resolve()
   }
 
   async save(project: Project): Promise<void> {
-    await Promise.resolve(this.items.push(project))
+    this.items.push(project)
+    await Promise.resolve()
   }
 
   async delete(project: Project): Promise<void> {
@@ -349,6 +365,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     }
 
     this.items.splice(index, 1)
+    await Promise.resolve()
   }
 
   async deleteById(id: string): Promise<void> {
@@ -359,6 +376,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
     }
 
     this.items.splice(index, 1)
+    await Promise.resolve()
   }
 
   async existsById(id: string): Promise<boolean> {

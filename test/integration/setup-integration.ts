@@ -1,7 +1,7 @@
-import * as schema from '@/@infra/database/drizzle/schema'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import pg from 'pg'
 import { afterAll, beforeAll } from 'vitest'
+import * as schema from '@/@infra/database/drizzle/schema'
 import { clearDatabase } from '../../src/@infra/database/drizzle/utils/database-cleaner'
 
 const { Pool } = pg

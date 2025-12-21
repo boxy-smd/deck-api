@@ -1,5 +1,5 @@
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import type { StorageReference } from 'firebase/storage'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 
 import type { StorageUploader } from '@/@core/application/users/storage/uploader'
 

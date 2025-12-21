@@ -1,5 +1,5 @@
-import * as schema from '@/@infra/database/drizzle/schema'
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
+import * as schema from '@/@infra/database/drizzle/schema'
 
 /**
  * Popula o banco de dados com dados de teste comuns

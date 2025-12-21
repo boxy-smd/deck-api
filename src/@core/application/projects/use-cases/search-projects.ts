@@ -1,6 +1,6 @@
+import { Injectable } from '@nestjs/common'
 import { type Either, right } from '@/@shared/kernel/either'
 import { type PaginatedResult, Pagination } from '@/@shared/kernel/pagination'
-import { Injectable } from '@nestjs/common'
 import {
   type ProjectSummaryDTO,
   ProjectSummaryMapper,

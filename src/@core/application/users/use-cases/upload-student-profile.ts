@@ -1,7 +1,7 @@
+import { Injectable } from '@nestjs/common'
 import { UsersRepository } from '@/@core/application/users/repositories/users-repository'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
-import { Injectable } from '@nestjs/common'
 import { StorageUploader } from '../storage/uploader'
 
 interface UploadStudentProfileUseCaseRequest {

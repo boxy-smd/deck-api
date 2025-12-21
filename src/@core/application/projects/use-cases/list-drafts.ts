@@ -1,6 +1,6 @@
+import { Injectable } from '@nestjs/common'
 import { Project } from '@/@core/domain/projects/entities/project'
 import { Either, right } from '@/@shared/kernel/either'
-import { Injectable } from '@nestjs/common'
 import { ProjectsRepository } from '../repositories/projects-repository'
 
 interface ListDraftsUseCaseRequest {

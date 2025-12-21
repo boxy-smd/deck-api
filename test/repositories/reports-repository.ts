@@ -5,7 +5,7 @@ export class InMemoryReportsRepository implements ReportsRepository {
   public items: Report[] = []
 
   async findById(id: string): Promise<Report | null> {
-    return Promise.resolve(
+    return await Promise.resolve(
       this.items.find(item => item.id.toString() === id) || null,
     )
   }
@@ -15,7 +15,8 @@ export class InMemoryReportsRepository implements ReportsRepository {
   }
 
   async create(report: Report): Promise<void> {
-    await Promise.resolve(this.items.push(report))
+    this.items.push(report)
+    await Promise.resolve()
   }
 
   async save(report: Report): Promise<void> {
@@ -26,6 +27,7 @@ export class InMemoryReportsRepository implements ReportsRepository {
     }
 
     this.items[index] = report
+    await Promise.resolve()
   }
 
   async delete(id: string): Promise<void> {
@@ -36,11 +38,13 @@ export class InMemoryReportsRepository implements ReportsRepository {
     }
 
     this.items.splice(index, 1)
+    await Promise.resolve()
   }
 
   async deleteManyByCommentId(commentId: string): Promise<void> {
     this.items = this.items.filter(
       item => item.commentId.toString() !== commentId,
     )
+    await Promise.resolve()
   }
 }

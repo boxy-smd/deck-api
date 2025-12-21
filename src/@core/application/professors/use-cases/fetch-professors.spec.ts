@@ -1,6 +1,6 @@
-import type { Professor } from '@/@core/domain/projects/entities/professor'
 import { makeProfessor } from 'test/factories/make-professor'
 import { InMemoryProfessorsRepository } from 'test/repositories/professors-repository'
+import type { Professor } from '@/@core/domain/projects/entities/professor'
 import type { ProfessorsRepository } from '../repositories/professors-repository'
 import { FetchProfessorsUseCase } from './fetch-professors'
 

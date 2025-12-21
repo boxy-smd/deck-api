@@ -1,6 +1,6 @@
-import type { Subject } from '@/@core/domain/projects/entities/subject'
 import { makeSubject } from 'test/factories/make-subject'
 import { InMemorySubjectsRepository } from 'test/repositories/subjects-repository'
+import type { Subject } from '@/@core/domain/projects/entities/subject'
 import type { SubjectsRepository } from '../repositories/subjects-repository'
 import { FetchSubjectsUseCase } from './fetch-subjects'
 

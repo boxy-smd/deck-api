@@ -9,13 +9,15 @@ export class InMemorySubjectsRepository implements SubjectsRepository {
   }
 
   async findById(id: string): Promise<Subject | null> {
-    return Promise.resolve(
+    return await Promise.resolve(
       this.items.find(item => item.id.toString() === id) || null,
     )
   }
 
   async findByName(name: string): Promise<Subject | null> {
-    return Promise.resolve(this.items.find(item => item.name === name) || null)
+    return await Promise.resolve(
+      this.items.find(item => item.name === name) || null,
+    )
   }
 
   async findAll(): Promise<Subject[]> {

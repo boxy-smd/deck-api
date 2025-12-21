@@ -1,6 +1,6 @@
-import type { Trail } from '@/@core/domain/projects/entities/trail'
 import { makeTrail } from 'test/factories/make-trail'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
+import type { Trail } from '@/@core/domain/projects/entities/trail'
 import type { TrailsRepository } from '../repositories/trails-repository'
 import { FetchTrailsUseCase } from './fetch-trails'
 

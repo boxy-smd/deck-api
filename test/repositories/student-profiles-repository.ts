@@ -24,28 +24,34 @@ export class InMemoryStudentProfilesRepository
 
   async create(entity: StudentProfile): Promise<void> {
     this.items.push(entity)
-    return await Promise.resolve()
+    await Promise.resolve()
   }
 
   async save(entity: StudentProfile): Promise<void> {
     const index = this.items.findIndex(item => item.id.equals(entity.id))
+
     if (index !== -1) {
       this.items[index] = entity
     }
+    await Promise.resolve()
   }
 
   async delete(entity: StudentProfile): Promise<void> {
     const index = this.items.findIndex(item => item.id.equals(entity.id))
+
     if (index !== -1) {
       this.items.splice(index, 1)
     }
+    await Promise.resolve()
   }
 
   async deleteById(id: UniqueEntityID): Promise<void> {
     const index = this.items.findIndex(item => item.id.equals(id))
+
     if (index !== -1) {
       this.items.splice(index, 1)
     }
+    await Promise.resolve()
   }
 
   async existsById(id: UniqueEntityID): Promise<boolean> {

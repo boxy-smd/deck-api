@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { describe, expect, it } from 'vitest'
+import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { ProjectStatus } from '../value-objects/project-status'
 import { Project } from './project'
 

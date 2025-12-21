@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { DrizzleCommentMapper } from './drizzle-comment-mapper'
 import type { DrizzleCommentWithAuthor } from './drizzle-comment-mapper'
+import { DrizzleCommentMapper } from './drizzle-comment-mapper'
 
 describe('DrizzleCommentMapper', () => {
   describe('toEntity()', () => {

@@ -1,7 +1,7 @@
-import { InvalidCredentialsError } from '@/@shared/kernel/errors/invalid-credentials.error'
 import { FakeHasher } from 'test/cryptography/fake-hasher'
 import { makeUser } from 'test/factories/make-user'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
+import { InvalidCredentialsError } from '@/@shared/kernel/errors/invalid-credentials.error'
 import type { User } from '../../../domain/users/entities/user'
 import type { UsersRepository } from '../repositories/users-repository'
 import { LoginUseCase } from './login'

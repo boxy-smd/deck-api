@@ -1,13 +1,3 @@
-import { DeleteProjectUseCase } from '@/@core/application/projects/use-cases/delete-project'
-import { GetProjectUseCase } from '@/@core/application/projects/use-cases/get-project'
-import { ListDraftsUseCase } from '@/@core/application/projects/use-cases/list-drafts'
-import { PublishProjectUseCase } from '@/@core/application/projects/use-cases/publish-project'
-import { SaveDraftUseCase } from '@/@core/application/projects/use-cases/save-draft'
-import { SearchProjectsUseCase } from '@/@core/application/projects/use-cases/search-projects'
-import { UploadProjectBannerUseCase } from '@/@core/application/projects/use-cases/upload-project-banner'
-import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
-import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
-import { ProjectPresenter } from '@/@presentation/presenters/project'
 import {
   BadRequestException,
   Body,
@@ -36,6 +26,16 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger'
+import { DeleteProjectUseCase } from '@/@core/application/projects/use-cases/delete-project'
+import { GetProjectUseCase } from '@/@core/application/projects/use-cases/get-project'
+import { ListDraftsUseCase } from '@/@core/application/projects/use-cases/list-drafts'
+import { PublishProjectUseCase } from '@/@core/application/projects/use-cases/publish-project'
+import { SaveDraftUseCase } from '@/@core/application/projects/use-cases/save-draft'
+import { SearchProjectsUseCase } from '@/@core/application/projects/use-cases/search-projects'
+import { UploadProjectBannerUseCase } from '@/@core/application/projects/use-cases/upload-project-banner'
+import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
+import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
+import { ProjectPresenter } from '@/@presentation/presenters/project'
 import type { FetchPostsDto, FilterPostsDto } from '../dto/fetch-posts.dto'
 import {
   ProjectDetailsResponseDto,

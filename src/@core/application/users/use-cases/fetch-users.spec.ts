@@ -1,7 +1,7 @@
-import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { makeUser } from 'test/factories/make-user'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
+import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { StudentProfile } from '../../../domain/users/entities/student-profile'
 import type { User } from '../../../domain/users/entities/user'
 import { Semester } from '../../../domain/users/value-objects/semester'

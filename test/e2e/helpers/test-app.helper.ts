@@ -1,6 +1,6 @@
-import { AppModule } from '@/@presentation/app.module'
 import { type INestApplication, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
+import { AppModule } from '@/@presentation/app.module'
 
 /**
  * Cria uma instância da aplicação NestJS para testes E2E

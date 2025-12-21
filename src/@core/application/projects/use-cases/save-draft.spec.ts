@@ -1,8 +1,8 @@
-import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import { makeProject } from 'test/factories/make-project'
 import { makeUser } from 'test/factories/make-user'
 import { InMemoryProjectsRepository } from 'test/repositories/projects-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
+import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import { SaveDraftUseCase } from './save-draft'
 
 let inMemoryProjectsRepository: InMemoryProjectsRepository

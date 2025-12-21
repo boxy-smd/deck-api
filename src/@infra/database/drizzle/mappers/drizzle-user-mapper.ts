@@ -1,3 +1,4 @@
+import { InferSelectModel } from 'drizzle-orm'
 import { StudentProfile } from '@/@core/domain/users/entities/student-profile'
 import { User } from '@/@core/domain/users/entities/user'
 import { Email } from '@/@core/domain/users/value-objects/email'
@@ -6,7 +7,6 @@ import { UserRole } from '@/@core/domain/users/value-objects/user-role'
 import { UserStatus } from '@/@core/domain/users/value-objects/user-status'
 import { Username } from '@/@core/domain/users/value-objects/username'
 import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
-import { InferSelectModel } from 'drizzle-orm'
 import { studentProfiles, trails, users } from '../schema'
 
 type UserRaw = InferSelectModel<typeof users>
