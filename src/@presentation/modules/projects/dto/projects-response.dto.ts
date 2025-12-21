@@ -15,19 +15,7 @@ export class PaginationResponseDto {
   totalPages: number
 }
 
-export class AuthorDTO {
-  @ApiProperty()
-  id: string
-
-  @ApiProperty()
-  name: string
-
-  @ApiProperty()
-  username: string
-
-  @ApiProperty({ required: false })
-  profileUrl?: string
-}
+import { AuthorDTO } from './author.dto'
 
 export class SubjectDTO {
   @ApiProperty()
