@@ -49,7 +49,7 @@
 		"@biomejs/biome": "^1.9.4",
 		"@nestjs/cli": "^11.0.14",
 		"@swc/cli": "^0.7.9",
-		"@swc/core": "^1.15.5",
+		"@swc/core": "^1.15.7",
 		"@tsconfig/node20": "^20.1.8",
 		"@types/bcrypt": "^6.0.0",
 		"@types/node": "^22.19.3",
