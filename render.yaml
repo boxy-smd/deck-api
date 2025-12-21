@@ -4,7 +4,7 @@ services:
     runtime: node
     region: oregon
     plan: free
-    branch: main
+    branch: production
     buildCommand: pnpm install && pnpm build
     startCommand: pnpm start
     envVars:
