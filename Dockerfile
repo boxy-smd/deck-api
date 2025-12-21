@@ -1,5 +1,5 @@
 # Build stage
-FROM node:20-alpine AS builder
+FROM node:25-alpine AS builder
 
 # Install system dependencies
 RUN apk add --no-cache openssl libc6-compat
@@ -22,7 +22,7 @@ COPY . .
 RUN pnpm db:generate && pnpm build:prod
 
 # Production stage
-FROM node:20-alpine AS runner
+FROM node:25-alpine AS runner
 
 RUN apk add --no-cache openssl libc6-compat curl
 
