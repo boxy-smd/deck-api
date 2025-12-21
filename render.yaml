@@ -30,4 +30,4 @@ services:
         sync: false
       - key: FIREBASE_STORAGE_BUCKET
         sync: false
-    healthCheckPath: /health
+    healthCheckPath: /health-check
