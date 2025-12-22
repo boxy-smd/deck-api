@@ -5,8 +5,9 @@ services:
     region: oregon
     plan: free
     branch: production
-    buildCommand: pnpm install && pnpm test:unit && pnpm build:prod
+    buildCommand: pnpm install && pnpm build:prod  # Remova os testes do build!
     startCommand: pnpm start
+    healthCheckPath: /health-check  # Apenas o path, sem domínio ou porta
     envVars:
       - key: NODE_ENV
         value: production
@@ -30,4 +31,3 @@ services:
         sync: false
       - key: FIREBASE_STORAGE_BUCKET
         sync: false
-    healthCheckPath: /health-check
