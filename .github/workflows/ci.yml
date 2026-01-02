@@ -2,9 +2,9 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, development, production]
   pull_request:
-    branches: [main, develop]
+    branches: [main, development, production]
 
 env:
   NODE_VERSION: 20
@@ -195,7 +195,7 @@ jobs:
     name: 🐳 Docker Build Test
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    if: github.event_name == 'pull_request' || contains(fromJSON('["main", "development", "production"]'), github.ref_name)
 
     steps:
       - name: 📥 Checkout code

@@ -5,9 +5,8 @@ services:
     region: oregon
     plan: free
     branch: production
-    buildCommand: pnpm install && pnpm build:prod  # Remova os testes do build!
+    buildCommand: pnpm install && pnpm build:prod
     startCommand: pnpm start
-    # healthCheckPath: /health-check  # Apenas o path, sem domínio ou porta
     envVars:
       - key: NODE_ENV
         value: production
