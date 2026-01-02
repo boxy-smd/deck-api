@@ -67,12 +67,12 @@
 		"vitest": "^4.0.16"
 	},
 	"dependencies": {
-		"@nestjs/common": "^11.1.10",
+		"@nestjs/common": "^11.1.11",
 		"@nestjs/config": "^4.0.2",
-		"@nestjs/core": "^11.1.10",
+		"@nestjs/core": "^11.1.11",
 		"@nestjs/jwt": "^11.0.2",
 		"@nestjs/passport": "^11.0.5",
-		"@nestjs/platform-express": "^11.1.10",
+		"@nestjs/platform-express": "^11.1.11",
 		"@nestjs/swagger": "^11.2.3",
 		"@types/multer": "^2.0.0",
 		"axios": "^1.13.2",
