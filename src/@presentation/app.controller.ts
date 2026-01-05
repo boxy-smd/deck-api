@@ -1,8 +1,10 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common'
+import { Public } from './modules/auth/decorators/public.decorator'
 
 @Controller()
 export class AppController {
   @Get()
+  @Public()
   getRoot() {
     return {
       name: 'Deck API',
@@ -13,6 +15,7 @@ export class AppController {
   }
 
   @Get('health')
+  @Public()
   @HttpCode(HttpStatus.OK)
   getHealth() {
     return {
@@ -22,6 +25,7 @@ export class AppController {
   }
 
   @Get('health-check')
+  @Public()
   @HttpCode(HttpStatus.OK)
   getHealthCheck() {
     return {
