@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch: # Allows manual triggering
 
+permissions:
+  contents: write
+
 jobs:
   auto-merge:
     name: 🔄 Auto Merge main to production
