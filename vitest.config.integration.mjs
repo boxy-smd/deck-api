@@ -12,13 +12,11 @@ export default defineConfig({
     globals: true,
     root: './',
     setupFiles: ['./test/integration/setup-integration.ts'],
-    fileParallelism: false, // Roda arquivos sequencialmente
-    poolOptions: {
-      threads: {
-        singleThread: true,
-      },
-    },
-    testTimeout: 30000, // 30s para testes de integração com banco
+    fileParallelism: false,
+    pool: 'threads',
+    maxWorkers: 1,
+    isolate: false,
+    testTimeout: 30000,
   },
   plugins: [
     tsConfigPaths({
