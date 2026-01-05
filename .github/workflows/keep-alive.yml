@@ -1,0 +1,32 @@
+name: API Keep-Alive
+
+on:
+  schedule:
+    # Runs every 14 minutes between 08:00 and 22:00 BRT
+    # 08:00 BRT = 11:00 UTC
+    # 22:00 BRT = 01:00 UTC (next day)
+    # Cron: */14 11-23,0-1 * * *
+    - cron: '*/14 11-23,0-1 * * *'
+  workflow_dispatch: # Allows manual triggering for testing
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping API
+        run: |
+          if [ -z "${{ secrets.PRODUCTION_URL }}" ]; then
+            echo "Error: PRODUCTION_URL secret is not set."
+            exit 1
+          fi
+          RESPONSE=$(curl -s -w "%{http_code}" "${{ secrets.PRODUCTION_URL }}/health")
+          HTTP_CODE=${RESPONSE: -3}
+          BODY=${RESPONSE:0:${#RESPONSE}-3}
+          echo "Status Code: $HTTP_CODE"
+          echo "Response Body: $BODY"
+          if [ "$HTTP_CODE" -eq 200 ]; then
+            echo "API is alive!"
+          else
+            echo "API returned status $HTTP_CODE"
+            exit 1
+          fi
