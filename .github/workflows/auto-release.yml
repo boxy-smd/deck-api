@@ -1,0 +1,31 @@
+name: Auto Release (main to production)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual triggering
+
+permissions:
+  contents: write
+
+jobs:
+  auto-merge:
+    name: 🔄 Auto Merge main to production
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # Fetch all history for merging
+
+      - name: ⚙️ Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: 🔄 Merge main into production
+        run: |
+          git checkout production
+          git merge main --no-edit
+          git push origin production
