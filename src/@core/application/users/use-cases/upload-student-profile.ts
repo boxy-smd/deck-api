@@ -1,3 +1,4 @@
+import { extname } from 'node:path'
 import { Injectable } from '@nestjs/common'
 import { UsersRepository } from '@/@core/application/users/repositories/users-repository'
 import { type Either, left, right } from '@/@shared/kernel/either'
@@ -30,7 +31,10 @@ export class UploadStudentProfileUseCase {
       return left(new ResourceNotFoundError('Student not found.'))
     }
 
-    const { downloadUrl } = await this.profilesUploader.upload(image, filename)
+    const extension = extname(filename)
+    const path = `profiles/${student.id.toString()}${extension}`
+
+    const { downloadUrl } = await this.profilesUploader.upload(image, path)
 
     student.changeProfilePicture(downloadUrl)
 

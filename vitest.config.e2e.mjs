@@ -8,12 +8,10 @@ export default defineConfig({
     globals: true,
     root: './',
     setupFiles: ['./test/e2e/setup-e2e.ts'],
-    fileParallelism: false, // Roda arquivos sequencialmente
-    poolOptions: {
-      threads: {
-        singleThread: true,
-      },
-    },
+    fileParallelism: false,
+    pool: 'threads',
+    maxWorkers: 1,
+    isolate: false,
   },
   plugins: [
     tsConfigPaths({

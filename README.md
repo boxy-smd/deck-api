@@ -34,7 +34,7 @@ Deck é uma aplicação que servirá como repositório de trabalhos realizados p
 > - **`POST` /projects** _Publica um projeto._
 > - **`PUT` /projects/:id** _Edita um projeto._
 > - **`DELETE` /projects** _Exclui um projeto._
-> - **`POST` /banners/:projectId** _Realiza o upload do banner do projeto._
+> - **`POST` /projects/:projectId/banner** _Realiza o upload do banner do projeto._
 
 ### Tags
 
@@ -67,7 +67,7 @@ Tecnologias utilizadas no projeto.
 - [Drizzle ORM](https://orm.drizzle.team/)
 - [Docker](https://www.docker.com/)
 - [PostgreSQL](https://www.postgresql.org/)
-- [Firebase Storage](https://firebase.google.com/docs/storage)
+- [Supabase Storage](https://supabase.com/docs/guides/storage)
 
 ### **Testes**
 
@@ -155,6 +155,9 @@ NODE_ENV=development
 JWT_SECRET=deck-secret-key
 PORT=3333
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/deck_dev
+SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+SUPABASE_BUCKET=uploads
 ```
 
 ### Comandos Docker

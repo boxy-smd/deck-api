@@ -5,9 +5,8 @@ services:
     region: oregon
     plan: free
     branch: production
-    buildCommand: pnpm install && pnpm build:prod  # Remova os testes do build!
+    buildCommand: pnpm install && pnpm build:prod
     startCommand: pnpm start
-    # healthCheckPath: /health-check  # Apenas o path, sem domínio ou porta
     envVars:
       - key: NODE_ENV
         value: production
@@ -19,15 +18,9 @@ services:
         generateValue: true
       - key: JWT_EXPIRES_IN
         value: 7d
-      - key: FIREBASE_API_KEY
+      - key: SUPABASE_URL
         sync: false
-      - key: FIREBASE_APP_ID
+      - key: SUPABASE_SERVICE_ROLE_KEY
         sync: false
-      - key: FIREBASE_AUTH_DOMAIN
-        sync: false
-      - key: FIREBASE_MESSAGING_SENDER_ID
-        sync: false
-      - key: FIREBASE_PROJECT_ID
-        sync: false
-      - key: FIREBASE_STORAGE_BUCKET
-        sync: false
+      - key: SUPABASE_BUCKET
+        value: uploads

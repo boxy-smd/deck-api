@@ -1,7 +1,7 @@
 export abstract class StorageUploader {
   abstract upload(
     image: Buffer,
-    filename: string,
+    path: string,
   ): Promise<{
     downloadUrl: string
   }>

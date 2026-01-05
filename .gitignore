@@ -47,4 +47,4 @@ coverage
 
 # Docker (optional - keep if you want to ignore local Docker configs)
 # docker-compose.override.yml
-
+AGENTS.md

@@ -4,8 +4,8 @@ FROM node:25-alpine AS builder
 # Install system dependencies
 RUN apk add --no-cache openssl libc6-compat
 
-# Enable pnpm
-RUN corepack enable && corepack prepare pnpm@10.17.0 --activate
+# Install pnpm
+RUN npm install -g pnpm@10.17.0
 
 WORKDIR /app
 
@@ -26,8 +26,9 @@ FROM node:25-alpine AS runner
 
 RUN apk add --no-cache openssl libc6-compat curl
 
-# Enable pnpm
-RUN corepack enable && corepack prepare pnpm@10.17.0 --activate
+# Install pnpm
+RUN npm install -g pnpm@10.17.0
+
 
 WORKDIR /app
 
@@ -51,8 +52,8 @@ COPY --from=builder /app/drizzle.config.ts ./drizzle.config.ts
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nestjs -u 1001 && \
-    chown -R nestjs:nodejs /app
+  adduser -S nestjs -u 1001 && \
+  chown -R nestjs:nodejs /app
 
 USER nestjs
 
