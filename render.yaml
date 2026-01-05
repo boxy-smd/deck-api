@@ -18,15 +18,9 @@ services:
         generateValue: true
       - key: JWT_EXPIRES_IN
         value: 7d
-      - key: FIREBASE_API_KEY
+      - key: SUPABASE_URL
         sync: false
-      - key: FIREBASE_APP_ID
+      - key: SUPABASE_SERVICE_ROLE_KEY
         sync: false
-      - key: FIREBASE_AUTH_DOMAIN
-        sync: false
-      - key: FIREBASE_MESSAGING_SENDER_ID
-        sync: false
-      - key: FIREBASE_PROJECT_ID
-        sync: false
-      - key: FIREBASE_STORAGE_BUCKET
-        sync: false
+      - key: SUPABASE_BUCKET
+        value: uploads
