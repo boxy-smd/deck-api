@@ -18,7 +18,7 @@ import { JwtStrategy } from './strategies/jwt.strategy'
       useFactory(env: EnvService) {
         return {
           signOptions: { expiresIn: '1h' },
-          secretOrPrivateKey: env.get('JWT_SECRET'),
+          secret: env.get('JWT_SECRET'),
         }
       },
     }),

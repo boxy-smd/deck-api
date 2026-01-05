@@ -1,3 +1,4 @@
+import { extname } from 'node:path'
 import { Injectable } from '@nestjs/common'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
@@ -30,7 +31,10 @@ export class UploadProjectBannerUseCase {
       return left(new ResourceNotFoundError('Project not found.'))
     }
 
-    const { downloadUrl } = await this.bannersUploader.upload(image, filename)
+    const extension = extname(filename)
+    const path = `banners/${projectId}${extension}`
+
+    const { downloadUrl } = await this.bannersUploader.upload(image, path)
 
     project.editInfo({
       bannerUrl: downloadUrl,
