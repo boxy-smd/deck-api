@@ -1,7 +1,10 @@
 name: Auto Release (main to production)
 
 on:
-  push:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
     branches:
       - main
   workflow_dispatch: # Allows manual triggering
@@ -13,6 +16,7 @@ jobs:
   auto-merge:
     name: 🔄 Auto Merge main to production
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v6
@@ -27,5 +31,5 @@ jobs:
       - name: 🔄 Merge main into production
         run: |
           git checkout production
-          git merge main --no-edit
+          git merge main --ff-only
           git push origin production
