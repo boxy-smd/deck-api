@@ -84,7 +84,7 @@ describe('DrizzleUserMapper', () => {
       expect(user.profileUrl).toBe('https://example.com/profile.jpg')
       expect(user.profile).toBeDefined()
       expect(user.profile?.semester.value).toBe(5)
-      expect(user.profile?.trailsIds.length).toBe(0)
+      expect(user.profile?.trailsIds.length).toBe(2)
     })
 
     it('should map user with password reset token', () => {

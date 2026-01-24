@@ -4,6 +4,11 @@ import type { UserStatus } from '@/@core/domain/users/value-objects/user-status'
 import type { User } from '../../../domain/users/entities/user'
 import type { ProjectSummaryDTO } from '../../projects/dtos/project-summary.dto'
 
+export interface TrailDTO {
+  id: string
+  name: string
+}
+
 export interface UserDTO {
   id: string
   name: string
@@ -12,7 +17,7 @@ export interface UserDTO {
   about: string | null
   profileUrl: string | null
   semester: number
-  trails: string[]
+  trails: TrailDTO[]
   role: UserRole
   status: UserStatus
   posts: ProjectSummaryDTO[]
@@ -34,7 +39,11 @@ export class UserDTOMapper {
       about: user.about ?? null,
       profileUrl: user.profileUrl ?? null,
       semester: user.profile?.semester.value ?? 0,
-      trails: trails?.map(trail => trail.id.toString()) || [],
+      trails:
+        trails?.map(trail => ({
+          id: trail.id.toString(),
+          name: trail.name,
+        })) || [],
       role: user.role,
       status: user.status,
       posts,
