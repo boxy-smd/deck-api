@@ -8,6 +8,10 @@ export function makeTrail(
   const trail = Trail.create(
     {
       name: `Trail_${Math.random().toString(36).substring(7)}`,
+      color: '#000000',
+      lightColor: '#333333',
+      darkColor: '#000000',
+      icon: 'Default',
       ...override,
     },
     id,

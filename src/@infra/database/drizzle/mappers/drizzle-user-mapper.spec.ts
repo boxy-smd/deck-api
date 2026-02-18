@@ -61,6 +61,10 @@ describe('DrizzleUserMapper', () => {
             trail: {
               id: 'trail-1',
               name: 'Design Digital',
+              color: '#D41919',
+              lightColor: '#DD5C5C',
+              darkColor: '#980C0C',
+              icon: 'Design',
               createdAt: new Date('2024-01-01'),
               updatedAt: new Date('2024-01-01'),
             },
@@ -69,6 +73,10 @@ describe('DrizzleUserMapper', () => {
             trail: {
               id: 'trail-2',
               name: 'Desenvolvimento de Sistemas',
+              color: '#0581C4',
+              lightColor: '#D9F2FF',
+              darkColor: '#00426E',
+              icon: 'Sistemas',
               createdAt: new Date('2024-01-01'),
               updatedAt: new Date('2024-01-01'),
             },

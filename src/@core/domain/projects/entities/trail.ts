@@ -3,6 +3,10 @@ import type { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 
 export interface TrailProps {
   name: string
+  color: string
+  lightColor: string
+  darkColor: string
+  icon: string
 }
 
 export class Trail extends Entity<TrailProps> {
@@ -30,5 +34,21 @@ export class Trail extends Entity<TrailProps> {
   // --- 3. Getters ---
   get name() {
     return this.props.name
+  }
+
+  get color() {
+    return this.props.color
+  }
+
+  get lightColor() {
+    return this.props.lightColor
+  }
+
+  get darkColor() {
+    return this.props.darkColor
+  }
+
+  get icon() {
+    return this.props.icon
   }
 }

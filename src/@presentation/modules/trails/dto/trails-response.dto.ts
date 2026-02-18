@@ -6,6 +6,18 @@ export class TrailResponseDto {
 
   @ApiProperty()
   name: string
+
+  @ApiProperty()
+  color: string
+
+  @ApiProperty()
+  lightColor: string
+
+  @ApiProperty()
+  darkColor: string
+
+  @ApiProperty()
+  icon: string
 }
 
 export class TrailsListResponseDto {
