@@ -69,6 +69,15 @@ export class ProjectSummaryResponseDto {
   @ApiProperty({ required: false })
   updatedAt?: Date
 
+  @ApiProperty({ required: false })
+  subjectId?: string
+
+  @ApiProperty({ type: [String] })
+  trailsIds: string[]
+
+  @ApiProperty({ type: [String] })
+  professorsIds: string[]
+
   @ApiProperty({ type: AuthorDTO })
   author: AuthorDTO
 
@@ -130,6 +139,15 @@ export class ProjectDetailsResponseDto {
 
   @ApiProperty({ required: false })
   updatedAt?: Date
+
+  @ApiProperty({ required: false })
+  subjectId?: string
+
+  @ApiProperty({ type: [String] })
+  trailsIds: string[]
+
+  @ApiProperty({ type: [String] })
+  professorsIds: string[]
 
   @ApiProperty({ type: AuthorDTO })
   author: AuthorDTO

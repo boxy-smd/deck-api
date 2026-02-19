@@ -73,7 +73,10 @@ describe('edit profile use case', () => {
 
     // Verify the user was saved with the new trail
     const updatedUser = await usersRepository.findById(student.id.toString())
-    expect(updatedUser?.profile?.trailsIds).toHaveLength(2)
+    expect(updatedUser?.profile?.trailsIds).toHaveLength(1)
+    expect(updatedUser?.profile?.trailsIds[0].toString()).toBe(
+      newTrail.id.toString(),
+    )
   })
 
   it('should not be able to edit student profile if student does not exist', async () => {

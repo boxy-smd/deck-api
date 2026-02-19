@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
+import type { ProjectDTO } from '@/@core/application/projects/dtos/project.dto'
 import type { Trail } from '@/@core/domain/projects/entities/trail'
 import { type Either, left, right } from '@/@shared/kernel/either'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
-import { ProjectDTOMapper } from '../../projects/dtos/project.dto'
 import { ProjectSummaryMapper } from '../../projects/dtos/project-summary.dto'
 import { ProjectsRepository } from '../../projects/repositories/projects-repository'
 import { TrailsRepository } from '../../trails/repositories/trails-repository'
@@ -71,28 +71,15 @@ export class GetProfileUseCase {
     // For simplicity, I'll use an empty list for drafts if I can't easily map them,
     // or better, I'll check how ProjectDTOMapper is used.
 
-    const drafts = await Promise.all(
-      draftsRaw.map(async draft => {
-        const author = await this.usersRepository.findById(
-          draft.authorId.toString(),
-        )
-        if (!author) return null
-
-        const draftTrails: Trail[] = []
-        for (const tid of Array.from(draft.trails)) {
-          const t = await this.trailsRepository.findById(tid.toString())
-          if (t) draftTrails.push(t)
-        }
-
-        return ProjectSummaryMapper.toDTO(
-          ProjectDTOMapper.toDTO(draft, author, draftTrails, null, []),
-        )
-      }),
+    const draftDetails = await Promise.all(
+      draftsRaw.map(draft =>
+        this.projectsRepository.findByIdWithDetails(draft.id.toString()),
+      ),
     )
 
-    const filteredDrafts = drafts.filter(
-      (d): d is Exclude<typeof d, null> => d !== null,
-    )
+    const filteredDrafts = draftDetails
+      .filter((draft): draft is ProjectDTO => draft !== null)
+      .map(ProjectSummaryMapper.toDTO)
 
     const userDetails = UserDTOMapper.toDTO(user, trails, posts, filteredDrafts)
 
