@@ -25,6 +25,9 @@ export class ProjectPresenter {
   }
 
   static summaryToHTTP(project: ProjectSummaryDTO) {
+    const trailsIds = project.trails.map(trail => trail.id)
+    const professorsIds = project.professors.map(professor => professor.id)
+
     return {
       id: project.id,
       title: project.title,
@@ -35,6 +38,9 @@ export class ProjectPresenter {
       allowComments: project.allowComments,
       createdAt: project.createdAt,
       updatedAt: project.updatedAt || undefined,
+      subjectId: project.subject?.id || undefined,
+      trailsIds,
+      professorsIds,
       author: {
         id: project.author.id,
         name: project.author.name,
@@ -48,6 +54,9 @@ export class ProjectPresenter {
   }
 
   static detailsToHTTP(project: ProjectDTO) {
+    const trailsIds = project.trails.map(trail => trail.id)
+    const professorsIds = project.professors.map(professor => professor.id)
+
     return {
       id: project.id,
       title: project.title,
@@ -59,6 +68,9 @@ export class ProjectPresenter {
       allowComments: project.allowComments,
       createdAt: project.createdAt,
       updatedAt: project.updatedAt || undefined,
+      subjectId: project.subjectId || undefined,
+      trailsIds,
+      professorsIds,
       author: {
         id: project.author.id,
         name: project.author.name,

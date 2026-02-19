@@ -69,6 +69,15 @@ export class ProjectSummaryResponseDto {
   @ApiProperty({ required: false })
   updatedAt?: Date
 
+  @ApiProperty({ required: false })
+  subjectId?: string
+
+  @ApiProperty({ type: [String] })
+  trailsIds: string[]
+
+  @ApiProperty({ type: [String] })
+  professorsIds: string[]
+
   @ApiProperty({ type: AuthorDTO })
   author: AuthorDTO
 
@@ -98,6 +107,15 @@ export class PublishProjectResponseDto {
 export class UploadResponseDto {
   @ApiProperty()
   message: string
+}
+
+export class RichTextImageUploadResponseDto {
+  @ApiProperty({
+    description:
+      'URL pública da imagem enviada para uso no editor de texto rico.',
+    example: 'https://cdn.example.com/rich-text/123/4b8d7c1a.png',
+  })
+  url: string
 }
 
 export class ProjectDetailsResponseDto {
@@ -130,6 +148,15 @@ export class ProjectDetailsResponseDto {
 
   @ApiProperty({ required: false })
   updatedAt?: Date
+
+  @ApiProperty({ required: false })
+  subjectId?: string
+
+  @ApiProperty({ type: [String] })
+  trailsIds: string[]
+
+  @ApiProperty({ type: [String] })
+  professorsIds: string[]
 
   @ApiProperty({ type: AuthorDTO })
   author: AuthorDTO

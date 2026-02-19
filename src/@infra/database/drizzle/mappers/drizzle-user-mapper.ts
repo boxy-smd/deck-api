@@ -43,7 +43,7 @@ export class DrizzleUserMapper {
         {
           semester: semesterResult.value,
           trailsIds: new Set(
-            raw.trails.map(t => UniqueEntityID.create(t.trail.id)) || [],
+            raw.trails.map(t => UniqueEntityID.create(t.trail.id)),
           ),
         },
         UniqueEntityID.create(raw.id),

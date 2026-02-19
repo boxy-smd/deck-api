@@ -7,6 +7,7 @@ import { PublishProjectUseCase } from '@/@core/application/projects/use-cases/pu
 import { SaveDraftUseCase } from '@/@core/application/projects/use-cases/save-draft'
 import { SearchProjectsUseCase } from '@/@core/application/projects/use-cases/search-projects'
 import { UploadProjectBannerUseCase } from '@/@core/application/projects/use-cases/upload-project-banner'
+import { UploadRichTextImageUseCase } from '@/@core/application/projects/use-cases/upload-rich-text-image'
 import { FetchSubjectsUseCase } from '@/@core/application/subjects/use-cases/fetch-subjects'
 import { FetchTrailsUseCase } from '@/@core/application/trails/use-cases/fetch-trails'
 import { DatabaseModule } from '@/@infra/database/database.module'
@@ -32,6 +33,7 @@ import { ProjectsController } from './controllers/projects.controller'
     SaveDraftUseCase,
     SearchProjectsUseCase,
     UploadProjectBannerUseCase,
+    UploadRichTextImageUseCase,
     FetchProfessorsUseCase,
     FetchSubjectsUseCase,
     FetchTrailsUseCase,

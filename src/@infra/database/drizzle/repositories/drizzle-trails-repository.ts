@@ -36,6 +36,10 @@ export class DrizzleTrailsRepository implements TrailsRepository {
     await this.drizzle.insert(trails).values({
       id: entity.id.toString(),
       name: entity.name,
+      color: entity.color,
+      lightColor: entity.lightColor,
+      darkColor: entity.darkColor,
+      icon: entity.icon,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
     })
@@ -46,6 +50,10 @@ export class DrizzleTrailsRepository implements TrailsRepository {
       .update(trails)
       .set({
         name: entity.name,
+        color: entity.color,
+        lightColor: entity.lightColor,
+        darkColor: entity.darkColor,
+        icon: entity.icon,
         updatedAt: new Date(),
       })
       .where(eq(trails.id, entity.id.toString()))

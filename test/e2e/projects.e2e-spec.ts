@@ -1,6 +1,15 @@
 import { type INestApplication } from '@nestjs/common'
 import request from 'supertest'
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest'
+import { StorageUploader } from '@/@core/application/users/storage/uploader'
 import { clearDatabase } from './database-utils'
 import { getDrizzleInstance } from './helpers/drizzle.helper'
 import { seedCommonData } from './helpers/fixtures.helper'
@@ -16,13 +25,19 @@ describe('Projects E2E', () => {
   let app: INestApplication
   let db: ReturnType<typeof getDrizzleInstance>
   let authToken: string
+  let uploadSpy: ReturnType<typeof vi.spyOn>
 
   beforeAll(async () => {
     app = await createTestApp()
     db = getDrizzleInstance(app)
+    const storageUploader = app.get(StorageUploader)
+    uploadSpy = vi.spyOn(storageUploader, 'upload').mockResolvedValue({
+      downloadUrl: 'https://cdn.example.com/rich-text/test.png',
+    })
   })
 
   afterAll(async () => {
+    uploadSpy.mockRestore()
     await app.close()
   })
 
@@ -124,5 +139,25 @@ describe('Projects E2E', () => {
     expect(response.body).toHaveProperty('id')
     expect(response.body.title).toBe('Projeto para Buscar')
     expect(response.body.description).toBe('Descrição')
+  })
+
+  it('should upload rich text image when authenticated', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/projects/rich-text-images')
+      .set('Authorization', `Bearer ${authToken}`)
+      .attach('file', Buffer.from('fake-image-content'), 'editor-image.png')
+      .expect(201)
+
+    expect(response.body).toEqual({
+      url: 'https://cdn.example.com/rich-text/test.png',
+    })
+    expect(uploadSpy).toHaveBeenCalledTimes(1)
+  })
+
+  it('should return 401 when uploading rich text image without token', async () => {
+    await request(app.getHttpServer())
+      .post('/projects/rich-text-images')
+      .attach('file', Buffer.from('fake-image-content'), 'editor-image.png')
+      .expect(401)
   })
 })

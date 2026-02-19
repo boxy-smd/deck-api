@@ -15,6 +15,13 @@
 			"when": 1766017923227,
 			"tag": "0001_pretty_mojo",
 			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1769437400079,
+			"tag": "0002_good_gamma_corps",
+			"breakpoints": true
 		}
 	]
 }

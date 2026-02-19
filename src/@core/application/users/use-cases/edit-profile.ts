@@ -3,8 +3,13 @@ import { type Either, left, right } from '@/@shared/kernel/either'
 import type { InvalidCredentialsError } from '@/@shared/kernel/errors/invalid-credentials.error'
 import type { ResourceAlreadyExistsError } from '@/@shared/kernel/errors/resource-already-exists.error'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
+import type { Trail } from '../../../domain/projects/entities/trail'
+import type { StudentProfile } from '../../../domain/users/entities/student-profile'
+import type { User } from '../../../domain/users/entities/user'
 import { Semester } from '../../../domain/users/value-objects/semester'
+import { NonSelectableTrailError } from '../../trails/errors/non-selectable-trail.error'
 import { TrailsRepository } from '../../trails/repositories/trails-repository'
+import { isSelectableTrail } from '../../trails/utils/is-selectable-trail'
 import { type UserDTO, UserDTOMapper } from '../dtos/user.dto'
 import type { SemesterOutOfBoundsError } from '../errors/semester-out-of-bounds.error'
 import { UsersRepository } from '../repositories/users-repository'
@@ -21,6 +26,7 @@ type EditProfileUseCaseResponse = Either<
   | InvalidCredentialsError
   | ResourceNotFoundError
   | ResourceAlreadyExistsError
+  | NonSelectableTrailError
   | SemesterOutOfBoundsError,
   UserDTO
 >
@@ -45,23 +51,84 @@ export class EditProfileUseCase {
       return left(new ResourceNotFoundError('User not found.'))
     }
 
-    const newSemester = Semester.create(semester ?? user.profile.semester.value)
+    if (about !== undefined) {
+      user.updateAbout(about)
+    }
 
+    if (profileUrl !== undefined) {
+      user.changeProfilePicture(profileUrl)
+    }
+
+    if (semester !== undefined) {
+      const result = this.updateSemester(user, semester)
+      if (result.isLeft()) {
+        return left(result.value)
+      }
+    }
+
+    if (trailsIds !== undefined) {
+      const result = await this.updateTrails(user, trailsIds)
+      if (result.isLeft()) {
+        return left(result.value)
+      }
+    }
+
+    await this.usersRepository.save(user)
+
+    return right(UserDTOMapper.toDTO(user))
+  }
+
+  private updateSemester(
+    user: User,
+    semester: number,
+  ): Either<ResourceNotFoundError | SemesterOutOfBoundsError, null> {
+    const profile = this.getStudentProfileOrError(user)
+    if (profile.isLeft()) {
+      return left(profile.value)
+    }
+
+    const newSemester = Semester.create(semester)
     if (newSemester.isLeft()) {
       return left(newSemester.value)
     }
 
-    user.updateAbout(about ? user.about : undefined)
+    profile.value.updateSemester(newSemester.value as Semester)
+    return right(null)
+  }
 
-    if (user.profile) {
-      user.profile.updateSemester(newSemester.value as Semester)
+  private async updateTrails(
+    user: User,
+    trailsIds: string[],
+  ): Promise<Either<ResourceNotFoundError | NonSelectableTrailError, null>> {
+    const profile = this.getStudentProfileOrError(user)
+    if (profile.isLeft()) {
+      return left(profile.value)
     }
 
-    user.changeProfilePicture(profileUrl ? user.profileUrl : undefined)
+    const uniqueTrailIds = [...new Set(trailsIds)]
+    const trailsById = await this.findTrailsById(uniqueTrailIds)
+    if (trailsById.isLeft()) {
+      return left(trailsById.value)
+    }
 
-    for (const trailId of trailsIds ?? []) {
-      const trail = await this.trailsRepository.findById(trailId)
+    const desiredIds = new Set(uniqueTrailIds)
+    const currentTrailIds = profile.value.trailsIds
+    const currentIds = new Set(
+      currentTrailIds.map(trailId => trailId.toString()),
+    )
 
+    for (const existingId of currentTrailIds) {
+      if (!desiredIds.has(existingId.toString())) {
+        user.removeTrailFromProfile(existingId)
+      }
+    }
+
+    for (const trailId of uniqueTrailIds) {
+      if (currentIds.has(trailId)) {
+        continue
+      }
+
+      const trail = trailsById.value.get(trailId)
       if (!trail) {
         return left(
           new ResourceNotFoundError(`Trail with ID ${trailId} not found.`),
@@ -71,8 +138,42 @@ export class EditProfileUseCase {
       user.addTrailToProfile(trail.id)
     }
 
-    await this.usersRepository.save(user)
+    return right(null)
+  }
 
-    return right(UserDTOMapper.toDTO(user))
+  private getStudentProfileOrError(
+    user: User,
+  ): Either<ResourceNotFoundError, StudentProfile> {
+    if (!user.profile) {
+      return left(new ResourceNotFoundError('Student profile not found.'))
+    }
+
+    return right(user.profile)
+  }
+
+  private async findTrailsById(
+    trailIds: string[],
+  ): Promise<
+    Either<ResourceNotFoundError | NonSelectableTrailError, Map<string, Trail>>
+  > {
+    const trailsById = new Map<string, Trail>()
+
+    for (const trailId of trailIds) {
+      const trail = await this.trailsRepository.findById(trailId)
+
+      if (!trail) {
+        return left(
+          new ResourceNotFoundError(`Trail with ID ${trailId} not found.`),
+        )
+      }
+
+      if (!isSelectableTrail(trail)) {
+        return left(new NonSelectableTrailError())
+      }
+
+      trailsById.set(trailId, trail)
+    }
+
+    return right(trailsById)
   }
 }

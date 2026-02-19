@@ -6,7 +6,6 @@ import type { Semester } from '../value-objects/semester'
 
 export interface StudentProfileProps {
   semester: Semester
-
   trailsIds: Set<UniqueEntityID<Trail>>
 }
 
@@ -18,7 +17,7 @@ export class StudentProfile extends Entity<StudentProfileProps> {
     return new StudentProfile(
       {
         ...props,
-        trailsIds: new Set(),
+        trailsIds: props.trailsIds ?? new Set<UniqueEntityID<Trail>>(),
       },
       studentId,
     )
@@ -38,7 +37,13 @@ export class StudentProfile extends Entity<StudentProfileProps> {
   }
 
   public addTrail(trailId: UniqueEntityID<Trail>) {
-    this.props.trailsIds.add(trailId)
+    const alreadyExists = Array.from(this.props.trailsIds).some(t =>
+      t.equals(trailId),
+    )
+
+    if (!alreadyExists) {
+      this.props.trailsIds.add(trailId)
+    }
   }
 
   public removeTrail(trailId: UniqueEntityID<Trail>) {

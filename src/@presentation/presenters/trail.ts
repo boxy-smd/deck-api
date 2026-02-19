@@ -5,6 +5,10 @@ export class TrailPresenter {
     return {
       id: trail.id.toString(),
       name: trail.name,
+      color: trail.color,
+      lightColor: trail.lightColor,
+      darkColor: trail.darkColor,
+      icon: trail.icon,
     }
   }
 }

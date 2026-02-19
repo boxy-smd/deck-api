@@ -143,17 +143,19 @@ describe('search projects use case', () => {
     project2.post()
     const project3 = makeProject({ authorId: author.id })
     project3.post()
+    const draft = makeProject({ authorId: author.id })
 
     await projectsRepository.create(project1)
     await projectsRepository.create(project2)
     await projectsRepository.create(project3)
+    await projectsRepository.create(draft)
 
     const result = await sut.execute({})
 
     expect(result.isRight()).toBe(true)
     if (result.isRight()) {
-      expect(result.value.items.length).toBeGreaterThan(0)
-      expect(result.value.total).toBeGreaterThan(0)
+      expect(result.value.items).toHaveLength(3)
+      expect(result.value.total).toBe(3)
       expect(result.value.page).toBe(1)
       expect(result.value.perPage).toBe(20)
     }

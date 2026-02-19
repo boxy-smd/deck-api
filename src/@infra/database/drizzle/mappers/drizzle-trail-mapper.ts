@@ -10,6 +10,10 @@ export class DrizzleTrailMapper {
     return Trail.reconstitute(
       {
         name: raw.name,
+        color: raw.color,
+        lightColor: raw.lightColor,
+        darkColor: raw.darkColor,
+        icon: raw.icon,
       },
       new UniqueEntityID(raw.id),
       raw.createdAt,

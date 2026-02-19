@@ -28,6 +28,18 @@ describe('fetch trails use case', () => {
     expect(result).toHaveLength(1)
   })
 
+  it('should not return non-selectable SMD trail', async () => {
+    const smdTrail = makeTrail({ name: 'SMD' })
+
+    await trailsRepository.create(trail)
+    await trailsRepository.create(smdTrail)
+
+    const result = await sut.execute()
+
+    expect(result).toHaveLength(1)
+    expect(result.some(item => item.name === 'SMD')).toBe(false)
+  })
+
   it('should be able to fetch trails with empty array', async () => {
     const result = await sut.execute()
 

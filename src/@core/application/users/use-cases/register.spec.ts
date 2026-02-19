@@ -1,9 +1,11 @@
 import { FakeHasher } from 'test/cryptography/fake-hasher'
+import { makeTrail } from 'test/factories/make-trail'
 import { makeUser } from 'test/factories/make-user'
 import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
 import { ResourceAlreadyExistsError } from '@/@shared/kernel/errors/resource-already-exists.error'
 import type { User } from '../../../domain/users/entities/user'
+import { NonSelectableTrailError } from '../../trails/errors/non-selectable-trail.error'
 import type { TrailsRepository } from '../../trails/repositories/trails-repository'
 import type { UsersRepository } from '../repositories/users-repository'
 import { RegisterUseCase } from './register'
@@ -78,5 +80,22 @@ describe('register use case', () => {
 
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(ResourceAlreadyExistsError)
+  })
+
+  it('should not be able to register selecting SMD trail', async () => {
+    const smdTrail = makeTrail({ name: 'SMD' })
+    await trailsRepository.create(smdTrail)
+
+    const result = await sut.execute({
+      name: 'John Doe',
+      username: 'johndoe',
+      email: 'johndoe@alu.ufc.br',
+      password: '123456',
+      semester: 1,
+      trailsIds: [smdTrail.id.toString()],
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NonSelectableTrailError)
   })
 })
