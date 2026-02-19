@@ -7,7 +7,9 @@ import type { Trail } from '../../../domain/projects/entities/trail'
 import type { StudentProfile } from '../../../domain/users/entities/student-profile'
 import type { User } from '../../../domain/users/entities/user'
 import { Semester } from '../../../domain/users/value-objects/semester'
+import { NonSelectableTrailError } from '../../trails/errors/non-selectable-trail.error'
 import { TrailsRepository } from '../../trails/repositories/trails-repository'
+import { isSelectableTrail } from '../../trails/utils/is-selectable-trail'
 import { type UserDTO, UserDTOMapper } from '../dtos/user.dto'
 import type { SemesterOutOfBoundsError } from '../errors/semester-out-of-bounds.error'
 import { UsersRepository } from '../repositories/users-repository'
@@ -24,6 +26,7 @@ type EditProfileUseCaseResponse = Either<
   | InvalidCredentialsError
   | ResourceNotFoundError
   | ResourceAlreadyExistsError
+  | NonSelectableTrailError
   | SemesterOutOfBoundsError,
   UserDTO
 >
@@ -96,7 +99,7 @@ export class EditProfileUseCase {
   private async updateTrails(
     user: User,
     trailsIds: string[],
-  ): Promise<Either<ResourceNotFoundError, null>> {
+  ): Promise<Either<ResourceNotFoundError | NonSelectableTrailError, null>> {
     const profile = this.getStudentProfileOrError(user)
     if (profile.isLeft()) {
       return left(profile.value)
@@ -150,7 +153,9 @@ export class EditProfileUseCase {
 
   private async findTrailsById(
     trailIds: string[],
-  ): Promise<Either<ResourceNotFoundError, Map<string, Trail>>> {
+  ): Promise<
+    Either<ResourceNotFoundError | NonSelectableTrailError, Map<string, Trail>>
+  > {
     const trailsById = new Map<string, Trail>()
 
     for (const trailId of trailIds) {
@@ -160,6 +165,10 @@ export class EditProfileUseCase {
         return left(
           new ResourceNotFoundError(`Trail with ID ${trailId} not found.`),
         )
+      }
+
+      if (!isSelectableTrail(trail)) {
+        return left(new NonSelectableTrailError())
       }
 
       trailsById.set(trailId, trail)

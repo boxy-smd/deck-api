@@ -7,6 +7,7 @@ import { UniqueEntityID } from '@/@shared/kernel/kernel/unique-entity-id'
 import { StudentProfile } from '../../../domain/users/entities/student-profile'
 import type { User } from '../../../domain/users/entities/user'
 import { Semester } from '../../../domain/users/value-objects/semester'
+import { NonSelectableTrailError } from '../../trails/errors/non-selectable-trail.error'
 import type { TrailsRepository } from '../../trails/repositories/trails-repository'
 import type { UsersRepository } from '../repositories/users-repository'
 import { EditProfileUseCase } from './edit-profile'
@@ -95,5 +96,18 @@ describe('edit profile use case', () => {
     })
 
     expect(result.isLeft()).toBe(true)
+  })
+
+  it('should not be able to select SMD trail', async () => {
+    const smdTrail = makeTrail({ name: 'SMD' })
+    await trailsRepository.create(smdTrail)
+
+    const result = await sut.execute({
+      userId: student.id.toString(),
+      trailsIds: [smdTrail.id.toString()],
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NonSelectableTrailError)
   })
 })

@@ -109,6 +109,15 @@ export class UploadResponseDto {
   message: string
 }
 
+export class RichTextImageUploadResponseDto {
+  @ApiProperty({
+    description:
+      'URL pública da imagem enviada para uso no editor de texto rico.',
+    example: 'https://cdn.example.com/rich-text/123/4b8d7c1a.png',
+  })
+  url: string
+}
+
 export class ProjectDetailsResponseDto {
   @ApiProperty()
   id: string

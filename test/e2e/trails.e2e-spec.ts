@@ -24,6 +24,17 @@ describe('Trails E2E', () => {
 
   describe('GET /trails', () => {
     it('deve listar trilhas', async () => {
+      await db.insert(schema.trails).values({
+        id: crypto.randomUUID(),
+        name: 'SMD',
+        color: '#8B00D0',
+        lightColor: '#EEE1F3',
+        darkColor: '#7D00B3',
+        icon: 'SMD',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+
       const response = await request(app.getHttpServer())
         .get('/trails')
         .expect(200)
@@ -38,6 +49,11 @@ describe('Trails E2E', () => {
       expect(trail).toHaveProperty('lightColor')
       expect(trail).toHaveProperty('darkColor')
       expect(trail).toHaveProperty('icon')
+      expect(
+        response.body.trails.some(
+          (item: { name: string }) => item.name === 'SMD',
+        ),
+      ).toBe(false)
     })
   })
 })

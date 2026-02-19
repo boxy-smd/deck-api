@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { ProfessorsRepository } from '@/@core/application/professors/repositories/professors-repository'
 import { SubjectsRepository } from '@/@core/application/subjects/repositories/subjects-repository'
+import { NonSelectableTrailError } from '@/@core/application/trails/errors/non-selectable-trail.error'
 import { TrailsRepository } from '@/@core/application/trails/repositories/trails-repository'
+import { isSelectableTrail } from '@/@core/application/trails/utils/is-selectable-trail'
 import { UsersRepository } from '@/@core/application/users/repositories/users-repository'
 import type { Professor } from '@/@core/domain/projects/entities/professor'
 import { Project } from '@/@core/domain/projects/entities/project'
@@ -31,7 +33,7 @@ interface PublishProjectUseCaseRequest {
 }
 
 type PublishProjectUseCaseResponse = Either<
-  ForbiddenError | ResourceNotFoundError,
+  ForbiddenError | ResourceNotFoundError | NonSelectableTrailError,
   {
     projectId: string
   }
@@ -171,7 +173,7 @@ export class PublishProjectUseCase {
 
   private async validateTrails(
     trailsIds: string[],
-  ): Promise<Either<ResourceNotFoundError, Trail[]>> {
+  ): Promise<Either<ResourceNotFoundError | NonSelectableTrailError, Trail[]>> {
     const trails = await Promise.all(
       trailsIds.map(trailId => this.trailsRepository.findById(trailId)),
     )
@@ -180,7 +182,13 @@ export class PublishProjectUseCase {
       return left(new ResourceNotFoundError('Trail not found.'))
     }
 
-    return right(trails.filter((trail): trail is Trail => trail !== null))
+    const validTrails = trails.filter((trail): trail is Trail => trail !== null)
+
+    if (validTrails.some(trail => !isSelectableTrail(trail))) {
+      return left(new NonSelectableTrailError())
+    }
+
+    return right(validTrails)
   }
 
   private async validateProfessors(

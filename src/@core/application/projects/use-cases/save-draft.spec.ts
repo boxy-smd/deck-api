@@ -1,21 +1,27 @@
 import { makeProject } from 'test/factories/make-project'
+import { makeTrail } from 'test/factories/make-trail'
 import { makeUser } from 'test/factories/make-user'
 import { InMemoryProjectsRepository } from 'test/repositories/projects-repository'
+import { InMemoryTrailsRepository } from 'test/repositories/trails-repository'
 import { InMemoryUsersRepository } from 'test/repositories/users-repository'
 import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
+import { NonSelectableTrailError } from '../../trails/errors/non-selectable-trail.error'
 import { SaveDraftUseCase } from './save-draft'
 
 let inMemoryProjectsRepository: InMemoryProjectsRepository
+let inMemoryTrailsRepository: InMemoryTrailsRepository
 let inMemoryUsersRepository: InMemoryUsersRepository
 let sut: SaveDraftUseCase
 
 describe('Save Draft', () => {
   beforeEach(() => {
     inMemoryProjectsRepository = new InMemoryProjectsRepository()
+    inMemoryTrailsRepository = new InMemoryTrailsRepository()
     inMemoryUsersRepository = new InMemoryUsersRepository()
     sut = new SaveDraftUseCase(
       inMemoryProjectsRepository,
       inMemoryUsersRepository,
+      inMemoryTrailsRepository,
     )
   })
 
@@ -94,5 +100,28 @@ describe('Save Draft', () => {
     })
 
     expect(result.isLeft()).toBe(true)
+  })
+
+  it('should not be able to save a draft selecting SMD trail', async () => {
+    const student = await makeUser()
+    await inMemoryUsersRepository.create(student)
+
+    const smdTrail = makeTrail({ name: 'SMD' })
+    await inMemoryTrailsRepository.create(smdTrail)
+
+    const result = await sut.execute({
+      title: 'Draft with SMD',
+      description: 'Draft description',
+      publishedYear: 2023,
+      semester: 1,
+      allowComments: true,
+      authorId: student.id.toString(),
+      trailsIds: [smdTrail.id.toString()],
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.isLeft() && result.value).toBeInstanceOf(
+      NonSelectableTrailError,
+    )
   })
 })
