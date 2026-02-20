@@ -36,6 +36,10 @@ describe('Students E2E', () => {
     await db.insert(schema.trails).values({
       id: trail.id.toString(),
       name: trail.name,
+      color: trail.color,
+      lightColor: trail.lightColor,
+      darkColor: trail.darkColor,
+      icon: trail.icon,
       createdAt: trail.createdAt,
       updatedAt: trail.updatedAt,
     })
@@ -61,6 +65,10 @@ describe('Students E2E', () => {
     await db.insert(schema.trails).values({
       id: trail.id.toString(),
       name: trail.name,
+      color: trail.color,
+      lightColor: trail.lightColor,
+      darkColor: trail.darkColor,
+      icon: trail.icon,
       createdAt: trail.createdAt,
       updatedAt: trail.updatedAt,
     })
@@ -95,6 +103,10 @@ describe('Students E2E', () => {
     await db.insert(schema.trails).values({
       id: trail.id.toString(),
       name: trail.name,
+      color: trail.color,
+      lightColor: trail.lightColor,
+      darkColor: trail.darkColor,
+      icon: trail.icon,
       createdAt: trail.createdAt,
       updatedAt: trail.updatedAt,
     })
@@ -137,6 +149,10 @@ describe('Students E2E', () => {
     await db.insert(schema.trails).values({
       id: trail.id.toString(),
       name: trail.name,
+      color: trail.color,
+      lightColor: trail.lightColor,
+      darkColor: trail.darkColor,
+      icon: trail.icon,
       createdAt: trail.createdAt,
       updatedAt: trail.updatedAt,
     })
@@ -179,6 +195,10 @@ describe('Students E2E', () => {
     await db.insert(schema.trails).values({
       id: trail.id.toString(),
       name: trail.name,
+      color: trail.color,
+      lightColor: trail.lightColor,
+      darkColor: trail.darkColor,
+      icon: trail.icon,
       createdAt: trail.createdAt,
       updatedAt: trail.updatedAt,
     })

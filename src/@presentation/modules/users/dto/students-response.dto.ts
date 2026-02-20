@@ -3,6 +3,14 @@ import { UserRole } from '@/@core/domain/users/value-objects/user-role'
 import { UserStatus } from '@/@core/domain/users/value-objects/user-status'
 import { ProjectSummaryResponseDto } from '../../projects/dto/projects-response.dto'
 
+export class TrailResponseDto {
+  @ApiProperty()
+  id: string
+
+  @ApiProperty()
+  name: string
+}
+
 export class UserIdResponseDto {
   @ApiProperty()
   user_id: string
@@ -30,8 +38,8 @@ export class UserResponseDto {
   @ApiProperty({ required: false })
   profileUrl?: string
 
-  @ApiProperty({ type: [String] })
-  trails: string[]
+  @ApiProperty({ type: [TrailResponseDto] })
+  trails: TrailResponseDto[]
 
   @ApiProperty({ enum: UserRole })
   role: UserRole
@@ -73,8 +81,8 @@ export class UserSummaryResponseDto {
   @ApiProperty({ required: false })
   profileUrl?: string
 
-  @ApiProperty({ type: [String] })
-  trails: string[]
+  @ApiProperty({ type: [TrailResponseDto] })
+  trails: TrailResponseDto[]
 
   @ApiProperty({ enum: UserRole })
   role: UserRole

@@ -8,7 +8,9 @@ import { Email } from '../../../domain/users/value-objects/email'
 import { UserRole } from '../../../domain/users/value-objects/user-role'
 import { UserStatus } from '../../../domain/users/value-objects/user-status'
 import { Username } from '../../../domain/users/value-objects/username'
+import { NonSelectableTrailError } from '../../trails/errors/non-selectable-trail.error'
 import { TrailsRepository } from '../../trails/repositories/trails-repository'
+import { isSelectableTrail } from '../../trails/utils/is-selectable-trail'
 import { HashGenerator } from '../cryptography/hash-generator'
 import { type UserDTO, UserDTOMapper } from '../dtos/user.dto'
 import type { EmailBadFormattedError } from '../errors/email-bad-formatted.error'
@@ -31,6 +33,7 @@ interface RegisterUseCaseRequest {
 type RegisterUseCaseResponse = Either<
   | ResourceNotFoundError
   | ResourceAlreadyExistsError
+  | NonSelectableTrailError
   | EmailBadFormattedError
   | UsernameBadFormattedError
   | UsernameInvalidSizeError
@@ -103,6 +106,10 @@ export class RegisterUseCase {
 
       if (!trail) {
         return left(new ResourceNotFoundError('Trilha não encontrada'))
+      }
+
+      if (!isSelectableTrail(trail)) {
+        return left(new NonSelectableTrailError())
       }
 
       trails.push(trail)

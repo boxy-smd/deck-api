@@ -11,6 +11,7 @@ import type { Professor } from '@/@core/domain/projects/entities/professor'
 import { Project } from '@/@core/domain/projects/entities/project'
 import type { Subject } from '@/@core/domain/projects/entities/subject'
 import type { Trail } from '@/@core/domain/projects/entities/trail'
+import { ProjectStatus } from '@/@core/domain/projects/value-objects/project-status'
 import { InMemoryProfessorsRepository } from './professors-repository'
 import { InMemorySubjectsRepository } from './subjects-repository'
 import { InMemoryTrailsRepository } from './trails-repository'
@@ -343,7 +344,9 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
 
   async findAllProjectDTOs(): Promise<ProjectDTO[]> {
     return await Promise.all(
-      this.items.map(project => this.projectToDTO(project)),
+      this.items
+        .filter(project => project.status === ProjectStatus.PUBLISHED)
+        .map(project => this.projectToDTO(project)),
     )
   }
 

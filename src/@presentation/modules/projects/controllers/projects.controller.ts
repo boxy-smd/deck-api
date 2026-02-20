@@ -33,6 +33,7 @@ import { PublishProjectUseCase } from '@/@core/application/projects/use-cases/pu
 import { SaveDraftUseCase } from '@/@core/application/projects/use-cases/save-draft'
 import { SearchProjectsUseCase } from '@/@core/application/projects/use-cases/search-projects'
 import { UploadProjectBannerUseCase } from '@/@core/application/projects/use-cases/upload-project-banner'
+import { UploadRichTextImageUseCase } from '@/@core/application/projects/use-cases/upload-rich-text-image'
 import { Public } from '@/@presentation/modules/auth/decorators/public.decorator'
 import { JwtAuthGuard } from '@/@presentation/modules/auth/guards/jwt-auth.guard'
 import { ProjectPresenter } from '@/@presentation/presenters/project'
@@ -41,9 +42,18 @@ import {
   ProjectDetailsResponseDto,
   ProjectsListResponseDto,
   PublishProjectResponseDto,
+  RichTextImageUploadResponseDto,
   UploadResponseDto,
 } from '../dto/projects-response.dto'
 import { PublishProjectDto } from '../dto/publish-project.dto'
+
+const ACCEPTED_RICH_TEXT_IMAGE_TYPES = new Set([
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+])
+
+const MAX_RICH_TEXT_IMAGE_SIZE_BYTES = 5 * 1024 * 1024
 
 @ApiTags('Projetos')
 @Controller()
@@ -56,6 +66,7 @@ export class ProjectsController {
     private readonly getProjectUseCase: GetProjectUseCase,
     private readonly deleteProjectUseCase: DeleteProjectUseCase,
     private readonly uploadProjectBannerUseCase: UploadProjectBannerUseCase,
+    private readonly uploadRichTextImageUseCase: UploadRichTextImageUseCase,
   ) {}
 
   @Post('projects/drafts')
@@ -396,5 +407,82 @@ export class ProjectsController {
     }
 
     return { message: 'Banner enviado com sucesso.' }
+  }
+
+  @Post('projects/rich-text-images')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({
+    summary: 'Fazer upload de imagem para texto rico',
+    description:
+      'Envia uma imagem para uso no conteúdo de texto rico do projeto e retorna a URL pública do arquivo. Exemplo de uso no frontend: inserir `response.url` no campo `src` da imagem no editor.',
+  })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+          description: 'Arquivo de imagem',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Imagem enviada com sucesso.',
+    type: RichTextImageUploadResponseDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Arquivo inválido ou não fornecido.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Usuário não encontrado.',
+  })
+  async uploadRichTextImage(
+    @UploadedFile() file: Express.Multer.File,
+    @Request() req: { user: { userId: string } },
+  ): Promise<RichTextImageUploadResponseDto> {
+    if (!file) {
+      throw new BadRequestException('É necessário enviar um arquivo de imagem.')
+    }
+    this.validateRichTextImage(file)
+
+    const result = await this.uploadRichTextImageUseCase.execute({
+      userId: req.user.userId,
+      filename: file.originalname,
+      image: file.buffer,
+    })
+
+    if (result.isLeft()) {
+      const error = result.value
+      if (error.statusCode === 404) {
+        throw new NotFoundException(error.message)
+      }
+      throw new BadRequestException(error.message)
+    }
+
+    return {
+      url: result.value.url,
+    }
+  }
+
+  private validateRichTextImage(file: Express.Multer.File): void {
+    if (!ACCEPTED_RICH_TEXT_IMAGE_TYPES.has(file.mimetype)) {
+      throw new BadRequestException(
+        'Formato de arquivo inválido. Use JPG, PNG ou WEBP.',
+      )
+    }
+
+    if (file.size > MAX_RICH_TEXT_IMAGE_SIZE_BYTES) {
+      throw new BadRequestException(
+        'Arquivo muito grande. O tamanho máximo é 5MB.',
+      )
+    }
   }
 }

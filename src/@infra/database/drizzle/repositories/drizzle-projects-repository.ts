@@ -476,6 +476,7 @@ export class DrizzleProjectsRepository implements ProjectsRepository {
 
   async findAllProjectDTOs(): Promise<ProjectDTO[]> {
     const results = await this.drizzle.query.projects.findMany({
+      where: eq(projects.status, 'PUBLISHED'),
       with: {
         author: true,
         subject: true,

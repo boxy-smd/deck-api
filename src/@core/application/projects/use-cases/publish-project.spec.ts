@@ -13,6 +13,7 @@ import type { User } from '@/@core/domain/users/entities/user'
 import { ResourceNotFoundError } from '@/@shared/kernel/errors/resource-not-found.error'
 import type { ProfessorsRepository } from '../../professors/repositories/professors-repository'
 import type { SubjectsRepository } from '../../subjects/repositories/subjects-repository'
+import { NonSelectableTrailError } from '../../trails/errors/non-selectable-trail.error'
 import type { TrailsRepository } from '../../trails/repositories/trails-repository'
 import type { ProjectsRepository } from '../repositories/projects-repository'
 import { PublishProjectUseCase } from './publish-project'
@@ -184,6 +185,29 @@ describe('publish project use case', () => {
     expect(result.isLeft()).toBe(true)
     expect(result.isLeft() && result.value).toBeInstanceOf(
       ResourceNotFoundError,
+    )
+  })
+
+  it('should not be able to publish a project selecting SMD trail', async () => {
+    const smdTrail = makeTrail({ name: 'SMD' })
+
+    await usersRepository.create(author)
+    await trailsRepository.create(smdTrail)
+
+    const result = await sut.execute({
+      title: 'Project Title',
+      description: 'Project Description',
+      bannerUrl: 'https://banner-url.com',
+      publishedYear: 2021,
+      semester: 1,
+      allowComments: true,
+      authorId: author.id.toString(),
+      trailsIds: [smdTrail.id.toString()],
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.isLeft() && result.value).toBeInstanceOf(
+      NonSelectableTrailError,
     )
   })
 })

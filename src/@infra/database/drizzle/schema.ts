@@ -64,6 +64,10 @@ export const studentProfiles = pgTable('student_profiles', {
 export const trails = pgTable('trails', {
   id: uuid('id').primaryKey(),
   name: text('name').notNull(),
+  color: text('color').notNull(),
+  lightColor: text('light_color').notNull(),
+  darkColor: text('dark_color').notNull(),
+  icon: text('icon').notNull(),
   createdAt: timestamp('created_at').notNull(),
   updatedAt: timestamp('updated_at'),
 })
